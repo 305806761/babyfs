@@ -17,7 +17,6 @@ class CourseController extends Controller
 {
     public function actionIndex()
     {
-
         $query = Course::find();
 
         $pagination = new Pagination([
@@ -38,14 +37,8 @@ class CourseController extends Controller
         ]);
     }
 
-    public function actionAdd(){
-
-               $course = Course::find()->indexBy('id')->all();
-
-        }
-
-
-
-
-
+    public function actionAdd()
+    {
+        $course = Course::find()->indexBy('id')->all();
+    }
 }

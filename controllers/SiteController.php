@@ -60,6 +60,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        Yii::warning('youzan: '.json_encode(Yii::$app->request->post()));
         return $this->render('index');
     }
 
