@@ -26,17 +26,18 @@ class User extends ActiveRecord
 
     public function Signup($param){
 
-        $this->username = $param['username'];
+        $this->phone = $param['phone'];
         $this->password = self::GenPassword($param['password']);
 
           //  var_dump($user);die;
             //用户信息插入数据库
             $user_id  = $this->save() ? Yii::$app->db->lastInsertID : '';
         if($user_id){
-            $user = array('user_id' => $user_id, 'username' => $this->username);
+            $user = array('user_id' => $user_id, 'phone' => $this->phone);
             self::Remember($user);
         }
-            $course_id = $param['subject'];
+        return $user_id;
+           /* $course_id = $param['subject'];
             // 关联用户和课程的关系
             if ($user_id && $course_id) {
 
@@ -47,7 +48,7 @@ class User extends ActiveRecord
                 return $result ? $user_id : false;
             } else {
                 return false;
-            }
+            }*/
 
     }
 
@@ -60,7 +61,7 @@ class User extends ActiveRecord
     public function login($param){
 
         if($param){
-            $user = Member::findOne(['username' => $param['username'],'password' => self::GenPassword($param['password'])])->toArray();
+            $user = self::findOne(['phone' => $param['phone'],'password' => self::GenPassword($param['password'])])->toArray();
             //   SELECT * FROM `member` WHERE `username`='15210663958' AND `password`='123456'
             if($user){
                 $rememberMe = $param['rememberMe'] ? 3600*24*30 : 0;
@@ -81,9 +82,9 @@ class User extends ActiveRecord
      */
     static public function Remember($user,$rememberMe='7*86400') {
         Tool::cookieset('user_id', $user['user_id'], $rememberMe);
-        Tool::cookieset('username', $user['username'], $rememberMe);
+        Tool::cookieset('phone', $user['phone'], $rememberMe);
         Session::Set('user_id', $user['user_id']);
-        Session::Set('username', $user['username']);
+        Session::Set('phone', $user['phone']);
     }
 
     /**
@@ -114,7 +115,7 @@ class User extends ActiveRecord
      * @access public
      */
     static public function GetUserByName($var) {
-        $username = self::findOne(['username'=>$var]);
+        $username = self::findOne(['phone'=>$var]);
         return $username->user_id ? true : false;
     }
 

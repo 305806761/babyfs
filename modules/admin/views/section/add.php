@@ -48,7 +48,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <tr>
             <td class="tdleft">阶段有效期</td>
             <td>
-                <input type="text" name="class_hour" />
+                <input id="expire_date" type="text" readonly="readonly" value="" size="12" name="class_hour">
+                <input id="selbtn1" class="button" type="button" value="选择" onclick="return showCalendar('expire_date', '%Y-%m-%d', false, false, 'selbtn1');" name="selbtn1">
 
             </td>
         </tr>

@@ -15,11 +15,11 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\SignupForm;
-use app\models\Member;
+use app\models\User;
 use app\models\Tool;
 
 
-class MemberController extends Controller
+class UserController extends Controller
 {
 
     /**
@@ -40,31 +40,19 @@ class MemberController extends Controller
     public function actionLogin()
     {
         $model = new LoginForm();
+
+        if ($model->load(Yii::$app->request->post(), 'LoginForm') && $model->login()) {
+            echo Session::Get('username').'登录成功';
+
+        }else{
+            echo "登录失败";
+        }
+
         return $this->render('login', [
             'model' => $model,
         ]);
     }
 
-    /**
-     * Login action.用户登录
-     *
-     * @return string
-     */
-    public function actionLoginDo()
-    {
-
-        //生成表单的模板load，接受用户到 loginfrom里面的 login方法
-        $model = new LoginForm();
-
-        if ($model->load(Yii::$app->request->post(), 'LoginForm') && $model->login()) {
-           echo Session::Get('username').'登录成功';
-
-
-        }//        $model = new LoginForm();
-//        return $this->render('login', [
-//            'model' => $model,
-//        ]);
-    }
 
 
 
@@ -76,29 +64,20 @@ class MemberController extends Controller
     public function actionSignup()
     {
         $model = new SignupForm();
-        $course = $model->getCourse();
-        return $this->render('signup', [
-            'course' =>$course,
-            'model' => $model,
-        ]);
-    }
 
-    public function actionSignupDo(){
-
-        $model = new SignupForm();
 
         if ($model->load(Yii::$app->request->post()) && $model->signup()) {
             echo Session::Get('username').'注册成功并且登录成功';
 
 
         }else{
-            echo "ss";
+            echo "注册失败";
         }
 
-//        if ($model->load(Yii::$app->request->post()) && $model->Send(Yii::$app->params['username'])) {
-//            echo 'ss';
-//        }
 
+        return $this->render('signup', [
+            'model' => $model,
+        ]);
     }
 
 
@@ -143,15 +122,14 @@ class MemberController extends Controller
      */
 
     public function actionSend(){
-        if ($_GET['username']){
-            $mobile = $_GET['username'];
+        if ($_GET['phone']){
+            $mobile = $_GET['phone'];
             $verifyCode = rand(1000, 9999);
-            Session::Set('vcode',$verifyCode);
-            //Tool::cookieset("code",$verifyCode,"600");
-            echo Session::Get('vcode');die;
+            //Session::Set('code',$verifyCode);
+            Tool::cookieset("code",$verifyCode,"600");
+           // echo Session::Get('vcode');die;
             $content = "【宝宝玩英语】您的验证码为：{$verifyCode}此验证码10分钟内有效，请尽快使用！";
             $result = Tool::Send($mobile,$content);
-
             if($result){
                 $return = array(
                     'code' => 200,

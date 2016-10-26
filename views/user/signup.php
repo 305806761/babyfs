@@ -37,9 +37,9 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="row">
             <div class="col-lg-5">
 
-                <?php $form = ActiveForm::begin(['id' => 'signup-form','method'=>'post','action' =>['member/signup-do']]); ?>
+                <?php $form = ActiveForm::begin(['id' => 'signup-form','method'=>'post','action' =>['user/signup']]); ?>
 
-              <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?><p id="username-error"></p>
+              <?= $form->field($model, 'phone')->textInput(['autofocus' => true]) ?><p id="username-error"></p>
 
                 <?= Html::Button('获取验证码', ['class' => 'btn btn-primary', 'name' => 'button','onclick'=>'send();']) ?>
 
@@ -47,9 +47,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= $form->field($model, 'password')->passwordInput() ?>
 
-                <?php $model->subject = 1; ?>
-
-                <?= $form->field($model, 'subject')->radioList(\app\models\Course::getCourse(0)) ?>
 
                 <div class="form-group">
                     <?= Html::submitButton('Submit', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
@@ -70,25 +67,26 @@ $this->params['breadcrumbs'][] = $this->title;
 <script>
 
         function send(){
-          username =  $("#signupform-username").val() ;
+            phone =  $("#signupform-phone").val() ;
             $.ajax({
-                    url: "index.php?r=member/send",
-                    data: "username="+username,
-                    //success: function(data){
-                       // alert(data.message);
-
-                  //  }
+                    url: "/user/send",
+                    data: "phone="+phone,
+                    success: function(data){
+                       if(data.code= '200'){
+                           return true;
+                       }
+                   }
                 });
 
         }
 
         function afterLoad() {
             //验证手机号是否已经存在
-            $("#signupform-username").blur(function(){
+            $("#signupform-phone").blur(function(){
                 if ($(this).val()) {
                     $.ajax({
-                        url: "index.php?r=member/user-by-name",
-                        data: "username="+$(this).val(),
+                        url: "/user/user-by-name",
+                        data: "phone="+$(this).val(),
                         success: function(result){
                             var res = $.parseJSON(result);
                             if(res.code = '200'){
@@ -103,20 +101,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             });
 
-            //验证手机验证码是否正确
-            $("#signupform-verifycode").blur(function(){
 
-                if ($(this).val()) {
-                    $.ajax({
-                        var  code = <?php $_SESSION['vcode']?>;
-                    alert(code);
-                        var verifycode = $(this).val();
-                        if(verifycode = code ){
-                            eval(checkCode('error'));
-                        }
-                    });
-                }
-            });
 
         }
 //<p class="help-block help-block-error"></p>

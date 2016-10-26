@@ -13,7 +13,7 @@ use yii\base\Model;
  */
 class LoginForm extends Model
 {
-    public $username;
+    public $phone;
     public $password;
     public $rememberMe = true;
 
@@ -27,7 +27,7 @@ class LoginForm extends Model
     {
         return [
             // username and password are both required
-            [['username', 'password'], 'required'],
+            [['phone', 'password'], 'required'],
             // rememberMe must be a boolean value
             ['rememberMe', 'boolean'],
         ];
@@ -42,8 +42,8 @@ class LoginForm extends Model
     {
         if ($this->validate()) {
 
-            $member = new Member();
-            $user = array('username'=>$this->username,'password' => $this->password,'rememberMe' => $this->rememberMe);
+            $member = new User();
+            $user = array('phone'=>$this->phone,'password' => $this->password,'rememberMe' => $this->rememberMe);
             if(!$member->login($user)){
                 $this->addError( '用户名或密码输入有误');
             }else{
