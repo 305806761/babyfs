@@ -72,9 +72,8 @@ class SiteController extends Controller
 
     public function actionYouzan()
     {
-        Yii::warning('youzan: ' . json_encode(Yii::$app->request->post()));
-        $postdata = file_get_contents("php://input");
-        Yii::warning('youzan raw: ' . $postdata);
+        Yii::warning('youzan: ' . json_encode(Yii::$app->request->bodyParams));
+        Yii::warning('youzan raw: ' . Yii::$app->request->rawBody);
         return '{"code":0,"msg":"success"}';
     }
 
