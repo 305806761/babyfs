@@ -185,6 +185,8 @@ AppAsset::register($this);
 
                                 <li class="menu-item"><a href="/admin/course/add" target="main-frame">添加课程</a></li>
                                 <li class="menu-item"><a href="/admin/course/list" target="main-frame">课程列表</a></li>
+                                <li class="menu-item"><a href="/admin/section/add" target="main-frame">添加课程阶段</a></li>
+                                <li class="menu-item"><a href="/admin/section/list" target="main-frame">课程阶段列表</a></li>
 
                             </ul>
 
