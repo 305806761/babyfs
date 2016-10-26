@@ -50,18 +50,13 @@ class CourseSection extends ActiveRecord
     public static function getCourseSection(){
         //获取课程和课程的阶段
 
-       // $sql = "select s.*  from `course` as c left join `course_section` as s on c.course_id = s.course_id";
-      //  $a = self::findBySql($sql)->all();
-        //print_r($a);die;
-        //$coursesection = CourseSection::hasOne(Course::className(), ['course_id' => 'course_id'])
-            //->viaTable(course,['course_id' => 'course_id']);
-            //->where('subtotal > :threshold', [':threshold' => $threshold])
-            //->orderBy('section_id')
-           // ->asArray();
-       // print_r($coursesection);die;
-        $coursesection = self::find()->innerJoinWith('course',true)->all();
-        //$coursesection = self::find()->asArray()->all();
-        print_r($coursesection);die;
+        $sql = "select c.name as course_name,c.code as course_code,s.course_id as section_course_id,s.name as section_name,s.code as section_code,s.sort,s.section_id,s.create_time as section_create_time  from `course` as c, `course_section` as s WHERE c.course_id = s.course_id";
+
+        $coursesection = Yii::$app->db->createCommand($sql)
+            ->queryAll();
+
+        //print_r($coursesection);die;
+
         return $coursesection;
     }
 

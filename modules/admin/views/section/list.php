@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
         padding: 5px 1em;
         text-align: left;
         vertical-align: top;
-        width: 30%;
+        width: auto;
 
     }
 
@@ -29,21 +29,25 @@ $this->params['breadcrumbs'][] = $this->title;
 <form action="index.php?r=course/add" method="post">
     <table width="100%" align="center">
         <tr>
-            <td width="5%" class="tdleft">课程id</td>
-            <td width="30%" class="tdleft">课程名称</td>
-            <td width="5%" class="tdleft">课程编码</td>
-            <td width="20%" class="tdleft">课程阶段名称</td>
-            <td width="20%" class="tdleft">课程阶段编码</td>
-            <!--td width="20%" class="tdleft">操作</td-->
+            <td  class="tdleft">课程id</td>
+            <td  class="tdleft">课程名称</td>
+            <td class="tdleft">课程编码</td>
+            <td  class="tdleft">课程阶段id</td>
+            <td  class="tdleft">课程阶段名称</td>
+            <td  class="tdleft">课程阶段编码</td>
+            <td  class="tdleft">课程阶段创建时间</td>
+            <td class="tdleft">操作</td>
         </tr>
-        <?php foreach($course as $key=>$value): ?>
+        <?php foreach($coursesection as $key=>$value): ?>
         <tr>
-            <td class="tdvleft"><?php echo $value['course_id']; ?></td>
-            <td class="tdvleft"><?php echo $value['name']; ?></td>
-            <td class="tdvleft"><?php echo $value['code']; ?></td>
-            <td class="tdvleft"><?php echo $value['class_hour']; ?></td>
-            <td class="tdvleft"><?php echo $value['is_free']; ?></td>
-            <!--td class="tdvleft"><?php echo $value['is_free']; ?></td-->
+            <td class="tdvleft"><?php echo $value['section_course_id']; ?></td>
+            <td class="tdvleft"><?php echo $value['course_name']; ?></td>
+            <td class="tdvleft"><?php echo $value['course_code']; ?></td>
+            <td class="tdvleft"><?php echo $value['section_id']; ?></td>
+            <td class="tdvleft"><?php echo $value['section_name']; ?></td>
+            <td class="tdvleft"><?php echo $value['section_code']; ?></td>
+            <td class="tdvleft"><?php echo $value['section_create_time']; ?></td>
+            <td class="tdvleft"><a href="/admin/ware/add/section_id/<?= $value['section_id']; ?>">添加课件</a></td>
         </tr>
         <?php endforeach; ?>
 
