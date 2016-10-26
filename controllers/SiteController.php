@@ -11,6 +11,12 @@ use app\models\ContactForm;
 
 class SiteController extends Controller
 {
+    public function init()
+    {
+        parent::init();
+        $this->enableCsrfValidation = false;
+    }
+
     /**
      * @inheritdoc
      */
@@ -32,6 +38,7 @@ class SiteController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'logout' => ['post'],
+                    'youzan' => ['post'],
                 ],
             ],
         ];
