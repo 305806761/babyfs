@@ -7,6 +7,8 @@
  */
 
 namespace app\models;
+use Yii;
+use yii\base\Model;
 use yii\db\ActiveRecord;
 
 class Course extends ActiveRecord
@@ -32,7 +34,7 @@ class Course extends ActiveRecord
     /**
      *
      * 获取所有课程$is_free=0 是免费，￥is_free=1是收费
-     */
+
 
     public static function getCourse($is_free)
     {
@@ -44,6 +46,28 @@ class Course extends ActiveRecord
             ->column();
             return $course;
 
+    }*/
+
+    /*
+     * 添加课程
+    */
+    public function  add($param){
+        $this->name = $param['name'];
+        $this->code = $param['code'];
+        $this->class_hour = $param['class_hour'];
+        $this->is_free = $param['is_free'];
+
+        // var_dump($param);die;
+        //用户信息插入数据库
+        $course_id  = $this->save() ? Yii::$app->db->lastInsertID : '';
+        return $course_id;
+    }
+
+    /*** 选择
+    **/
+    public static function getCourse(){
+        $course = self::find()->asArray()->all();
+        return $course;
     }
 
 }

@@ -6,7 +6,7 @@
  * Time: 11:26
  */
 
-namespace app\controllers;
+namespace app\modules\admin\controllers;
 use Yii;
 use yii\web\Controller;
 use app\models\Template;

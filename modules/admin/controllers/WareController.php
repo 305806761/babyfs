@@ -6,7 +6,7 @@
  * Time: 11:25
  */
 
-namespace app\controllers;
+namespace app\modules\admin\controllers;
 use app\models\Template;
 use app\models\TemplateCode;
 use Yii;
@@ -25,7 +25,7 @@ class WareController extends Controller
      */
     public function actionList(){
 
-        $course = Course::getCourse();
+        $course = Course::getCourse(1);
         return $this->render('list',['course'=>$course]);
 
     }
@@ -35,29 +35,29 @@ class WareController extends Controller
      */
     public function actionAdd(){
         $ware = new Ware();
-        $course = Course::getCourse();
+        //$course = Course::getCourse(1);
         $template = Template::getTemp();
 //Array ( [1] => 文字 [2] => 图片 [3] => 视频 [4] => 音频 )
        // $templatecode = Template::getBigTemplate();
         //print_r($templatecode);die;
-        if ($_POST) {
-            $array = array(
-                'name'=>$_POST['name'],
-                'code'=>$_POST['code'],
-                'class_hour'=>$_POST['class_hour'],
-                'is_free'=>$_POST['is_free'],
-            );
-
-            $result = $course->add($array);
-
-            if($result){
-                echo "添加课程成功";
-            }
-
-        }
+//        if ($_POST) {
+//            $array = array(
+//                'name'=>$_POST['name'],
+//                'code'=>$_POST['code'],
+//                'class_hour'=>$_POST['class_hour'],
+//                'is_free'=>$_POST['is_free'],
+//            );
+//
+//            $result = $course->add($array);
+//
+//            if($result){
+//                echo "添加课程成功";
+//            }
+//
+//        }
 
         return $this->render('add',[
-            'course'=>$course,
+           // 'course'=>$course,
             'template' => $template,
         ]);
     }

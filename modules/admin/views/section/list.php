@@ -5,7 +5,7 @@
  * Date: 2016/10/13
  * Time: 12:01
  */
-$this->title = '课程列表';
+$this->title = '课程阶段列表';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <style>
@@ -32,8 +32,8 @@ $this->params['breadcrumbs'][] = $this->title;
             <td width="5%" class="tdleft">课程id</td>
             <td width="30%" class="tdleft">课程名称</td>
             <td width="5%" class="tdleft">课程编码</td>
-            <td width="20%" class="tdleft">查看课件多少天</td>
-            <td width="20%" class="tdleft">是否免费（0免费1收费）</td>
+            <td width="20%" class="tdleft">课程阶段名称</td>
+            <td width="20%" class="tdleft">课程阶段编码</td>
             <!--td width="20%" class="tdleft">操作</td-->
         </tr>
         <?php foreach($course as $key=>$value): ?>

@@ -183,8 +183,8 @@ AppAsset::register($this);
 
                             <ul>
 
-                                <li class="menu-item"><a href="index.php?r=course/add" target="main-frame">添加课程</a></li>
-                                <li class="menu-item"><a href="index.php?r=course/list" target="main-frame">课程列表</a></li>
+                                <li class="menu-item"><a href="/admin/course/add" target="main-frame">添加课程</a></li>
+                                <li class="menu-item"><a href="/admin/course/list" target="main-frame">课程列表</a></li>
 
                             </ul>
 
@@ -225,7 +225,7 @@ AppAsset::register($this);
 
                             <ul>
 
-                                <li class="menu-item"><a href="index.php?r=template/add-temp" target="main-frame">添加模板</a></li>
+                                <li class="menu-item"><a href="/admin/template/add-temp" target="main-frame">添加模板</a></li>
                                 <li class="menu-item"><a href="" target="main-frame">模板列表</a></li>
 
                             </ul>

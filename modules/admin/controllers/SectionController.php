@@ -2,28 +2,30 @@
 /**
  * Created by PhpStorm.
  * User: malil
- * Date: 2016/10/20
- * Time: 9:28
+ * Date: 2016/10/25
+ * Time: 19:08
  */
+
 namespace app\modules\admin\controllers;
 use app\models\Course;
+use app\models\CourseSection;
 use Yii;
 use yii\web\Controller;
 use app\models\Template;
 
 
-class CourseController extends Controller
+class SectionController extends Controller
 {
     public $layout = "newlayout";
     public $enableCsrfValidation = false;
 
     /**
      * 课程列表
-    */
+     */
     public function actionList(){
 
-        $course = Course::getCourse();
-        return $this->render('list',['course'=>$course]);
+        $coursesection = CourseSection::getCourseSection();
+        return $this->render('list',['coursesection'=>$coursesection]);
 
     }
 
@@ -31,25 +33,27 @@ class CourseController extends Controller
      * 添加课程
      */
     public function actionAdd(){
-        $course = new Course();
-
+        $course = Course::getCourse();
+        $coursesection = new CourseSection();
         if ($_POST) {
             $array = array(
                 'name'=>$_POST['name'],
                 'code'=>$_POST['code'],
+                'course_id' => $_POST['course_id'],
                 'class_hour'=>$_POST['class_hour'],
-                'is_free'=>$_POST['is_free'],
+                'sort'=>$_POST['sort'],
             );
 
-            $result = $course->add($array);
+            $result = $coursesection->add($array);
 
             if($result){
-                echo "添加课程成功";
+                echo "课程阶段添加成功";
             }
 
         }
 
-        return $this->render('add');
+        return $this->render('add',
+            ['course'=>$course]);
     }
 
 }

@@ -6,7 +6,7 @@
  * Time: 15:59
  */
 
-namespace app\controllers;
+namespace app\modules\admin\controllers;
 use app\models\lib\KdtApiClient;
 use app\models\OrderGoods;
 use Yii;
