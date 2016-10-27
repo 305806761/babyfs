@@ -11,12 +11,6 @@ use app\models\ContactForm;
 
 class SiteController extends Controller
 {
-    public function init()
-    {
-        parent::init();
-        $this->enableCsrfValidation = false;
-    }
-
     /**
      * @inheritdoc
      */
@@ -68,13 +62,6 @@ class SiteController extends Controller
     public function actionIndex()
     {
         return $this->render('index');
-    }
-
-    public function actionYouzan()
-    {
-        Yii::warning('youzan: ' . json_encode(Yii::$app->request->bodyParams));
-        Yii::warning('youzan raw: ' . Yii::$app->request->rawBody);
-        return '{"code":0,"msg":"success"}';
     }
 
     /**
