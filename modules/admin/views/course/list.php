@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
         padding: 5px 1em;
         text-align: left;
         vertical-align: top;
-        width: 30%;
+        width: auto;
 
     }
 
@@ -29,12 +29,12 @@ $this->params['breadcrumbs'][] = $this->title;
 <form action="index.php?r=course/add" method="post">
     <table width="100%" align="center">
         <tr>
-            <td width="5%" class="tdleft">课程id</td>
-            <td width="30%" class="tdleft">课程名称</td>
-            <td width="5%" class="tdleft">课程编码</td>
-            <td width="20%" class="tdleft">查看课件多少天</td>
-            <td width="20%" class="tdleft">是否免费（0免费1收费）</td>
-            <!--td width="20%" class="tdleft">操作</td-->
+            <td class="tdleft">课程id</td>
+            <td class="tdleft">课程名称</td>
+            <td class="tdleft">课程编码</td>
+            <td class="tdleft">查看课件多少天</td>
+
+            <td class="tdleft">操作</td>
         </tr>
         <?php foreach($course as $key=>$value): ?>
         <tr>
@@ -42,8 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <td class="tdvleft"><?php echo $value['name']; ?></td>
             <td class="tdvleft"><?php echo $value['code']; ?></td>
             <td class="tdvleft"><?php echo $value['class_hour']; ?></td>
-            <td class="tdvleft"><?php echo $value['is_free']; ?></td>
-            <!--td class="tdvleft"><?php echo $value['is_free']; ?></td-->
+            <td class="tdvleft"><a href="/admin/course/edit?course_id=<?= $value['course_id']; ?>">修改</a></td>
         </tr>
         <?php endforeach; ?>
 

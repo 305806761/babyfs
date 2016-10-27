@@ -42,7 +42,7 @@ class UserController extends Controller
         $model = new LoginForm();
 
         if ($model->load(Yii::$app->request->post(), 'LoginForm') && $model->login()) {
-            echo Session::Get('username').'登录成功';
+            echo Session::Get('phone').'登录成功';
 
         }else{
             echo "登录失败";
@@ -67,7 +67,7 @@ class UserController extends Controller
 
 
         if ($model->load(Yii::$app->request->post()) && $model->signup()) {
-            echo Session::Get('username').'注册成功并且登录成功';
+            echo Session::Get('phone').'注册成功并且登录成功';
 
 
         }else{
@@ -99,8 +99,8 @@ class UserController extends Controller
      */
     public function actionUserByName(){
 
-        if($_GET['username']){
-            if(Member::GetUserByName($_GET['username'])){
+        if($_GET['phone']){
+            if(User::GetUserByName($_GET['phone'])){
                 $return = array(
                     'code' => 200,
                     'data' => array(

@@ -25,9 +25,14 @@ class TemplateCode extends ActiveRecord
 
     }
 
-    public static function getTempCode(){
-        $tempcode = self::find()->asArray()->all();
-        return $tempcode;
+    public static function getTempCodeById($temp_code_id){
+        $result = self::findOne($temp_code_id);
+
+        //$sql = "SELECT t.type,t.template_id,c.code,c.temp_code_id FROM `template_code` AS c LEFT JOIN `template` AS t ON c.template_id = t.template_id WHERE c.temp_code_id='{$temp_code_id}'";
+        //$result = Yii::$app->db->createCommand($sql)->query();
+        //print_r($result);die;
+
+        return $result;
     }
 
 }

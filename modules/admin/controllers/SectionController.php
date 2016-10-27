@@ -16,7 +16,6 @@ use app\models\Template;
 
 class SectionController extends Controller
 {
-    public $layout = "newlayout";
     public $enableCsrfValidation = false;
 
     /**

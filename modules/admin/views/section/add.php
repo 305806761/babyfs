@@ -8,6 +8,8 @@
 $this->title = '课程阶段添加';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<script type="text/javascript" src="/calendar/calendar.php"></script>
+<link href="/calendar/calendar.css" rel="stylesheet" type="text/css" />
 <style>
     .tdleft{
         font-size:20px;
@@ -48,8 +50,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <tr>
             <td class="tdleft">阶段有效期</td>
             <td>
-                <input id="expire_date" type="text" readonly="readonly" value="" size="12" name="class_hour">
-                <input id="selbtn1" class="button" type="button" value="选择" onclick="return showCalendar('expire_date', '%Y-%m-%d', false, false, 'selbtn1');" name="selbtn1">
+                <input id="expire_time" type="text" readonly="readonly" value="" size="12" name="expire_time">
+                <input id="selbtn1" class="button" type="button" value="选择" onclick="return showCalendar('expire_time', '%Y-%m-%d', false, false, 'selbtn1');" name="selbtn1">
 
             </td>
         </tr>

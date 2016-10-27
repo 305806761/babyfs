@@ -14,7 +14,6 @@ use app\models\Template;
 
 class CourseController extends Controller
 {
-    public $layout = "newlayout";
     public $enableCsrfValidation = false;
 
     /**
@@ -38,7 +37,6 @@ class CourseController extends Controller
                 'name'=>$_POST['name'],
                 'code'=>$_POST['code'],
                 'class_hour'=>$_POST['class_hour'],
-                'is_free'=>$_POST['is_free'],
             );
 
             $result = $course->add($array);
@@ -50,6 +48,18 @@ class CourseController extends Controller
         }
 
         return $this->render('add');
+    }
+
+    /***
+     * 修改课程
+     ***/
+    public function actionEdit(){
+
+        $course_id = $_GET['course_id'];
+        $course = Course::getCourseById($course_id);
+        //print_r($course);die;
+        return $this->render('add', ['course' => $course,]);
+
     }
 
 }

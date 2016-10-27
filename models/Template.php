@@ -30,6 +30,10 @@ class Template extends ActiveRecord
 
     }
 
+    /**
+     * 添加模板code
+     **/
+
     public function  add($param){
         $templatecode = new TemplateCode();
 
@@ -40,11 +44,18 @@ class Template extends ActiveRecord
 
     public static function getBigTemplate()
     {
-        return self::hasMany(TemplateCode::className(), ['template_id' => 'template_id'])
-            ->orderBy('temp_code_id')
-            ->asArray()
-            ->all();
-
+        $sql = "SELECT t.type,c.code,c.temp_code_id FROM `template_code` AS c LEFT JOIN `template` AS t ON c.template_id = t.template_id";
+        $result = Yii::$app->db->createCommand($sql)->queryAll();
+        return $result;
+    }
+    /***
+     * 添加模板分类
+     ***/
+    public function addType($type){
+        $this->type = $type;
+        // $user_id  = $this->save() ? Yii::$app->db->lastInsertID : '';
+        $template_id = $this->save() ? Yii::$app->db->lastInsertID : '';
+        return $template_id;
     }
 
 

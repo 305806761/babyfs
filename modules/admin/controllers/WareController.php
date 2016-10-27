@@ -17,7 +17,6 @@ use app\models\Course;
 
 class WareController extends Controller
 {
-    public $layout = "newlayout";
     public $enableCsrfValidation = false;
 
     /**

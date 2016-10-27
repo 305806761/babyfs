@@ -35,18 +35,21 @@ class Course extends ActiveRecord
      *
      * 获取所有课程$is_free=0 是免费，￥is_free=1是收费
 
-
-    public static function getCourse($is_free)
+    */
+    static public function getCourseById($course_id)
     {
-        $course = self::find()
+        $result = self::findOne($course_id);
+        /*$course = self::find()
             ->select(['name', 'course_id'])  //查找字段
-            ->where(['is_free' => $is_free]) //查找条件
+            ->where(['course_id' => $course_id]) //查找条件
             ->indexBy('course_id') //course_id 为key
             ->asArray() //查找结果以course_id 为key  ,name:为值
-            ->column();
-            return $course;
+            ->one();
+            ->column();*/
+        //print_r($result);die;
+            return $result;
 
-    }*/
+    }
 
     /*
      * 添加课程
@@ -55,7 +58,6 @@ class Course extends ActiveRecord
         $this->name = $param['name'];
         $this->code = $param['code'];
         $this->class_hour = $param['class_hour'];
-        $this->is_free = $param['is_free'];
 
         // var_dump($param);die;
         //用户信息插入数据库

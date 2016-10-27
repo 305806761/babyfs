@@ -89,3 +89,23 @@ a.desc:after {
     padding: 10px 20px;
     margin: 0 0 15px 0;
 }
+
+a.special:link, a.special:visited {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: #ddeef2 none repeat scroll 0 0;
+    border-color: #91c4d0 #278296 #278296 #91c4d0;
+    border-image: none;
+    border-style: solid;
+    border-width: 1px 2px 2px 1px;
+    font-weight: 400;
+    margin: 0 5px;
+    padding: 1px 5px;
+    text-decoration: none;
+}
+a:link {
+    color: #335b64;
+    text-decoration: none;
+}
