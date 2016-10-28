@@ -174,5 +174,20 @@ class Tool extends Model
         return $result ? $result : (empty($data) ? self::DoGet($url) : self::DoPost($url, $data));
     }
 
+    /**
+     *   对象转换 数组 函数
+     *  @param $Object  需要转换的对象
+     *  return array
+     */
+    static function objectArray($Object) {
+        $arr = array();
+        $_arr = is_object($Object) ? get_object_vars($Object) : $Object;
+        foreach ($_arr as $key => $val) {
+            $val = (is_array($val) || is_object($val)) ? self::objectArray($val) : $val;
+            $arr[$key] = $val;
+        }
+        return $arr;
+    }
+
 
 }

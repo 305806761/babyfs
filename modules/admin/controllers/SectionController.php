@@ -55,4 +55,12 @@ class SectionController extends Controller
             ['course'=>$course]);
     }
 
+    public function actionGetSection(){
+        if($_GET['course_id']){
+            $section = CourseSection::getById($_GET['course_id']);
+            //print_r($section);die;
+            die(json_encode($section));
+        }
+    }
+
 }

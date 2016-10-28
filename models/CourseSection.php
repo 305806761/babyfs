@@ -31,6 +31,26 @@ class CourseSection extends ActiveRecord
         }
     }
 
+    /**
+     *
+     * 通过course_id查找section
+     */
+    public static function getById($course_id)
+    {
+        if($course_id){
+//(new \yii\db\Query())---self:;find
+            $section = self::find()
+                ->select(['name','section_id'])
+                ->where(['course_id' => $course_id])
+                //->indexBy('select_id')
+                ->asArray()
+                ->all(); //获取数据库里自增的字段
+            return $section;
+        }else{
+            return false;
+        }
+    }
+
     /*
      * 添加课程
     */

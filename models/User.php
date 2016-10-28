@@ -27,7 +27,7 @@ class User extends ActiveRecord
     public function Signup($param){
 
         $this->phone = $param['phone'];
-        $this->password = self::GenPassword($param['password']);
+        $this->password = $param['password'] ? self::GenPassword($param['password']) : '';
 
           //  var_dump($user);die;
             //用户信息插入数据库
@@ -117,6 +117,27 @@ class User extends ActiveRecord
     static public function GetUserByName($var) {
         $username = self::findOne(['phone'=>$var]);
         return $username->user_id ? true : false;
+    }
+
+    /**
+     * 查看用户课程列表
+     * @param string 密码
+     * @return str 返回加密的用户密码
+     * @access public
+     */
+    static public function getUserCourse($condition_class='',$condition_user=''){
+        $sql = "select c.name as course_name,cs.name as section_name,u.phone,u.created as user_created,cs.create_time,cs.expire_time from";
+        $sql .= " user_course as uc left join course as c on uc.course_id = c.course_id left join course_section as cs on uc.section_id = cs.section_id left join user as u on uc.user_id = u.user_id";
+        if ($condition_class && !$condition_user) {
+            $sql .= " where $condition_class";
+        } elseif ($condition_user && !$condition_class) {
+            $sql .= " where $condition_user";
+        } elseif ($condition_user && $condition_class) {
+            $sql .= " where $condition_user and $condition_class";
+        }
+
+        $user_course = Yii::$app->db->createCommand($sql)->queryAll();
+        return $user_course;
     }
 
 }

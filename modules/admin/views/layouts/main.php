@@ -213,7 +213,7 @@ AppAsset::register($this);
 
                             <ul>
 
-                                <li class="menu-item"><a href="" target="main-frame">会员列表</a></li>
+                                <li class="menu-item"><a href="/admin/user/list" target="main-frame">会员列表</a></li>
                                 <li class="menu-item"><a href="" target="main-frame"></a></li>
 
                             </ul>
