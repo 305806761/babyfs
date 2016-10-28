@@ -1,0 +1,33 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: malil
+ * Date: 2016/10/10
+ * Time: 11:25
+ */
+
+use yii\helpers\Html;
+$this->title = '用户中心';
+$this->params['breadcrumbs'][] = $this->title;
+?>
+<div class="user-center-top">
+    <dl>
+        <dt></dt>
+        <dd>
+            <p><?= $_COOKIE['phone']?></p>
+        </dd>
+    </dl>
+</div>
+<div class="user-center-con1">
+    <ul>
+        <li><a href="#">修改资料</a></li>
+        <li><a href="#">更改密码</a></li>
+    </ul>
+</div>
+<div class="user-center-con2">
+    <ul>
+        <li><a href="#">课程履历</a></li>
+        <li><a href="#">我的成就</a></li>
+        <li><a href="#">设置</a></li>
+    </ul>
+</div>

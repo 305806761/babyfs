@@ -7,6 +7,7 @@
  */
 
 namespace app\models;
+
 use Yii;
 use yii\base\Model;
 use yii\db\ActiveRecord;
@@ -16,7 +17,6 @@ class User extends ActiveRecord
     const SECRET_KEY = '@4!@#$%@';
 
 
-
     /**
      * 创建用户
      * @param $user_row $array 需要设置的参数
@@ -24,31 +24,24 @@ class User extends ActiveRecord
      * @access public
      */
 
-    public function Signup($param){
+    public static function Signup($param)
+    {
+        $user = self::GetUserByName($param['phone']);
+        $user->phone = $param['phone'];
+        $user->password = $param['password'] ? self::GenPassword($param['password']) : '';
 
-        $this->phone = $param['phone'];
-        $this->password = $param['password'] ? self::GenPassword($param['password']) : '';
-
-          //  var_dump($user);die;
-            //用户信息插入数据库
-            $user_id  = $this->save() ? Yii::$app->db->lastInsertID : '';
-        if($user_id){
-            $user = array('user_id' => $user_id, 'phone' => $this->phone);
+        //var_dump($user);die;
+        //用户信息插入数据库
+        //$user_id  = $user->save() ? Yii::$app->db->lastInsertID : '';
+        if ($user->save()) {
+            $user_id = Yii::$app->db->lastInsertID ? Yii::$app->db->lastInsertID : $user->user_id;
+        }
+        // var_dump($user_id);die;
+        if ($user_id) {
+            $user = array('user_id' => $user_id, 'phone' => $user->phone);
             self::Remember($user);
         }
         return $user_id;
-           /* $course_id = $param['subject'];
-            // 关联用户和课程的关系
-            if ($user_id && $course_id) {
-
-                $result = Yii::$app->db->createCommand()->insert('course_user', [
-                    'course_id' => $course_id,
-                    'user_id' => $user_id,
-                ])->execute();
-                return $result ? $user_id : false;
-            } else {
-                return false;
-            }*/
 
     }
 
@@ -58,16 +51,19 @@ class User extends ActiveRecord
      * @return $user_id int 用户ID
      * @access public
      */
-    public function login($param){
+    public function login($param)
+    {
 
-        if($param){
-            $user = self::findOne(['phone' => $param['phone'],'password' => self::GenPassword($param['password'])])->toArray();
+        if ($param) {
+            $user = self::find(['phone' => $param['phone'], 'password' => self::GenPassword($param['password'])])
+                ->asArray()
+                ->one();
             //   SELECT * FROM `member` WHERE `username`='15210663958' AND `password`='123456'
-            if($user){
-                $rememberMe = $param['rememberMe'] ? 3600*24*30 : 0;
-                self::Remember($user,$rememberMe);
+            if ($user) {
+                $rememberMe = 86400 * 365;
+                self::Remember($user, $rememberMe);
                 return true;
-            }else{
+            } else {
                 return false;
             }
 
@@ -80,11 +76,15 @@ class User extends ActiveRecord
      * @return str 返回用户cookies
      * @access public
      */
-    static public function Remember($user,$rememberMe='7*86400') {
+    static public function Remember($user, $rememberMe = '7*86400')
+    {
         Tool::cookieset('user_id', $user['user_id'], $rememberMe);
         Tool::cookieset('phone', $user['phone'], $rememberMe);
-        Session::Set('user_id', $user['user_id']);
-        Session::Set('phone', $user['phone']);
+        if (!Yii::$app->session->isActive) {
+            Yii::$app->session->open();
+        }
+        Yii::$app->session->set('user_id', $user['user_id']);
+        Yii::$app->session->set('phone', $user['phone']);
     }
 
     /**
@@ -93,7 +93,8 @@ class User extends ActiveRecord
      * @return str 注销cookies
      * @access public
      */
-    static public function NoRemember($cookiename) {
+    static public function NoRemember($cookiename)
+    {
         Tool::cookieset($cookiename, null, -1);
     }
 
@@ -104,20 +105,50 @@ class User extends ActiveRecord
      * @return str 返回加密的用户密码
      * @access public
      */
-    static public function GenPassword($p) {
+    static public function GenPassword($p)
+    {
         return md5($p . self::SECRET_KEY);
     }
 
     /**
      * 查看用户名是否已经
-     * @param string 密码
-     * @return str 返回加密的用户密码
+     * @param string $var
+     * @return object 返回用户id
      * @access public
      */
-    static public function GetUserByName($var) {
-        $username = self::findOne(['phone'=>$var]);
-        return $username->user_id ? true : false;
+    static public function GetUserByName($var)
+    {
+        if (!$user = self::findOne(['phone' => $var])) {
+            $user = new User();
+        }
+        return $user;
     }
+
+    /**
+     * 查看通过id用户是否存在
+     * @param string $user_id
+     * @return $user array
+     * @access public
+     */
+    static public function GetUserById($user_id)
+    {
+        $username = self::findOne(['user_id' => $user_id]);
+        return $username;
+    }
+
+    /**
+     * 查看通过id用户是否存在
+     * @param string $user_id ,$password
+     * @return $user array
+     * @access public
+     */
+    static public function getUsercheck($param)
+    {
+
+        $username = self::findOne(['user_id' => $param['user_id'], 'password' => $param['password']]);
+        return $username->user_id;
+    }
+
 
     /**
      * 查看用户课程列表
@@ -125,7 +156,8 @@ class User extends ActiveRecord
      * @return str 返回加密的用户密码
      * @access public
      */
-    static public function getUserCourse($condition_class='',$condition_user=''){
+    static public function getUserCourse($condition_class = '', $condition_user = '')
+    {
         $sql = "select c.name as course_name,cs.name as section_name,u.phone,u.created as user_created,cs.create_time,cs.expire_time from";
         $sql .= " user_course as uc left join course as c on uc.course_id = c.course_id left join course_section as cs on uc.section_id = cs.section_id left join user as u on uc.user_id = u.user_id";
         if ($condition_class && !$condition_user) {

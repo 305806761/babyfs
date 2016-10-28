@@ -1,0 +1,776 @@
+@import "reset.css";
+html{
+    font-size: 62.5%;
+}
+body{
+    background: #f9f9f9;
+    -webkit-text-size-adjust: none;
+    overflow-x: hidden;
+}
+.lessons-big-box{
+    width: 100%;
+    height: auto;
+    margin: 15px auto 0 auto;
+    padding-bottom: 55px;
+}
+.lessons-con{
+   width: 92%;
+   height: auto;
+   margin: 0 auto 15px auto;
+}
+.lessons-con dl{
+   width: 47%;
+   height: auto;
+   overflow: hidden;
+   border-radius: 8px;
+   border: solid 1px #72f1d6;
+   background: #fff;
+   text-align: center;
+}
+.lessons-con dl:nth-child(1){
+    margin-right: 4%;
+    float: left;
+}
+.lessons-con dl:nth-child(2){
+    float: right;
+}
+.lessons-con dl dt{
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    position: relative;
+}
+.lessons-con dl dt img{
+    width: 100%;
+    height: auto;
+    max-height: 200px;
+}
+.lessons-con dl dt span{
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 10;
+    background: #afafaf;
+    color: #ffffff;
+    border-radius: 15px;
+    font-size: 1rem;
+    padding: 3px 4px;
+}
+.lessons-con dl dt span.active{
+    background: #fd454a;
+}
+.lessons-con dl dd{
+    width: 100%;
+    height: 35px;
+    line-height: 35px;
+    font-size: 1.5rem;
+}
+.course-list-header{
+    width: 100%;
+    height: 45px;
+    background: #00f2bf;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    text-align: center;
+    line-height: 45px;
+}
+.course-list-header h1{
+    font-size: 1.8rem;
+    color: #ffffff;
+}
+.course-list-box{
+    width: 100%;
+    height: auto;
+    margin: 60px auto 50px auto;
+    padding-bottom: 20px;
+}
+.course-list-con{
+    width: 100%;
+    height: auto;
+}
+.course-list-con-top{
+    width: 100%;
+    height: 30px;
+    border-bottom: solid 1px #b3b3b3;
+    background: #f3f3f3;
+    line-height: 30px;
+}
+.course-list-con:first-child .course-list-con-top{
+    border-top: solid 1px #b3b3b3;
+}
+.course-list-con-top h1{
+    width: 90%;
+    margin: 0 auto;
+}
+.course-list-con-top h1 span img,.course-list-con-top h1 span{
+    float: left;
+}
+.course-list-con-top h1 span:nth-child(1) img{
+    width: 20px;
+    height: 17px;
+    margin: 6px 5px 0 0;
+}
+.course-list-con-top h1 span:nth-child(2){
+    font-size: 1.4rem;
+    color: #828282;
+}
+.course-list-con-bottom{
+    width: 100%;
+    height: auto;
+    background: #ffffff;
+    border-bottom: solid 1px #b3b3b3;
+    display: none;
+}
+.course-list-con-bottom dl{
+    width: 92%;
+    height: auto;
+    margin: 0 auto;
+    border-bottom: solid 1px #b3b3b3;
+    padding: 10px 0;
+    display: -moz-box;
+    display: -webkit-box;
+    display: box;
+}
+.course-list-con-bottom dl:last-child{
+    border-bottom: none;
+}
+.course-list-con-bottom dl dt{
+    width: 39px;
+    height: 39px;
+    margin-right: 11px;
+}
+.course-list-con-bottom dl dt img{
+    width: 39px;
+    height: 39px;
+}
+.course-list-con-bottom dl dd{
+    -moz-box-flex: 2;
+    -webkit-box-flex: 2;
+    box-flex: 2;
+}
+.course-list-con-bottom dl dd h1{
+    font-size: 1.6rem;
+    color: #00e6a9;
+    padding: 5px 0;
+}
+.course-list-con-bottom dl dd p span{
+    color: #b3b3b3;
+    font-size: 1.3rem;
+    padding-right: 6px;
+}
+.user-center-top{
+    width: 100%;
+    height: 160px;
+    max-height: 200px;
+    background: #00f2bf;
+    text-align: center;
+    margin: 0 auto;
+}
+.user-center-top dl{
+    width: 100%;
+    height: auto;
+    padding-top: 23px;
+}
+.user-center-top dl dt{
+    width: 85px;
+    height: 85px;
+    background: url("../img/uc-img1.png") no-repeat center center;
+    background-size: cover;
+    margin: 0 auto;
+    border: solid 3px #fff;
+    border-radius: 50%;
+}
+.user-center-top dl dd p{
+    width: 110px;
+    height: 20px;
+    background: #00c299;
+    color: #ffffff;
+    text-align: center;
+    line-height: 20px;
+    border-radius: 15px;
+    margin: 10px auto 0 auto;
+}
+.user-center-con1,.user-center-con2{
+    width: 100%;
+    height: auto;
+    background: #ffffff;
+    margin-top: 25px;
+}
+.user-center-con1 ul,.user-center-con2 ul{
+    width: 90%;
+    height: auto;
+    margin: 0 auto;
+}
+.user-center-con1 ul li,.user-center-con2 ul li{
+    width: 100%;
+    height: 45px;
+    border-bottom: solid 1px #c8c8c8;
+    line-height: 45px;
+}
+.user-center-con1 ul li:last-child,.user-center-con2 ul li:last-child{
+    border-bottom: none;
+}
+.user-center-con1 ul li a,.user-center-con2 ul li a{
+    display: block;
+    width: 100%;
+    height: 45px;
+    color: #b6b6b6;
+    font-size: 1.5rem;
+}
+.user-center-con1 ul li:nth-child(1){
+    background: url("../img/uc-img2.png") no-repeat right center;
+    background-size: 29px 29px;
+}
+.user-center-con1 ul li:nth-child(2){
+    background: url("../img/uc-img3.png") no-repeat right center;
+    background-size: 29px 29px;
+}
+.user-center-con2 ul li:nth-child(1){
+    background: url("../img/uc-img4.png") no-repeat right center;
+    background-size: 29px 29px;
+}
+.user-center-con2 ul li:nth-child(2){
+    background: url("../img/uc-img5.png") no-repeat right center;
+    background-size: 29px 29px;
+}
+.user-center-con2 ul li:nth-child(3){
+    background: url("../img/uc-img6.png") no-repeat right center;
+    background-size: 29px 29px;
+}
+.introduce1-top{
+    width: 100%;
+    height: 50px;
+    background: url("../img/introduce1-top-bg.png") no-repeat center center;
+    background-size: 100% 100%;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+}
+.introduce1-top h2{
+    color: #ffffff;
+    font-size: 1.3rem;
+    font-weight: bold;
+    padding: 7px 0 5px 0;
+}
+.introduce1-top h1{
+    font-size: 1.7rem;
+    font-weight: bold;
+    color: #ffffff;
+}
+.C-dialogue-title{
+    width: 280px;
+    height: 50px;
+    text-align: center;
+    background: url("../img/introduce-tip-bg.jpg") no-repeat center center;
+    background-size: 100% 100%;
+    margin: 0 auto 14px auto;
+}
+.C-dialogue-title h1{
+    color: #ffffff;
+    font-size: 1.8rem;
+    font-weight: bold;
+    padding: 7px 0 6px 0;
+}
+.C-dialogue-title h2{
+    color: #ffffff;
+}
+.C-con-dialogue{
+    width: 100%;
+    height: auto;
+    margin: 80px auto 0 auto;
+    padding-bottom: 55px;
+}
+.C-left-dialogue{
+    width: 90%;
+    height: auto;
+    margin: 5px auto 5px auto;
+}
+.C-left-dialogue-img{
+    height: 45px;
+    width: 45px;
+    border-radius: 5px;
+    background: url('../img/introduce1-header-img.jpg') no-repeat center center;
+    background-size: cover;
+    float: left;
+    margin-right: 20px;
+}
+.C-left-dialogue-content{
+    width: 76%;
+    height: auto;
+    word-break: break-all;
+    word-wrap: break-word;
+    float: left;
+    position: relative;
+    background: #e2ffe5;
+    border-radius: 7px;
+    margin-bottom: 15px;
+}
+.C-left-dialogue-content h1{
+    width: auto;
+    height: auto;
+    border-radius: 4px;
+    display: table;
+    line-height: 22px;
+    min-height: 22px;
+    padding: 5px 7px;
+    text-align: left;
+    margin-top: 5px;
+    font-size: 1.3rem;
+    color: #333;
+}
+.C-left-dialogue-content:before {
+    background: #e2ffe5;
+    border-top: 0;
+    border-right: 0;
+    content: "";
+    height: 20px;
+    left: -8px;
+    position: absolute;
+    top: 15px;
+    -moz-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+    width: 20px;
+    z-index: -1;
+}
+.C-left-dialogue-content h2{
+    padding: 5px 7px 10px 7px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #333;
+    line-height: 22px;
+}
+.C-left-dialogue-content dl{
+    padding: 5px 7px;
+    display: -moz-box;
+    display: -webkit-box;
+    display: box;
+}
+.C-left-dialogue-content dl dt{
+    width: 20px;
+    height: 20px;
+    background: #ffffff;
+    border: solid 2px #fd474c;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    line-height: 19px;
+    color: #fd474c;
+    margin-top: 2px;
+}
+.C-left-dialogue-content dl dd{
+    -moz-box-flex: 2;
+    -webkit-box-flex: 2;
+    box-flex: 2;
+    margin-left: 10px;
+}
+.C-left-dialogue-content dl dd p{
+    font-size: 1.3rem;
+    color: #333;
+    line-height: 20px;
+}
+.introduce2-big-box{
+    width: 85%;
+    height: auto;
+    margin: 70px auto 0 auto;
+}
+.introduce2-video{
+    width: 100%;
+}
+.vjs-tech{
+    width: 100%;
+}
+.introduce2-center{
+    width: 88%;
+    height: auto;
+    margin: 20px auto 75px auto;
+}
+.introduce2-center-top{
+    width: 100%;
+    height: auto;
+    margin: 0 auto 30px auto;
+}
+.introduce2-center-top h1{
+    width: 100%;
+    height: 15px;
+    margin: 0 auto 10px auto;
+}
+.introduce2-center-top h1 img{
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+}
+.introduce2-center-top p{
+    font-size: 1.4rem;
+    color: #616161;
+    line-height: 22px;
+}
+.introduce2-center-top p a{
+    color: #04e177;
+    font-weight: bold;
+}
+.introduce2-center-bot{
+    width: 100%;
+    height: auto;
+    margin-top:20px;
+}
+.introduce2-center-bot h1 span{
+    float: left;
+    margin-bottom: 15px;
+}
+.introduce2-center-bot h1 span:nth-child(1){
+    width: 45px;
+    height: 40px;
+    background: url("../img/introduce2-icon1.png") no-repeat center center;
+    background-size: 100% 100%;
+    text-align: center;
+    line-height: 40px;
+    font-size: 2.2rem;
+    font-weight: bolder;
+    color: #b4b4b4;
+}
+.introduce2-center-bot h1 span:nth-child(2){
+    border-bottom: solid 1px #00eebb;
+    height: 36px;
+    line-height: 36px;
+    padding-left: 15px;
+    margin-left: -8px;
+    color: #616161;
+    font-weight: bold;
+    font-size: 1.4rem;
+}
+.introduce2-center-bot h1 span b{
+    display: block;
+    font-weight: bold;
+    height: 10px;
+    padding-bottom: 6px;
+}
+.introduce2-center-bot h1 span b:nth-child(1){
+    margin-top: -9px;
+}
+.introduce-audio{
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+}
+.introduce-audio dl{
+    width: 100%;
+    height: auto;
+    margin-bottom: 15px;
+}
+.introduce-audio dl dt{
+    width: 45px;
+    height: 45px;
+    background: url("../img/introduce1-header-img.jpg") no-repeat center center;
+    background-size: 100% 100%;
+    float: left;
+}
+.introduce-audio dl dd{
+    float: left;
+}
+.introduce-audio dl dd span{
+    float: left;
+}
+.introduce-audio dl dd span:nth-child(1){
+    width: 36px;
+    height: 45px;
+    background: url("../img/introduce-audio-img1.png") no-repeat center center;
+    background-size: 100% 100%;
+}
+.introduce-audio dl dd span:nth-child(1) b{
+    display: inline-block;
+    width: 14px;
+    height: 20px;
+    background: url("../img/introduce-audio-icon1.png") no-repeat center center;
+    background-size: 100% 100%;
+    float: right;
+    margin-top: 12px;
+}
+.introduce-audio dl dd span:nth-child(2){
+    width: 150px;
+    height: 45px;
+    background: url("../img/introduce2-audio-img2.png") repeat-x;
+}
+.introduce-audio dl dd span:nth-child(3){
+    width: 10px;
+    height: 45px;
+    background: url("../img/introduce-audio-img3.png") no-repeat center center;
+    background-size: 100% 100%;
+}
+.introduce-audio p{
+    line-height: 24px;
+    font-size: 1.3rem;
+    color: #616161;
+}
+.introduce-audio p span{
+    padding-right: 20px;
+}
+.introduce-audio dl dd div{
+    width: 200px;
+    height: 150px;
+    background: #e3f5fa;
+    border-radius: 8px;
+    margin-left: 10px;
+    text-align: center;
+    line-height: 150px;
+}
+.introduce-auxiliary-btn{
+    width: 280px;
+    height: 50px;
+    background: url("../img/introduce-auxiliary-btn.png") no-repeat center center;
+    background-size: 100% 100%;
+    margin: 30px auto 0 auto;
+}
+.introduce-auxiliary-btn a{
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+.introduce-auxiliary-btn a span{
+    display: block;
+    color: #ffffff;
+}
+.introduce-auxiliary-btn a span:nth-child(1){
+    font-size: 1.8rem;
+    font-weight: bold;
+    padding: 8px 0 5px 0;
+}
+.introduce-auxiliary-btn a span:nth-child(2){
+    font-size: 1.3rem;
+}
+.introduce-task-card{
+    width: 330px;
+    height: 335px;
+    background: url("../img/introduce-task-card.png") no-repeat center center;
+    background-size: 100% 100%;
+    margin: 30px auto;
+    text-align: center;
+}
+.introduce-task-card div{
+    padding-top: 150px;
+}
+.introduce3-content{
+    margin: 80px auto 50px auto;
+}
+.login-body{
+    width:100%;
+    height: 100%;
+    background: url("../img/login-bg.png") no-repeat top center;
+    background-size: cover;
+}
+.login-con{
+    width: 261px;
+    height: 210px;
+    background: url("../img/login-con-bg.png") no-repeat center center;
+    background-size: 100% 100%;
+    margin: 50% auto 0 auto;
+}
+.l-input-box{
+    width:75%;
+    height:auto;
+    margin: 0 auto;
+}
+.l-input-box:nth-child(1){
+    padding-top: 25px;
+}
+.l-input-box p:nth-child(1){
+    width:100%;
+    height: 33px;
+    border: solid 1px #cbcbcb;
+    border-radius: 4px;
+}
+.l-input-box p:nth-child(1) input{
+    background: none;
+    height: 33px;
+    width: 90%;
+    padding-left: 10px;
+    font-size: 1.4rem;
+}
+.l-input-box p:nth-child(2){
+    height: 20px;
+    line-height: 20px;
+    padding-left: 10px;
+    color: #ff5a5f;
+  /*  visibility: hidden;*/
+}
+.l-input-btn{
+    width: 100%;
+    text-align: center;
+}
+.l-input-btn input{
+    display: inline-block;
+    height: 33px;
+    width: 89px;
+    background: url("../img/login-btn.png") no-repeat center center;
+    background-size: 100% 100%;
+    margin: 0 auto;
+    font-size: 1.4rem;
+    color: #fff;
+}
+.l-input-link{
+    width: 100%;
+    text-align: center;
+    padding-top: 7px;
+}
+.l-input-link a{
+    color: #03bc8b;
+    font-size: 1.4rem;
+}
+.l-sign-icon{
+    text-align: center;
+}
+.l-sign-icon img{
+    width: 180px;
+    height: 35px;
+    margin-top: 90px;
+}
+.register-con{
+    width: 261px;
+    height: 310px;
+    background: url("../img/register-con-bg.png") no-repeat center center;
+    background-size: 100% 100%;
+    margin: 35% auto 0 auto;
+}
+.r-input-box{
+    width:75%;
+    height:auto;
+    margin: 0 auto;
+}
+.r-input-box p:nth-child(1){
+    background: none;
+    height: 35px;
+    width: 100%;
+    font-size: 1.4rem;
+}
+.r-input-box p:nth-child(2){
+    height: 21px;
+    line-height: 21px;
+    padding-left: 10px;
+    color: #ff5a5f;
+   /* visibility: hidden;*/
+}
+.r-input-box p span:nth-child(1){
+    border: solid 1px #cbcbcb;
+    border-radius: 4px;
+    width: 42%;
+    height: 33px;
+    line-height: 35px;
+    overflow: hidden;
+}
+.r-input-box p span:nth-child(1) input{
+    width: 85%;
+    padding-left: 10px;
+    height: 33px;
+    line-height: 33px;
+    font-size: 1.4rem;
+}
+.r-input-box p span,.r-input-box p span button,.r-input-box p span input{
+    float: left;
+}
+.r-input-box p span:nth-child(2) button{
+    display: inline-block;
+    height: 33px;
+    background: #00e4a8;
+    color: #ffffff;
+    border-radius: 20px;
+    text-align: center;
+    line-height: 33px;
+    margin-left: 11px;
+    width: 100px;
+}
+.RegiserBtn{
+    width: 100%;
+    height: auto;
+    text-align: center;
+}
+.RegiserBtn input{
+    display: block;
+    width: 35%;
+    height: 36px;
+    background: none;
+    text-align: center;
+    line-height: 36px;
+    border-radius: 5px;
+    margin: 0 auto;
+    border: solid 1px #03bc8b;
+    color: #03bc8b;
+    font-size: 1.5rem;
+}
+.footer{
+    width: 100%;
+    height: 50px;
+    background: #fff;
+    position: fixed;
+    border-top: solid 1px #03bc8b;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
+}
+.footer ul{
+    width: 100%;
+    height: 50px;
+    display: table;
+}
+.footer ul li{
+    width: 25%;
+    display: table-cell;
+    text-align: center;
+}
+.footer ul li a{
+    text-decoration: none;
+}
+.footer-li-a{
+    display: table-cell;
+    width: 25%;
+    height: auto;
+    text-align: center;
+}
+.footer-li-a a{
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+}
+.footer ul li.active{
+    background: #03bc8b;
+}
+.icon1,.icon2{
+    display: inline-block;
+    width: 27px;
+    height: 26px;
+    position: relative;
+    top: .1em;
+    margin-bottom: 5px;
+    margin-top: .2em;
+}
+.footer ul li a span:nth-child(2){
+    display: block;
+    color: #03bc8b;
+    font-size: 1.2rem;
+}
+.footer ul li a span:nth-child(2).active{
+    color: #ffffff;
+}
+.icon1{
+    background: url("../img/my-lessons-img1.png") no-repeat center center;
+    background-size: 27px 26px;
+}
+.icon2{
+    background: url("../img/user-center-img2.png") no-repeat center center;
+    background-size: 27px 26px;
+}
+.icon1.active{
+    background: url("../img/my-lessons-img1-active.png") no-repeat center center;
+    background-size: 27px 26px;
+}
+.icon2.active{
+    background: url("../img/user-center-img2-active.png") no-repeat center center;
+    background-size: 27px 26px;
+}

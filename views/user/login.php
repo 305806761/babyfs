@@ -1,50 +1,32 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: malil
- * Date: 2016/10/10
- * Time: 11:25
- */
-
-use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
-
-$this->title = 'Login';
-$this->params['breadcrumbs'][] = $this->title;
-?>
-<div class="site-login">
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>请填写相关信息登录:</p>
-
-    <?php $form = ActiveForm::begin([
-        'id' => 'login-form',
-        'options' => ['class' => 'form-horizontal'],
-        'fieldConfig' => [
-            'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
-            'labelOptions' => ['class' => 'col-lg-1 control-label'],
-        ],
-        'method'=>'post','action' =>['user/login']
-    ]); ?>
-
-    <?= $form->field($model, 'phone')->textInput(['autofocus' => true]) ?>
-
-    <?= $form->field($model, 'password')->passwordInput() ?>
-
-    <?= $form->field($model, 'rememberMe')->checkbox([
-        'template' => "<div class=\"col-lg-offset-1 col-lg-3\">{input} {label}</div>\n<div class=\"col-lg-8\">{error}</div>",
-    ]) ?>
-
-    <div class="form-group">
-        <div class="col-lg-offset-1 col-lg-11">
-            <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-        </div>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>登录</title>
+    <meta name="viewport"content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta content="telephone=no" name="format-detection" />
+    <link rel="stylesheet" href="/default/css/style.css"/>
+</head>
+<body class="login-body">
+<form method="post" action="/user/login">
+<div class="login-con">
+    <div class="l-input-box">
+        <p><input type="text" name="phone" placeholder="用户名/手机号" class="loginphoneNumber" maxlength="11"></p>
+        <p class="prompt-error loginphoneNumberError"></p>
     </div>
-
-    <?php ActiveForm::end(); ?>
-
-    <div class="col-lg-offset-1" style="color:#999;">
-        You may login with <strong>admin/admin</strong> or <strong>demo/demo</strong>.<br>
-        To modify the username/password, please check out the code <code>app\models\User::$users</code>.
+    <div class="l-input-box">
+        <p><input type="password" name="password" placeholder="密码"class="loginpassWord" maxlength="32"></p>
+        <p class="prompt-error loginpassWordError"></p>
     </div>
+    <div class="l-input-btn"><input type="submit" value="登陆"></div>
+    <div class="l-input-link"><a href="/user/signup">没有账号，点我注册</a></div>
 </div>
+</form>
+<div class="l-sign-icon"><img src="/default/img/sign-icon.png" alt=""></div>
+<script src="/default/js/public/jquery-1.9.1.min.js"></script>
+<script src="/default/js/public/effect.js"></script>
+</body>
+</html>
