@@ -7,6 +7,7 @@
  */
 
 namespace app\modules\admin\controllers;
+
 use app\models\Course;
 use app\models\CourseSection;
 use Yii;
@@ -21,42 +22,45 @@ class SectionController extends Controller
     /**
      * 课程列表
      */
-    public function actionList(){
+    public function actionList()
+    {
 
         $coursesection = CourseSection::getCourseSection();
-        return $this->render('list',['coursesection'=>$coursesection]);
+        return $this->render('list', ['coursesection' => $coursesection]);
 
     }
 
     /**
      * 添加课程
      */
-    public function actionAdd(){
+    public function actionAdd()
+    {
         $course = Course::getCourse();
         $coursesection = new CourseSection();
         if ($_POST) {
             $array = array(
-                'name'=>$_POST['name'],
-                'code'=>$_POST['code'],
-                'course_id' => $_POST['course_id'],
-                'class_hour'=>$_POST['class_hour'],
-                'sort'=>$_POST['sort'],
+                'name' => Yii::$app->request->post('name'),
+                'code' => Yii::$app->request->post('code'),
+                'course_id' => Yii::$app->request->post('course_id'),
+                'class_hour' => Yii::$app->request->post('class_hour', 0),
+                'sort' => Yii::$app->request->post('sort'),
             );
 
             $result = $coursesection->add($array);
 
-            if($result){
+            if ($result) {
                 echo "课程阶段添加成功";
             }
 
         }
 
         return $this->render('add',
-            ['course'=>$course]);
+            ['course' => $course]);
     }
 
-    public function actionGetSection(){
-        if($_GET['course_id']){
+    public function actionGetSection()
+    {
+        if ($_GET['course_id']) {
             $section = CourseSection::getById($_GET['course_id']);
             //print_r($section);die;
             die(json_encode($section));

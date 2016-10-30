@@ -25,20 +25,20 @@ $this->params['breadcrumbs'][] = $this->title;
         <tr>
             <td class="tdleft">课程名称:</td>
             <td>
-                <input type="text" name="name" value="<?= $course['name'] ?>" />
+                <input type="text" name="name" value="<?= $course->name ?>" />
             </td>
         </tr>
         <tr>
             <td class="tdleft">课程编号:</td>
             <td>
-                <input type="text" name="code" value="<?= $course['code'] ?>"  />
+                <input type="text" name="code" value="<?= $course->code ?>"  />
 
             </td>
         </tr>
         <tr>
             <td class="tdleft">查看课件的时间:</td>
             <td>
-                <input type="text" name="class_hour" value="<?= $course['class_hour'] ?>"  />
+                <input type="text" name="class_hour" value="<?= $course->class_hour ?>"  />
 
             </td>
         </tr>

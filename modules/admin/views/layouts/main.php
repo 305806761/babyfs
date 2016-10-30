@@ -30,7 +30,7 @@ AppAsset::register($this);
         'brandLabel' => '后台管理系统',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
+            'class' => 'navbar-inverse', //  navbar-fixed-top
         ],
     ]);
     echo Nav::widget([
@@ -59,26 +59,31 @@ AppAsset::register($this);
         body {
             background: #80BDCB;
         }
-        .main_column_left{
-            width:15%;
+
+        .main_column_left {
+            width: 15%;
             float: left;
-            margin:10px;
+            margin: 10px;
 
         }
-        .right_column{
-            width:75%;
-            padding-top:15px;
+
+        .right_column {
+            width: 75%;
+            padding-top: 15px;
             float: left;
         }
+
         #tabbar-div {
             background: #278296;
             padding-left: 10px;
             height: 21px;
             padding-top: 0px;
         }
+
         #tabbar-div p {
             margin: 1px 0 0 0;
         }
+
         .tab-front {
             background: #80BDCB;
             line-height: 20px;
@@ -88,6 +93,7 @@ AppAsset::register($this);
             cursor: hand;
             cursor: pointer;
         }
+
         .tab-back {
             color: #F4FAFB;
             line-height: 20px;
@@ -95,6 +101,7 @@ AppAsset::register($this);
             cursor: hand;
             cursor: pointer;
         }
+
         .tab-hover {
             color: #F4FAFB;
             line-height: 20px;
@@ -103,67 +110,80 @@ AppAsset::register($this);
             cursor: pointer;
             background: #2F9DB5;
         }
-        #top-div
-        {
+
+        #top-div {
             padding: 3px 0 2px;
             background: #BBDDE5;
             margin: 5px;
             text-align: center;
         }
+
         #main-div {
             border: 1px solid #345C65;
             padding: 5px;
             margin: 5px;
             background: #FFF;
         }
+
         #menu-list {
             padding: 0;
             margin: 0;
         }
+
         #menu-list ul {
             padding: 0;
             margin: 0;
             list-style-type: none;
             color: #335B64;
         }
+
         #menu-list li {
             padding-left: 16px;
             line-height: 16px;
             cursor: hand;
             cursor: pointer;
         }
+
         #main-div a:visited, #menu-list a:link, #menu-list a:hover {
             color: #335B64
             text-decoration: none;
         }
+
         #menu-list a:active {
             color: #EB8A3D;
         }
+
         .explode {
             /* background: url(images/menu_minus.gif) no-repeat 0px 3px;*/
             font-weight: bold;
         }
+
         .collapse {
             /* background: url(images/menu_plus.gif) no-repeat 0px 3px;*/
             font-weight: bold;
         }
+
         .menu-item {
             /* background: url(images/menu_arrow.gif) no-repeat 0px 3px;*/
             font-weight: normal;
         }
+
         #help-title {
             font-size: 14px;
             color: #000080;
             margin: 5px 0;
             padding: 0px;
         }
+
         #help-content {
             margin: 0;
             padding: 0;
         }
+
         .tips {
             color: #CC0000;
         }
+
         .link {
             color: #000099;
         }
@@ -227,7 +247,8 @@ AppAsset::register($this);
 
                             <ul>
 
-                                <li class="menu-item"><a href="/admin/template/add-temp" target="main-frame">添加模板</a></li>
+                                <li class="menu-item"><a href="/admin/template/add-temp" target="main-frame">添加模板</a>
+                                </li>
                                 <li class="menu-item"><a href="/admin/template/list" target="main-frame">模板列表</a></li>
 
                             </ul>

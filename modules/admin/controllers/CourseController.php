@@ -6,6 +6,7 @@
  * Time: 9:28
  */
 namespace app\modules\admin\controllers;
+
 use app\models\Course;
 use Yii;
 use yii\web\Controller;
@@ -18,42 +19,45 @@ class CourseController extends Controller
 
     /**
      * 课程列表
-    */
-    public function actionList(){
+     */
+    public function actionList()
+    {
 
         $course = Course::getCourse();
-        return $this->render('list',['course'=>$course]);
+        return $this->render('list', ['course' => $course]);
 
     }
 
     /**
      * 添加课程
      */
-    public function actionAdd(){
+    public function actionAdd()
+    {
         $course = new Course();
 
         if ($_POST) {
             $array = array(
-                'name'=>$_POST['name'],
-                'code'=>$_POST['code'],
-                'class_hour'=>$_POST['class_hour'],
+                'name' => Yii::$app->request->post('name'),
+                'code' => Yii::$app->request->post('code'),
+                'class_hour' => Yii::$app->request->post('class_hour'),
             );
 
             $result = $course->add($array);
 
-            if($result){
+            if ($result) {
                 echo "添加课程成功";
             }
 
         }
 
-        return $this->render('add');
+        return $this->render('add', ['course' => $course]);
     }
 
     /***
      * 修改课程
      ***/
-    public function actionEdit(){
+    public function actionEdit()
+    {
 
         $course_id = $_GET['course_id'];
         $course = Course::getCourseById($course_id);
