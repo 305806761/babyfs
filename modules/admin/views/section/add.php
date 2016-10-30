@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
     }
 
 </style>
-<form action="/admin/section/add" method="post">
+<form action="/admin/section/add" method="post" enctype="multipart/form-data">
     <table width="100%" align="center">
         <tr>
             <td class="tdleft">所在课程:</td>
@@ -45,6 +45,12 @@ $this->params['breadcrumbs'][] = $this->title;
             <td>
                 <input type="text" name="code" />
 
+            </td>
+        </tr>
+        <tr>
+            <td class="tdleft">上传课程阶段图片:</td>
+            <td>
+                <input type="file" name="goods_img" size="35" />
             </td>
         </tr>
         <tr>

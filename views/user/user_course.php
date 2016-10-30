@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php endif ?>
         <dl>
             <dt>
-                <img src="/default/img/already-buy-img1.png" alt=""/>
+                <a href="/section/list?section_id=<?= $value['section_id'] ?>"> <img src="/default/img/already-buy-img1.png" alt=""/></a>
                 <?php if ($value['is_buy']): ?>
                     <span class="active">学习中</span>
                 <?php else: ?>

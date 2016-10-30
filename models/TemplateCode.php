@@ -8,31 +8,41 @@
 
 
 namespace app\models;
+
 use Yii;
 use yii\base\Model;
 use yii\db\ActiveRecord;
 
 class TemplateCode extends ActiveRecord
 {
-    public  function add($param){
-        $this->template_id = $param['template_id'];
-        $this->code = $param['code'];
-
+    public function add($param)
+    {
+        $template_code = self::getTempCodeById($param['temp_code_id']);
+        $template_code->template_id = $param['template_id'];
+        $template_code->code = $param['code'];
+        $result = Template::addType('', array('template_id' => $param['template_id'], 'param' => $param['param']));
         //  var_dump($user);die;
         //用户信息插入数据库
-        $temp_code_id  = $this->save() ? Yii::$app->db->lastInsertID : '';
-        return $temp_code_id;
+        if ($result) {
+            if ($template_code->save()) {
+                $temp_code_id = Yii::$app->db->lastInsertID ? Yii::$app->db->lastInsertID : $template_code->temp_code_id;
+            }
+        }
+
+        return $temp_code_id ? $temp_code_id : false;
 
     }
 
-    public static function getTempCodeById($temp_code_id){
-        $result = self::findOne($temp_code_id);
+    public static function getTempCodeById($temp_code_id)
+    {
 
-        //$sql = "SELECT t.type,t.template_id,c.code,c.temp_code_id FROM `template_code` AS c LEFT JOIN `template` AS t ON c.template_id = t.template_id WHERE c.temp_code_id='{$temp_code_id}'";
-        //$result = Yii::$app->db->createCommand($sql)->query();
-        //print_r($result);die;
-
-        return $result;
+        if (!$temp_code_id) {
+            $template_code = new TemplateCode();
+        }
+        if (!$template_code = self::findOne($temp_code_id)) {
+            $template_code = new TemplateCode();
+        }
+        return $template_code;
     }
 
 }

@@ -19,6 +19,7 @@ class TemplateController extends Controller
     public function actionList()
     {
         $template = Template::getBigTemplate();
+        //print_r($template);die;
         return $this->render('list',
             ['template'=>$template]);
     }
@@ -29,12 +30,13 @@ class TemplateController extends Controller
     public function actionAddTemp(){
 
         $template = new Template();
-
             $temp = $template->getTemp();
-
+            //print_r(Yii::$app->request->post());die;
             if (Yii::$app->request->post()) {
                 $array = array(
                     'template_id'=>Yii::$app->request->post('template_id'),
+                    'temp_code_id'=>Yii::$app->request->post('temp_code_id'),
+                    'param'=>Yii::$app->request->post('param'),
                     'code'=>Yii::$app->request->post('code'),
                 );
 
@@ -67,6 +69,7 @@ class TemplateController extends Controller
                 'id' => $template_id,
                 'type' => $type,
             );
+            print_r($result);
             die(json_encode($result));
         }
     }
@@ -77,8 +80,8 @@ class TemplateController extends Controller
     public function actionEditTemp(){
         $template = new Template();
         $temp = $template->getTemp();
-        $temp_code_id = $_GET['temp_code_id'];
-        $tempcode = TemplateCode::getTempCodeById($temp_code_id);
+        $temp_code_id = Yii::$app->request->get('temp_code_id');
+        $tempcode = $template->getBigTemplate($temp_code_id);
         //print_r($tempcode);die;
         return $this->render('addtemp',
             [
