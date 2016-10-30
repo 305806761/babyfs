@@ -61,7 +61,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->redirect(['user/default']);
+        return $this->redirect(['user/user-course']);
     }
 
     /**

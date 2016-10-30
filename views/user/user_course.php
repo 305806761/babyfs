@@ -7,88 +7,29 @@
  */
 
 use yii\helpers\Html;
+
 $this->title = '我的课程';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="lessons-big-box clearfix">
-    <div class="lessons-con clearfix">
+
+    <?php foreach ($course as $key => $value): ?>
+        <?php if ($key % 2 == 0): ?>
+            <div class="lessons-con clearfix">
+        <?php endif ?>
         <dl>
             <dt>
                 <img src="/default/img/already-buy-img1.png" alt=""/>
-                <span class="active">学习中</span>
+                <?php if ($value['is_buy']): ?>
+                    <span class="active">学习中</span>
+                <?php else: ?>
+                    <span>未开放</span>
+                <?php endif; ?>
             </dt>
-            <dd>基础入门.半年课</dd>
+            <dd><?= $value['name'] ?></dd>
         </dl>
-        <dl>
-            <dt>
-                <img src="/default/img/not-purchase-img1.png" alt=""/>
-                <span>未开放</span>
-            </dt>
-            <dd>基础入门.半年课</dd>
-        </dl>
-    </div>
-    <div class="lessons-con clearfix">
-        <dl>
-            <dt>
-                <img src="/default/img/not-purchase-img1.png" alt=""/>
-                <span>学习中</span>
-            </dt>
-            <dd>基础入门.半年课</dd>
-        </dl>
-        <dl>
-            <dt>
-                <img src="/default/img/not-purchase-img1.png" alt=""/>
-                <span>未开放</span>
-            </dt>
-            <dd>基础入门.半年课</dd>
-        </dl>
-    </div>
-    <div class="lessons-con clearfix">
-        <dl>
-            <dt>
-                <img src="/default/img/not-purchase-img1.png" alt=""/>
-                <span>学习中</span>
-            </dt>
-            <dd>基础入门.半年课</dd>
-        </dl>
-        <dl>
-            <dt>
-                <img src="/default/img/not-purchase-img1.png" alt=""/>
-                <span>未开放</span>
-            </dt>
-            <dd>基础入门.半年课</dd>
-        </dl>
-    </div>
-    <div class="lessons-con clearfix">
-        <dl>
-            <dt>
-                <img src="/default/img/not-purchase-img1.png" alt=""/>
-                <span>学习中</span>
-            </dt>
-            <dd>基础入门.半年课</dd>
-        </dl>
-        <dl>
-            <dt>
-                <img src="/default/img/not-purchase-img1.png" alt=""/>
-                <span>未开放</span>
-            </dt>
-            <dd>基础入门.半年课</dd>
-        </dl>
-    </div>
-    <div class="lessons-con clearfix">
-        <dl>
-            <dt>
-                <img src="/default/img/not-purchase-img1.png" alt=""/>
-                <span>学习中</span>
-            </dt>
-            <dd>基础入门.半年课</dd>
-        </dl>
-        <dl>
-            <dt>
-                <img src="/default/img/not-purchase-img1.png" alt=""/>
-                <span>未开放</span>
-            </dt>
-            <dd>基础入门.半年课</dd>
-        </dl>
-    </div>
+        <?php if ($key % 2 == 1): ?>
+            </div>
+        <?php endif ?>
+    <?php endforeach; ?>
 </div>

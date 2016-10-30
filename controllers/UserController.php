@@ -8,6 +8,7 @@
 
 namespace app\controllers;
 
+use app\models\Course;
 use app\models\LoginForm;
 use app\models\Session;
 use app\models\SignupForm;
@@ -38,12 +39,15 @@ class UserController extends Controller
     }
 
     public function actionUserCourse(){
-        $user_id = $_COOKIE['user_id'];
+        $user_id = isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : '';
+        //$phone = isset($_COOKIE['phone']) ? $_COOKIE['phone'] : '';
         if(!$user_id){
             Tool::Redirect("/user/login");
         }
-
-        return $this->render('user_course');
+        //$condition_user = "phone = '{$phone}'";
+        $course = Course::getCourseSection($user_id);
+        //print_r($course);die;
+        return $this->render('user_course',['course'=>$course]);
     }
 
     /**
@@ -55,9 +59,10 @@ class UserController extends Controller
     {
         $this->layout = false;
         $phone = Yii::$app->request->post('phone');
+        $password = Yii::$app->request->post('password');
         if ($phone) {
             $member = new User();
-            $user = array('phone' => $_POST['phone'], 'password' => $_POST['password']);
+            $user = array('phone' => $phone, 'password' => $password);
             if (!$member->login($user)) {
                 Tool::Redirect("/user/login", '登陆失败！', 'error');
             } else {
@@ -76,9 +81,11 @@ class UserController extends Controller
     public function actionSignup()
     {
         $this->layout = false;
-        if ($_POST['phone']) {
+        $phone = Yii::$app->request->post('phone');
+        $password = Yii::$app->request->post('password');
+        if ($phone) {
             $member = new User();
-            $user = array('phone' => $_POST['phone'], 'password' => $_POST['password']);
+            $user = array('phone' => $phone, 'password' => $password);
 
             if (!$member->signup($user)) {
                 Tool::Redirect("/user/signup", '注册失败！', 'error');
@@ -115,9 +122,9 @@ class UserController extends Controller
      */
     public function actionResetPassword()
     {
-        $user_id = $_GET['user_id'];
+        $user_id = isset($_GET['user_id']) ? $_GET['user_id'] : '';
         $user = User::GetUserById($user_id);
-        if ($_POST) {
+        if (Yii::$app->request->post()) {
             $user_id = $_POST['user_id'];
             if ($_POST['password'] == $_POST['password2']) {
                 $password = User::GenPassword($_POST['password']);
@@ -148,7 +155,7 @@ class UserController extends Controller
 
     public function actionSend()
     {
-        if ($_GET['phone']) {
+        if (Yii::$app->request->get('phone')) {
             $mobile = $_GET['phone'];
             $verifyCode = rand(1000, 9999);
             //Yii::$app->session->set('code', $verifyCode);
@@ -192,9 +199,8 @@ class UserController extends Controller
      */
     public function actionCheckCode()
     {
-        $signup_sms_code = '';
-        $result = '';
-        if ($_GET['code']) {
+        $code = Yii::$app->request->get('code');
+        if ($code) {
             //检查session是否打开
             if (!Yii::$app->session->isActive) {
                 Yii::$app->session->open();
@@ -203,7 +209,7 @@ class UserController extends Controller
             $signup_sms_code = intval(Yii::$app->session->get('login_sms_code'));
             $signup_sms_time = Yii::$app->session->get('login_sms_time');
             if (time() - $signup_sms_time < 600) {
-                if ($_GET['code'] != $signup_sms_code) {
+                if ($code != $signup_sms_code) {
                     $result = array('cood' => 0, 'message' => '验证码输入有误');
                 }
             } else {

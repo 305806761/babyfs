@@ -158,7 +158,7 @@ class User extends ActiveRecord
      */
     static public function getUserCourse($condition_class = '', $condition_user = '')
     {
-        $sql = "select c.name as course_name,cs.name as section_name,u.phone,u.created as user_created,cs.create_time,cs.expire_time from";
+        $sql = "select c.name as course_name,cs.name as section_name,u.phone,u.created as user_created,cs.create_time,cs.expire_time,uc.section_id as section_id  from";
         $sql .= " user_course as uc left join course as c on uc.course_id = c.course_id left join course_section as cs on uc.section_id = cs.section_id left join user as u on uc.user_id = u.user_id";
         if ($condition_class && !$condition_user) {
             $sql .= " where $condition_class";
