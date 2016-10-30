@@ -8,6 +8,7 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use yii\helpers\Url;
 
 AppAsset::register($this);
 ?>
@@ -219,8 +220,8 @@ AppAsset::register($this);
 
                             <ul>
 
-                                <li class="menu-item"><a href="" target="main-frame">添加课件</a></li>
-                                <li class="menu-item"><a href="" target="main-frame">课件列表</a></li>
+                                <li class="menu-item"><a href="<?= Url::to(['ware/add'])?>" target="main-frame">添加课件</a></li>
+                                <li class="menu-item"><a href="<?= Url::to(['ware/list'])?>" target="main-frame">课件列表</a></li>
 
                             </ul>
 
