@@ -8,6 +8,7 @@
 namespace app\commands;
 
 use yii\console\Controller;
+use Handlebars\Handlebars;
 
 /**
  * This command echoes the first argument that you have entered.
@@ -25,6 +26,19 @@ class HelloController extends Controller
      */
     public function actionIndex($message = 'hello world')
     {
-        echo $message . "\n";
+        $engine = new Handlebars;
+
+        echo $engine->render(
+            "{{haha}}Planets:<br />{{#each planets}}<h6>{{this}}</h6>{{/each}}\n",
+            array(
+                'haha' => 'yes!',
+                'planets' => array(
+                    "Mercury",
+                    "Venus",
+                    "Earth",
+                    "Mars"
+                )
+            )
+        );
     }
 }
