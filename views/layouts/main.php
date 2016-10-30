@@ -32,13 +32,13 @@ AppAsset::register($this);
     <div class="footer">
         <ul>
             <li class="footer-li-a">
-                <a href="#n">
+                <a href="/user/user-course">
                     <span class="icon1"><span></span></span>
                     <span>我的课程</span>
                 </a>
             </li>
             <li class="footer-li-a active">
-                <a href="#n">
+                <a href="/user/default">
                     <span class="icon2 active"><span></span></span>
                     <span class="active">用户中心</span>
                 </a>
