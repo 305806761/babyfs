@@ -192,6 +192,8 @@ class UserController extends Controller
      */
     public function actionCheckCode()
     {
+        $signup_sms_code = '';
+        $result = '';
         if ($_GET['code']) {
             //检查session是否打开
             if (!Yii::$app->session->isActive) {
@@ -207,8 +209,9 @@ class UserController extends Controller
             } else {
                 $result = array('cood' => 0, 'message' => '验证码已经失效');
             }
-        }echo $signup_sms_code;
-        die(json_encode($result));
+        }
+        echo $signup_sms_code;
+        return json_encode($result);
     }
 
 
