@@ -19,8 +19,8 @@
         "yiisoft/yii2-bootstrap": "*",
         "yiisoft/yii2-swiftmailer": "*",
         "yiisoft/yii2-httpclient": "*",
-        "janisto/yii2-timepicker": "*"
-
+        "janisto/yii2-timepicker": "*",
+        "xamin/handlebars.php": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

@@ -7,13 +7,11 @@
  */
 
 namespace app\modules\admin\controllers;
-use app\models\Template;
-use app\models\TemplateCode;
+
+use app\models\WareType;
 use Yii;
 use yii\web\Controller;
 use app\models\Ware;
-use app\models\Course;
-
 
 class WareController extends Controller
 {
@@ -22,43 +20,36 @@ class WareController extends Controller
     /**
      * 课程列表
      */
-    public function actionList(){
-
-        $course = Course::getCourse(1);
-        return $this->render('list',['course'=>$course]);
-
+    public function actionList()
+    {
+        return $this->render('list');
     }
 
     /**
      * 添加课程
      */
-    public function actionAdd(){
+    public function actionAdd()
+    {
         $ware = new Ware();
-        //$course = Course::getCourse(1);
-        $template = Template::getTemp();
-//Array ( [1] => 文字 [2] => 图片 [3] => 视频 [4] => 音频 )
-       // $templatecode = Template::getBigTemplate();
-        //print_r($templatecode);die;
-//        if ($_POST) {
-//            $array = array(
-//                'name'=>$_POST['name'],
-//                'code'=>$_POST['code'],
-//                'class_hour'=>$_POST['class_hour'],
-//                'is_free'=>$_POST['is_free'],
-//            );
-//
-//            $result = $course->add($array);
-//
-//            if($result){
-//                echo "添加课程成功";
-//            }
-//
-//        }
+        $content = [];
 
-        return $this->render('add',[
-           // 'course'=>$course,
-            'template' => $template,
+        if (Yii::$app->request->post()) {
+            if ($ware->load(Yii::$app->request->post()) && $ware->save()) {
+                return $this->redirect(['list']);
+            }
+        }
+
+        if (true) {
+            $t = json_decode('[1,2]', true);
+            foreach ($t as $type_id) {
+                $wt = WareType::findOne($type_id);
+                $content[] = $this->renderPartial('ware', ['model' => $wt]);
+            }
+        }
+
+        return $this->render('add', [
+            'model' => $ware,
+            'items' => $content,
         ]);
     }
-
 }
