@@ -35,6 +35,7 @@ class UserController extends Controller
             Tool::Redirect("/user/login");
         }
 
+        $this->view->params['user_button'] = 1;
         return $this->render('default');
     }
 
