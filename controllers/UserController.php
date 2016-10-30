@@ -34,8 +34,9 @@ class UserController extends Controller
         if(!$user_id){
             Tool::Redirect("/user/login");
         }
-
-        return $this->render('default');
+        $user = User::GetUserById($user_id);
+        $this->view->params['user_button'] = 1;
+        return $this->render('default',['user'=>$user]);
     }
 
     public function actionUserCourse(){
@@ -122,6 +123,7 @@ class UserController extends Controller
      */
     public function actionResetPassword()
     {
+        $this->layout = false;
         $user_id = isset($_GET['user_id']) ? $_GET['user_id'] : '';
         $user = User::GetUserById($user_id);
         if (Yii::$app->request->post()) {
@@ -130,20 +132,50 @@ class UserController extends Controller
                 $password = User::GenPassword($_POST['password']);
                 $passwordold = User::getUsercheck(array('user_id' => $_POST['user_id'], 'password' => User::GenPassword($_POST['passwordold'])));
                 if (!$passwordold) {
-                    Tool::Redirect("user-reset-password?user_id={$user_id}", '旧密码有误！', 'error');
+                    Tool::Redirect("/user/reset-password?user_id={$user_id}", '旧密码有误！', 'error');
                 }
                 $sql = "update user set password='{$password}' WHERE user_id = '{$user_id}'";
 
                 $res = Yii::$app->db->createCommand($sql)->query();
                 if ($res) {
-                    Tool::Redirect('user-reset-password?user_id={$user_id}', '密码修改成功', 'success');
+                    Tool::Redirect('/user/reset-password?user_id={$user_id}', '密码修改成功', 'success');
                 } else {
-                    Tool::Redirect("user-reset-password?user_id={$user_id}", '修改密码失败！', 'error');
+                    Tool::Redirect("/user/reset-password?user_id={$user_id}", '修改密码失败！', 'error');
                 }
             }
-            Tool::Redirect("user-reset-password?user_id={$user_id}", '两次输入的密码不匹配，请重新设置', 'error');
+            Tool::Redirect("/user/reset-password?user_id={$user_id}", '两次输入的密码不匹配，请重新设置', 'error');
         }
-        return $this->render('resetpassword', [
+        $this->view->params['password'] = 1;
+        return $this->render('reset', [
+            'user' => $user,
+        ]);
+    }
+
+    public function actionResetUser()
+    {
+        $this->layout = false;
+        $user_id = isset($_GET['user_id']) ? $_GET['user_id'] : '';
+        $user = User::GetUserById($user_id);
+        if (Yii::$app->request->post()) {
+            $user_id = Yii::$app->request->post('user_id');
+            $phone = Yii::$app->request->post('phone');
+            if ($phone) {
+                $user_phone = User::GetUserByName($phone);
+                if ($user_phone->phone) {
+                    Tool::Redirect("/user/reset-user?user_id={$user_id}", '手机号已经存在！', 'error');
+                }
+                $sql = "update user set phone='{$phone}' WHERE user_id = '{$user_id}'";
+
+                $res = Yii::$app->db->createCommand($sql)->query();
+                if ($res) {
+                    Tool::Redirect("/user/default?user_id={$user_id}", '手机号修改成功', 'success');
+                } else {
+                    Tool::Redirect("/user/reset-user?user_id={$user_id}", '手机号密码失败！', 'error');
+                }
+            }
+        }
+        $this->view->params['user'] = 1;
+        return $this->render('reset', [
             'user' => $user,
         ]);
     }

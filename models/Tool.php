@@ -195,10 +195,11 @@ class Tool extends Model
         $url = empty($url) ? $_SERVER['HTTP_REFERER'] : $url;
         $url = empty($url) ? '/' : $url;
         if ( $message ) {
-            if (!Yii::$app->session->isActive) {
-                Yii::$app->session->open();
-            }
-            Yii::$app->session->set('type',$message);
+            self::cookieset($type,$message,10);
+//            if (!Yii::$app->session->isActive) {
+//                Yii::$app->session->open();
+//            }
+//            Yii::$app->session->set($type,$message);
         }
         header("Location: {$url}");
         exit;

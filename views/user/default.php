@@ -14,14 +14,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <dl>
         <dt></dt>
         <dd>
-            <p><?= $_COOKIE['phone']?></p>
+            <p><?= $user->phone?></p>
         </dd>
     </dl>
 </div>
 <div class="user-center-con1">
     <ul>
-        <li><a href="#">修改资料</a></li>
-        <li><a href="#">更改密码</a></li>
+        <li><a href="/user/reset-user?user_id=<?= $user->user_id?>">修改资料</a></li>
+        <li><a href="/user/reset-password?user_id=<?= $user->user_id?>">更改密码</a></li>
     </ul>
 </div>
 <div class="user-center-con2">
