@@ -190,7 +190,7 @@ class Tool extends Model
     }
 
     //跳转，可带提示
-    static function redirect($url = null, $message = '', $type = 'notice')
+    static function Redirect($url = null, $message = '', $type = 'notice')
     {
         $url = empty($url) ? $_SERVER['HTTP_REFERER'] : $url;
         $url = empty($url) ? '/' : $url;

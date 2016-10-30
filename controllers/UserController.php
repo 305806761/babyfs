@@ -29,7 +29,7 @@ class UserController extends Controller
     public function actionDefault(){
         //是否已经登陆
 
-        $user_id = $_COOKIE['user_id'];
+        $user_id = isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : '';
         if(!$user_id){
             Tool::Redirect("/user/login");
         }
@@ -54,7 +54,8 @@ class UserController extends Controller
     public function actionLogin()
     {
         $this->layout = false;
-        if ($_POST['phone']) {
+        $phone = Yii::$app->request->post('phone');
+        if ($phone) {
             $member = new User();
             $user = array('phone' => $_POST['phone'], 'password' => $_POST['password']);
             if (!$member->login($user)) {
