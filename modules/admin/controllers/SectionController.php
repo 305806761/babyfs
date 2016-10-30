@@ -34,13 +34,13 @@ class SectionController extends Controller
     public function actionAdd(){
         $course = Course::getCourse();
         $coursesection = new CourseSection();
-        if ($_POST) {
+        if (Yii::$app->request->post()) {
             $array = array(
-                'name'=>$_POST['name'],
-                'code'=>$_POST['code'],
-                'course_id' => $_POST['course_id'],
-                'class_hour'=>$_POST['class_hour'],
-                'sort'=>$_POST['sort'],
+                'name'=>Yii::$app->request->post('name'),
+                'code'=>Yii::$app->request->post('code'),
+                'course_id' => Yii::$app->request->post('course_id'),
+                'class_hour'=>Yii::$app->request->post('class_hour'),
+                'sort'=>Yii::$app->request->post('sort'),
             );
 
             $result = $coursesection->add($array);
@@ -56,8 +56,9 @@ class SectionController extends Controller
     }
 
     public function actionGetSection(){
-        if($_GET['course_id']){
-            $section = CourseSection::getById($_GET['course_id']);
+        $course_id = Yii::$app->request->get('course_id');
+        if($course_id){
+            $section = CourseSection::getById($course_id);
             //print_r($section);die;
             die(json_encode($section));
         }

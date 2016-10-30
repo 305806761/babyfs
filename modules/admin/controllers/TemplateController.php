@@ -32,10 +32,10 @@ class TemplateController extends Controller
 
             $temp = $template->getTemp();
 
-            if ($_POST) {
+            if (Yii::$app->request->post()) {
                 $array = array(
-                    'template_id'=>$_POST['template_id'],
-                    'code'=>$_POST['code'],
+                    'template_id'=>Yii::$app->request->post('template_id'),
+                    'code'=>Yii::$app->request->post('code'),
                 );
 
             $result = $template->add($array);
@@ -53,10 +53,10 @@ class TemplateController extends Controller
 
     public function actionAddType(){
 
-
-        if($_GET['type']){
+        $type = Yii::$app->request->get('type');
+        if($type){
             $template = new Template();
-            $template_id = $template->addType($_GET['type']);
+            $template_id = $template->addType($type);
             if(!$template_id){
                 $result = array(
                     'error'=>1,
@@ -65,7 +65,7 @@ class TemplateController extends Controller
             }
             $result = array(
                 'id' => $template_id,
-                'type' => $_GET['type'],
+                'type' => $type,
             );
             die(json_encode($result));
         }

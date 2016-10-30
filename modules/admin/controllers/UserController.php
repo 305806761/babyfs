@@ -34,11 +34,14 @@ class UserController extends Controller
     public function actionSearch()
     {
         $course = Course::getCourse();
-        if ($_POST['course_id'] && $_POST['section_id'] && $_POST['course_id'] != 'no' && $_POST['course_id'] != 'no') {
-            $condition_class = "uc.course_id = '{$_POST['course_id']}' and uc.section_id = '{$_POST['section_id']}'";
+        $course_id = Yii::$app->request->post('course_id');
+        $section_id = Yii::$app->request->post('section_id');
+        $phone = Yii::$app->request->post('phone');
+        if ($course_id && $section_id && $course_id != 'no' && $section_id != 'no') {
+            $condition_class = "uc.course_id = '{$course_id}' and uc.section_id = '{$section_id}'";
         }
-        if ($_POST['phone']) {
-            $condition_user = "u.phone = '{$_POST['phone']}'";
+        if ($phone) {
+            $condition_user = "u.phone = '{$phone}'";
         }
         $user_course = User::getUserCourse($condition_class,$condition_user);
         //print_r($user_course);die;

@@ -31,12 +31,11 @@ class CourseController extends Controller
      */
     public function actionAdd(){
         $course = new Course();
-
-        if ($_POST) {
+        if (Yii::$app->request->post()) {
             $array = array(
-                'name'=>$_POST['name'],
-                'code'=>$_POST['code'],
-                'class_hour'=>$_POST['class_hour'],
+                'name'=>Yii::$app->request->post('name'),
+                'code'=>Yii::$app->request->post('code'),
+                'class_hour'=>Yii::$app->request->post('class_hour'),
             );
 
             $result = $course->add($array);
@@ -55,7 +54,7 @@ class CourseController extends Controller
      ***/
     public function actionEdit(){
 
-        $course_id = $_GET['course_id'];
+        $course_id = Yii::$app->request->get('course_id');
         $course = Course::getCourseById($course_id);
         //print_r($course);die;
         return $this->render('add', ['course' => $course,]);
