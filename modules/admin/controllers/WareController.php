@@ -12,6 +12,7 @@ use app\models\WareType;
 use Yii;
 use yii\web\Controller;
 use app\models\Ware;
+use app\models\WareSearch;
 
 class WareController extends Controller
 {
@@ -22,7 +23,13 @@ class WareController extends Controller
      */
     public function actionList()
     {
-        return $this->render('list');
+        $searchModel = new WareSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('list', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
     /**
