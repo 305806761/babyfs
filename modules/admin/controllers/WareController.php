@@ -9,7 +9,9 @@
 namespace app\modules\admin\controllers;
 
 use app\models\Template;
+use app\models\TemplateCode;
 use app\models\WareType;
+use Handlebars\Handlebars;
 use Yii;
 use yii\helpers\Html;
 use yii\jui\Sortable;
@@ -45,6 +47,10 @@ class WareController extends Controller
     {
         $ware = new Ware();
 
+        if (Ware::saveAll($ware)) {
+            return $this->redirect(['list']);
+        }
+
         if (Yii::$app->request->post()) {
             if ($ware->load(Yii::$app->request->post()) && $ware->save()) {
                 return $this->redirect(['list']);
@@ -79,10 +85,8 @@ class WareController extends Controller
         $model = $this->findModel($id);
         $content = [];
 
-        if (Yii::$app->request->post()) {
-            if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                return $this->redirect(['list']);
-            }
+        if (Ware::saveAll($model)) {
+            return $this->redirect(['list']);
         }
 
         if ($model->contents) {
@@ -109,9 +113,13 @@ class WareController extends Controller
         $form = new ActiveForm();
         $param = Template::getParams($temp_id);
         $p = '';
+        $c = json_decode($model->content, true);
         foreach ($param as $name => $control) {
             $p .= '<div class="row">'
-                . $name . Html::$control("WareType[$type_id]$name", '', ['class' => 'form-control'])
+                . $name . Html::$control(
+                    "WareType[$type_id][$name]",
+                    isset($c[$name]) ? $c[$name] : '',
+                    ['class' => 'form-control'])
                 . '</div>';
         }
         $r = [
@@ -119,6 +127,27 @@ class WareController extends Controller
             'param' => $p
         ];
         return json_encode($r);
+    }
+
+    public function actionView($id)
+    {
+        $model = $this->findModel($id);
+        $result = '';
+        if ($c = json_decode($model->contents, true)) {
+            foreach ($c as $type_id) {
+                if ($wt = WareType::findOne($type_id)) {
+                    if ($template_code = TemplateCode::findOne($wt->temp_code_id)) {
+                        $engine = new Handlebars();
+                        $result .= $engine->render(
+                            $template_code->code,
+                            json_decode($wt->content, true)
+                        );
+                    }
+                }
+            }
+        }
+
+        return $result;
     }
 
     /**

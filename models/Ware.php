@@ -8,6 +8,7 @@
 
 namespace app\models;
 
+use Yii;
 use yii\db\ActiveRecord;
 
 /**
@@ -65,5 +66,48 @@ class Ware extends ActiveRecord
     public function getCourseWares()
     {
         return $this->hasMany(CourseWare::className(), ['ware_id' => 'ware_id']);
+    }
+
+    public static function saveAll(self $model)
+    {
+        if (Yii::$app->request->post()) {
+            if ($model->load(Yii::$app->request->post()) && $types = Yii::$app->request->post('WareType')) {
+                $sections = [];
+                foreach ($types as $type_id => $section) {
+                    if (substr($type_id, 0, 1) == 'n') {
+                        $wt = new WareType();
+                    } else {
+                        $wt = WareType::findOne($type_id);
+                    }
+                    if ($wt) {
+                        if (isset($section['template_id']) && $template = Template::findOne($section['template_id'])) {
+                            $wt->template_id = $section['template_id'];
+                            if ($template->param && $p = json_decode($template->param, true)) {
+                                $c = [];
+                                foreach ($p as $name => $type) {
+                                    if (isset($section[$name])) {
+                                        $c[$name] = $section[$name];
+                                    }
+                                }
+                                $wt->content = json_encode($c);
+                            }
+                        }
+                        if (isset($section['temp_code_id'])) {
+                            $wt->temp_code_id = $section['temp_code_id'];
+                        }
+                        if ($wt->save()) {
+                            $sections[] = $wt->type_id;
+                        }
+                    }
+                }
+                if ($sections) {
+                    $model->contents = json_encode($sections);
+                    if ($model->save()) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 }

@@ -14,7 +14,7 @@ use yii\widgets\ActiveForm;
 
 <?php $form = new ActiveForm(); ?>
 
-<div style="border-top: 1px solid #ccc; padding-top: 15px; margin-top: 15px;" id="section_<?= $model->type_id?>">
+<div style="border-top: 1px solid #ccc; padding-top: 15px; margin-top: 15px;" id="section_<?= $model->type_id ?>">
     <div class="row">
         <div class="col-md-3">
             <?= $form->field($model, "[$model->type_id]template_id")->dropDownList(\app\models\Template::getTemp(), [
@@ -28,18 +28,23 @@ use yii\widgets\ActiveForm;
         <div class="col-md-6" style="margin-top: 25px">
             <?= \yii\helpers\Html::button('删除章节', [
                 'class' => 'btn btn-danger',
-                'onclick'=>"removeSection('$model->type_id')",
-                'style'=>'float: right']) ?>
+                'onclick' => "removeSection('$model->type_id')",
+                'style' => 'float: right']) ?>
         </div>
     </div>
 
     <?php
     $params = \app\models\Template::getParams($model->template_id);
+    $c = json_decode($model->content, true);
     ?>
     <div id="temp_param_<?= $model->type_id ?>">
         <?php foreach ($params as $name => $control): ?>
             <div class="row">
-                <?= $name . \yii\helpers\Html::$control("WareType[$model->type_id]$name", '', ['class' => 'form-control']) ?>
+                <?= $name . \yii\helpers\Html::$control(
+                    "WareType[$model->type_id][$name]",
+                    isset($c[$name]) ? $c[$name] : '',
+                    ['class' => 'form-control'])
+                ?>
             </div>
         <?php endforeach; ?>
     </div>
