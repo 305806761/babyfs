@@ -12,6 +12,7 @@ use app\models\Template;
 use app\models\WareType;
 use Yii;
 use yii\helpers\Html;
+use yii\jui\Sortable;
 use yii\widgets\ActiveForm;
 use yii\web\Controller;
 use app\models\Ware;
@@ -43,7 +44,6 @@ class WareController extends Controller
     public function actionAdd()
     {
         $ware = new Ware();
-        $content = [];
 
         if (Yii::$app->request->post()) {
             if ($ware->load(Yii::$app->request->post()) && $ware->save()) {
@@ -51,15 +51,21 @@ class WareController extends Controller
             }
         }
 
-        $wt = new WareType();
-        $wt->template_id = Template::find()->limit(1)->one()->template_id;
-        $wt->type_id = 'n' . rand(100, 999);
-        $content[] = $this->renderPartial('ware', ['model' => $wt]);
-
         return $this->render('update', [
             'model' => $ware,
-            'items' => $content,
+            'items' => [$this->renderPartial('ware', ['model' => WareType::create()])],
         ]);
+    }
+
+    public function actionNewSection()
+    {
+        $sort = new Sortable([
+            'items' => [$this->renderPartial('ware', ['model' => WareType::create()])],
+            'options' => ['tag' => 'div'],
+            'itemOptions' => ['tag' => 'div'],
+            'clientOptions' => ['cursor' => 'move'],
+        ]);
+        return $sort->renderItems();
     }
 
     /**

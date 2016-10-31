@@ -37,12 +37,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'options' => ['tag' => 'div'],
         'itemOptions' => ['tag' => 'div'],
         'clientOptions' => ['cursor' => 'move'],
+        'id' => 'template_params',
     ]);
     ?>
 </div>
 
 <div class="form-group">
-    <?= Html::button('新增章节', ['class' => 'btn btn-info']) ?>
+    <?= Html::button('新增章节', ['class' => 'btn btn-info', 'onclick'=>'newSection()']) ?>
     <?= Html::submitButton($model->isNewRecord ? '新建课件' : '修改课件', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     <?= Html::button('预览课件', ['class' => 'btn btn-warning']) ?>
 </div>

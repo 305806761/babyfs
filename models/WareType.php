@@ -70,4 +70,12 @@ class WareType extends \yii\db\ActiveRecord
     {
         return $this->hasOne(TemplateCode::className(), ['temp_code_id' => 'temp_code_id']);
     }
+
+    public static function create()
+    {
+        $wt = new WareType();
+        $wt->template_id = Template::find()->limit(1)->one()->template_id;
+        $wt->type_id = 'n' . rand(100, 999);
+        return $wt;
+    }
 }

@@ -110,3 +110,13 @@ function updateCode(obj, ware_type) {
         $('#temp_param_' + ware_type).html(d.param);
     });
 }
+
+function newSection() {
+    $.get('/admin/ware/new-section', function (data) {
+        $('#template_params').append(data);
+    });
+}
+
+function removeSection(id) {
+    $('#section_' + id).remove();
+}
