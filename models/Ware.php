@@ -85,8 +85,21 @@ class Ware extends ActiveRecord
                             if ($template->param && $p = json_decode($template->param, true)) {
                                 $c = [];
                                 foreach ($p as $name => $type) {
-                                    if (isset($section[$name])) {
-                                        $c[$name] = $section[$name];
+                                    if ($type == 'text') {
+                                        if (isset($section[$name])) {
+                                            $c[$name] = $section[$name];
+                                        }
+                                    } else {
+                                        if (isset($_FILES['WareType']['tmp_name'][$type_id][$name])
+                                            && $_FILES['WareType']['tmp_name'][$type_id][$name]) {
+                                            $path_parts = pathinfo($_FILES['WareType']['name'][$type_id][$name]);
+                                            $file = '/uploads/' . time() . rand(100, 999) . '.' . $path_parts['extension'];
+                                            copy(
+                                                $_FILES['WareType']['tmp_name'][$type_id][$name],
+                                                Yii::getAlias('@webroot' . $file)
+                                            );
+                                            $c[$name] = $file;
+                                        }
                                     }
                                 }
                                 $wt->content = json_encode($c);
