@@ -12,15 +12,17 @@ use yii\widgets\ActiveForm;
 
 <?php $form = new ActiveForm(); ?>
 
-<div class="row">
-    <div class="col-md-3">
-        <?= $form->field($model, "[$model->type_id]template_id")->dropDownList([1, 2]) ?>
+<div style="border-top: 1px solid #ccc; padding-top: 15px;">
+    <div class="row">
+        <div class="col-md-3">
+            <?= $form->field($model, "[$model->type_id]template_id")->dropDownList([1, 2]) ?>
+        </div>
+        <div class="col-md-3">
+            <?= $form->field($model, "[$model->type_id]temp_code_id")->dropDownList([1, 2]) ?>
+        </div>
     </div>
-    <div class="col-md-3">
-        <?= $form->field($model, "[$model->type_id]temp_code_id")->dropDownList([1, 2]) ?>
-    </div>
-</div>
 
-<div class="row">
-    <?= $form->field($model, "[$model->type_id]content")->textarea() ?>
+    <div class="row">
+        <?= $form->field($model, "[$model->type_id]content")->textarea() ?>
+    </div>
 </div>

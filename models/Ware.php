@@ -51,7 +51,7 @@ class Ware extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'ware_id' => '课件id',
+            'ware_id' => '课件ID',
             'title' => '课件名称',
             'small_text' => '课件简介',
             'contents' => '课件内容',

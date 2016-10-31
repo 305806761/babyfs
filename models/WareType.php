@@ -47,9 +47,9 @@ class WareType extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'type_id' => 'Type ID',
-            'template_id' => '课件模板id',
-            'temp_code_id' => '课件模板style',
+            'type_id' => '段落ID',
+            'template_id' => '课件模板',
+            'temp_code_id' => '课件模板样式',
             'content' => '课件内容',
             'created' => '创建时间',
         ];
