@@ -8,8 +8,10 @@
 
 namespace app\modules\admin\controllers;
 
+use app\models\Template;
 use app\models\WareType;
 use Yii;
+use yii\widgets\ActiveForm;
 use yii\web\Controller;
 use app\models\Ware;
 use app\models\WareSearch;
@@ -92,6 +94,13 @@ class WareController extends Controller
             'model' => $model,
             'items' => $content,
         ]);
+    }
+
+    public function actionGetTempCodes($temp_id, $type_id)
+    {
+        $model = WareType::findOne($type_id);
+        $form = new ActiveForm();
+        return $form->field($model, "[$model->type_id]temp_code_id")->dropDownList(Template::getTempCodes($temp_id));
     }
 
     /**

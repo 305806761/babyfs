@@ -4,6 +4,9 @@
  * User: caoxiang
  * Date: 2016/10/30
  * Time: 下午5:35
+
+ * @var $this yii\web\View
+ * @var $model app\models\WareType
  */
 
 use yii\widgets\ActiveForm;
@@ -15,10 +18,12 @@ use yii\widgets\ActiveForm;
 <div style="border-top: 1px solid #ccc; padding-top: 15px;">
     <div class="row">
         <div class="col-md-3">
-            <?= $form->field($model, "[$model->type_id]template_id")->dropDownList([1, 2]) ?>
+            <?= $form->field($model, "[$model->type_id]template_id")->dropDownList(\app\models\Template::getTemp(), [
+                'onchange'=>"updateCode(this, $model->type_id);"
+            ]) ?>
         </div>
-        <div class="col-md-3">
-            <?= $form->field($model, "[$model->type_id]temp_code_id")->dropDownList([1, 2]) ?>
+        <div class="col-md-3" id="temp_code_<?= $model->type_id?>">
+            <?= $form->field($model, "[$model->type_id]temp_code_id")->dropDownList(\app\models\Template::getTempCodes($model->template_id)) ?>
         </div>
     </div>
 

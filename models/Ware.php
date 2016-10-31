@@ -7,7 +7,7 @@
  */
 
 namespace app\models;
-use Yii;
+
 use yii\db\ActiveRecord;
 
 /**
@@ -62,8 +62,8 @@ class Ware extends ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-//    public function getCourseWares()
-//    {
-//        return $this->hasMany(CourseWare::className(), ['ware_id' => 'ware_id']);
-//    }
+    public function getCourseWares()
+    {
+        return $this->hasMany(CourseWare::className(), ['ware_id' => 'ware_id']);
+    }
 }

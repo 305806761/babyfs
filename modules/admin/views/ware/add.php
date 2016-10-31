@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <link href="/css/pc_qipao.css" rel="stylesheet" type="text/css">
 <link href="/css/temp.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="http://www.babyfs.cn/skin/jplayer/jquery.jplayer.min.js"></script>
-<link>
+<script src="/default/js/public/effect.js"></script>
 
 <?php $form = ActiveForm::begin(); ?>
 

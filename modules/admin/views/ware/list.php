@@ -4,14 +4,14 @@
  * User: caoxiang
  * Date: 2016/10/30
  * Time: 下午6:54
- */
+
+ * @var $this yii\web\View
+ * @var $searchModel app\models\WareSearch
+ * @var $dataProvider yii\data\ActiveDataProvider
+*/
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-
-/* @var $this yii\web\View */
-/* @var $searchModel app\models\WareSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = '课件';
 ?>
