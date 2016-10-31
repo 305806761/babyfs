@@ -11,6 +11,7 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\db\ActiveRecord;
+use yii\data\Pagination;
 
 class User extends ActiveRecord
 {
@@ -156,20 +157,22 @@ class User extends ActiveRecord
      * @return str 返回加密的用户密码
      * @access public
      */
-    static public function getUserCourse($condition_class = '', $condition_user = '')
+    static public function getUserCourse($where='')
     {
-        $sql = "select c.name as course_name,cs.name as section_name,u.phone,u.created as user_created,cs.create_time,cs.expire_time,uc.section_id as section_id  from";
+        $sql = "select c.name as course_name,cs.name as section_name,u.phone,u.created as user_created,uc.create_time,uc.expire_time,uc.section_id as section_id,uc.id as user_course_id  from";
         $sql .= " user_course as uc left join course as c on uc.course_id = c.course_id left join course_section as cs on uc.section_id = cs.section_id left join user as u on uc.user_id = u.user_id";
-        if ($condition_class && !$condition_user) {
-            $sql .= " where $condition_class";
-        } elseif ($condition_user && !$condition_class) {
-            $sql .= " where $condition_user";
-        } elseif ($condition_user && $condition_class) {
-            $sql .= " where $condition_user and $condition_class";
-        }
+        $sql = $where ? $sql.$where : $sql;
+        $result = Yii::$app->db->createCommand($sql)->query();
 
-        $user_course = Yii::$app->db->createCommand($sql)->queryAll();
-        return $user_course;
+        $pagination = new Pagination([
+            'defaultPageSize' => 20,
+            'totalCount' => $result->rowCount,
+        ]);
+        $result=Yii::$app->db->createCommand($sql." LIMIT $pagination->offset,$pagination->limit");
+        $user_course=$result->queryAll();
+        $course = array('user_course'=>$user_course,'page'=>$pagination);
+        //var_dump($course);die;
+        return $course;
     }
 
 }
