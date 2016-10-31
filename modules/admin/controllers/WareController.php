@@ -56,7 +56,7 @@ class WareController extends Controller
         $wt->type_id = 'n' . rand(100, 999);
         $content[] = $this->renderPartial('ware', ['model' => $wt]);
 
-        return $this->render('add', [
+        return $this->render('update', [
             'model' => $ware,
             'items' => $content,
         ]);

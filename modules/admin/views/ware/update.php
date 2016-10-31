@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <link href="/css/pc_qipao.css" rel="stylesheet" type="text/css">
 <link href="/css/temp.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="http://www.babyfs.cn/skin/jplayer/jquery.jplayer.min.js"></script>
-<link>
+<script src="/default/js/public/effect.js"></script>
 
 <?php $form = ActiveForm::begin(); ?>
 
@@ -42,7 +42,9 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 
 <div class="form-group">
+    <?= Html::button('新增章节', ['class' => 'btn btn-info']) ?>
     <?= Html::submitButton($model->isNewRecord ? '新建课件' : '修改课件', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+    <?= Html::button('预览课件', ['class' => 'btn btn-warning']) ?>
 </div>
 
 <?php ActiveForm::end(); ?>

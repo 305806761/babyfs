@@ -14,7 +14,7 @@ use yii\widgets\ActiveForm;
 
 <?php $form = new ActiveForm(); ?>
 
-<div style="border-top: 1px solid #ccc; padding-top: 15px;">
+<div style="border-top: 1px solid #ccc; padding-top: 15px; margin-top: 15px;">
     <div class="row">
         <div class="col-md-3">
             <?= $form->field($model, "[$model->type_id]template_id")->dropDownList(\app\models\Template::getTemp(), [
