@@ -11,6 +11,7 @@ namespace app\modules\admin\controllers;
 use app\models\Template;
 use app\models\WareType;
 use Yii;
+use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\web\Controller;
 use app\models\Ware;
@@ -50,13 +51,10 @@ class WareController extends Controller
             }
         }
 
-        if (true) {
-            $t = json_decode('[1,2]', true);
-            foreach ($t as $type_id) {
-                $wt = WareType::findOne($type_id);
-                $content[] = $this->renderPartial('ware', ['model' => $wt]);
-            }
-        }
+        $wt = new WareType();
+        $wt->template_id = Template::find()->limit(1)->one()->template_id;
+        $wt->type_id = 'n' . rand(100, 999);
+        $content[] = $this->renderPartial('ware', ['model' => $wt]);
 
         return $this->render('add', [
             'model' => $ware,
@@ -96,11 +94,25 @@ class WareController extends Controller
         ]);
     }
 
-    public function actionGetTempCodes($temp_id, $type_id)
+    public function actionGetTempInfo($temp_id, $type_id)
     {
-        $model = WareType::findOne($type_id);
+        if (!$model = WareType::findOne($type_id)) {
+            $model = new WareType();
+            $model->type_id = $type_id;
+        }
         $form = new ActiveForm();
-        return $form->field($model, "[$model->type_id]temp_code_id")->dropDownList(Template::getTempCodes($temp_id));
+        $param = Template::getParams($temp_id);
+        $p = '';
+        foreach ($param as $name => $control) {
+            $p .= '<div class="row">'
+                . $name . Html::$control("WareType[$type_id]$name", '', ['class' => 'form-control'])
+                . '</div>';
+        }
+        $r = [
+            'codes' => strval($form->field($model, "[$model->type_id]temp_code_id")->dropDownList(Template::getTempCodes($temp_id))),
+            'param' => $p
+        ];
+        return json_encode($r);
     }
 
     /**
