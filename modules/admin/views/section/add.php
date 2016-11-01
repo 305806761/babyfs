@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <td>
                 <select name="course_id">
                     <?php foreach($course as $key=>$value): ?>
-                    <option value="<?=$value['course_id']?>"><?=$value['name']?></option>
+                    <option <?php if($section['course_id'] == $value['course_id'] ) echo selected ?> value="<?=$value['course_id']?>"><?=$value['name']?></option>
                     <?php endforeach; ?>
                 </select>
             </td>
@@ -37,26 +37,26 @@ $this->params['breadcrumbs'][] = $this->title;
         <tr>
             <td class="tdleft">课程阶段名称:</td>
             <td>
-                <input type="text" name="name" />
+                <input type="text" name="name" value="<?= $section['name']?>"/>
             </td>
         </tr>
         <tr>
             <td class="tdleft">课程阶段编号:</td>
             <td>
-                <input type="text" name="code" />
+                <input type="text" name="code" value="<?= $section['code']?>" />
 
             </td>
         </tr>
-        <tr>
+        <!--tr>
             <td class="tdleft">上传课程阶段图片:</td>
             <td>
-                <input type="file" name="goods_img" size="35" />
+                <input type="file" name="image" size="35" />
             </td>
-        </tr>
+        </tr-->
         <tr>
             <td class="tdleft">阶段有效期</td>
             <td>
-                <input id="expire_time" type="text" readonly="readonly" value="" size="12" name="expire_time">
+                <input id="expire_time" type="text" readonly="readonly"  size="12" name="expire_time" value="<?= $section['expire_time']?>" />
                 <input id="selbtn1" class="button" type="button" value="选择" onclick="return showCalendar('expire_time', '%Y-%m-%d', false, false, 'selbtn1');" name="selbtn1">
 
             </td>
@@ -64,12 +64,13 @@ $this->params['breadcrumbs'][] = $this->title;
         <tr>
             <td class="tdleft">课程排序:</td>
             <td>
-               <input type="text" name="sort" />
+               <input type="text" name="sort" value="<?= $section['sort']?>"  />
             </td>
         </tr>
         <tr>
             <td class="tdleft"></td>
             <td>
+                <input type="hidden" name="section_id" value="<?=$section['section_id']?>">
                 <input type="submit" class="tdsubmit" value="提交" />
 
             </td>

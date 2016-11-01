@@ -57,23 +57,35 @@ class CourseSection extends ActiveRecord
     */
     public function add($param)
     {
-        $this->name = $param['name'];
-        $this->code = $param['code'];
-        $this->class_hour = $param['class_hour'];
-        $this->sort = $param['sort'];
-        $this->course_id = $param['course_id'];
+        $course_section = self::getSectionById($param['section_id']);
+        $course_section->name = $param['name'] ? $param['name'] : $course_section->name;
+        $course_section->code = $param['code'] ? $param['code'] : $course_section->code;
+        $course_section->expire_time = $param['expire_time'] ? $param['expire_time'] : $course_section->expire_time;
+        $course_section->sort = $param['sort'] ? $param['sort'] : $course_section->sort;
+        $course_section->course_id = $param['course_id'] ? $param['course_id'] : $course_section->course_id;
+        $course_section->section_id = $param['section_id'] ? $param['section_id'] : $course_section->section_id;
 
         // var_dump($param);die;
         //用户信息插入数据库
-        $section_id = $this->save() ? Yii::$app->db->lastInsertID : '';
+        if ($course_section->save()) {
+            $section_id = Yii::$app->db->lastInsertID ? Yii::$app->db->lastInsertID : $course_section->section_id;
+        }
         return $section_id;
+    }
+
+    public static function getSectionById($section_id)
+    {
+        if (!$section = self::findOne($section_id)) {
+            $section = new CourseSection();
+        }
+        return $section;
     }
 
     public static function getCourseSection()
     {
         //获取课程和课程的阶段
 
-        $sql = "select c.name as course_name,c.code as course_code,s.course_id as section_course_id,s.name as section_name,s.code as section_code,s.sort,s.section_id,s.create_time as section_create_time  from `course` as c, `course_section` as s WHERE c.course_id = s.course_id";
+        $sql = "select c.name as course_name,c.code as course_code,s.course_id as section_course_id,s.name as section_name,s.code as section_code,s.sort,s.section_id,s.expire_time as section_expire_time  from `course` as c, `course_section` as s WHERE c.course_id = s.course_id";
 
         $coursesection = Yii::$app->db->createCommand($sql)
             ->queryAll();
@@ -100,9 +112,9 @@ class CourseSection extends ActiveRecord
             $ware = Yii::$app->db->createCommand($sql)->queryAll();
             $section_ware[$key]['ware'] = $ware;
         }
-        $ware = array('section_name'=>$section_ware[0]['section_name'],'section_ware'=>$section_ware);
+        $ware = array('section_name' => $section_ware[0]['section_name'], 'section_ware' => $section_ware);
         //$section_ware['section_name'] = $section_ware[0]['section_name'];
-         //print_r($ware);die;
+        //print_r($ware);die;
         return $ware;
     }
 

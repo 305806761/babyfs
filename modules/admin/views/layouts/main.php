@@ -219,7 +219,7 @@ AppAsset::register($this);
                         <li class="explode" key="{$k}" name="menu">
 
                             <ul>
-
+                                <li class="menu-item"><a href="/admin/section/list-cat" target="main-frame">课件分组列表</a></li>
                                 <li class="menu-item"><a href="<?= Url::to(['ware/add'])?>" target="main-frame">添加课件</a></li>
                                 <li class="menu-item"><a href="<?= Url::to(['ware/list'])?>" target="main-frame">课件列表</a></li>
 

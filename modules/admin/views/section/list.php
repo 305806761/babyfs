@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <td  class="tdleft">课程阶段id</td>
             <td  class="tdleft">课程阶段名称</td>
             <td  class="tdleft">课程阶段编码</td>
-            <td  class="tdleft">课程阶段创建时间</td>
+            <td  class="tdleft">课程阶段有效期</td>
             <td class="tdleft">操作</td>
         </tr>
         <?php foreach($coursesection as $key=>$value): ?>
@@ -46,8 +46,12 @@ $this->params['breadcrumbs'][] = $this->title;
             <td class="tdvleft"><?php echo $value['section_id']; ?></td>
             <td class="tdvleft"><?php echo $value['section_name']; ?></td>
             <td class="tdvleft"><?php echo $value['section_code']; ?></td>
-            <td class="tdvleft"><?php echo $value['section_create_time']; ?></td>
-            <td class="tdvleft"><a href="/admin/ware/add/section_id/<?= $value['section_id']; ?>">添加课件</a></td>
+            <td class="tdvleft"><?php echo $value['section_expire_time']; ?></td>
+            <td class="tdvleft">
+                <a href="/admin/section/edit-section/?section_id=<?= $value['section_id']; ?>">修改</a> |
+                <a href="/admin/section/add-cat?section_id=<?= $value['section_id']; ?>">添加分组</a>
+            </td>
+
         </tr>
         <?php endforeach; ?>
 
