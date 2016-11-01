@@ -33,19 +33,5 @@ use yii\widgets\ActiveForm;
         </div>
     </div>
 
-    <?php
-    $params = \app\models\Template::getParams($model->template_id);
-    $c = json_decode($model->content, true);
-    ?>
-    <div id="temp_param_<?= $model->type_id ?>">
-        <?php foreach ($params as $name => $control): ?>
-            <div class="row">
-                <?= $name . \yii\helpers\Html::$control(
-                    "WareType[$model->type_id][$name]",
-                    isset($c[$name]) ? $c[$name] : '',
-                    ['class' => 'form-control'])
-                ?>
-            </div>
-        <?php endforeach; ?>
-    </div>
+    <?= $this->render('section', ['model' => $model]); ?>
 </div>

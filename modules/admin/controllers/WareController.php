@@ -110,21 +110,11 @@ class WareController extends Controller
             $model = new WareType();
             $model->type_id = $type_id;
         }
+        $model->template_id = $temp_id;
         $form = new ActiveForm();
-        $param = Template::getParams($temp_id);
-        $p = '';
-        $c = json_decode($model->content, true);
-        foreach ($param as $name => $control) {
-            $p .= '<div class="row">'
-                . $name . Html::$control(
-                    "WareType[$type_id][$name]",
-                    isset($c[$name]) ? $c[$name] : '',
-                    ['class' => 'form-control'])
-                . '</div>';
-        }
         $r = [
             'codes' => strval($form->field($model, "[$model->type_id]temp_code_id")->dropDownList(Template::getTempCodes($temp_id))),
-            'param' => $p
+            'param' => $this->renderPartial('section', ['model' => $model])
         ];
         return json_encode($r);
     }
