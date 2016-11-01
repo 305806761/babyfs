@@ -60,7 +60,6 @@ $c = json_decode($model->content, true);
                     ?>
                 </div>
             </div>
-            <br/>
         <?php endforeach; ?>
     <?php endif; ?>
 </div>
