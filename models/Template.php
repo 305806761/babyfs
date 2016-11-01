@@ -62,6 +62,22 @@ class Template extends ActiveRecord
     public static function getTemp()
     {
         $temp = self::find()
+            ->select(['type', 'template_id','param'])//查找字段
+            //->where(['is_free' => $is_free]) //查找条件
+            ->indexBy('template_id')//course_id 为key
+            ->asArray()//查找结果以course_id 为key  ,name:为值
+            ->all();
+        return $temp;
+
+    }
+
+    /**
+     *
+     * 获取所有模板类型
+     */
+    public static function getTempNames()
+    {
+        $temp = self::find()
             ->select(['type', 'template_id'])//查找字段
             //->where(['is_free' => $is_free]) //查找条件
             ->indexBy('template_id')//course_id 为key
@@ -108,11 +124,11 @@ class Template extends ActiveRecord
     /***
      * 添加模板分类
      ***/
-    static public function addType($type = null, $params = array())
+    static public function addType($params)
     {
         $template = Template::getTypeByid($params['template_id']);
         //var_dump($template);die;
-        $template->type = $type ? $type : $template->type;
+        $template->type = $params['type'] ? $params['type'] : $template->type;
         $template->param = $params['param'] ? $params['param'] : '';
 
         if ($template->save()) {
