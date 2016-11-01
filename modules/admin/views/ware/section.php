@@ -34,7 +34,9 @@ $c = json_decode($model->content, true);
                 <div class="col-md-12">
                     <?php if ($type != 'text'): ?>
                         <?php if ($type == 'image' && isset($c[$name])): ?>
-                            <img src="<?= $c[$name]; ?>" style="width: 100px">
+                            <img src="<?= $c[$name]; ?>" class="img-rounded" style="width: 200px">
+                            <br/>
+                            <br/>
                         <?php endif ?>
 
                         <?php if ($type == 'audio' && isset($c[$name])): ?>
