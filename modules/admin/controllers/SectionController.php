@@ -51,7 +51,7 @@ class SectionController extends Controller
                 'section_id' => Yii::$app->request->post('section_id'),
                 'expire_time' => Yii::$app->request->post('expire_time'),
                 'sort' => Yii::$app->request->post('sort'),
-               // 'image' => Yii::$app->request->post('image'),
+                // 'image' => Yii::$app->request->post('image'),
             );
             $result = $coursesection->add($array);
 
@@ -101,7 +101,7 @@ class SectionController extends Controller
     public function actionEditCat()
     {
         $id = Yii::$app->request->get('id');
-        $cat = SectionCat::find()->where(['id'=>$id])->asArray()->one();
+        $cat = SectionCat::find()->where(['id' => $id])->asArray()->one();
         //print_r($cat);die;
         return $this->render('addcat', ['cat' => $cat]);
     }
@@ -110,7 +110,7 @@ class SectionController extends Controller
     {
         $course = Course::getCourse();
         $section_id = Yii::$app->request->get('section_id');
-        $section = CourseSection::find()->where(['section_id'=>$section_id])->asArray()->one();
+        $section = CourseSection::find()->where(['section_id' => $section_id])->asArray()->one();
         //print_r($section);die;
         return $this->render('add', [
             'section' => $section,
@@ -118,7 +118,6 @@ class SectionController extends Controller
         ]);
 
     }
-
 
     public function actionGetSection()
     {
@@ -130,20 +129,16 @@ class SectionController extends Controller
         }
     }
 
-    public function actionGetWare(){
+    public function actionGetWare()
+    {
         $section_cate_id = Yii::$app->request->get('section_cat_id');
-        $ws = new Ware();
-        $ware = $ws::findAll();
+        $ware = Ware::find()->all();
         $title = Yii::$app->request->post('title');
-        if($title){
+        if ($title) {
             $ws = new WareSearch();
             $ware = $ws->search(Yii::$app->request->post('title'));
-            //print_r($ware);die;
         }
 
-       print_r($ware);die;
-        return $this->render('getware', ['section_cat_id' => $section_cate_id,'ware'=>$ware]);
+        return $this->render('getware', ['section_cat_id' => $section_cate_id, 'ware' => $ware]);
     }
-
-
 }
