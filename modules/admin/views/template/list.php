@@ -31,14 +31,12 @@ $this->params['breadcrumbs'][] = $this->title;
         <tr>
             <td  class="tdleft">模板类型</td>
             <td  class="tdleft">模板参数</td>
-            <td  class="tdleft">模板展示</td>
             <td  class="tdleft">操作</td>
         </tr>
         <?php foreach($template as $key=>$value): ?>
             <tr>
                 <td class="tdvleft"><?php echo $value['type']; ?></td>
                 <td class="tdvleft"><?php echo $value['param']; ?></td>
-                <td class="tdvleft"><?php echo $value['code']; ?></td>
                 <td class="tdvleft"><a href="/admin/template/edit-temp?temp_code_id=<?= $value['temp_code_id']; ?>">修改</a></td>
             </tr>
         <?php endforeach; ?>

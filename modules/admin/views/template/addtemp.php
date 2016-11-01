@@ -5,11 +5,12 @@
  * Date: 2016/10/13
  * Time: 12:01
  */
-$this->title = '模板添加';
-$this->params['breadcrumbs'][] = $this->title;
+
 use yii\helpers\HtmlPurifier;
 use yii\helpers\Html;
 
+$this->title = '模板添加';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <style>
     .tdleft {
@@ -31,9 +32,12 @@ use yii\helpers\Html;
                 <select name="template_id" id="template_id">
 
                     <?php foreach ($temp as $key => $temp): ?>
-                        <option
-                            value="<?= $key ?>" <?php if ($key == $tempcode[0]['template_id']): ?> selected="selected" <?php endif ?>><?= $temp['type'] ?>
-                            | <?= $temp['param'] ?></option>
+                        <option value="<?= $key ?>"
+                            <?php if ($key == $tempcode[0]['template_id']): ?>
+                                selected="selected"
+                            <?php endif ?>>
+                            <?= $temp['type'] ?>
+                        </option>
 
                     <?php endforeach; ?>
 
@@ -43,8 +47,8 @@ use yii\helpers\Html;
         <tr>
             <td class="tdleft">模板html:</td>
             <td>
-                <textarea name="code"><?= Html::encode($tempcode[0]['code']) ?></textarea>
-
+                <textarea name="code"
+                          style="width: 500px; height: 300px;"><?= Html::encode($tempcode[0]['code']) ?></textarea>
             </td>
         </tr>
         <tr>
