@@ -31,7 +31,6 @@ use yii\helpers\Html;
                 <select name="template_id" id="template_id">
 
                     <?php foreach ($temp as $key => $temp): ?>
-
                         <option
                             value="<?= $key ?>" <?php if ($key == $tempcode[0]['template_id']): ?> selected="selected" <?php endif ?>><?= $temp['type'] ?>
                             | <?= $temp['param'] ?></option>

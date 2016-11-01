@@ -50,12 +50,12 @@ use yii\widgets\LinkPager;
             <td class="tdleft">操作</td>
         </tr>
         <?php foreach ($ware as $value): ?>
-            <tr id=user<?= $value['user_course_id'] ?>>
+            <tr id=user<?= $value['ware_id'] ?>>
 
-                <td class="tdvleft"><?= $value['user_created']; ?></td>
-                <td class="tdvleft"><?= $value['create_time']; ?></td>
+                <td class="tdvleft"><?= $value['ware_id']; ?></td>
+                <td class="tdvleft"><?= $value['title']; ?></td>
                 <td>
-                    <input type="checkbox" name="id[]"  id="id[]" value="<?= $value['user_course_id'] ?>"
+                    <input type="checkbox" name="ware_id[]"  id="ware_id[]" value="<?= $value['ware_id'] ?>"
                            onclick="if(this.checked){user<?= $value['user_course_id'] ?>.style.backgroundColor='#DBEAF5';}
                                else{user<?= $value['user_course_id'] ?>.style.backgroundColor='';}">
 
