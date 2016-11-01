@@ -250,6 +250,7 @@ AppAsset::register($this);
 
                                 <li class="menu-item"><a href="/admin/template/add-temp" target="main-frame">添加模板</a>
                                 </li>
+                                <li class="menu-item"><a href="/admin/template/list-type" target="main-frame">模板类型列表</a></li>
                                 <li class="menu-item"><a href="/admin/template/add-type" target="main-frame">添加模板类型</a>
                                 </li>
                                 <li class="menu-item"><a href="/admin/template/list" target="main-frame">模板列表</a></li>

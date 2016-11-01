@@ -92,5 +92,18 @@ class TemplateController extends Controller
             ]);
     }
 
+    public function actionEditType()
+    {
+        $template_id = Yii::$app->request->get('template_id');
+        $template =Template::find()->where(['template_id'=>$template_id])->asArray()->one();
+        //print_r($tempcode);die;
+        return $this->render('addtype', ['template' => $template,]);
+    }
+
+    public function actionListType(){
+        $type = Template::getTemp();
+        return $this->render('listtype', ['type' => $type,]);
+    }
+
 
 }

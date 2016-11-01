@@ -28,7 +28,7 @@ use yii\helpers\Html;
         <tr>
             <td class="tdleft">模板类型:</td>
             <td>
-                <input type="text" name="type" size="30" />
+                <input type="text" name="type" value="<?php $template['type']?>" size="30" />
             </td>
         </tr>
         <tr>
