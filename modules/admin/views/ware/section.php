@@ -23,17 +23,19 @@ $c = json_decode($model->content, true);
         <?php
         if ($type == 'text') {
             $control = 'textInput';
+            $control_name = $name;
         } else {
             $control = 'fileInput';
+            $control_name = $name . '_file';
         }
         ?>
         <div class="row">
             <?php if ($type == 'image' && isset($c[$name])): ?>
                 <img src="<?= $c[$name]; ?>" style="width: 100px">
-                <input type="hidden" value="<?= $c[$name]; ?>" name="<?= $name ?>">
+                <input type="hidden" value="<?= $c[$name]; ?>" name="<?= "WareType[$model->type_id][$name]" ?>">
             <?php endif ?>
             <?= $name . \yii\helpers\Html::$control(
-                "WareType[$model->type_id][$name]",
+                "WareType[$model->type_id][$control_name]",
                 isset($c[$name]) ? $c[$name] : '',
                 ['class' => 'form-control'])
             ?>

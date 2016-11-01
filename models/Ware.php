@@ -85,17 +85,18 @@ class Ware extends ActiveRecord
                             if ($template->param && $p = json_decode($template->param, true)) {
                                 $c = [];
                                 foreach ($p as $name => $type) {
-                                    if ($type == 'text') {
-                                        if (isset($section[$name])) {
-                                            $c[$name] = $section[$name];
-                                        }
-                                    } else {
-                                        if (isset($_FILES['WareType']['tmp_name'][$type_id][$name])
-                                            && $_FILES['WareType']['tmp_name'][$type_id][$name]) {
-                                            $path_parts = pathinfo($_FILES['WareType']['name'][$type_id][$name]);
+                                    if (isset($section[$name])) {
+                                        $c[$name] = $section[$name];
+                                    }
+                                    if ($type != 'text') {
+                                        $file_control = $name . '_file';
+                                        if (isset($_FILES['WareType']['tmp_name'][$type_id][$file_control])
+                                            && $_FILES['WareType']['tmp_name'][$type_id][$file_control]
+                                        ) {
+                                            $path_parts = pathinfo($_FILES['WareType']['name'][$type_id][$file_control]);
                                             $file = '/uploads/' . time() . rand(100, 999) . '.' . $path_parts['extension'];
                                             copy(
-                                                $_FILES['WareType']['tmp_name'][$type_id][$name],
+                                                $_FILES['WareType']['tmp_name'][$type_id][$file_control],
                                                 Yii::getAlias('@webroot' . $file)
                                             );
                                             $c[$name] = $file;
