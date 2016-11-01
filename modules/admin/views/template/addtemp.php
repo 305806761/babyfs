@@ -32,31 +32,13 @@ use yii\helpers\Html;
 
                     <?php foreach ($temp as $key => $temp): ?>
 
-                        <option value="<?= $key ?>" <?php if ($key == $tempcode[0]['template_id']): ?> selected = "selected" <?php endif ?>><?= $temp ?></option>
+                        <option
+                            value="<?= $key ?>" <?php if ($key == $tempcode[0]['template_id']): ?> selected="selected" <?php endif ?>><?= $temp['type'] ?>
+                            | <?= $temp['param'] ?></option>
 
                     <?php endforeach; ?>
 
                 </select>
-
-                <a href="javascript:void(0)" onclick="rapidCatAdd()" title="添加类型" class="special">添加类型</a>
-                <span id="category_add" style="display:none;">
-               <input class="text" size="10" name="addedCategoryName"/>
-               <a href="javascript:void(0)" onclick="addCategory()" title="确定" class="special">确定</a>
-                    <!--a href="javascript:void(0)" onclick="return goCatPage()" title="分类管理" class="special" >分类管理</a-->
-               <a href="javascript:void(0)" onclick="hideCatDiv()" title="隐藏" class="special"><<</a>
-               </span>
-
-
-            </td>
-        </tr>
-        <tr>
-            <td class="tdleft">模板参数及数据类型:</td>
-            <td>
-                <?php if($tempcode[0]['param']):?>
-                <textarea name="param"><?= $tempcode[0]['param'] ?></textarea>
-                <?php else:?>
-                <textarea name="param">"{$this}:text","{$img}:image"</textarea>
-                <?php endif?>
             </td>
         </tr>
         <tr>
@@ -69,7 +51,7 @@ use yii\helpers\Html;
         <tr>
             <td class="tdleft"></td>
             <td>
-                <input type="hidden" name="temp_code_id" value="<?= $tempcode[0]['temp_code_id'] ?>" />
+                <input type="hidden" name="temp_code_id" value="<?= $tempcode[0]['temp_code_id'] ?>"/>
                 <input type="submit" class="tdsubmit" value="提交"/>
 
             </td>
@@ -104,7 +86,9 @@ use yii\helpers\Html;
             cache: false,
             dataType: "json",
             success: function (result) {
-                if(result.error){ alert('添加模板类型失败');}
+                if (result.error) {
+                    alert('添加模板类型失败');
+                }
 
                 var response = result;
                 var section = $("#template_id");

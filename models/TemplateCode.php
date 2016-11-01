@@ -52,14 +52,13 @@ class TemplateCode extends ActiveRecord
         $template_code = self::getTempCodeById($param['temp_code_id']);
         $template_code->template_id = $param['template_id'];
         $template_code->code = $param['code'];
-        $result = Template::addType('', array('template_id' => $param['template_id'], 'param' => $param['param']));
         //  var_dump($user);die;
         //用户信息插入数据库
-        if ($result) {
-            if ($template_code->save()) {
-                $temp_code_id = Yii::$app->db->lastInsertID ? Yii::$app->db->lastInsertID : $template_code->temp_code_id;
-            }
+
+        if ($template_code->save()) {
+            $temp_code_id = Yii::$app->db->lastInsertID ? Yii::$app->db->lastInsertID : $template_code->temp_code_id;
         }
+
 
         return $temp_code_id ? $temp_code_id : false;
 

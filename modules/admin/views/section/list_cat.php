@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <td class="tdvleft"><?= $value['cat_name']; ?></td>
                 <td class="tdvleft">
                     <a href="<?= \yii\helpers\Url::to([
-                        'ware/add',
+                        'section/get-ware',
                         "section_cat_id"=>$value['section_cat_id'],
                     ])?>">添加课件</a> |
                     <a href="<?= \yii\helpers\Url::to(['section/edit-cat', "id"=>$value['section_cat_id']])?>">修改</a>

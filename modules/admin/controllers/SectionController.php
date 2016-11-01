@@ -12,6 +12,7 @@ use app\models\Course;
 use app\models\CourseSection;
 use app\models\SectionCat;
 use app\models\Tool;
+use app\models\WareSearch;
 use Yii;
 use yii\helpers\Url;
 use yii\web\Controller;
@@ -127,5 +128,15 @@ class SectionController extends Controller
             die(json_encode($section));
         }
     }
+
+    public function actionGetWare(){
+        $section_cate_id = Yii::$app->request->get('section_cat_id');
+        $title = Yii::$app->request->post('title');
+        $ws = new WareSearch();
+        $ware = $ws->search(Yii::$app->request->post('title'));
+       // print_r($ware);die;
+        return $this->render('getware', ['section_cat_id' => $section_cate_id,'title'=>$title,'ware'=>$ware]);
+    }
+
 
 }
