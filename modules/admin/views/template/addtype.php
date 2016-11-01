@@ -34,7 +34,7 @@ use yii\helpers\Html;
         <tr>
             <td class="tdleft">模板参数及数据类型:</td>
             <td>
-                <input type="text" name="param" value="<?=$template['param']?>">
+                <input type="text" name="param"  value="<?= Html::encode($template['param'])?>" />
             </td>
         </tr>
 
