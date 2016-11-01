@@ -141,26 +141,4 @@ class Template extends ActiveRecord
         return $temp;
 
     }
-
-    public static function getParams($id)
-    {
-        $params = [];
-        if ($temp = \app\models\Template::findOne($id)) {
-            if ($temp->param) {
-                $p = json_decode($temp->param, true);
-                foreach ($p as $name => $type) {
-                    $control = null;
-                    if ($type == 'text') {
-                        $control = 'textInput';
-                    } elseif ($type == 'image' || $type == 'audio' || $type == 'video') {
-                        $control = 'fileInput';
-                    }
-                    if ($control) {
-                        $params[$name] = $control;
-                    }
-                }
-            }
-        }
-        return $params;
-    }
 }
