@@ -41,30 +41,32 @@ use yii\widgets\LinkPager;
         </tr>
     </form>
 </table>
-
+<?php if ($ware):?>
 <table width="100%" align="center">
     <form name="memberform" method="post" action="/admin/user/checked" onsubmit="return confirm('确认要操作?');">
         <tr>
             <td class="tdleft">课件id</td>
             <td class="tdleft">课件名称</td>
+            <td class="tdleft">课件简介</td>
             <td class="tdleft">操作</td>
         </tr>
         <?php foreach ($ware as $value): ?>
-            <tr id=user<?= $value['ware_id'] ?>>
+            <tr id=user<?= $value->ware_id ?>>
 
-                <td class="tdvleft"><?= $value['ware_id']; ?></td>
-                <td class="tdvleft"><?= $value['title']; ?></td>
+                <td class="tdvleft"><?= $value->ware_id ?></td>
+                <td class="tdvleft"><?= $value->title ?></td>
+                <td class="tdvleft"><?= $value->small_text ?></td>
                 <td>
-                    <input type="checkbox" name="ware_id[]"  id="ware_id[]" value="<?= $value['ware_id'] ?>"
-                           onclick="if(this.checked){user<?= $value['user_course_id'] ?>.style.backgroundColor='#DBEAF5';}
-                               else{user<?= $value['user_course_id'] ?>.style.backgroundColor='';}">
+                    <input type="checkbox" name="ware_id[]"  id="ware_id[]" value="<?= $value->ware_id ?>"
+                           onclick="if(this.checked){user<?= $value->ware_id ?>.style.backgroundColor='#DBEAF5';}
+                               else{user<?= $value->ware_id ?>.style.backgroundColor='';}">
 
                 </td>
             </tr>
         <?php endforeach; ?>
         <tr>
             <td colspan="6" height="25">
-                <span class="epages"><?= LinkPager::widget(['pagination' => $user_course['page']]) ?></span>
+
                 <input name="section_cat_id" type="hidden"  value="<?=$section_cat_id?>">
                 <input name="enews" type="hidden" id="enews" value="DelMember_all">
                 <input type="submit" name value="提交" onclick="document.memberform.enews.value='DoCheckMember_all';" />
@@ -73,6 +75,7 @@ use yii\widgets\LinkPager;
         </tr>
     </form>
 </table>
+<?php endif;?>
 <script>
 
     function selectsection() {
