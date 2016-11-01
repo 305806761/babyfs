@@ -28,17 +28,13 @@ use yii\helpers\Html;
         <tr>
             <td class="tdleft">模板类型:</td>
             <td>
-                <input type="text" name="type" value="<?php $template['type']?>" size="30" />
+                <input type="text" name="type" value="<?= $template['type']?>" size="30" />
             </td>
         </tr>
         <tr>
             <td class="tdleft">模板参数及数据类型:</td>
             <td>
-                <select name="param">
-                    <?php foreach ($param as $value):?>
-                    <option value="<?=$value?>"><?=$value?></option>
-                    <?php endforeach;?>
-                </select>
+                <input type="text" name="param" value="<?=$template['param']?>">
             </td>
         </tr>
 

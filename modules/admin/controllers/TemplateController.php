@@ -57,7 +57,7 @@ class TemplateController extends Controller
 
     public function actionAddType()
     {
-        $param = array('text'=>'text','img'=>'image','video'=>'video','text=>text,img=>image');
+       // $param = array('text'=>'text','img'=>'image','video'=>'video','text=>text,img=>image');
 
         //print_r($param);die;
         if (Yii::$app->request->post()) {
@@ -96,7 +96,7 @@ class TemplateController extends Controller
     {
         $template_id = Yii::$app->request->get('template_id');
         $template =Template::find()->where(['template_id'=>$template_id])->asArray()->one();
-        //print_r($tempcode);die;
+        //print_r($template);die;
         return $this->render('addtype', ['template' => $template,]);
     }
 
