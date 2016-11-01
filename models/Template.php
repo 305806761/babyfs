@@ -62,7 +62,7 @@ class Template extends ActiveRecord
     public static function getTemp()
     {
         $temp = self::find()
-            ->select(['type', 'template_id','param'])//查找字段
+            ->select(['type', 'template_id', 'param'])//查找字段
             //->where(['is_free' => $is_free]) //查找条件
             ->indexBy('template_id')//course_id 为key
             ->asArray()//查找结果以course_id 为key  ,name:为值
@@ -112,10 +112,7 @@ class Template extends ActiveRecord
 
     static public function getTypeByid($template_id)
     {
-        if (!$template_id) {
-            $template = new Template();
-        }
-        if (!$template = self::findOne($template_id)) {
+        if (!$template_id || !$template = self::findOne($template_id)) {
             $template = new Template();
         }
         return $template;
@@ -124,17 +121,20 @@ class Template extends ActiveRecord
     /***
      * 添加模板分类
      ***/
-    static public function addType($params)
+    static public function modify(self $template, $type, $param)
     {
-        $template = Template::getTypeByid($params['template_id']);
-        //var_dump($template);die;
-        $template->type = $params['type'] ? $params['type'] : $template->type;
-        $template->param = $params['param'] ? $params['param'] : '';
-
-        if ($template->save()) {
-            $template_id = Yii::$app->db->lastInsertID ? Yii::$app->db->lastInsertID : $template->template_id;
+        $template->type = $type;
+        $p = [];
+        foreach ($param as $one) {
+            if ($one['name']) {
+                $p[$one['name']] = $one['type'];
+            }
         }
-        return $template_id;
+        $template->param = json_encode($p);
+        if ($template->save()) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -150,7 +150,7 @@ class Template extends ActiveRecord
     {
         $temp = TemplateCode::find()
             ->select(['temp_code_id'])//查找字段
-            ->where(['template_id' => $id]) //查找条件
+            ->where(['template_id' => $id])//查找条件
             ->indexBy('temp_code_id')//course_id 为key
             ->asArray()//查找结果以course_id 为key  ,name:为值
             ->column();

@@ -57,21 +57,30 @@ class TemplateController extends Controller
 
     public function actionAddType()
     {
-       // $param = array('text'=>'text','img'=>'image','video'=>'video','text=>text,img=>image');
+        $template = new Template();
 
-        //print_r($param);die;
         if (Yii::$app->request->post()) {
-            $type = Yii::$app->request->post('type');
-            $template_id = Yii::$app->request->post('template_id');
-            $template_id = Yii::$app->request->post('template_id');
-            $array = array('type'=>$type,'template_id'=>$template_id);
-            $template = new Template();
-            $template_id = $template->addType($array);
-            if ($template_id) {
-                Tool::Redirect('/admin/template/add-temp');
+            if (Template::modify($template, Yii::$app->request->post('type'), Yii::$app->request->post('param'))) {
+                return $this->redirect(['list-type']);
             }
         }
-        return $this->render('addtype', ['param' => $param]);
+
+        return $this->render('addtype', ['template' => $template->attributes]);
+    }
+
+    public function actionEditType()
+    {
+        $template_id = Yii::$app->request->get('template_id');
+        if (!$template = Template::findOne($template_id)) {
+            return $this->redirect(['list-type']);
+        }
+
+        if (Yii::$app->request->post()) {
+            if (Template::modify($template, Yii::$app->request->post('type'), Yii::$app->request->post('param'))) {
+                return $this->redirect(['list-type']);
+            }
+        }
+        return $this->render('addtype', ['template' => $template->attributes,]);
     }
 
     /***
@@ -92,15 +101,8 @@ class TemplateController extends Controller
             ]);
     }
 
-    public function actionEditType()
+    public function actionListType()
     {
-        $template_id = Yii::$app->request->get('template_id');
-        $template =Template::find()->where(['template_id'=>$template_id])->asArray()->one();
-        //print_r($template);die;
-        return $this->render('addtype', ['template' => $template,]);
-    }
-
-    public function actionListType(){
         $type = Template::getTemp();
         return $this->render('listtype', ['type' => $type,]);
     }

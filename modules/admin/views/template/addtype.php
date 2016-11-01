@@ -4,12 +4,15 @@
  * User: malil
  * Date: 2016/10/13
  * Time: 12:01
+ *
+ * @var $template array
  */
-$this->title = '模板类型添加';
-$this->params['breadcrumbs'][] = $this->title;
+
 use yii\helpers\HtmlPurifier;
 use yii\helpers\Html;
 
+$this->title = '模板类型添加';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <style>
     .tdleft {
@@ -23,18 +26,38 @@ use yii\helpers\Html;
     }
 
 </style>
-<form action="/admin/template/add-tpye" name="theForm" method="post">
+<form action="" name="theForm" method="post">
     <table width="100%" align="center">
         <tr>
             <td class="tdleft">模板类型:</td>
             <td>
-                <input type="text" name="type" value="<?= $template['type']?>" size="30" />
+                <input type="text" name="type" value="<?= $template['type'] ?>" size="30"/>
             </td>
         </tr>
         <tr>
             <td class="tdleft">模板参数及数据类型:</td>
             <td>
-                <input type="text" name="param"  value="<?= Html::encode($template['param'])?>" />
+                <?php
+                $p = json_decode($template['param'], true);
+                $i = 0;
+                ?>
+
+                <?php if ($p): ?>
+                    <?php foreach ($p as $name => $type): ?>
+                        <div class="row">
+                            <input type="text" name="param[<?= $i ?>][name]" value="<?= $name ?>"/>
+                            <?= Html::dropDownList("param[$i][type]", $type, Yii::$app->params['template_types']) ?>
+                        </div>
+                        <?php $i++; endforeach; ?>
+                <?php endif ?>
+
+                <?php for (; $i < 10; $i++): ?>
+                    <div class="row">
+                        <input type="text" name="param[<?= $i ?>][name]" value=""/>
+                        <?= Html::dropDownList("param[$i][type]", null, Yii::$app->params['template_types']) ?>
+                    </div>
+                <?php endfor; ?>
+
             </td>
         </tr>
 
