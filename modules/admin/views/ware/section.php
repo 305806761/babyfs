@@ -22,7 +22,7 @@ $c = json_decode($model->content, true);
     <?php if ($params): ?>
         <?php foreach ($params as $name => $type): ?>
             <?php
-            if ($type == 'text') {
+            if ($type != 'image') {
                 $control = 'textInput';
                 $control_name = $name;
             } else {
@@ -32,8 +32,9 @@ $c = json_decode($model->content, true);
             ?>
             <div class="row">
                 <div class="col-md-12">
-                    <?php if ($type != 'text'): ?>
+                    <?php if ($type == 'image'): ?>
                         <?php if ($type == 'image' && isset($c[$name])): ?>
+                            <br/>
                             <img src="<?= $c[$name]; ?>" class="img-rounded" style="width: 200px">
                             <br/>
                             <br/>
@@ -55,7 +56,7 @@ $c = json_decode($model->content, true);
                     <?php endif; ?>
                     <?= $name . \yii\helpers\Html::$control(
                         "WareType[$model->type_id][$control_name]",
-                        isset($c[$name]) ? $c[$name] : '',
+                        isset($c[$name]) ? is_array($c[$name]) ? implode('|', $c[$name]) : $c[$name] : '',
                         ['class' => 'form-control'])
                     ?>
                 </div>

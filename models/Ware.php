@@ -86,9 +86,13 @@ class Ware extends ActiveRecord
                                 $c = [];
                                 foreach ($p as $name => $type) {
                                     if (isset($section[$name])) {
-                                        $c[$name] = $section[$name];
+                                        if ($type == 'text_array') {
+                                            $c[$name] = explode('|', $section[$name]);
+                                        } else {
+                                            $c[$name] = $section[$name];
+                                        }
                                     }
-                                    if ($type != 'text') {
+                                    if ($type == 'image') {
                                         $file_control = $name . '_file';
                                         if (isset($_FILES['WareType']['tmp_name'][$type_id][$file_control])
                                             && $_FILES['WareType']['tmp_name'][$type_id][$file_control]
