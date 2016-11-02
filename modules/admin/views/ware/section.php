@@ -31,32 +31,35 @@ $c = json_decode($model->content, true);
             }
             ?>
             <div class="row">
-                <?php if ($type != 'text'): ?>
-                    <?php if ($type == 'image' && isset($c[$name])): ?>
-                        <img src="<?= $c[$name]; ?>" style="width: 100px">
-                    <?php endif ?>
+                <div class="col-md-12">
+                    <?php if ($type != 'text'): ?>
+                        <?php if ($type == 'image' && isset($c[$name])): ?>
+                            <img src="<?= $c[$name]; ?>" class="img-rounded" style="width: 200px">
+                            <br/>
+                            <br/>
+                        <?php endif ?>
 
-                    <?php if ($type == 'audio' && isset($c[$name])): ?>
-                        <audio controls>
-                            <source src="<?= $c[$name]; ?>" type="audio/mpeg">
-                        </audio>
-                    <?php endif ?>
+                        <?php if ($type == 'audio' && isset($c[$name])): ?>
+                            <audio controls>
+                                <source src="<?= $c[$name]; ?>" type="audio/mpeg">
+                            </audio>
+                        <?php endif ?>
 
-                    <?php if ($type == 'video' && isset($c[$name])): ?>
-                        <video width="400" controls>
-                            <source src="<?= $c[$name]; ?>" type="video/mp4">
-                        </video>
-                    <?php endif ?>
+                        <?php if ($type == 'video' && isset($c[$name])): ?>
+                            <video width="400" controls>
+                                <source src="<?= $c[$name]; ?>" type="video/mp4">
+                            </video>
+                        <?php endif ?>
 
-                    <input type="hidden" value="<?= $c[$name]; ?>" name="<?= "WareType[$model->type_id][$name]" ?>">
-                <?php endif; ?>
-                <?= $name . \yii\helpers\Html::$control(
-                    "WareType[$model->type_id][$control_name]",
-                    isset($c[$name]) ? $c[$name] : '',
-                    ['class' => 'form-control'])
-                ?>
+                        <input type="hidden" value="<?= $c[$name]; ?>" name="<?= "WareType[$model->type_id][$name]" ?>">
+                    <?php endif; ?>
+                    <?= $name . \yii\helpers\Html::$control(
+                        "WareType[$model->type_id][$control_name]",
+                        isset($c[$name]) ? $c[$name] : '',
+                        ['class' => 'form-control'])
+                    ?>
+                </div>
             </div>
-            <br/>
         <?php endforeach; ?>
     <?php endif; ?>
 </div>

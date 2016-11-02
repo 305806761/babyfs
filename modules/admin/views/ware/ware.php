@@ -14,24 +14,28 @@ use yii\widgets\ActiveForm;
 
 <?php $form = new ActiveForm(); ?>
 
-<div style="border-top: 1px solid #ccc; padding-top: 15px; margin-top: 15px;" id="section_<?= $model->type_id ?>">
-    <div class="row">
-        <div class="col-md-3">
-            <?= $form->field($model, "[$model->type_id]template_id")->dropDownList(\app\models\Template::getTempNames(), [
-                'onchange' => "updateCode(this, '$model->type_id');"
-            ]) ?>
-        </div>
-        <div class="col-md-3" id="temp_code_<?= $model->type_id ?>">
-            <?= $form->field($model, "[$model->type_id]temp_code_id")
-                ->dropDownList(\app\models\Template::getTempCodes($model->template_id)) ?>
-        </div>
-        <div class="col-md-6" style="margin-top: 25px">
-            <?= \yii\helpers\Html::button('删除章节', [
-                'class' => 'btn btn-danger',
-                'onclick' => "removeSection('$model->type_id')",
-                'style' => 'float: right']) ?>
+<div class="panel panel-success" id="section_<?= $model->type_id ?>">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-3">
+                <?= $form->field($model, "[$model->type_id]template_id")->dropDownList(\app\models\Template::getTempNames(), [
+                    'onchange' => "updateCode(this, '$model->type_id');"
+                ]) ?>
+            </div>
+            <div class="col-md-3" id="temp_code_<?= $model->type_id ?>">
+                <?= $form->field($model, "[$model->type_id]temp_code_id")
+                    ->dropDownList(\app\models\Template::getTempCodes($model->template_id)) ?>
+            </div>
+            <div class="col-md-6" style="margin-top: 25px">
+                <?= \yii\helpers\Html::button('删除章节', [
+                    'class' => 'btn btn-danger',
+                    'onclick' => "removeSection('$model->type_id')",
+                    'style' => 'float: right']) ?>
+            </div>
         </div>
     </div>
 
-    <?= $this->render('section', ['model' => $model]); ?>
+    <div class="panel-body">
+        <?= $this->render('section', ['model' => $model]); ?>
+    </div>
 </div>
