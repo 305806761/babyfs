@@ -28,11 +28,13 @@ $this->params['breadcrumbs'][] = $this->title;
 </style>
 <form action="index.php?r=course/add" method="post">
     <table width="100%" align="center">
+
         <tr>
             <td  class="tdleft">模板类型</td>
             <td  class="tdleft">模板参数</td>
             <td  class="tdleft">操作</td>
         </tr>
+
         <?php foreach($template as $key=>$value): ?>
             <tr>
                 <td class="tdvleft"><?php echo $value['type']; ?></td>
@@ -41,9 +43,5 @@ $this->params['breadcrumbs'][] = $this->title;
             </tr>
         <?php endforeach; ?>
 
-
     </table>
-
-
-
 </form>

@@ -8,7 +8,6 @@
 
 namespace app\modules\admin\controllers;
 
-use app\models\TemplateCode;
 use app\models\Tool;
 use Yii;
 use yii\web\Controller;

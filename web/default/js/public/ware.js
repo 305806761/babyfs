@@ -19,3 +19,17 @@ function newSection() {
 function removeSection(id) {
     $('#section_' + id).remove();
 }
+
+function searchWare(keyword) {
+    if (window.event.keyCode == 13) {
+        $.get('/admin/section/search?keyword=' + keyword, function (data) {
+            $('#ware_section').html(data);
+            jQuery('#wares').sortable({"cursor":"move"});
+            $( function() {
+                $( "#selected_wares, #wares" ).sortable({
+                    connectWith: ".ui-sortable"
+                }).disableSelection();
+            } );
+        });
+    }
+}

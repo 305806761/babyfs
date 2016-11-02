@@ -10,15 +10,13 @@ namespace app\modules\admin\controllers;
 
 use app\models\Course;
 use app\models\CourseSection;
+use app\models\CourseWare;
 use app\models\SectionCat;
 use app\models\Tool;
 use app\models\Ware;
-use app\models\WareSearch;
 use Yii;
-use yii\helpers\Url;
+use yii\jui\Sortable;
 use yii\web\Controller;
-use app\models\Template;
-use yii\web\UploadedFile;
 
 
 class SectionController extends Controller
@@ -132,13 +130,74 @@ class SectionController extends Controller
     public function actionGetWare()
     {
         $section_cate_id = Yii::$app->request->get('section_cat_id');
-        $ware = Ware::find()->all();
-        $title = Yii::$app->request->post('title');
-        if ($title) {
-            $ws = new WareSearch();
-            $ware = $ws->search(Yii::$app->request->post('title'));
+
+        if (!$cate = SectionCat::findOne($section_cate_id)) {
+            return $this->redirect(['/']);
         }
 
-        return $this->render('getware', ['section_cat_id' => $section_cate_id, 'ware' => $ware]);
+        if (Yii::$app->request->post()) {
+            $sel_wares = Yii::$app->request->post('sel_ware');
+            CourseWare::deleteAll(['section_cat_id' => $section_cate_id]);
+            $used = [];
+            $sort = 1;
+            foreach ($sel_wares as $sel_ware) {
+                if (!isset($used[$sel_ware])) {
+                    $cw = new CourseWare();
+                    $cw->section_cat_id = $section_cate_id;
+                    $cw->version = 1;
+                    $cw->ware_id = $sel_ware;
+                    $cw->sort = $sort;
+                    $cw->save();
+                    $sort++;
+                    $used[$sel_ware] = 1;
+                }
+            }
+        }
+
+        $selected_wares = [];
+        if ($sel_wares = CourseWare::find()
+            ->where(['section_cat_id' => $section_cate_id])
+            ->orderBy(['sort' => SORT_ASC])
+            ->all()
+        ) {
+            foreach ($sel_wares as $sel_ware) {
+                $one = Ware::findOne($sel_ware->ware_id);
+                $selected_wares[] = $this->renderPartial('ware', ['ware' => $one]);
+            }
+        }
+
+        $wares = [];
+        if ($ware = Ware::find()->orderBy(['create_time' => SORT_DESC])->limit(20)->all()) {
+            foreach ($ware as $one) {
+                $wares[] = $this->renderPartial('ware', ['ware' => $one]);
+            }
+        }
+
+        return $this->render('getware', ['cate' => $cate, 'selected_wares' => $selected_wares, 'wares' => $wares]);
+    }
+
+    public function actionSearch($keyword)
+    {
+        $wares = [];
+        if ($keyword) {
+            if ($ware = Ware::find()->where(['like', 'title', $keyword])->orWhere(['like', 'small_text', $keyword])->all()) {
+                foreach ($ware as $w) {
+                    $wares[] = $this->renderPartial('ware', ['ware' => $w]);
+                }
+            }
+        }else{
+            if ($ware = Ware::find()->orderBy(['create_time' => SORT_DESC])->limit(20)->all()) {
+                foreach ($ware as $one) {
+                    $wares[] = $this->renderPartial('ware', ['ware' => $one]);
+                }
+            }
+        }
+        return Sortable::widget([
+            'items' => $wares,
+            'options' => ['tag' => 'div'],
+            'itemOptions' => ['tag' => 'div'],
+            'clientOptions' => ['cursor' => 'move'],
+            'id' => 'wares',
+        ]);
     }
 }
