@@ -129,7 +129,7 @@ class WareController extends Controller
                     if ($template_code = TemplateCode::findOne($wt->temp_code_id)) {
                         $engine = new Handlebars();
                         $engine->registerHelper('addOne', function ($index){
-                            return $index++;
+                            return ++$index;
                         });
                         $result .= $engine->render(
                             $template_code->code,
