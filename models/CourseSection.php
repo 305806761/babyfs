@@ -65,7 +65,20 @@ class CourseSection extends ActiveRecord
         $course_section->course_id = $param['course_id'] ? $param['course_id'] : $course_section->course_id;
         $course_section->section_id = $param['section_id'] ? $param['section_id'] : $course_section->section_id;
 
-        // var_dump($param);die;
+//['tmp_name']  WareType[1][img_file]
+        if (isset($param['image']['tmp_name'])
+            && $param['image']['tmp_name']
+        ) {
+            $path_parts = pathinfo($param['image']['name']);
+            $file = '/uploads/section/' . time() . rand(100, 999) . $path_parts['basename'];
+            copy(
+                $param['image']['tmp_name'],
+                Yii::getAlias('@webroot' . $file)
+            );
+            $image = json_encode($file);
+        }
+        $course_section->image = $image ? $image : $course_section->image;
+        //var_dump($course_section->image);die;
         //用户信息插入数据库
         if ($course_section->save()) {
             $section_id = Yii::$app->db->lastInsertID ? Yii::$app->db->lastInsertID : $course_section->section_id;

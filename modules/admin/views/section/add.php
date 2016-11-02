@@ -47,12 +47,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
             </td>
         </tr>
-        <!--tr>
+        <tr>
             <td class="tdleft">上传课程阶段图片:</td>
             <td>
-                <input type="file" name="image" size="35" />
+                <img src="<?= json_decode($section['image'])?>" width="120" height="auto" />
+                <input type="file" name="image"  size="35" />
             </td>
-        </tr-->
+        </tr>
         <tr>
             <td class="tdleft">阶段有效期</td>
             <td>
