@@ -70,62 +70,77 @@ class Ware extends ActiveRecord
 
     public static function saveAll(self $model)
     {
-        if (Yii::$app->request->post()) {
-            if ($model->load(Yii::$app->request->post()) && $types = Yii::$app->request->post('WareType')) {
-                $sections = [];
-                foreach ($types as $type_id => $section) {
-                    if (substr($type_id, 0, 1) == 'n') {
-                        $wt = new WareType();
+        if (!Yii::$app->request->post()) {
+            return false;
+        }
+
+        if (!$model->load(Yii::$app->request->post()) || !$types = Yii::$app->request->post('WareType')) {
+            return false;
+        }
+
+        $sections = [];
+        foreach ($types as $type_id => $section) {
+            if (substr($type_id, 0, 1) == 'n') {
+                $wt = new WareType();
+            } else {
+                $wt = WareType::findOne($type_id);
+            }
+            if (!$wt) {
+                continue;
+            }
+
+            if (!isset($section['template_id']) || !$template = Template::findOne($section['template_id'])) {
+                continue;
+            }
+
+            $wt->template_id = $section['template_id'];
+            if (!$template->param || !$p = json_decode($template->param, true)) {
+                continue;
+            }
+
+            $c = [];
+            foreach ($p as $name => $type) {
+                if (isset($section[$name])) {
+                    if ($type == 'text_array') {
+                        $c[$name] = explode('|', $section[$name]);
                     } else {
-                        $wt = WareType::findOne($type_id);
-                    }
-                    if ($wt) {
-                        if (isset($section['template_id']) && $template = Template::findOne($section['template_id'])) {
-                            $wt->template_id = $section['template_id'];
-                            if ($template->param && $p = json_decode($template->param, true)) {
-                                $c = [];
-                                foreach ($p as $name => $type) {
-                                    if (isset($section[$name])) {
-                                        if ($type == 'text_array') {
-                                            $c[$name] = explode('|', $section[$name]);
-                                        } else {
-                                            $c[$name] = $section[$name];
-                                        }
-                                    }
-                                    if ($type == 'image') {
-                                        $file_control = $name . '_file';
-                                        if (isset($_FILES['WareType']['tmp_name'][$type_id][$file_control])
-                                            && $_FILES['WareType']['tmp_name'][$type_id][$file_control]
-                                        ) {
-                                            $path_parts = pathinfo($_FILES['WareType']['name'][$type_id][$file_control]);
-                                            $file = '/uploads/ware/' . time() . rand(100, 999) . '.' . $path_parts['extension'];
-                                            copy(
-                                                $_FILES['WareType']['tmp_name'][$type_id][$file_control],
-                                                Yii::getAlias('@webroot' . $file)
-                                            );
-                                            $c[$name] = $file;
-                                        }
-                                    }
-                                }
-                                $wt->content = json_encode($c);
-                            }
-                        }
-                        if (isset($section['temp_code_id'])) {
-                            $wt->temp_code_id = $section['temp_code_id'];
-                        }
-                        if ($wt->save()) {
-                            $sections[] = $wt->type_id;
-                        }
+                        $c[$name] = $section[$name];
                     }
                 }
-                if ($sections) {
-                    $model->contents = json_encode($sections);
-                    if ($model->save()) {
-                        return true;
+                if ($type == 'image') {
+                    $file_control = $name . '_file';
+                    if (isset($_FILES['WareType']['tmp_name'][$type_id][$file_control])
+                        && $_FILES['WareType']['tmp_name'][$type_id][$file_control]
+                    ) {
+                        $path_parts = pathinfo($_FILES['WareType']['name'][$type_id][$file_control]);
+                        $file = '/uploads/ware/' . time() . rand(100, 999) . '.' . $path_parts['extension'];
+                        copy(
+                            $_FILES['WareType']['tmp_name'][$type_id][$file_control],
+                            Yii::getAlias('@webroot' . $file)
+                        );
+                        $c[$name] = $file;
                     }
                 }
             }
+            $wt->content = json_encode($c);
+
+            if (isset($section['temp_code_id'])) {
+                $wt->temp_code_id = $section['temp_code_id'];
+            }
+            if ($wt->save()) {
+                $sections[] = $wt->type_id;
+            }
         }
-        return false;
+
+        if (!$sections) {
+            return false;
+        }
+
+        $model->contents = json_encode($sections);
+        if (!$model->save()) {
+            return false;
+        }
+
+        return true;
     }
 }

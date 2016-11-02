@@ -35,7 +35,7 @@ class WareType extends \yii\db\ActiveRecord
             [['template_id', 'temp_code_id'], 'integer'],
             [['temp_code_id', 'content'], 'required'],
             [['created'], 'safe'],
-            [['content'], 'string', 'max' => 255],
+            [['content'], 'string', 'max' => 5000],
             [['template_id'], 'exist', 'skipOnError' => true, 'targetClass' => Template::className(), 'targetAttribute' => ['template_id' => 'template_id']],
             [['temp_code_id'], 'exist', 'skipOnError' => true, 'targetClass' => TemplateCode::className(), 'targetAttribute' => ['temp_code_id' => 'temp_code_id']],
         ];
