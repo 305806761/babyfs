@@ -49,10 +49,10 @@ class SectionController extends Controller
                 'section_id' => Yii::$app->request->post('section_id'),
                 'expire_time' => Yii::$app->request->post('expire_time'),
                 'sort' => Yii::$app->request->post('sort'),
-                // 'image' => Yii::$app->request->post('image'),
+                'image' => $_FILES['image'],
             );
+            //print_r($array);die;
             $result = $coursesection->add($array);
-
             if ($result) {
                 Tool::Redirect('/admin/section/list', '操作处理成功', 'success');
             }
@@ -185,7 +185,7 @@ class SectionController extends Controller
                     $wares[] = $this->renderPartial('ware', ['ware' => $w]);
                 }
             }
-        }else{
+        } else {
             if ($ware = Ware::find()->orderBy(['create_time' => SORT_DESC])->limit(20)->all()) {
                 foreach ($ware as $one) {
                     $wares[] = $this->renderPartial('ware', ['ware' => $one]);
