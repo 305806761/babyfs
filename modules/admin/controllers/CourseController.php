@@ -8,6 +8,7 @@
 namespace app\modules\admin\controllers;
 
 use app\models\Course;
+use app\models\Tool;
 use Yii;
 use yii\web\Controller;
 use app\models\Template;
@@ -38,13 +39,14 @@ class CourseController extends Controller
             $array = array(
                 'name' => Yii::$app->request->post('name'),
                 'code' => Yii::$app->request->post('code'),
+                'course_id' => Yii::$app->request->post('course_id'),
                 'class_hour' => Yii::$app->request->post('class_hour'),
             );
 
             $result = $course->add($array);
 
             if ($result) {
-                echo "添加课程成功";
+                Tool::Redirect('/admin/course/list');
             }
 
         }

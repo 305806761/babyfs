@@ -56,9 +56,8 @@ class User extends ActiveRecord
     {
 
         if ($param) {
-            $user = self::find(['phone' => $param['phone'], 'password' => self::GenPassword($param['password'])])
-                ->asArray()
-                ->one();
+            $user = self::findOne(['phone' => $param['phone'], 'password' => self::GenPassword($param['password'])])->attributes;
+            //print_r($user);die;
             //   SELECT * FROM `member` WHERE `username`='15210663958' AND `password`='123456'
             if ($user) {
                 $rememberMe = 86400 * 365;

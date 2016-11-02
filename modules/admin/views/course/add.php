@@ -9,8 +9,8 @@ $this->title = '课程添加';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <style>
-    .tdleft{
-        font-size:20px;
+    .tdleft {
+        font-size: 20px;
         font-weight: bold;
         padding: 5px 1em;
         text-align: right;
@@ -20,25 +20,25 @@ $this->params['breadcrumbs'][] = $this->title;
     }
 
 </style>
-<form action="index.php?r=course/add" method="post">
+<form action="/admin/course/add" method="post">
     <table width="100%" align="center">
         <tr>
             <td class="tdleft">课程名称:</td>
             <td>
-                <input type="text" name="name" value="<?= $course->name ?>" />
+                <input type="text" name="name" value="<?= $course->name ?>"/>
             </td>
         </tr>
         <tr>
             <td class="tdleft">课程编号:</td>
             <td>
-                <input type="text" name="code" value="<?= $course->code ?>"  />
+                <input type="text" name="code" value="<?= $course->code ?>"/>
 
             </td>
         </tr>
         <tr>
             <td class="tdleft">查看课件的时间:</td>
             <td>
-                <input type="text" name="class_hour" value="<?= $course->class_hour ?>"  />
+                <input type="text" name="class_hour" value="<?= $course->class_hour ?>"/>
 
             </td>
         </tr>
@@ -46,12 +46,12 @@ $this->params['breadcrumbs'][] = $this->title;
         <tr>
             <td class="tdleft"></td>
             <td>
-                <input type="submit" class="tdsubmit" value="提交" />
+                <input type="hidden" name="course_id" value="<?= $course->course_id ?>"/>
+                <input type="submit" class="tdsubmit" value="提交"/>
 
             </td>
         </tr>
     </table>
-
 
 
 </form>

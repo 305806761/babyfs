@@ -8,13 +8,13 @@
 
 namespace app\controllers;
 
+use Yii;
 use app\models\Course;
 use app\models\LoginForm;
 use app\models\Session;
 use app\models\SignupForm;
 use app\models\Tool;
 use app\models\User;
-use Yii;
 use yii\web\Controller;
 
 
@@ -59,6 +59,9 @@ class UserController extends Controller
     public function actionLogin()
     {
         $this->layout = false;
+        if($_COOKIE['user_id']){
+            Tool::Redirect("/user/user-course");
+        }
         $phone = Yii::$app->request->post('phone');
         $password = Yii::$app->request->post('password');
         if ($phone) {
@@ -68,7 +71,7 @@ class UserController extends Controller
                 Tool::Redirect("/user/login", '登陆失败！', 'error');
             } else {
                 //echo Session::Get('phone');die;
-               Tool::Redirect("/user/default", '登陆成功！');
+               Tool::Redirect("/user/user-course", '登陆成功！');
             }
         }
         return $this->render('login');
@@ -82,6 +85,9 @@ class UserController extends Controller
     public function actionSignup()
     {
         $this->layout = false;
+        if($_COOKIE['user_id']){
+            Tool::Redirect("/user/user-course");
+        }
         $phone = Yii::$app->request->post('phone');
         $password = Yii::$app->request->post('password');
         if ($phone) {
@@ -92,7 +98,7 @@ class UserController extends Controller
                 Tool::Redirect("/user/signup", '注册失败！', 'error');
             } else {
                 //echo Session::Get('phone');die;
-               Tool::Redirect("/user/default", '注册成功！');
+               Tool::Redirect("/user/user-course", '注册成功！');
             }
         }
         return $this->render('signup');
@@ -104,16 +110,20 @@ class UserController extends Controller
     * @param int $_SESSION['user_id'] 登录入口
     * @access public
     */
-    public function actionlogout()
+    public function actionLogout()
     {
         //if(isset($_SESSION['user_id'])) {
         session_unset();
-        unset($_SESSION['user_id']);
-        unset($_SESSION['phone']);
+        Yii::$app->session->remove('user_id');
+        Yii::$app->session->remove('phone');
+        //unset($_SESSION['phone']);
         User::NoRemember(user_id);
         User::NoRemember(phone);
-        //unset($_SESSION['oauth']);
-        Tool::Redirect('/index.htm');
+        if(!$_COOKIE['user_id']){
+            Tool::Redirect('/user/login');
+        }
+
+        Tool::Redirect('/user/user-course');
     }
 
     /**
