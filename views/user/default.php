@@ -28,6 +28,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <ul>
         <li><a href="#">课程履历</a></li>
         <li><a href="#">我的成就</a></li>
-        <li><a href="#">设置</a></li>
+        <li><a href="/user/logout">退出登录</a></li>
     </ul>
 </div>
