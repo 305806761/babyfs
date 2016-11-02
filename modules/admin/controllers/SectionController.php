@@ -15,6 +15,7 @@ use app\models\SectionCat;
 use app\models\Tool;
 use app\models\Ware;
 use Yii;
+use yii\helpers\Html;
 use yii\jui\Sortable;
 use yii\web\Controller;
 
@@ -165,6 +166,9 @@ class SectionController extends Controller
                 $selected_wares[] = $this->renderPartial('ware', ['ware' => $one]);
             }
         }
+        if (!$selected_wares) {
+            $selected_wares[] = "&nbsp;";
+        }
 
         $wares = [];
         if ($ware = Ware::find()->orderBy(['create_time' => SORT_DESC])->limit(20)->all()) {
@@ -185,7 +189,7 @@ class SectionController extends Controller
                     $wares[] = $this->renderPartial('ware', ['ware' => $w]);
                 }
             }
-        }else{
+        } else {
             if ($ware = Ware::find()->orderBy(['create_time' => SORT_DESC])->limit(20)->all()) {
                 foreach ($ware as $one) {
                     $wares[] = $this->renderPartial('ware', ['ware' => $one]);

@@ -128,6 +128,9 @@ class WareController extends Controller
                 if ($wt = WareType::findOne($type_id)) {
                     if ($template_code = TemplateCode::findOne($wt->temp_code_id)) {
                         $engine = new Handlebars();
+                        $engine->registerHelper('addOne', function ($index){
+                            return $index++;
+                        });
                         $result .= $engine->render(
                             $template_code->code,
                             json_decode($wt->content, true)
