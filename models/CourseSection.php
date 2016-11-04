@@ -114,11 +114,21 @@ class CourseSection extends ActiveRecord
      * 获取所有课程$is_free=0 是免费，￥is_free=1是收费
      */
 
-    public function getSectionWare($section_id)
+    public function getSectionWare($section_id, $user_id)
     {
+        if ($section_id) {
+            $where = " where sc.section_id = '{$section_id}";
+        }
+        if (!empty($user_id)) {
+            $where = $where ? ' and ' : ' where ';
+            $where .= " uc.user_id = '{$user_id}'";
+        }
 
         $sql = "select sc.id,sc.cat_name,cs.name as section_name
-                from section_cat as sc left join course_section as cs on sc.section_id = cs.section_id WHERE sc.section_id = $section_id";
+                from section_cat as sc 
+                left join course_section as cs on sc.section_id = cs.section_id 
+                left join user_course as uc on sc.section_id = uc.section_id " . $where;
+        //echo $sql;die;
         $section_ware = Yii::$app->db->createCommand($sql)->queryAll();
         foreach ($section_ware as $key => $value) {
             $sql = "select w.title,w.ware_id from course_ware as cw left join ware as w on cw.ware_id = w.ware_id where cw.section_cat_id = {$value['id']}";

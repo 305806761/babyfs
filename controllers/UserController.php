@@ -28,25 +28,25 @@ class UserController extends Controller
      * @return string
      */
     public function actionDefault(){
+        $user_rnd = isset($_COOKIE['user_rnd']) ? $_COOKIE['user_rnd'] : '';
         //是否已经登陆
-
-        $user_id = isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : '';
-        if(!$user_id){
+        if(!$user_rnd){
             Tool::Redirect("/user/login");
         }
-        $user = User::GetUserById($user_id);
+        $user = User::findOne(['rnd'=>$user_rnd]);
+        //var_dump($user);die;
         $this->view->params['user_button'] = 1;
         return $this->render('default',['user'=>$user]);
     }
 
     public function actionUserCourse(){
-        $user_id = isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : '';
-        //$phone = isset($_COOKIE['phone']) ? $_COOKIE['phone'] : '';
-        if(!$user_id){
+        $user_rnd = isset($_COOKIE['user_rnd']) ? $_COOKIE['user_rnd'] : '';
+        //是否已经登陆
+        if(!$user_rnd){
             Tool::Redirect("/user/login");
         }
-        //$condition_user = "phone = '{$phone}'";
-        $course = Course::getCourseSection($user_id);
+        $user = User::findOne(['rnd'=>$user_rnd]);
+        $course = Course::getCourseSection($user->user_id);
         //print_r($course);die;
         return $this->render('user_course',['course'=>$course]);
     }
@@ -59,7 +59,7 @@ class UserController extends Controller
     public function actionLogin()
     {
         $this->layout = false;
-        if($_COOKIE['user_id']){
+        if($_COOKIE['user_rnd']){
             Tool::Redirect("/user/user-course");
         }
         $phone = Yii::$app->request->post('phone');
@@ -85,7 +85,7 @@ class UserController extends Controller
     public function actionSignup()
     {
         $this->layout = false;
-        if($_COOKIE['user_id']){
+        if($_COOKIE['user_rnd']){
             Tool::Redirect("/user/user-course");
         }
         $phone = Yii::$app->request->post('phone');
@@ -112,17 +112,12 @@ class UserController extends Controller
     */
     public function actionLogout()
     {
-        //if(isset($_SESSION['user_id'])) {
         session_unset();
-        Yii::$app->session->remove('user_id');
-        Yii::$app->session->remove('phone');
-        //unset($_SESSION['phone']);
-        User::NoRemember(user_id);
-        User::NoRemember(phone);
-        if(!$_COOKIE['user_id']){
+        //Yii::$app->session->remove('user_id');
+        User::NoRemember('user_rnd');
+        if(!$_COOKIE['user_rnd']){
             Tool::Redirect('/user/login');
         }
-
         Tool::Redirect('/user/user-course');
     }
 

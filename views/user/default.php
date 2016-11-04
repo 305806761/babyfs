@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <li><a href="/user/reset-password?user_id=<?= $user->user_id?>">更改密码</a></li>
     </ul>
 </div>
-<div class="user-center-con2">
+<div class="user-center-con2" style="padding-bottom: 55px;">
     <ul>
         <li><a href="#">课程履历</a></li>
         <li><a href="#">我的成就</a></li>

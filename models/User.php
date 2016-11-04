@@ -60,8 +60,7 @@ class User extends ActiveRecord
             //print_r($user);die;
             //   SELECT * FROM `member` WHERE `username`='15210663958' AND `password`='123456'
             if ($user) {
-                $rememberMe = 86400 * 365;
-                self::Remember($user, $rememberMe);
+                self::Remember($user);
                 return true;
             } else {
                 return false;
@@ -76,15 +75,16 @@ class User extends ActiveRecord
      * @return str 返回用户cookies
      * @access public
      */
-    static public function Remember($user, $rememberMe = '7*86400')
+    static public function Remember($user, $rememberMe = '86400 * 365')
     {
-        Tool::cookieset('user_id', $user['user_id'], $rememberMe);
-        Tool::cookieset('phone', $user['phone'], $rememberMe);
-        if (!Yii::$app->session->isActive) {
-            Yii::$app->session->open();
+        $user_rnd = self::GenLoginRnd($user['user_id'],$user['phone']);
+
+        $user = User::findOne($user['user_id']);
+        $user->rnd  = $user_rnd;
+        if($user->update()){
+            //self::NoRemember('user_rnd');
+            Tool::cookieset('user_rnd', $user_rnd, $rememberMe);
         }
-        Yii::$app->session->set('user_id', $user['user_id']);
-        Yii::$app->session->set('phone', $user['phone']);
     }
 
     /**
@@ -109,6 +109,21 @@ class User extends ActiveRecord
     {
         return md5($p . self::SECRET_KEY);
     }
+
+    /**
+     * 登陆认证令牌
+     * @param string 密码
+     * @param string 密码
+     * @return str 返回加密的用户密码
+     * @access public
+     */
+    static public function GenLoginRnd($user_id,$phone)
+    {
+        $string = $user_id.$phone.time().rand(100, 999);
+        return md5($string);
+    }
+
+
 
     /**
      * 查看用户名是否已经
