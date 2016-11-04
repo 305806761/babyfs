@@ -258,7 +258,7 @@ class UserController extends Controller
                 $result = array('cood' => 0, 'message' => '验证码已经失效');
             }
         }
-        echo $signup_sms_code;
+       // echo $signup_sms_code;
         return json_encode($result);
     }
 

@@ -19,7 +19,7 @@ use yii\web\Controller;
 class WareController extends Controller
 {
     public function actionDetail($ware_id=''){
-        $this->layout = "ware";
+        $this->layout = false;
         $ware_id = Yii::$app->request->get('ware_id') ? Yii::$app->request->get('ware_id') : $ware_id;
         $user_id = isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : '';
         if(!$user_id){
