@@ -19,12 +19,10 @@ class SectionController extends Controller
 {
     public function actionList()
     {
-        $user_rnd = isset($_COOKIE['user_rnd']) ? $_COOKIE['user_rnd'] : '';
-        //是否已经登陆
-        if(!$user_rnd){
+        $user = User::isLogin();
+        if(!$user){
             Tool::Redirect("/user/login");
         }
-        $user = User::findOne(['rnd'=>$user_rnd]);
         $section_id = isset($_GET['section_id']) ? $_GET['section_id'] : '';
         //echo $_GET['section_id'];die;
 

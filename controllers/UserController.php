@@ -21,31 +21,27 @@ use yii\web\Controller;
 class UserController extends Controller
 {
     public $enableCsrfValidation = false;
-
     /**
      * 用户个人中心
      *
      * @return string
      */
     public function actionDefault(){
-        $user_rnd = isset($_COOKIE['user_rnd']) ? $_COOKIE['user_rnd'] : '';
-        //是否已经登陆
-        if(!$user_rnd){
+
+        $user = User::isLogin();
+        if(!$user){
             Tool::Redirect("/user/login");
         }
-        $user = User::findOne(['rnd'=>$user_rnd]);
         //var_dump($user);die;
         $this->view->params['user_button'] = 1;
         return $this->render('default',['user'=>$user]);
     }
 
     public function actionUserCourse(){
-        $user_rnd = isset($_COOKIE['user_rnd']) ? $_COOKIE['user_rnd'] : '';
-        //是否已经登陆
-        if(!$user_rnd){
+        $user = User::isLogin();
+        if(!$user){
             Tool::Redirect("/user/login");
         }
-        $user = User::findOne(['rnd'=>$user_rnd]);
         $course = Course::getCourseSection($user->user_id);
         //print_r($course);die;
         return $this->render('user_course',['course'=>$course]);
@@ -59,7 +55,8 @@ class UserController extends Controller
     public function actionLogin()
     {
         $this->layout = false;
-        if($_COOKIE['user_rnd']){
+        $user = User::isLogin();
+        if($user){
             Tool::Redirect("/user/user-course");
         }
         $phone = Yii::$app->request->post('phone');
@@ -85,7 +82,8 @@ class UserController extends Controller
     public function actionSignup()
     {
         $this->layout = false;
-        if($_COOKIE['user_rnd']){
+        $user = User::isLogin();
+        if($user){
             Tool::Redirect("/user/user-course");
         }
         $phone = Yii::$app->request->post('phone');
@@ -115,8 +113,9 @@ class UserController extends Controller
         session_unset();
         //Yii::$app->session->remove('user_id');
         User::NoRemember('user_rnd');
-        if(!$_COOKIE['user_rnd']){
-            Tool::Redirect('/user/login');
+        $user = User::isLogin();
+        if(!$user){
+            Tool::Redirect("/user/login");
         }
         Tool::Redirect('/user/user-course');
     }

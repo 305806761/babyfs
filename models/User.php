@@ -77,11 +77,11 @@ class User extends ActiveRecord
      */
     static public function Remember($user, $rememberMe = '86400 * 365')
     {
-        $user_rnd = self::GenLoginRnd($user['user_id'],$user['phone']);
+        $user_rnd = self::GenLoginRnd($user['user_id'], $user['phone']);
 
         $user = User::findOne($user['user_id']);
-        $user->rnd  = $user_rnd;
-        if($user->update()){
+        $user->rnd = $user_rnd;
+        if ($user->update()) {
             //self::NoRemember('user_rnd');
             Tool::cookieset('user_rnd', $user_rnd, $rememberMe);
         }
@@ -117,12 +117,11 @@ class User extends ActiveRecord
      * @return str 返回加密的用户密码
      * @access public
      */
-    static public function GenLoginRnd($user_id,$phone)
+    static public function GenLoginRnd($user_id, $phone)
     {
-        $string = $user_id.$phone.time().rand(100, 999);
+        $string = $user_id . $phone . time() . rand(100, 999);
         return md5($string);
     }
-
 
 
     /**
@@ -151,6 +150,21 @@ class User extends ActiveRecord
         return $username;
     }
 
+    static public function isLogin()
+    {
+        $user_rnd = isset($_COOKIE['user_rnd']) ? $_COOKIE['user_rnd'] : '';
+        //是否已经登陆
+        if (!$user_rnd) {
+            return false;
+        }
+        $user = User::findOne(['rnd' => $user_rnd]);
+        if (!$user) {
+            return false;
+        }
+
+        return $user;
+    }
+
     /**
      * 查看通过id用户是否存在
      * @param string $user_id ,$password
@@ -171,20 +185,20 @@ class User extends ActiveRecord
      * @return str 返回加密的用户密码
      * @access public
      */
-    static public function getUserCourse($where='')
+    static public function getUserCourse($where = '')
     {
         $sql = "select c.name as course_name,cs.name as section_name,u.phone,u.created as user_created,uc.create_time,uc.expire_time,uc.section_id as section_id,uc.id as user_course_id  from";
         $sql .= " user_course as uc left join course as c on uc.course_id = c.course_id left join course_section as cs on uc.section_id = cs.section_id left join user as u on uc.user_id = u.user_id";
-        $sql = $where ? $sql.$where : $sql;
+        $sql = $where ? $sql . $where : $sql;
         $result = Yii::$app->db->createCommand($sql)->query();
 
         $pagination = new Pagination([
             'defaultPageSize' => 20,
             'totalCount' => $result->rowCount,
         ]);
-        $result=Yii::$app->db->createCommand($sql." LIMIT $pagination->offset,$pagination->limit");
-        $user_course=$result->queryAll();
-        $course = array('user_course'=>$user_course,'page'=>$pagination);
+        $result = Yii::$app->db->createCommand($sql . " LIMIT $pagination->offset,$pagination->limit");
+        $user_course = $result->queryAll();
+        $course = array('user_course' => $user_course, 'page' => $pagination);
         //var_dump($course);die;
         return $course;
     }

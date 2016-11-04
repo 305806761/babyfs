@@ -21,12 +21,10 @@ class WareController extends Controller
 {
     public function actionDetail($ware_id=''){
         $this->layout = false;
-        $user_rnd = isset($_COOKIE['user_rnd']) ? $_COOKIE['user_rnd'] : '';
-        //是否已经登陆
-        if(!$user_rnd){
+        $user = User::isLogin();
+        if(!$user){
             Tool::Redirect("/user/login");
         }
-        $user = User::findOne(['rnd'=>$user_rnd]);
         $ware_id = Yii::$app->request->get('ware_id') ? Yii::$app->request->get('ware_id') : $ware_id;
         if(!$ware_id){
             Tool::Redirect('/section/list');
