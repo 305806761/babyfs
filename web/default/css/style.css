@@ -513,13 +513,11 @@ body{
     padding-right: 20px;
 }
 .introduce-audio dl dd div{
-    width: 200px;
-    height: 150px;
-    background: #e3f5fa;
+    width: 280px;
+    height: auto;
     border-radius: 8px;
     margin-left: 10px;
-    text-align: center;
-    line-height: 150px;
+
 }
 .introduce-auxiliary-btn{
     width: 280px;
@@ -556,6 +554,20 @@ body{
 }
 .introduce-task-card div{
     padding-top: 150px;
+}
+.introduce2-center-bot-dl dl dd{
+    width: 83%;
+    height:auto;
+}
+.introduce2-center-bot-dl dl dd div{
+    width: 100%;
+}
+.introduce2-center-bot-dl dl dd div img.min{
+    width: 200px;
+    height: 150px;
+}
+.introduce2-center-bot-dl dl dd div img.max{
+    width: 100%;
 }
 .introduce3-content{
     margin: 80px auto 50px auto;

@@ -1,17 +1,23 @@
-var effect = (function () {
-    function init() {
-        showHide();
-        Verification();
+var effect=(function(){
+    function init(){
+       showHide();
+       Verification();
+        showImg();
     }
-
-    function showHide() {
-        $(".course-list-con-top").click(function () {
-            if ($(this).siblings(".course-list-con-bottom").is(":hidden")) {
-                $(this).siblings(".course-list-con-bottom").css("display", "block");
-            } else {
-                $(this).siblings(".course-list-con-bottom").css("display", "none");
-            }
-        });
+    function  showImg(){
+        $('#img').click(function() {
+            $(this).toggleClass('min');
+            $(this).toggleClass('max');
+        })
+    }
+    function showHide(){
+       $(".course-list-con-top").click(function(){
+           if($(this).siblings(".course-list-con-bottom").is(":hidden")){
+               $(this).siblings(".course-list-con-bottom").css("display","block");
+           }else{
+               $(this).siblings(".course-list-con-bottom").css("display","none");
+           }
+       });
     }
 
     function Verification() {
