@@ -204,10 +204,10 @@ AppAsset::register($this);
 
                             <ul>
 
-                                <li class="menu-item"><a href="/admin/course/add" target="main-frame">添加课程</a></li>
-                                <li class="menu-item"><a href="/admin/course/list" target="main-frame">课程列表</a></li>
-                                <li class="menu-item"><a href="/admin/section/add" target="main-frame">添加课程阶段</a></li>
-                                <li class="menu-item"><a href="/admin/section/list" target="main-frame">课程阶段列表</a></li>
+                                <li class="menu-item"><a href="<?= Url::to(['course/add'])?>" target="main-frame">添加课程</a></li>
+                                <li class="menu-item"><a href="<?= Url::to(['course/list'])?>" target="main-frame">课程列表</a></li>
+                                <li class="menu-item"><a href="<?= Url::to(['section/add'])?>" target="main-frame">添加阶段</a></li>
+                                <li class="menu-item"><a href="<?= Url::to(['section/list'])?>" target="main-frame">阶段列表</a></li>
 
                             </ul>
 
@@ -219,10 +219,10 @@ AppAsset::register($this);
                         <li class="explode" key="{$k}" name="menu">
 
                             <ul>
-                                <li class="menu-item"><a href="/admin/section/list-cat" target="main-frame">课件分组列表</a></li>
+                                <li class="menu-item"><a href="<?= Url::to(['section/list-cat'])?>" target="main-frame">课件分组列表</a></li>
                                 <li class="menu-item"><a href="<?= Url::to(['ware/add'])?>" target="main-frame">添加课件</a></li>
                                 <li class="menu-item"><a href="<?= Url::to(['ware/list'])?>" target="main-frame">课件列表</a></li>
-
+                                <li class="menu-item"><a href="<?= Url::to(['rcode/get-qrcode'])?>" target="main-frame">生成二维码</a></li>
                             </ul>
 
                         </li>
@@ -233,9 +233,8 @@ AppAsset::register($this);
                         <li class="explode" key="{$k}" name="menu">
 
                             <ul>
-
-                                <li class="menu-item"><a href="/admin/user/list" target="main-frame">会员列表</a></li>
-                                <li class="menu-item"><a href="" target="main-frame"></a></li>
+                                <li class="menu-item"><a href="<?= Url::to(['user/list'])?>" target="main-frame">会员列表</a></li>
+                                <li class="menu-item"><a href="<?= Url::to(['user/course-list'])?>" target="main-frame">会员课程列表</a></li>
 
                             </ul>
 
@@ -248,12 +247,10 @@ AppAsset::register($this);
 
                             <ul>
 
-                                <li class="menu-item"><a href="/admin/template/add-temp" target="main-frame">添加模板</a>
-                                </li>
-                                <li class="menu-item"><a href="/admin/template/list-type" target="main-frame">模板类型列表</a></li>
-                                <li class="menu-item"><a href="/admin/template/add-type" target="main-frame">添加模板类型</a>
-                                </li>
-                                <li class="menu-item"><a href="/admin/template/list" target="main-frame">模板列表</a></li>
+                                <li class="menu-item"><a href="<?= Url::to(['template/add-temp'])?>" target="main-frame">添加模板</a></li>
+                                <li class="menu-item"><a href="<?= Url::to(['template/list'])?>" target="main-frame">模板列表</a></li>
+                                <li class="menu-item"><a href="<?= Url::to(['template/add-type'])?>" target="main-frame">添加类型</a></li>
+                                <li class="menu-item"><a href="<?= Url::to(['template/list-type'])?>" target="main-frame">类型列表</a></li>
 
                             </ul>
 

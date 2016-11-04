@@ -46,6 +46,24 @@ class User extends ActiveRecord
 
     }
 
+    /***
+     * 添加模板分类
+     ***/
+    static public function modify(self $user, $phone, $password)
+    {
+        if($password){
+            $user->password = self::GenPassword($password);
+        }
+        if($phone){
+            $user->phone = $phone;
+        }
+        if ($user->save()) {
+            return true;
+        }
+        return false;
+    }
+
+
     /**
      * 用户登录
      * @param $user_row $array 需要设置的参数

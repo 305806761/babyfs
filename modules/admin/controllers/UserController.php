@@ -16,18 +16,70 @@ use app\models\UserCourse;
 use Yii;
 use yii\web\Controller;
 use app\models\Template;
+use yii\data\Pagination;
 
 
 class UserController extends Controller
 {
     public $enableCsrfValidation = false;
 
-    public function actionList()
+    public function actionList(){
+        $query = User::find();
+        $pagination = new Pagination([
+            'defaultPageSize' => 20,
+            'totalCount' => $query->count(),
+        ]);
+        $users = $query->orderBy('phone')
+            ->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
+        // print_r( $courses);die;
+
+        return $this->render('list', [
+            'users' => $users,
+            'pagination' => $pagination,
+        ]);
+    }
+    public function actionEdit(){
+
+        $user_id = Yii::$app->request->get('user_id');
+        if (!$user = User::findOne($user_id)) {
+            return $this->redirect(['list']);
+        }
+
+        if (Yii::$app->request->post()) {
+            if (User::modify($user, Yii::$app->request->post('phone'), Yii::$app->request->post('password'))) {
+                return $this->redirect(['list']);
+            }
+        }
+        return $this->render('edit', [
+            'user' => $user,
+        ]);
+    }
+
+    public function actionUserSearch(){
+        $phone = Yii::$app->request->post('phone');
+        if($phone){
+            $user = User::findOne(['phone'=>$phone])->attributes;
+            $users = array($user);
+        }
+        $pagination = new Pagination([
+            'defaultPageSize' => 20,
+            'totalCount' => 1,
+        ]);
+
+        return $this->render('list', [
+            'users' => $users,
+            'pagination' => $pagination,
+        ]);
+    }
+
+    public function actionCourseList()
     {
         $course = Course::getCourse();
         $user_course = User::getUserCourse();
         //print_r( $user_course);die;
-        return $this->render('list',
+        return $this->render('course_list',
             ['user_course' => $user_course,
                 'course' => $course]);
 

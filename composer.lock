@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "04ac6a516762a81df02fadc80d0a4417",
-    "content-hash": "3501a08234aef9c91c3b9644517b68f2",
+    "hash": "aadc7fd37919496a032f9eb0dce3201e",
+    "content-hash": "7315a7e66769f71a57bbba86b808614f",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -511,6 +511,42 @@
             "time": "2016-07-31 10:31:23"
         },
         {
+            "name": "xj/yii2-qrcode-widget",
+            "version": "1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/xjflyttp/yii2-qrcode-widget.git",
+                "reference": "f6031ecb67dd34c95eca7c3eb99cf19dd9a94eba"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packagist.phpcomposer.com/files/xjflyttp/yii2-qrcode-widget/f6031ecb67dd34c95eca7c3eb99cf19dd9a94eba.zip",
+                "reference": "f6031ecb67dd34c95eca7c3eb99cf19dd9a94eba",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "xj\\qrcode\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "xjflyttp",
+                    "email": "xjflyttp@gmail.com"
+                }
+            ],
+            "description": "yii2-qrcode-widget",
+            "time": "2015-01-15 12:44:14"
+        },
+        {
             "name": "yiisoft/yii2",
             "version": "2.0.10",
             "source": {
@@ -703,16 +739,16 @@
         },
         {
             "name": "yiisoft/yii2-httpclient",
-            "version": "2.0.1",
+            "version": "2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-httpclient.git",
-                "reference": "05056e8f13fdee09c252686cea62f0889ecab8b7"
+                "reference": "2cc58c318da3c7c71bda1cc26bd3ec5a3ac26284"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/yiisoft/yii2-httpclient/05056e8f13fdee09c252686cea62f0889ecab8b7.zip",
-                "reference": "05056e8f13fdee09c252686cea62f0889ecab8b7",
+                "url": "https://packagist.phpcomposer.com/files/yiisoft/yii2-httpclient/2cc58c318da3c7c71bda1cc26bd3ec5a3ac26284.zip",
+                "reference": "2cc58c318da3c7c71bda1cc26bd3ec5a3ac26284",
                 "shasum": ""
             },
             "require": {
@@ -746,7 +782,7 @@
                 "httpclient",
                 "yii2"
             ],
-            "time": "2016-08-04 13:29:03"
+            "time": "2016-10-31 11:29:06"
         },
         {
             "name": "yiisoft/yii2-jui",
