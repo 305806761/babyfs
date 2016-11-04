@@ -46,7 +46,7 @@
         </ul>
     </div>
 </footer>
-<script src="/default/js/public/jquery-1.9.1.min.js"></script>
+<!--script src="/default/js/public/jquery-1.9.1.min.js"></script-->
 <script src="/default/js/public/effect.js"></script>
 </body>
 </html>
