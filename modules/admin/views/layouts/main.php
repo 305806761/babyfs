@@ -208,6 +208,7 @@ AppAsset::register($this);
                                 <li class="menu-item"><a href="<?= Url::to(['course/list'])?>" target="main-frame">课程列表</a></li>
                                 <li class="menu-item"><a href="<?= Url::to(['section/add'])?>" target="main-frame">添加阶段</a></li>
                                 <li class="menu-item"><a href="<?= Url::to(['section/list'])?>" target="main-frame">阶段列表</a></li>
+                                <li class="menu-item"><a href="<?= Url::to(['holiday/index'])?>" target="main-frame">设置假日和课程日</a></li>
 
                             </ul>
 
