@@ -18,30 +18,33 @@ $this->params['breadcrumbs'][] = $this->title;
 </header>
 <div class="course-list-box">
     <?php foreach ($wares['section_ware'] as $valueware): ?>
-        <div class="course-list-con">
-            <div class="course-list-con-top clearfix">
-                <h1 class="clearfix">
-                    <span><img src="res/img/course-img2.png" alt=""/></span>
-                    <span><?= $valueware['cat_name'] ?></span>
-                </h1>
+        <?php if (isset($valueware['ware'])): ?>
+            <div class="course-list-con">
+                <div class="course-list-con-top clearfix">
+                    <h1 class="clearfix">
+                        <span><img src="res/img/course-img2.png" alt=""/></span>
+                        <span><?= $valueware['cat_name'] ?></span>
+                    </h1>
+                </div>
+                <div class="course-list-con-bottom">
+                    <?php foreach ($valueware['ware'] as $value): ?>
+                        <dl class="clearfix">
+                            <dt><img src="res/img/course-img1.png" alt=""/></dt>
+                            <dd>
+                                <a href="/ware/detail?ware_id=<?= $value['ware_id'] ?>"><h1><?= $value['title'] ?></h1>
+                                </a>
+                                <p>
+                                    <span>monkey</span>
+                                    <span>horse</span>
+                                    <span>elephant</span>
+                                    <span>tiger</span>
+                                    <span>lion</span>
+                                </p>
+                            </dd>
+                        </dl>
+                    <?php endforeach; ?>
+                </div>
             </div>
-            <div class="course-list-con-bottom">
-                <?php foreach ($valueware['ware'] as $value): ?>
-                    <dl class="clearfix">
-                        <dt><img src="res/img/course-img1.png" alt=""/></dt>
-                        <dd>
-                            <a href="/ware/detail?ware_id=<?= $value['ware_id'] ?>"><h1><?= $value['title'] ?></h1></a>
-                            <p>
-                                <span>monkey</span>
-                                <span>horse</span>
-                                <span>elephant</span>
-                                <span>tiger</span>
-                                <span>lion</span>
-                            </p>
-                        </dd>
-                    </dl>
-                <?php endforeach; ?>
-            </div>
-        </div>
+        <?php endif; ?>
     <?php endforeach; ?>
 </div>

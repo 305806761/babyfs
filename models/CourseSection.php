@@ -98,7 +98,10 @@ class CourseSection extends ActiveRecord
     {
         //获取课程和课程的阶段
 
-        $sql = "select c.name as course_name,c.code as course_code,s.course_id as section_course_id,s.name as section_name,s.code as section_code,s.sort,s.section_id,s.expire_time as section_expire_time  from `course` as c, `course_section` as s WHERE c.course_id = s.course_id";
+        $sql = "SELECT c.name AS course_name,c.code AS course_code,s.course_id AS section_course_id,
+                s.name AS section_name,s.code AS section_code,s.sort,s.section_id,s.expire_time AS section_expire_time  
+                FROM `course` AS c, `course_section` AS s 
+                WHERE c.course_id = s.course_id";
 
         $coursesection = Yii::$app->db->createCommand($sql)
             ->queryAll();
@@ -116,10 +119,18 @@ class CourseSection extends ActiveRecord
 
     public function getSectionWare($section_id, $user_id)
     {
-        $sql = "select sc.id,sc.cat_name,cs.name as section_name
-                from section_cat as sc 
-                left join course_section as cs on sc.section_id = cs.section_id 
-                left join user_course as uc on sc.section_id = uc.section_id";
+        if (!$uc = UserCourse::findOne(['section_id' => $section_id, 'user_id' => $user_id])) {
+            return [];
+        }
+
+        if (!$usable = Ware::getUsable($section_id, $uc->create_time)) {
+            return [];
+        }
+
+        $sql = "SELECT sc.id,sc.cat_name,cs.name AS section_name
+                FROM section_cat AS sc 
+                LEFT JOIN course_section AS cs ON sc.section_id = cs.section_id 
+                LEFT JOIN user_course AS uc ON sc.section_id = uc.section_id";
         $where = [];
         if ($section_id) {
             $where[] = "sc.section_id = '$section_id'";
@@ -130,13 +141,24 @@ class CourseSection extends ActiveRecord
         if ($where) {
             $sql .= ' where ' . implode(' and ', $where);
         }
+//        echo $sql;die;
 
-        //echo $sql;die;
         $section_ware = Yii::$app->db->createCommand($sql)->queryAll();
         foreach ($section_ware as $key => $value) {
-            $sql = "select w.title,w.ware_id from course_ware as cw left join ware as w on cw.ware_id = w.ware_id where cw.section_cat_id = {$value['id']}";
+            $sql = "select w.title,w.ware_id 
+                    from course_ware as cw 
+                    left join ware as w on cw.ware_id = w.ware_id 
+                    where cw.section_cat_id = {$value['id']}";
             $ware = Yii::$app->db->createCommand($sql)->queryAll();
+            $all = count($ware);
+            if ($all > $usable) {
+                $ware = array_slice($ware, 0, $usable);
+            }
             $section_ware[$key]['ware'] = $ware;
+            if ($all >= $usable) {
+                break;
+            }
+            $usable -= $all;
         }
         $ware = array('section_name' => $section_ware[0]['section_name'], 'section_ware' => $section_ware);
         //$section_ware['section_name'] = $section_ware[0]['section_name'];
