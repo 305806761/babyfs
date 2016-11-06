@@ -116,18 +116,21 @@ class CourseSection extends ActiveRecord
 
     public function getSectionWare($section_id, $user_id)
     {
-        if ($section_id) {
-            $where = " where sc.section_id = '{$section_id}";
-        }
-        if (!empty($user_id)) {
-            $where = $where ? ' and ' : ' where ';
-            $where .= " uc.user_id = '{$user_id}'";
-        }
-
         $sql = "select sc.id,sc.cat_name,cs.name as section_name
                 from section_cat as sc 
                 left join course_section as cs on sc.section_id = cs.section_id 
-                left join user_course as uc on sc.section_id = uc.section_id " . $where;
+                left join user_course as uc on sc.section_id = uc.section_id";
+        $where = [];
+        if ($section_id) {
+            $where[] = "sc.section_id = '$section_id'";
+        }
+        if ($user_id) {
+            $where[] = "uc.user_id = '$user_id'";
+        }
+        if ($where) {
+            $sql .= ' where ' . implode(' and ', $where);
+        }
+
         //echo $sql;die;
         $section_ware = Yii::$app->db->createCommand($sql)->queryAll();
         foreach ($section_ware as $key => $value) {

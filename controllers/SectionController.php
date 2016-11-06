@@ -20,14 +20,14 @@ class SectionController extends Controller
     public function actionList()
     {
         $user = User::isLogin();
-        if(!$user){
+        if (!$user) {
             Tool::Redirect("/user/login");
         }
-        $section_id = isset($_GET['section_id']) ? $_GET['section_id'] : '';
-        //echo $_GET['section_id'];die;
+        $section_id = \Yii::$app->request->get('section_id', '');
+        //echo $section_id;die;
 
         $cs = new CourseSection();
-        $wares = $cs->getSectionWare($section_id,$user->user_id);
+        $wares = $cs->getSectionWare($section_id, $user->user_id);
         //print_r($wares);die;
         return $this->render('list', ['wares' => $wares]);
     }
