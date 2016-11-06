@@ -7,8 +7,8 @@
 
 namespace app\commands;
 
+use app\models\Ware;
 use yii\console\Controller;
-use Handlebars\Handlebars;
 
 /**
  * This command echoes the first argument that you have entered.
@@ -24,21 +24,8 @@ class HelloController extends Controller
      * This command echoes what you have entered as the message.
      * @param string $message the message to be echoed.
      */
-    public function actionIndex($message = 'hello world')
+    public function actionIndex()
     {
-        $engine = new Handlebars;
-
-        echo $engine->render(
-            "{{haha}}Planets:<br />{{#each planets}}<h6>{{this}}</h6>{{/each}}\n",
-            array(
-                'haha' => 'yes!',
-                'planets' => array(
-                    "Mercury",
-                    "Venus",
-                    "Earth",
-                    "Mars"
-                )
-            )
-        );
+        echo Ware::getUsable(1, '2016-11-01')."\n";
     }
 }

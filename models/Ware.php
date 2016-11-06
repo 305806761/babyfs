@@ -144,9 +144,26 @@ class Ware extends ActiveRecord
         return true;
     }
 
-    public function getUsable($section_id, $start_date)
+    public static function getUsable($section_id, $start_date)
     {
-        if ($section = SectionCat::findOne()) {
+        if (!$section = CourseSection::findOne($section_id)) {
+            return false;
         }
+        if (($start_time = strtotime($start_date)) > time()) {
+            return false;
+        }
+        $u = 0;
+        for (; $start_time <= time(); $start_time += 86400) {
+            if ($day = Holiday::findOne(['day' => date('Y-m-d', $start_time)])) {
+                if ($day->type == Holiday::TYPE_SCHOOL_DAY) {
+                    $u++;
+                }
+                continue;
+            }
+            if (in_array(date('w', $start_time), [1, 3, 5])) {
+                $u++;
+            }
+        }
+        return $u;
     }
 }
