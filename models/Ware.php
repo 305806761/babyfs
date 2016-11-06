@@ -143,4 +143,10 @@ class Ware extends ActiveRecord
 
         return true;
     }
+
+    public function getUsable($section_id, $start_date)
+    {
+        if ($section = SectionCat::findOne()) {
+        }
+    }
 }

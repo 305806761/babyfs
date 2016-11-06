@@ -41,7 +41,6 @@ $this->params['breadcrumbs'][] = $this->title;
                         </dd>
                     </dl>
                 <?php endforeach; ?>
-
             </div>
         </div>
     <?php endforeach; ?>
