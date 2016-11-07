@@ -42,7 +42,7 @@ class Ware extends ActiveRecord
             [['create_time'], 'safe'],
             [['title'], 'string', 'max' => 150],
             [['small_text'], 'string', 'max' => 255],
-            [['contents'], 'string', 'max' => 50],
+            [['contents'], 'string', 'max' => 250],
         ];
     }
 
