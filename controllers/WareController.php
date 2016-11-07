@@ -25,10 +25,16 @@ class WareController extends Controller
         if(!$user){
             Tool::Redirect("/user/login");
         }
+
         $ware_id = Yii::$app->request->get('ware_id') ? Yii::$app->request->get('ware_id') : $ware_id;
         if(!$ware_id){
             Tool::Redirect('/section/list');
         }
+        //登陆session
+        if (!Yii::$app->session->isActive) {
+            Yii::$app->session->open();
+        }
+        Yii::$app->session->set("loginpage", "/ware/detail?ware_id=$ware_id");
         $model = $this->findModel($ware_id);
         $result = '';
         if ($c = json_decode($model->contents, true)) {

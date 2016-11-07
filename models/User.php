@@ -116,6 +116,18 @@ class User extends ActiveRecord
         Tool::cookieset($cookiename, null, -1);
     }
 
+    static function get_loginpage($default = null) {
+        if(Yii::$app->session->isActive){
+            Yii::$app->session->open();
+        }
+        $loginpage = Yii::$app->session->get('loginpage');
+        if ($loginpage)
+            return $loginpage;
+        if ($default)
+            return $default;
+        return '/user/user-course';
+    }
+
 
     /**
      * 双重加密密码

@@ -57,7 +57,7 @@ class UserController extends Controller
         $this->layout = false;
         $user = User::isLogin();
         if($user){
-            Tool::Redirect("/user/user-course");
+            Tool::Redirect(User::get_loginpage());
         }
         $phone = Yii::$app->request->post('phone');
         $password = Yii::$app->request->post('password');
@@ -68,7 +68,7 @@ class UserController extends Controller
                 Tool::Redirect("/user/login", '登陆失败！', 'error');
             } else {
                 //echo Session::Get('phone');die;
-               Tool::Redirect("/user/user-course", '登陆成功！');
+                Tool::Redirect(User::get_loginpage());
             }
         }
         return $this->render('login');
@@ -84,7 +84,7 @@ class UserController extends Controller
         $this->layout = false;
         $user = User::isLogin();
         if($user){
-            Tool::Redirect("/user/user-course");
+            Tool::Redirect(User::get_loginpage());
         }
         $phone = Yii::$app->request->post('phone');
         $password = Yii::$app->request->post('password');
@@ -96,7 +96,7 @@ class UserController extends Controller
                 Tool::Redirect("/user/signup", '注册失败！', 'error');
             } else {
                 //echo Session::Get('phone');die;
-               Tool::Redirect("/user/user-course", '注册成功！');
+                Tool::Redirect(User::get_loginpage());
             }
         }
         return $this->render('signup');
