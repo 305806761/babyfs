@@ -563,7 +563,7 @@ body{
 }
 .introduce2-center-bot-dl dl dd div img.min{
     width: 200px;
-    height: 150px;
+    height: auto;
 }
 .introduce2-center-bot-dl dl dd div img.max{
     width: 100%;
