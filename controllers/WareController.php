@@ -21,11 +21,6 @@ class WareController extends Controller
 {
     public function actionDetail($ware_id=''){
         $this->layout = false;
-        $user = User::isLogin();
-        if(!$user){
-            Tool::Redirect("/user/login");
-        }
-
         $ware_id = Yii::$app->request->get('ware_id') ? Yii::$app->request->get('ware_id') : $ware_id;
         if(!$ware_id){
             Tool::Redirect('/section/list');
@@ -35,6 +30,11 @@ class WareController extends Controller
             Yii::$app->session->open();
         }
         Yii::$app->session->set("loginpage", "/ware/detail?ware_id=$ware_id");
+        $user = User::isLogin();
+        if(!$user){
+            Tool::Redirect("/user/login");
+        }
+
         $model = $this->findModel($ware_id);
         $result = '';
         if ($c = json_decode($model->contents, true)) {
