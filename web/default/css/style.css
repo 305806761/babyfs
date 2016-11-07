@@ -326,7 +326,7 @@ body{
     border-top: 0;
     border-right: 0;
     content: "";
-    height: 20px;
+    height: auto;
     left: -8px;
     position: absolute;
     top: 15px;
