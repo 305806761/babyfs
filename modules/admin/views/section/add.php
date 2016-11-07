@@ -55,6 +55,12 @@ $this->params['breadcrumbs'][] = $this->title;
             </td>
         </tr>
         <tr>
+            <td class="tdleft">有赞购买链接:</td>
+            <td>
+                <input type="text" name="buyurl" value="<?= $section['buyurl']?>"  size="35" />
+            </td>
+        </tr>
+        <tr>
             <td class="tdleft">阶段有效期</td>
             <td>
                 <input id="expire_time" type="text" readonly="readonly"  size="12" name="expire_time" value="<?= $section['expire_time']?>" />

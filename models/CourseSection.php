@@ -64,6 +64,7 @@ class CourseSection extends ActiveRecord
         $course_section->sort = $param['sort'] ? $param['sort'] : $course_section->sort;
         $course_section->course_id = $param['course_id'] ? $param['course_id'] : $course_section->course_id;
         $course_section->section_id = $param['section_id'] ? $param['section_id'] : $course_section->section_id;
+        $course_section->buyurl = $param['buyurl'] ? $param['buyurl'] : $course_section->buyurl;
 
 //['tmp_name']  WareType[1][img_file]
         if (isset($param['image']['tmp_name'])

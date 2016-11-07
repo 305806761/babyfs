@@ -51,6 +51,7 @@ class SectionController extends Controller
                 'expire_time' => Yii::$app->request->post('expire_time'),
                 'sort' => Yii::$app->request->post('sort'),
                 'image' => $_FILES['image'],
+                'buyurl' => Yii::$app->request->post('buyurl'),
             );
             //print_r($array);die;
             $result = $coursesection->add($array);

@@ -19,12 +19,23 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php endif ?>
         <dl>
             <dt>
-                <a href="/section/list?section_id=<?= $value['section_id'] ?>"> <img src="/default/img/already-buy-img1.png" alt=""/></a>
                 <?php if ($value['is_buy']): ?>
+                    <a href="/section/list?section_id=<?= $value['section_id'] ?>">
+                        <?php
+                        $img = $value['image'] ? json_decode($value['image']) : "/default/img/already-buy-img1.png";
+                        ?>
+                        <img src="<?= $img?>" />
+                    </a>
                     <span class="active">学习中</span>
                 <?php else: ?>
+                    <a href="<?= $value['buyurl']?>">
+                        <?php
+                        $img = $value['image'] ? json_decode($value['image']) : "/default/img/already-buy-img1.png";
+                        ?>
+                        <img src="<?= $img?>" />
+                    </a>
                     <span>未开放</span>
-                <?php endif; ?>
+                <?php endif ?>
             </dt>
             <dd><?= $value['name'] ?></dd>
         </dl>
