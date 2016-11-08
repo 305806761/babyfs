@@ -29,24 +29,23 @@ $this->params['breadcrumbs'][] = $this->title;
 <form action="index.php?r=course/add" method="post">
     <table width="100%" align="center">
         <tr>
-            <td  class="tdleft">课程id</td>
-            <td  class="tdleft">课程名称</td>
-            <td class="tdleft">课程编码</td>
+
             <td  class="tdleft">课程阶段id</td>
             <td  class="tdleft">课程阶段名称</td>
             <td  class="tdleft">课程阶段编码</td>
             <td  class="tdleft">课程阶段有效期</td>
+            <td  class="tdleft">顺序</td>
+            <td  class="tdleft">有赞购买链接</td>
             <td class="tdleft">操作</td>
         </tr>
         <?php foreach($coursesection as $key=>$value): ?>
         <tr>
-            <td class="tdvleft"><?php echo $value['section_course_id']; ?></td>
-            <td class="tdvleft"><?php echo $value['course_name']; ?></td>
-            <td class="tdvleft"><?php echo $value['course_code']; ?></td>
             <td class="tdvleft"><?php echo $value['section_id']; ?></td>
-            <td class="tdvleft"><?php echo $value['section_name']; ?></td>
-            <td class="tdvleft"><?php echo $value['section_code']; ?></td>
-            <td class="tdvleft"><?php echo $value['section_expire_time']; ?></td>
+            <td class="tdvleft"><?php echo $value['name']; ?></td>
+            <td class="tdvleft"><?php echo $value['code']; ?></td>
+            <td class="tdvleft"><?php echo $value['expire_time']; ?></td>
+            <td class="tdvleft"><?php echo $value['sort']; ?></td>
+            <td class="tdvleft"><?php echo $value['buyurl']; ?></td>
             <td class="tdvleft">
                 <a href="/admin/section/edit-section/?section_id=<?= $value['section_id']; ?>">修改</a> |
                 <a href="/admin/section/add-cat?section_id=<?= $value['section_id']; ?>">添加分组</a>

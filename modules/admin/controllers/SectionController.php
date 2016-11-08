@@ -9,6 +9,7 @@
 namespace app\modules\admin\controllers;
 
 use app\models\Course;
+use app\models\Section;
 use app\models\CourseSection;
 use app\models\CourseWare;
 use app\models\SectionCat;
@@ -41,7 +42,7 @@ class SectionController extends Controller
     public function actionAdd()
     {
         $course = Course::getCourse();
-        $coursesection = new CourseSection();
+        $coursesection = new Section();
         if (Yii::$app->request->post()) {
             $array = array(
                 'name' => Yii::$app->request->post('name'),
@@ -58,16 +59,15 @@ class SectionController extends Controller
             if ($result) {
                 Tool::Redirect('/admin/section/list', '操作处理成功', 'success');
             }
-
         }
-
         return $this->render('add',
-            ['course' => $course]);
+            ['section'=>$coursesection,
+                'course' => $course,
+            ]);
     }
 
     public function actionListCat()
     {
-
         $cat = new SectionCat();
         $result = $cat->getList();
         // print_r($result);die;
@@ -110,8 +110,17 @@ class SectionController extends Controller
     {
         $course = Course::getCourse();
         $section_id = Yii::$app->request->get('section_id');
-        $section = CourseSection::find()->where(['section_id' => $section_id])->asArray()->one();
-        //print_r($section);die;
+        $section = CourseSection::getCourseSection($section_id);
+
+        //$section = Section::find()->where(['section_id' => $section_id])->asArray()->one();
+        foreach ($course as $key=>$value){
+        foreach ($section[course_id] as $val){
+            if ($value['course_id'] == $val['course_id']){
+                $course[$key]['checked'] = 1;
+            }
+        }
+    }
+        //print_r($course);die;
         return $this->render('add', [
             'section' => $section,
             'course' => $course,
@@ -123,7 +132,7 @@ class SectionController extends Controller
     {
         $course_id = Yii::$app->request->get('course_id');
         if ($course_id) {
-            $section = CourseSection::getById($course_id);
+            $section = CourseSection::getSectionByCourse_id($course_id);
             //print_r($section);die;
             die(json_encode($section));
         }

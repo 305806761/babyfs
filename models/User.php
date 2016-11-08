@@ -217,8 +217,10 @@ class User extends ActiveRecord
      */
     static public function getUserCourse($where = '')
     {
-        $sql = "select c.name as course_name,cs.name as section_name,u.phone,u.created as user_created,uc.create_time,uc.expire_time,uc.section_id as section_id,uc.id as user_course_id  from";
-        $sql .= " user_course as uc left join course as c on uc.course_id = c.course_id left join course_section as cs on uc.section_id = cs.section_id left join user as u on uc.user_id = u.user_id";
+        $sql = "select c.name as course_name,s.name as section_name,u.phone,u.created as user_created,
+        uc.create_time,uc.expire_time,uc.section_id as section_id,uc.id as user_course_id  from";
+        $sql .= " user_course as uc left join course as c on uc.course_id = c.course_id 
+        left join section as s on uc.section_id = s.section_id left join user as u on uc.user_id = u.user_id";
         $sql = $where ? $sql . $where : $sql;
         $result = Yii::$app->db->createCommand($sql)->query();
 

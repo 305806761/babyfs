@@ -146,7 +146,7 @@ class Ware extends ActiveRecord
 
     public static function getUsable($section_id, $start_date)
     {
-        if (!$section = CourseSection::findOne($section_id)) {
+        if (!$section = Section::findOne($section_id)) {
             return false;
         }
         if (($start_time = strtotime($start_date)) > time()) {

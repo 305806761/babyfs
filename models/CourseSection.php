@@ -11,6 +11,7 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\db\ActiveRecord;
+use yii\web\Session;
 
 class CourseSection extends ActiveRecord
 {
@@ -36,55 +37,50 @@ class CourseSection extends ActiveRecord
      *
      * 通过course_id查找section
      */
-    public static function getById($course_id)
+    public static function getSectionByCourse_id($course_id)
     {
         if ($course_id) {
-//(new \yii\db\Query())---self:;find
-            $section = self::find()
-                ->select(['name', 'section_id'])
-                ->where(['course_id' => $course_id])
-                //->indexBy('select_id')
-                ->asArray()
-                ->all(); //获取数据库里自增的字段
+            $sql = "select s.name,s.section_id from section as s left JOIN course_section as cs on s.section_id = cs.section_id where cs.course_id =$course_id";
+            $section = Yii::$app->db->createCommand($sql)->queryAll();
             return $section;
         } else {
             return false;
         }
     }
 
-    /*
-     * 添加课程
-    */
-    public function add($param)
+    /**
+     * 添加课程与阶段的关系
+     * @param integer $section_id
+     * @param array $course_id
+     * @return boolean
+     */
+    public function add($section_id,$course_id)
     {
-        $course_section = self::getSectionById($param['section_id']);
-        $course_section->name = $param['name'] ? $param['name'] : $course_section->name;
-        $course_section->code = $param['code'] ? $param['code'] : $course_section->code;
-        $course_section->expire_time = $param['expire_time'] ? $param['expire_time'] : $course_section->expire_time;
-        $course_section->sort = $param['sort'] ? $param['sort'] : $course_section->sort;
-        $course_section->course_id = $param['course_id'] ? $param['course_id'] : $course_section->course_id;
-        $course_section->section_id = $param['section_id'] ? $param['section_id'] : $course_section->section_id;
-        $course_section->buyurl = $param['buyurl'] ? $param['buyurl'] : $course_section->buyurl;
 
-//['tmp_name']  WareType[1][img_file]
-        if (isset($param['image']['tmp_name'])
-            && $param['image']['tmp_name']
-        ) {
-            $path_parts = pathinfo($param['image']['name']);
-            $file = '/uploads/section/' . time() . rand(100, 999) . $path_parts['basename'];
-            copy(
-                $param['image']['tmp_name'],
-                Yii::getAlias('@webroot' . $file)
-            );
-            $image = json_encode($file);
+        if($section_id && $course_id){
+            if(is_array($course_id)){
+                foreach ($course_id as $value){
+                    $course_section = CourseSection::findOne(['section_id'=>$section_id,'course_id'=>$value]);
+                    if(!$course_section){
+                        $course_section = new CourseSection();
+                    }
+                    $course_section->section_id = $section_id;
+                    $course_section->course_id = $value;
+                    $course_section->save();
+                }
+            }else{
+                $course_section = CourseSection::findOne(['section_id'=>$section_id,'course_id'=>$course_id]);
+                if(!$course_section){
+                    $course_section = new CourseSection();
+                }
+                $course_section->section_id = $section_id;
+                $course_section->course_id = $course_id;
+                $course_section->save();
+            }
+        }else{
+            return false;
         }
-        $course_section->image = $image ? $image : $course_section->image;
-        //var_dump($course_section->image);die;
-        //用户信息插入数据库
-        if ($course_section->save()) {
-            $section_id = Yii::$app->db->lastInsertID ? Yii::$app->db->lastInsertID : $course_section->section_id;
-        }
-        return $section_id;
+        return true;
     }
 
     public static function getSectionById($section_id)
@@ -95,21 +91,32 @@ class CourseSection extends ActiveRecord
         return $section;
     }
 
-    public static function getCourseSection()
+    public static function getCourseSection($section_id='')
     {
-        //获取课程和课程的阶段
+        if($section_id){
+            $section = Section::findOne(['section_id'=>$section_id])->attributes;
+            $section['course_id'] = CourseSection::find()->select('course_id')->where(['section_id'=>$section_id])->asArray()->all();
+        }else{
+            $section = Section::find()->asArray()->all();
+            foreach ($section as $key=> $value){
+                foreach ($value as $val){
+                    $section[$key]['course_id'] = CourseSection::find()->select('course_id')
+                        ->where(['section_id'=>$value['section_id']])->asArray()->all();
+                }
 
-        $sql = "SELECT c.name AS course_name,c.code AS course_code,s.course_id AS section_course_id,
-                s.name AS section_name,s.code AS section_code,s.sort,s.section_id,s.expire_time AS section_expire_time  
-                FROM `course` AS c, `course_section` AS s 
-                WHERE c.course_id = s.course_id";
+            }
+        }
 
-        $coursesection = Yii::$app->db->createCommand($sql)
-            ->queryAll();
 
-        //print_r($coursesection);die;
+//        $sql = "SELECT c.name AS course_name,c.code AS course_code,cs.course_id AS section_course_id,
+//                s.name AS section_name,s.code AS section_code,s.sort,s.section_id,s.expire_time AS section_expire_time
+//                FROM `course_section` AS cs LEFT JOIN `section` AS s ON cs.section_id = s.section_id
+//                LEFT JOIN course AS c ON cs.course_id = c.course_id".$where." group by s.section_id";
+//        $coursesection = Yii::$app->db->createCommand($sql)
+//            ->queryAll()
+//print_r($section);die;
 
-        return $coursesection;
+        return $section;
     }
 
 
@@ -128,9 +135,9 @@ class CourseSection extends ActiveRecord
             return [];
         }
 
-        $sql = "SELECT sc.id,sc.cat_name,cs.name AS section_name
+        $sql = "SELECT sc.id,sc.cat_name,s.name AS section_name
                 FROM section_cat AS sc 
-                LEFT JOIN course_section AS cs ON sc.section_id = cs.section_id 
+                LEFT JOIN section AS s ON sc.section_id = s.section_id 
                 LEFT JOIN user_course AS uc ON sc.section_id = uc.section_id";
         $where = [];
         if ($section_id) {

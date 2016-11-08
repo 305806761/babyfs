@@ -41,7 +41,7 @@ class SectionCat extends ActiveRecord
             [['section_id'], 'integer'],
             [['created'], 'safe'],
             [['cat_name'], 'string', 'max' => 100],
-            [['section_id'], 'exist', 'skipOnError' => true, 'targetClass' => CourseSection::className(), 'targetAttribute' => ['section_id' => 'section_id']],
+            [['section_id'], 'exist', 'skipOnError' => true, 'targetClass' => Section::className(), 'targetAttribute' => ['section_id' => 'section_id']],
         ];
     }
 
@@ -63,7 +63,7 @@ class SectionCat extends ActiveRecord
      */
     public function getSection()
     {
-        return $this->hasOne(CourseSection::className(), ['section_id' => 'section_id']);
+        return $this->hasOne(Section::className(), ['section_id' => 'section_id']);
     }
 
     public static function add($param)
@@ -91,7 +91,7 @@ class SectionCat extends ActiveRecord
 
     public function getList()
     {
-        $sql = "select cs.name as section_name,sc.cat_name,sc.id as section_cat_id from section_cat as sc left join course_section as cs on sc.section_id = cs.section_id";
+        $sql = "select s.name as section_name,sc.cat_name,sc.id as section_cat_id from section_cat as sc left join section as s on sc.section_id = s.section_id";
         return Yii::$app->db->createCommand($sql)->queryAll();
         //return $this->hasMany(CourseSection::className(), ['section_id' => 'section_id']);
     }

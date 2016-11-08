@@ -84,7 +84,10 @@ class Course extends ActiveRecord
      **/
     public static function getCourseSection($user_id)
     {
-        $sql = "select cs.*,uc.expire_time as user_course_expire from user_course as uc left join course_section as cs  on uc.section_id = cs.section_id where uc.user_id = '{$user_id}'";
+        $sql = "select s.*,uc.expire_time as user_course_expire 
+                from user_course as uc 
+                left join section as s  on uc.section_id = s.section_id 
+                where uc.user_id = '{$user_id}'";
         $section = Yii::$app->db->createCommand($sql)->queryAll();
         $newtime = time();
         foreach ($section as $key => $value) {
@@ -103,7 +106,7 @@ class Course extends ActiveRecord
         // $section_ids = 2,3,4
         //print_r($section);die;
         $section_ids = $section_ids ? $section_ids : "''";
-        $sqlsection = "select * from course_section where section_id not in ($section_ids)";
+        $sqlsection = "select * from section where section_id not in ($section_ids)";
         $course_section = Yii::$app->db->createCommand($sqlsection)->queryAll();
         foreach ($course_section as $key => $value) {
             $course_section[$key][is_buy] = '0';
