@@ -42,6 +42,7 @@ class UserController extends Controller
         if(!$user){
             Tool::Redirect("/user/login");
         }
+
         $course = Course::getCourseSection($user->user_id);
         //print_r($course);die;
         return $this->render('user_course',['course'=>$course]);

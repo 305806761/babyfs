@@ -27,6 +27,10 @@ class SectionController extends Controller
         //echo $section_id;die;
 
         $cs = new CourseSection();
+        //判断是否有权限查看该课件
+        if(!User::checkPermit($user->user_id,$section_id)){
+            Tool::Redirect('/user/user-course','没有权限查看','notice');
+        };
         $wares = $cs->getSectionWare($section_id, $user->user_id);
         //print_r($wares);die;
         return $this->render('list', ['wares' => $wares]);

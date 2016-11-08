@@ -30,11 +30,15 @@ class WareController extends Controller
             Yii::$app->session->open();
         }
         Yii::$app->session->set("loginpage", "/ware/detail?ware_id=$ware_id");
+        //判断是否登录
         $user = User::isLogin();
         if(!$user){
             Tool::Redirect("/user/login");
         }
-
+        //判断是否有权限查看该课件
+        if(!User::checkPermit($user->user_id,'',$ware_id)){
+            Tool::Redirect('/section/list','没有权限查看','notice');
+        };
         $model = $this->findModel($ware_id);
         $result = '';
         if ($c = json_decode($model->contents, true)) {

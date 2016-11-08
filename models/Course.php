@@ -84,10 +84,16 @@ class Course extends ActiveRecord
      **/
     public static function getCourseSection($user_id)
     {
-        $sql = "select cs.* from user_course as uc left join course_section as cs  on uc.section_id = cs.section_id where uc.user_id = '{$user_id}'";
+        $sql = "select cs.*,uc.expire_time as user_course_expire from user_course as uc left join course_section as cs  on uc.section_id = cs.section_id where uc.user_id = '{$user_id}'";
         $section = Yii::$app->db->createCommand($sql)->queryAll();
+        $newtime = time();
         foreach ($section as $key => $value) {
-            $section[$key][is_buy] = '1';
+            $expire_time = $value['user_course_expire'];
+            if($newtime>=$expire_time){
+                $section[$key][is_buy] = '0';
+            }else{
+                $section[$key][is_buy] = '1';
+            }
             if ($key == 0) {
                 $section_ids = $value['section_id'];
             } else {

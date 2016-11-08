@@ -233,4 +233,40 @@ class User extends ActiveRecord
         return $course;
     }
 
+    static public function checkPermit($user_id,$section_id='',$ware_id=''){
+
+        $sql = "SELECT uc.expire_time
+                FROM section_cat AS sc 
+                LEFT JOIN course_ware AS cw ON sc.id = cw.section_cat_id 
+                LEFT JOIN user_course AS uc ON sc.section_id = uc.section_id";
+        $where = [];
+        if ($section_id) {
+            $where[] = "sc.section_id = '$section_id'";
+        }
+        if ($user_id) {
+            $where[] = "uc.user_id = '$user_id'";
+        }
+        if ($ware_id) {
+            $where[] = "cw.ware_id = '$ware_id'";
+        }
+        if ($where) {
+            $sql .= ' where ' . implode(' and ', $where);
+        }
+        //echo $sql;die;
+        $section_ware = Yii::$app->db->createCommand($sql)->queryAll();
+        //print_r($section_ware);die;
+        if(!$section_ware){
+            return false;
+        }
+        $newtime = time();
+        foreach($section_ware as $value){
+            $expire_time = strtotime($value['expire_time']);
+        }
+        //print_r($expire_time);die;
+        if($newtime>=$expire_time){
+            return false;
+        }
+        return true;
+    }
+
 }
