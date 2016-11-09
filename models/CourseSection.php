@@ -91,6 +91,12 @@ class CourseSection extends ActiveRecord
         return $section;
     }
 
+    /**
+     * 查找阶段（下课程id）
+     * @param integer $section_id
+     * @return array
+     */
+
     public static function getCourseSection($section_id='')
     {
         if($section_id){
@@ -106,17 +112,22 @@ class CourseSection extends ActiveRecord
 
             }
         }
-
-
-//        $sql = "SELECT c.name AS course_name,c.code AS course_code,cs.course_id AS section_course_id,
-//                s.name AS section_name,s.code AS section_code,s.sort,s.section_id,s.expire_time AS section_expire_time
-//                FROM `course_section` AS cs LEFT JOIN `section` AS s ON cs.section_id = s.section_id
-//                LEFT JOIN course AS c ON cs.course_id = c.course_id".$where." group by s.section_id";
-//        $coursesection = Yii::$app->db->createCommand($sql)
-//            ->queryAll()
-//print_r($section);die;
-
         return $section;
+    }
+
+    /**
+     * 查找课程（下阶段）
+     * @param integer $section_id
+     * @return array
+     */
+    public static function getCourse(){
+        $course = Course::find()->asArray()->all();
+        foreach ($course as $key=>$value){
+            $sql = "SELECT s.* FROM course_section AS cs LEFT join section as s ON cs.section_id = s.section_id where cs.course_id ='{$value[course_id]}'";
+            $section = Yii::$app->db->createCommand($sql)->queryAll();
+            $course[$key]['section'] = $section;
+        }
+        return $course;
     }
 
 

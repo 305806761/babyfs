@@ -9,7 +9,6 @@
 namespace app\models;
 
 use Yii;
-use yii\base\Model;
 use yii\db\ActiveRecord;
 
 /**
@@ -88,8 +87,9 @@ class UserCourse extends ActiveRecord
 
     /**
      * 添加用户与课程的关系
-    **/
-    public function add($param){
+     **/
+    public function add($param)
+    {
 
         $this->course_id = $param['course_id'];
         $this->section_id = $param['section_id'];
@@ -102,4 +102,17 @@ class UserCourse extends ActiveRecord
         return $id;
     }
 
+    public function modify(self $usercourse, $params)
+    {
+        foreach ($params as $param) {
+            $usercourse->course_id = $param['course_id'];
+            $usercourse->section_id = $param['section_id'];
+            $usercourse->version = $param['version'];
+            $usercourse->user_id = $param['user_id'];
+            $usercourse->create_time = $param['create_time'];
+            $usercourse->expire_time = $param['expire_time'];
+            $usercourse->save();
+        }
+        return true;
+    }
 }

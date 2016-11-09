@@ -105,7 +105,7 @@ class UserController extends Controller
         }
         $user_course = User::getUserCourse($where);
         //print_r($user_course);die;
-        return $this->render('list',
+        return $this->render('course_list',
             ['user_course' => $user_course,
                 'course' => $course,
                 'course_id' => $course_id,

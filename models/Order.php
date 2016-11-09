@@ -20,7 +20,7 @@ class Order extends ActiveRecord
     public function AddOrder($order)
     {
 
-        //var_dump($order);die;
+        var_dump($order)."<br />";die;
         self::tableName();
         $this->order_sn = $order['tid'];
         $this->order_status = $order['status'];

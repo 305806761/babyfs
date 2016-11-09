@@ -58,6 +58,7 @@ use yii\widgets\LinkPager;
 
                 <td>
                     <a href="<?= \yii\helpers\Url::to(['user/edit',"user_id"=>$value['user_id']])?>">修改</a> |
+                    <a href="<?= \yii\helpers\Url::to(['section/add-permit',"user_id"=>$value['user_id']])?>">权限</a> |
                     <input type="checkbox" name="id[]"  id="id[]" value="<?= $value['user_id'] ?>"
                            onclick="if(this.checked){user<?= $value['user_id'] ?>.style.backgroundColor='#DBEAF5';}
                                else{user<?= $value['user_id'] ?>.style.backgroundColor='';}">

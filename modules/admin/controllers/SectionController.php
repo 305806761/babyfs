@@ -14,6 +14,8 @@ use app\models\CourseSection;
 use app\models\CourseWare;
 use app\models\SectionCat;
 use app\models\Tool;
+use app\models\User;
+use app\models\UserCourse;
 use app\models\Ware;
 use Yii;
 use yii\helpers\Html;
@@ -61,7 +63,7 @@ class SectionController extends Controller
             }
         }
         return $this->render('add',
-            ['section'=>$coursesection,
+            ['section' => $coursesection,
                 'course' => $course,
             ]);
     }
@@ -113,13 +115,13 @@ class SectionController extends Controller
         $section = CourseSection::getCourseSection($section_id);
 
         //$section = Section::find()->where(['section_id' => $section_id])->asArray()->one();
-        foreach ($course as $key=>$value){
-        foreach ($section[course_id] as $val){
-            if ($value['course_id'] == $val['course_id']){
-                $course[$key]['checked'] = 1;
+        foreach ($course as $key => $value) {
+            foreach ($section[course_id] as $val) {
+                if ($value['course_id'] == $val['course_id']) {
+                    $course[$key]['checked'] = 1;
+                }
             }
         }
-    }
         //print_r($course);die;
         return $this->render('add', [
             'section' => $section,
@@ -214,4 +216,50 @@ class SectionController extends Controller
             'id' => 'wares',
         ]);
     }
+
+    /**
+     * 添加用户与课程的关系
+     * @param integer $section_id
+     * @param integer $user_id
+     * @param array $course_id
+     * @return boolean
+     */
+    public function actionAddPermit()
+    {
+        $user_id = Yii::$app->request->get('user_id');
+        if (!$user_id) {
+            Tool::Redirect("/admin/user/list");
+        }
+        $user = User::findOne(['user_id' => $user_id]);
+        $course_section = CourseSection::getCourse();
+        if (Yii::$app->request->post()) {
+            //Array ( [course_section_id] => Array ( [0] => 3,2 [1] => 4,2 ) [user_id] => 2 )
+            $course_section_id = Yii::$app->request->post('course_section_id');
+            $key = array('course_id', 'section_id');
+            foreach ($course_section_id as $ke => $value) {
+                $val = explode(',', $value);
+                $sections[$ke] = array_combine($key, $val);
+                $sections[$ke]['user_id'] = Yii::$app->request->post('user_id');
+            }
+            foreach ($sections as $k => $v) {
+                $res = Section::find()->where(['section_id' => $v['section_id']])->asArray()->one();
+                $sections[$k]['version'] = $res['$res'];
+                $sections[$k]['create_time'] = $res['create_time'];
+                $sections[$k]['expire_time'] =  date('Y-m-d H:i:s', strtotime($res['expire_time']) + 86400 * 30 * 3);
+            }
+            $usercourse = new UserCourse();
+            $result = $usercourse->modify($usercourse,$sections);
+            if($result){
+                Tool::Redirect('/admin/user/course-list');
+            }else{
+                Tool::Redirect('/admin/user/list');
+            }
+        }
+        //print_r($course_section);die;
+        return $this->render('permit', [
+            'course_section' => $course_section,
+            'user' => $user,
+        ]);
+    }
+
 }
