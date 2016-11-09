@@ -7,6 +7,7 @@
  */
 
 namespace app\models;
+
 use Yii;
 use yii\base\Model;
 use yii\db\ActiveRecord;
@@ -45,7 +46,7 @@ class Order extends ActiveRecord
 
         //  var_dump($user);die;
         //order_info表插入数据库
-        $order_id  = self::save() ? Yii::$app->db->lastInsertID : '';
+        $order_id = self::save() ? Yii::$app->db->lastInsertID : '';
         if (!$order_id) {
             //Yii::getLogger()->log($msg, $level, $category)
             Yii::getLogger()->log("有赞订单：{$order['tid']}没有创建成功");
@@ -56,7 +57,7 @@ class Order extends ActiveRecord
         foreach ($order['orders'] as $param) {
             $param['order_sn'] = $order['tid'];
             $param['order_id'] = $order_id;
-            $rec_id = $order_goods ->AddOrderGoods($param);
+            $rec_id = $order_goods->AddOrderGoods($param);
             //$rec_id = 1;
             if (!$rec_id) {
                 Yii::getLogger()->log("有赞订单：{$order['tid']},系统订单id{$order_id}没有创建成功order_goods");
@@ -64,85 +65,99 @@ class Order extends ActiveRecord
             }
             //1.判断是不是课程：如果是就继续，如果不是课程，就执行完成；
             $code = $param['outer_item_id'];
-           // $code = 'ZC160006';
+            // $code = 'ZC160006';
             //$sql = "SELECT course_id FROM `course` WHERE `code` = '".$code."'";
-            $sql = "SELECT c.course_id,s.section_id,s.expire_time FROM `course` as c left join `course_section` as s on c.course_id = s.course_id WHERE c.code = '{$code}'";
-            $course = Yii::$app->db->createCommand($sql)->queryOne();
-            $expire_time = date('Y-m-d H:i:s',strtotime($course['expire_time'])+86400*30*3);
-            //print_r($course);die;
-            if (!$course['course_id']) {
+            $sql = "SELECT c.course_id,s.section_id,s.expire_time 
+                    FROM `course_section` as cs
+                    LEFT JOIN `course` as c ON cs.course_id = c.course_id
+                    LEFT JOIN `section` as s ON cs.section_id = s.section_id 
+                    WHERE c.code = '{$code}'";
+            $courses = Yii::$app->db->createCommand($sql)->queryAll();
+            if (!$courses) {
                 Yii::getLogger()->log("有赞订单：{$order['tid']},不是课程");
                 break;
             }
-            //$order['receiver_mobile'] = '18636342640';
-            //3.查看订单手机号是否在用户表存在
-            $user_id = User::getUserByName($order['receiver_mobile']);
-            $course_id = $course['course_id'];
-            if ($user_id) {
-                //4.检查该用户是否已经上过该课程的阶段
-                $sql = "select max(cs.sort) as sort from `course_section` as cs left join `user_course` as uc on cs.section_id = uc.section_id WHERE uc.course_id = '{$course_id}' and uc.user_id = '{$user_id}'";
-                //echo $sql;die;
-                $user_max_sort = Yii::$app->db->createCommand($sql)->queryOne();
-                //print_r($user_max_sort);die; ok
-                if ($user_max_sort['sort']) {
-                    //上过该课程，需要创建新的阶段课程
-                    $sql = "select min(sort) as sort from `course_section`  WHERE course_id = '{$course_id}' and sort>'{$user_max_sort['sort']}'";
-                    //echo $sql;die;
-                    $user_next_section = Yii::$app->db->createCommand($sql)->queryOne();
-                    //没有最新阶段
-                    if(!$user_next_section['sort']){
-                        break;
-                    }
-                    //print_r($user_next_section);die;
-                    $sql = "select * from course_section where sort = '{$user_next_section['sort']}' and course_id = '{$course['course_id']}'";
-                    $new_section = Yii::$app->db->createCommand($sql)->queryOne();
-                    $expire_time = date('Y-m-d H:i:s',strtotime($new_section['expire_time'])+86400*30*3);
-                    $user_course = array(
-                        'course_id' => $new_section['course_id'],
-                        'section_id' => $new_section['section_id'],
-                        'version' => 1,
-                        'user_id' => $user_id,
-                        'create_time' => date('Y-m-d H:i:s'),
-                        'created' => date('Y-m-d H:i:s'),
-                        'expire_time' => $expire_time,
-                    );
-                } else {
-                    //没有上过，创建记录
-                    $user_course = array(
-                        'course_id' => $course['course_id'],
-                        'section_id' => $course['section_id'],
-                        'version' => 1,
-                        'user_id' => $user_id,
-                        'create_time' => date('Y-m-d H:i:s'),
-                        'created' => date('Y-m-d H:i:s'),
-                        'expire_time' => $expire_time,
-                    );
-
+            foreach ($courses as $course) {
+                $expire_time = date('Y-m-d H:i:s', strtotime($course['expire_time']) + 86400 * 30 * 3);
+                //print_r($course);die;
+                if (!$course['course_id']) {
+                    Yii::getLogger()->log("有赞订单：{$order['tid']},不是课程");
+                    break;
                 }
-                //用户存在插入新的课程和用户的关系
-                $usercourse = new UserCourse();
-                $id = $usercourse->add($user_course);
-                //echo $id;die;  ok
-                return $id;
-            } else {
-                //用户不存在，创建用户，建立用户关系
-                $user = array('phone' => $order['receiver_mobile'], 'password' => '');
-                $users = new User();
-                $new_user_id = $users->Signup($user);
-                if ($new_user_id) {
-                    //会员添加成功
-                    $user_course = array(
-                        'course_id' => $course['course_id'],
-                        'section_id' => $course['section_id'],
-                        'version' => 1,
-                        'user_id' => $new_user_id,
-                        'create_time' => date('Y-m-d H:i:s'),
-                        'created' => date('Y-m-d H:i:s'),
-                        'expire_time' => $expire_time,
-                    );
+                //$order['receiver_mobile'] = '18636342640';
+                //3.查看订单手机号是否在用户表存在
+                $user_id = User::getUserByName($order['receiver_mobile']);
+                $course_id = $course['course_id'];
+                if ($user_id) {
+                    //4.检查该用户是否已经上过该课程的阶段
+                    $sql = "select max(cs.sort) as sort from `section` as cs left join `user_course` as uc on cs.section_id = uc.section_id WHERE uc.course_id = '{$course_id}' and uc.user_id = '{$user_id}'";
+                    //echo $sql;die;
+                    $user_max_sort = Yii::$app->db->createCommand($sql)->queryOne();
+                    //print_r($user_max_sort);die; ok
+                    if ($user_max_sort['sort']) {
+                        //上过该课程，需要创建新的阶段课程
+                        $sql = "select min(s.sort) as sort from `section` as s 
+                                left join `course_section` as cs on s.section_id = cs.section_id 
+                                WHERE cs.course_id = '{$course_id}' and s.sort>'{$user_max_sort['sort']}'";
+                        //echo $sql;die;
+                        $user_next_section = Yii::$app->db->createCommand($sql)->queryOne();
+                        //没有最新阶段
+                        if (!$user_next_section['sort']) {
+                            break;
+                        }
+                        //print_r($user_next_section);die;
+                        $sql = "select min(s.*) from `section` as s 
+                                left join `course_section` as cs on s.section_id = cs.section_id 
+                                WHERE cs.course_id = '{$course_id}' and s.sort>'{$user_next_section['sort']}'";
+                        $new_section = Yii::$app->db->createCommand($sql)->queryOne();
+                        $expire_time = date('Y-m-d H:i:s', strtotime($new_section['expire_time']) + 86400 * 30 * 3);
+                        $user_course = array(
+                            'course_id' => $new_section['course_id'],
+                            'section_id' => $new_section['section_id'],
+                            'version' => 1,
+                            'user_id' => $user_id,
+                            'create_time' => date('Y-m-d H:i:s'),
+                            'created' => date('Y-m-d H:i:s'),
+                            'expire_time' => $expire_time,
+                        );
+                    } else {
+                        //没有上过，创建记录
+                        $user_course = array(
+                            'course_id' => $course['course_id'],
+                            'section_id' => $course['section_id'],
+                            'version' => 1,
+                            'user_id' => $user_id,
+                            'create_time' => date('Y-m-d H:i:s'),
+                            'created' => date('Y-m-d H:i:s'),
+                            'expire_time' => $expire_time,
+                        );
+
+                    }
+                    //用户存在插入新的课程和用户的关系
                     $usercourse = new UserCourse();
                     $id = $usercourse->add($user_course);
+                    //echo $id;die;  ok
                     return $id;
+                } else {
+                    //用户不存在，创建用户，建立用户关系
+                    $user = array('phone' => $order['receiver_mobile'], 'password' => '');
+                    $users = new User();
+                    $new_user_id = $users->Signup($user);
+                    if ($new_user_id) {
+                        //会员添加成功
+                        $user_course = array(
+                            'course_id' => $course['course_id'],
+                            'section_id' => $course['section_id'],
+                            'version' => 1,
+                            'user_id' => $new_user_id,
+                            'create_time' => date('Y-m-d H:i:s'),
+                            'created' => date('Y-m-d H:i:s'),
+                            'expire_time' => $expire_time,
+                        );
+                        $usercourse = new UserCourse();
+                        $id = $usercourse->add($user_course);
+                        return $id;
+                    }
                 }
             }
         }
