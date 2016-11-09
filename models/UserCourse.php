@@ -105,6 +105,7 @@ class UserCourse extends ActiveRecord
     public function modify(self $usercourse, $params)
     {
         foreach ($params as $param) {
+            $usercourse = new UserCourse();
             $usercourse->course_id = $param['course_id'];
             $usercourse->section_id = $param['section_id'];
             $usercourse->version = $param['version'];
