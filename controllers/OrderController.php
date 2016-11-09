@@ -14,7 +14,7 @@ class OrderController extends \yii\web\Controller
     {
         $ordernew = new Order();
         $param = Yii::$app->request->bodyParams;
-        var_dump($param)."<br />";
+        var_dump($param)."<br />";die;
         if (
             isset($param['test']) &&
             $param['test'] == false &&
