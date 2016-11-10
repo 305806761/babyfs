@@ -13,6 +13,7 @@ use app\models\TemplateCode;
 use app\models\Tool;
 use app\models\User;
 use app\models\UserCourse;
+use app\models\Order;
 use Yii;
 use yii\web\Controller;
 use app\models\Template;
@@ -166,6 +167,35 @@ class UserController extends Controller
     }
 
     /**
+     * 删除会员课程关联关系
+     * @param string id user_course(id)
+     * @return boolean
+     * @access public
+     */
+    public function actionCourseDel()
+    {
+        $id = Yii::$app->request->get('id');
+        if ($id) {
+            if (UserCourse::deleteAll(['id' => $id])) {
+                $this->redirect('course-list');
+            }
+        }
+    }
+
+    /**
+     * 会员课程关联修改
+     * @param string id user_course(id)
+     * @return boolean
+     * @access public
+
+    public function actionCourseEdit()
+    {
+
+        return $this->render('course_edit');
+    }*/
+
+
+    /**
      * 会员关联数据的导入
      * @param string id user_course(id)
      * @return boolean
@@ -181,17 +211,33 @@ class UserController extends Controller
                 //$path_parts = pathinfo($param['user_course']['name']);
                 $file = 'uploadFile.xlsx'; //可以定义一个上传后的文件名称uploadFile.xlsx
                 $filename = '/uploads/user_course/' . $file;
+                $filePath = Yii::getAlias('@webroot' . $filename);
                 copy(
                     $_FILES['user_course']['tmp_name'],
-                    Yii::getAlias('@webroot' . $filename)
+                    $filePath
                 );
-                $data = Excel::import($filename, [
+                $data = Excel::import($filePath, [
                     'setFirstRecordAsKeys' => true, // if you want to set the keys of record column with first record, if it not set, the header with use the alphabet column on excel.
                     'setIndexSheetByName' => true, // set this if your excel data with multiple worksheet, the index of array will be set with the sheet name. If this not set, the index will use numeric.
-                    'getOnlySheet' => 'sheet1', // you can set this property if you want to get the specified sheet from the excel data with multiple worksheet.
+                    'getOnlySheet' => 'Sheet1', // you can set this property if you want to get the specified sheet from the excel data with multiple worksheet.
                 ]);
-                print_r($data);
-                die;
+
+                $key = array('tid', 'receiver_name', 'receiver_state', 'receiver_city', 'receiver_district',
+                    'receiver_address', 'receiver_mobile', 'outer_item_id', 'title');
+                $section = array();
+                foreach ($data as $k=>$value){
+                    $sections[$k] = array_combine($key, $value);
+                }
+
+                foreach ($sections as $v=> $val){
+                    $sections[$v]['orders'][0]['outer_item_id'] = $val['outer_item_id'];
+                    $sections[$v]['orders'][0]['title'] = $val['title'];
+                }
+                foreach ($sections as $order){
+                    $ordernew = new Order();
+                    $ordernew->AddOrder($order);
+                }
+
             }
         }
         return $this->render('course_import');

@@ -20,43 +20,44 @@ class Order extends ActiveRecord
     public function AddOrder($order)
     {
         self::tableName();
-        $this->order_sn = $order['tid'];
-        $this->order_status = $order['status'];
-        $this->refund_state = $order['refund_state'];
+        $this->order_sn = trim($order['tid']);
+        $this->order_status = $order['status'] ? $order['status'] : 'WAIT_SELLER_SEND_GOODS';
+        $this->refund_state = $order['refund_state'] ? $order['refund_state'] : 'NO_REFUND';
         $this->consignee = $order['receiver_name'];
         $this->province = $order['receiver_state'];
         $this->city = $order['receiver_city'];
         $this->district = $order['receiver_district'];
         $this->address = $order['receiver_address'];
         $this->mobile = $order['receiver_mobile'];
-        $this->shipping_type = $order['shipping_type'];
-        $this->goods_amount = $order['price'];
-        $this->post_fee = $order['post_fee'];
-        $this->pay_fee = $order['payment'];
-        $this->refunded_fee = $order['refunded_fee'];
-        $this->order_amount = $order['total_fee'];
-        $this->created = $order['created'];
-        $this->sign_time = $order['sign_time'];
-        $this->pay_time = $order['pay_time'];
-        $this->consign_time = $order['consign_time'];
+        $this->shipping_type = $order['shipping_type'] ? $order['shipping_type'] : 'express';
+        $this->goods_amount = $order['price'] ? $order['price'] : '0.00';
+        $this->post_fee = $order['post_fee'] ? $order['post_fee'] : '0.00';
+        $this->pay_fee = $order['payment'] ? $order['payment'] : '0.00';
+        $this->refunded_fee = $order['refunded_fee'] ? $order['refunded_fee'] : '0.00';
+        $this->order_amount = $order['total_fee'] ? $order['total_fee'] : '0.00';
+        $this->created = $order['created'] ? $order['created'] : date('Y-m-d H:i:s');
+        $this->sign_time = $order['sign_time'] ? $order['sign_time'] : date('Y-m-d H:i:s');
+        $this->pay_time = $order['pay_time'] ? $order['pay_time'] : date('Y-m-d H:i:s');
+        $this->consign_time = $order['consign_time'] ? $order['consign_time'] : date('Y-m-d H:i:s');
         $this->data = json_encode($order);
 
-
-        //  var_dump($user);die;
-        //order_info表插入数据库
+        //订单已经存在
+        if(Order::findOne(['order_sn'=>trim($order['tid'])])){
+            return false;
+       }
+        //$order_id = 8;
         $order_id = self::save() ? Yii::$app->db->lastInsertID : '';
         if (!$order_id) {
-            //Yii::getLogger()->log($msg, $level, $category)
-            //Yii::getLogger()->log("有赞订单：{$order['tid']}没有创建成功");
+
             return false;
         }
-        //order_goods表
-        $order_goods = new OrderGoods();
-        foreach ($order['orders'] as $param) {
-            $param['order_sn'] = $order['tid'];
+
+        foreach ($order['orders'] as $key=>$param) {
+            $order_goods = new OrderGoods();
+            $param['order_sn'] = $this->order_sn;
             $param['order_id'] = $order_id;
             $rec_id = $order_goods->AddOrderGoods($param);
-            //$rec_id = 1;
+            //$rec_id = 7;
             if (!$rec_id) {
                // Yii::getLogger()->log("有赞订单：{$order['tid']},系统订单id{$order_id}没有创建成功order_goods");
                 break;
@@ -65,16 +66,17 @@ class Order extends ActiveRecord
             $code = $param['outer_item_id'];
             // $code = 'ZC160006';
             //$sql = "SELECT course_id FROM `course` WHERE `code` = '".$code."'";
-            $sql = "SELECT c.course_id,s.section_id,s.expire_time 
+            $sql = "SELECT c.course_id,s.section_id,s.expire_time
                     FROM `course_section` as cs
                     LEFT JOIN `course` as c ON cs.course_id = c.course_id
                     LEFT JOIN `section` as s ON cs.section_id = s.section_id 
-                    WHERE c.code = '{$code}'";
+                    WHERE c.code = '{$code}' and s.sort=1";
             $courses = Yii::$app->db->createCommand($sql)->queryAll();
             if (!$courses) {
                 //Yii::getLogger()->log("有赞订单：{$order['tid']},不是课程");
                 break;
             }
+            //print_r($courses);die;
             foreach ($courses as $course) {
                 $expire_time = date('Y-m-d H:i:s', strtotime($course['expire_time']) + 86400 * 30 * 3);
                 //print_r($course);die;
@@ -83,15 +85,17 @@ class Order extends ActiveRecord
                     break;
                 }
                 //$order['receiver_mobile'] = '18636342640';
-                //3.查看订单手机号是否在用户表存在
-                $user_id = User::getUserByName($order['receiver_mobile']);
+                //3.查看订单手机号是否在用户表存在  $user 是对象
+                $user = User::getUserByName($this->mobile);
                 $course_id = $course['course_id'];
-                if ($user_id) {
+                if ($user->user_id) {
+                    $user_id = $user->user_id;
+                    Order::updateAll(['user_id' => $user_id], "order_id = $order_id");
                     //4.检查该用户是否已经上过该课程的阶段
                     $sql = "select max(cs.sort) as sort from `section` as cs left join `user_course` as uc on cs.section_id = uc.section_id WHERE uc.course_id = '{$course_id}' and uc.user_id = '{$user_id}'";
                     //echo $sql;die;
                     $user_max_sort = Yii::$app->db->createCommand($sql)->queryOne();
-                    //print_r($user_max_sort);die; ok
+                    //print_r($user_max_sort);die;
                     if ($user_max_sort['sort']) {
                         //上过该课程，需要创建新的阶段课程
                         $sql = "select min(s.sort) as sort from `section` as s 
@@ -104,10 +108,12 @@ class Order extends ActiveRecord
                             break;
                         }
                         //print_r($user_next_section);die;
-                        $sql = "select min(s.*) from `section` as s 
+                        $sql = "select s.* from `section` as s 
                                 left join `course_section` as cs on s.section_id = cs.section_id 
-                                WHERE cs.course_id = '{$course_id}' and s.sort>'{$user_next_section['sort']}'";
+                                WHERE cs.course_id = '{$course_id}' and s.sort='{$user_next_section['sort']}'";
+                        //echo $sql;die;
                         $new_section = Yii::$app->db->createCommand($sql)->queryOne();
+                        //print_r($new_section);die;
                         $expire_time = date('Y-m-d H:i:s', strtotime($new_section['expire_time']) + 86400 * 30 * 3);
                         $user_course = array(
                             'course_id' => $new_section['course_id'],
@@ -142,6 +148,7 @@ class Order extends ActiveRecord
                     $users = new User();
                     $new_user_id = $users->Signup($user);
                     if ($new_user_id) {
+                        Order::updateAll(['user_id' => $new_user_id], "order_id = $order_id");
                         //会员添加成功
                         $user_course = array(
                             'course_id' => $course['course_id'],
