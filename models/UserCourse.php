@@ -86,6 +86,7 @@ class UserCourse extends ActiveRecord
     }
 
     /**
+     * ordercontroller.php
      * 添加用户与课程的关系
      **/
     public function add($param)
@@ -102,6 +103,9 @@ class UserCourse extends ActiveRecord
         return $id;
     }
 
+    /**
+     * 后台给用户批量添加课程关联
+     **/
     public function modify(self $usercourse, $params)
     {
         foreach ($params as $param) {

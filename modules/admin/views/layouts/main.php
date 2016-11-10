@@ -236,6 +236,7 @@ AppAsset::register($this);
                             <ul>
                                 <li class="menu-item"><a href="<?= Url::to(['user/list'])?>" target="main-frame">会员列表</a></li>
                                 <li class="menu-item"><a href="<?= Url::to(['user/course-list'])?>" target="main-frame">会员课程列表</a></li>
+                                <li class="menu-item"><a href="<?= Url::to(['user/course-import'])?>" target="main-frame">会员课程关联导入</a></li>
 
                             </ul>
 

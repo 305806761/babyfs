@@ -17,13 +17,15 @@ use Yii;
 use yii\web\Controller;
 use app\models\Template;
 use yii\data\Pagination;
+use moonland\phpexcel\Excel;
 
 
 class UserController extends Controller
 {
     public $enableCsrfValidation = false;
 
-    public function actionList(){
+    public function actionList()
+    {
         $query = User::find();
         $pagination = new Pagination([
             'defaultPageSize' => 20,
@@ -40,7 +42,15 @@ class UserController extends Controller
             'pagination' => $pagination,
         ]);
     }
-    public function actionEdit(){
+
+    /**
+     * 用户编辑
+     * @param str user_id
+     * @return array
+     * @access public
+     */
+    public function actionEdit()
+    {
 
         $user_id = Yii::$app->request->get('user_id');
         if (!$user = User::findOne($user_id)) {
@@ -57,10 +67,17 @@ class UserController extends Controller
         ]);
     }
 
-    public function actionUserSearch(){
+    /**
+     * 用户列表搜索
+     * @param
+     * @return array
+     * @access public
+     */
+    public function actionUserSearch()
+    {
         $phone = Yii::$app->request->post('phone');
-        if($phone){
-            $user = User::findOne(['phone'=>$phone])->attributes;
+        if ($phone) {
+            $user = User::findOne(['phone' => $phone])->attributes;
             $users = array($user);
         }
         $pagination = new Pagination([
@@ -74,6 +91,12 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * 查看用户课程列表
+     * @param string 密码
+     * @return str 返回加密的用户密码
+     * @access public
+     */
     public function actionCourseList()
     {
         $course = Course::getCourse();
@@ -85,6 +108,12 @@ class UserController extends Controller
 
     }
 
+    /**
+     * 会员课程列表search
+     * @param
+     * @return array
+     * @access public
+     */
     public function actionSearch()
     {
         $course = Course::getCourse();
@@ -115,6 +144,12 @@ class UserController extends Controller
             ]);
     }
 
+    /**
+     * 后台审核用户课程关联表（审核通过，开始上课）
+     * @param string id user_course(id)
+     * @return boolean
+     * @access public
+     */
     public function actionChecked()
     {
         $user_course_ids = implode(',', Yii::$app->request->post('id'));
@@ -128,7 +163,37 @@ class UserController extends Controller
                 Tool::Redirect("/admin/user/course-list");
             }
         }
-
     }
 
+    /**
+     * 会员关联数据的导入
+     * @param string id user_course(id)
+     * @return boolean
+     * @access public
+     */
+    public function actionCourseImport()
+    {
+        if (Yii::$app->request->post()) {
+
+            if (isset($_FILES['user_course']['tmp_name'])
+                && $_FILES['user_course']['tmp_name']
+            ) {
+                //$path_parts = pathinfo($param['user_course']['name']);
+                $file = 'uploadFile.xlsx'; //可以定义一个上传后的文件名称uploadFile.xlsx
+                $filename = '/uploads/user_course/' . $file;
+                copy(
+                    $_FILES['user_course']['tmp_name'],
+                    Yii::getAlias('@webroot' . $filename)
+                );
+                $data = Excel::import($filename, [
+                    'setFirstRecordAsKeys' => true, // if you want to set the keys of record column with first record, if it not set, the header with use the alphabet column on excel.
+                    'setIndexSheetByName' => true, // set this if your excel data with multiple worksheet, the index of array will be set with the sheet name. If this not set, the index will use numeric.
+                    'getOnlySheet' => 'sheet1', // you can set this property if you want to get the specified sheet from the excel data with multiple worksheet.
+                ]);
+                print_r($data);
+                die;
+            }
+        }
+        return $this->render('course_import');
+    }
 }

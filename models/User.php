@@ -222,6 +222,7 @@ class User extends ActiveRecord
         $sql .= " user_course as uc left join course as c on uc.course_id = c.course_id 
         left join section as s on uc.section_id = s.section_id left join user as u on uc.user_id = u.user_id";
         $sql = $where ? $sql . $where : $sql;
+        $sql = $sql .' order by uc.id desc';
         $result = Yii::$app->db->createCommand($sql)->query();
 
         $pagination = new Pagination([
