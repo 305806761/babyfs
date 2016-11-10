@@ -27,7 +27,6 @@
     "janisto/yii2-timepicker": "*",
     "xamin/handlebars.php": "dev-master",
     "xj/yii2-qrcode-widget": "*",
-    "phpoffice/phpexcel": "dev-develop",
     "moonlandsoft/yii2-phpexcel": "*"
   },
   "require-dev": {
