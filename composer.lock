@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b73900c50bdf9bb2255a547c00b75d2c",
-    "content-hash": "a4e31b67517fd7d1641982d7865e0856",
+    "hash": "8f31a76b31307462d0cb425851357ff2",
+    "content-hash": "3f3ca0a92752f502c21a0ae847dcba21",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -462,26 +462,22 @@
         },
         {
             "name": "phpoffice/phpexcel",
-            "version": "dev-develop",
+            "version": "1.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPOffice/PHPExcel.git",
-                "reference": "d3373c97e1bd4fceb0687d2e289998bccda514f1"
+                "reference": "372c7cbb695a6f6f1e62649381aeaa37e7e70b32"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/PHPOffice/PHPExcel/d3373c97e1bd4fceb0687d2e289998bccda514f1.zip",
-                "reference": "d3373c97e1bd4fceb0687d2e289998bccda514f1",
+                "url": "https://packagist.phpcomposer.com/files/PHPOffice/PHPExcel/372c7cbb695a6f6f1e62649381aeaa37e7e70b32.zip",
+                "reference": "372c7cbb695a6f6f1e62649381aeaa37e7e70b32",
                 "shasum": ""
             },
             "require": {
-                "ext-mbstring": "*",
                 "ext-xml": "*",
                 "ext-xmlwriter": "*",
-                "php": "^5.2|^7.0"
-            },
-            "require-dev": {
-                "squizlabs/php_codesniffer": "2.*"
+                "php": ">=5.2.0"
             },
             "type": "library",
             "autoload": {
@@ -491,7 +487,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "LGPL-2.1"
+                "LGPL"
             ],
             "authors": [
                 {
@@ -499,19 +495,18 @@
                     "homepage": "http://blog.maartenballiauw.be"
                 },
                 {
-                    "name": "Erik Tilt"
+                    "name": "Mark Baker"
                 },
                 {
                     "name": "Franck Lefevre",
-                    "homepage": "http://rootslabs.net"
+                    "homepage": "http://blog.rootslabs.net"
                 },
                 {
-                    "name": "Mark Baker",
-                    "homepage": "http://markbakeruk.net"
+                    "name": "Erik Tilt"
                 }
             ],
             "description": "PHPExcel - OpenXML - Read, Create and Write Spreadsheet documents in PHP - Spreadsheet engine",
-            "homepage": "https://github.com/PHPOffice/PHPExcel",
+            "homepage": "http://phpexcel.codeplex.com",
             "keywords": [
                 "OpenXML",
                 "excel",
@@ -520,7 +515,7 @@
                 "xls",
                 "xlsx"
             ],
-            "time": "2016-09-29 20:13:14"
+            "time": "2015-05-01 07:00:55"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -1303,8 +1298,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "xamin/handlebars.php": 20,
-        "phpoffice/phpexcel": 20
+        "xamin/handlebars.php": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
