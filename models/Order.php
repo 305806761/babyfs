@@ -47,7 +47,7 @@ class Order extends ActiveRecord
         $order_id = self::save() ? Yii::$app->db->lastInsertID : '';
         if (!$order_id) {
             //Yii::getLogger()->log($msg, $level, $category)
-            Yii::getLogger()->log("有赞订单：{$order['tid']}没有创建成功");
+            //Yii::getLogger()->log("有赞订单：{$order['tid']}没有创建成功");
             return false;
         }
         //order_goods表
@@ -58,7 +58,7 @@ class Order extends ActiveRecord
             $rec_id = $order_goods->AddOrderGoods($param);
             //$rec_id = 1;
             if (!$rec_id) {
-                Yii::getLogger()->log("有赞订单：{$order['tid']},系统订单id{$order_id}没有创建成功order_goods");
+               // Yii::getLogger()->log("有赞订单：{$order['tid']},系统订单id{$order_id}没有创建成功order_goods");
                 break;
             }
             //1.判断是不是课程：如果是就继续，如果不是课程，就执行完成；
@@ -72,14 +72,14 @@ class Order extends ActiveRecord
                     WHERE c.code = '{$code}'";
             $courses = Yii::$app->db->createCommand($sql)->queryAll();
             if (!$courses) {
-                Yii::getLogger()->log("有赞订单：{$order['tid']},不是课程");
+                //Yii::getLogger()->log("有赞订单：{$order['tid']},不是课程");
                 break;
             }
             foreach ($courses as $course) {
                 $expire_time = date('Y-m-d H:i:s', strtotime($course['expire_time']) + 86400 * 30 * 3);
                 //print_r($course);die;
                 if (!$course['course_id']) {
-                    Yii::getLogger()->log("有赞订单：{$order['tid']},不是课程");
+                    //Yii::getLogger()->log("有赞订单：{$order['tid']},不是课程");
                     break;
                 }
                 //$order['receiver_mobile'] = '18636342640';
