@@ -46,7 +46,8 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php endif; ?>
         <?php endforeach; ?>
     </div>
-    <? phpelse ?>
+
+    <? phpelse; ?>
     <header>
         <div class="course-list-header">
             <h1>您没有权限查看或者还没有到开课时间哦</h1>
