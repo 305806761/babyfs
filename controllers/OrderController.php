@@ -13,6 +13,7 @@ class OrderController extends \yii\web\Controller
     public function actionNew()
     {
         $param = Yii::$app->request->bodyParams;
+        Yii::warning(json_encode($param));
         if (
             isset($param['test']) &&
             $param['test'] == false &&
