@@ -8,15 +8,16 @@
 
 use yii\helpers\Html;
 
-$this->title = $wares['section_name'];
+$this->title = $wares['section_name'] ?  $wares['section_name'] : '还没有到开课时间哦';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<?php if ($wares): ?>
+
     <header>
         <div class="course-list-header">
-            <h1><?= $wares['section_name'] ?></h1>
+            <h1><?= $this->title ?></h1>
         </div>
     </header>
+<?php if ($wares): ?>
     <div class="course-list-box">
         <?php foreach ($wares['section_ware'] as $valueware): ?>
             <?php if (isset($valueware['ware'])): ?>
@@ -46,11 +47,4 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php endif; ?>
         <?php endforeach; ?>
     </div>
-
-    <? phpelse; ?>
-    <header>
-        <div class="course-list-header">
-            <h1>您没有权限查看或者还没有到开课时间哦</h1>
-        </div>
-    </header>
 <?php endif; ?>
