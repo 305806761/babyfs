@@ -16,7 +16,7 @@
 <body>
 <header>
     <div class="introduce1-top">
-        <h2>Lesson <?= $ware['ware_id'] ?></h2>
+        <h2>Lesson</h2>
         <h1><?= $ware['title'] ?></h1>
     </div>
 </header>
