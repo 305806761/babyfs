@@ -46,11 +46,11 @@ class Order extends ActiveRecord
             return false;
         }
         //订单已经存在
-        if (Order::findOne(['order_sn' => trim($order['tid'])])) {
-            return false;
-        }
-        //$order_id = 8;
-        $order_id = self::save() ? Yii::$app->db->lastInsertID : '';
+        //if (Order::findOne(['order_sn' => trim($order['tid'])])) {
+            //return false;
+       // }
+        $order_id = 388;
+       // $order_id = self::save() ? Yii::$app->db->lastInsertID : '';
         if (!$order_id) {
 
             return false;
@@ -60,8 +60,8 @@ class Order extends ActiveRecord
             $order_goods = new OrderGoods();
             $param['order_sn'] = $this->order_sn;
             $param['order_id'] = $order_id;
-            $rec_id = $order_goods->AddOrderGoods($param);
-            //$rec_id = 7;
+            //$rec_id = $order_goods->AddOrderGoods($param);
+            $rec_id = 388;
             if (!$rec_id) {
                 // Yii::getLogger()->log("有赞订单：{$order['tid']},系统订单id{$order_id}没有创建成功order_goods");
                 break;
@@ -75,8 +75,9 @@ class Order extends ActiveRecord
                     LEFT JOIN `course` as c ON cs.course_id = c.course_id
                     LEFT JOIN `section` as s ON cs.section_id = s.section_id 
                     WHERE c.code = '{$code}'";//and s.sort=1
+            echo $sql .'1'.'<br />';
             $courses = Yii::$app->db->createCommand($sql)->queryAll();
-            if (!$courses) {
+            if (!$courses) {echo $courses[0]['course_id'] .'2'.'<br />';
                 //Yii::getLogger()->log("有赞订单：{$order['tid']},不是课程");
                 break;
             }
@@ -92,7 +93,7 @@ class Order extends ActiveRecord
                 //3.查看订单手机号是否在用户表存在  $user 是对象
                 $user = User::getUserByName($this->mobile);
                 $course_id = $course['course_id'];
-                if ($user->user_id) {
+                if ($user->user_id) {echo $user->user_id .'3'.'<br />';
                     $user_id = $user->user_id;
                     Order::updateAll(['user_id' => $user_id], "order_id = $order_id");
                     //4.检查该用户是否已经上过该课程的阶段
@@ -150,7 +151,7 @@ class Order extends ActiveRecord
                     return $id;
                 } else {
                     //用户不存在，创建用户，建立用户关系
-                    $user = array('phone' => $order['receiver_mobile'], 'password' => '');
+                    $user = array('phone' => $this->mobile, 'password' => '');echo $user->user_id .'4'.'<br />';
                     $users = new User();
                     $new_user_id = $users->Signup($user);
                     if ($new_user_id) {
