@@ -138,11 +138,11 @@ class CourseSection extends ActiveRecord
 
     public function getSectionWare($section_id, $user_id)
     {
-        if (!$uc = UserCourse::findOne(['section_id' => $section_id, 'user_id' => $user_id])) {echo 1;
+        if (!$uc = UserCourse::findOne(['section_id' => $section_id, 'user_id' => $user_id])) {
             return [];
         }
 
-        if (!$usable = Ware::getUsable($section_id, $uc->create_time)) {echo 2;
+        if (!$usable = Ware::getUsable($section_id, $uc->create_time)) {
             return [];
         }
 
@@ -160,7 +160,6 @@ class CourseSection extends ActiveRecord
         if ($where) {
             $sql .= ' where ' . implode(' and ', $where);
         }
-       echo $sql;die;
 
         $section_ware = Yii::$app->db->createCommand($sql)->queryAll();
         foreach ($section_ware as $key => $value) {
@@ -181,7 +180,6 @@ class CourseSection extends ActiveRecord
         }
         $ware = array('section_name' => $section_ware[0]['section_name'], 'section_ware' => $section_ware);
         //$section_ware['section_name'] = $section_ware[0]['section_name'];
-        print_r($ware);die;
         return $ware;
     }
 
