@@ -160,7 +160,7 @@ class CourseSection extends ActiveRecord
         if ($where) {
             $sql .= ' where ' . implode(' and ', $where);
         }
-//        echo $sql;die;
+       echo $sql;die;
 
         $section_ware = Yii::$app->db->createCommand($sql)->queryAll();
         foreach ($section_ware as $key => $value) {
