@@ -138,11 +138,11 @@ class CourseSection extends ActiveRecord
 
     public function getSectionWare($section_id, $user_id)
     {
-        if (!$uc = UserCourse::findOne(['section_id' => $section_id, 'user_id' => $user_id])) {
+        if (!$uc = UserCourse::findOne(['section_id' => $section_id, 'user_id' => $user_id])) {echo 1;
             return [];
         }
 
-        if (!$usable = Ware::getUsable($section_id, $uc->create_time)) {
+        if (!$usable = Ware::getUsable($section_id, $uc->create_time)) {echo 2;
             return [];
         }
 

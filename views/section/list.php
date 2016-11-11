@@ -34,11 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <a href="/ware/detail?ware_id=<?= $value['ware_id'] ?>"><h1><?= $value['title'] ?></h1>
                                 </a>
                                 <p>
-                                    <span>monkey</span>
-                                    <span>horse</span>
-                                    <span>elephant</span>
-                                    <span>tiger</span>
-                                    <span>lion</span>
+                                    <?= $value['small_text'] ?>">
                                 </p>
                             </dd>
                         </dl>
