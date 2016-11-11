@@ -156,9 +156,8 @@ class UserController extends Controller
         $user_course_ids = implode(',', Yii::$app->request->post('id'));
         //var_dump($user_course_ids);die;  string(5) "1,2,3"
         if ($user_course_ids) {
-            $create_time = date('Y-m-d H:i:s', time());
             //print_r($create_time);die;
-            $sql = "update user_course set `started` = 2 ,`create_time` = '{$create_time}' where id in($user_course_ids)";
+            $sql = "update user_course set `started` = 2 where id in($user_course_ids)";
             $result = Yii::$app->db->createCommand($sql)->execute();
             if ($result) {
                 Tool::Redirect("/admin/user/course-list");

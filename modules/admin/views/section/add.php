@@ -117,6 +117,17 @@ $this->params['breadcrumbs'][] = $this->title;
             </td>
         </tr>
         <tr>
+            <td class="tdleft">阶段开课时间</td>
+            <td>
+                <input id="create_time" type="text" readonly="readonly" size="12" name="create_time"
+                       value="<?= $section['create_time'] ?>"/>
+                <input id="selbtn1" class="button" type="button" value="选择"
+                       onclick="return showCalendar('create_time', '%Y-%m-%d', false, false, 'selbtn1');"
+                       name="selbtn1">
+
+            </td>
+        </tr>
+        <tr>
             <td class="tdleft">课程排序:</td>
             <td>
                 <input type="text" name="sort" value="<?= $section['sort'] ?>"/>

@@ -52,6 +52,7 @@ class SectionController extends Controller
                 'course_id' => Yii::$app->request->post('course_id'),
                 'section_id' => Yii::$app->request->post('section_id'),
                 'expire_time' => Yii::$app->request->post('expire_time'),
+                'create_time' => Yii::$app->request->post('create_time'),
                 'sort' => Yii::$app->request->post('sort'),
                 'image' => $_FILES['image'],
                 'buyurl' => Yii::$app->request->post('buyurl'),

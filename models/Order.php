@@ -66,11 +66,11 @@ class Order extends ActiveRecord
             $code = $param['outer_item_id'];
             // $code = 'ZC160006';
             //$sql = "SELECT course_id FROM `course` WHERE `code` = '".$code."'";
-            $sql = "SELECT c.course_id,s.section_id,s.expire_time
+            $sql = "SELECT c.course_id,s.section_id,s.expire_time,s.create_time
                     FROM `course_section` as cs
                     LEFT JOIN `course` as c ON cs.course_id = c.course_id
                     LEFT JOIN `section` as s ON cs.section_id = s.section_id 
-                    WHERE c.code = '{$code}' and s.sort=1";
+                    WHERE c.code = '{$code}'";//and s.sort=1
             $courses = Yii::$app->db->createCommand($sql)->queryAll();
             if (!$courses) {
                 //Yii::getLogger()->log("有赞订单：{$order['tid']},不是课程");
@@ -120,7 +120,7 @@ class Order extends ActiveRecord
                             'section_id' => $new_section['section_id'],
                             'version' => 1,
                             'user_id' => $user_id,
-                            'create_time' => date('Y-m-d H:i:s'),
+                            'create_time' => $new_section['create_time'],
                             'created' => date('Y-m-d H:i:s'),
                             'expire_time' => $expire_time,
                         );
@@ -131,7 +131,7 @@ class Order extends ActiveRecord
                             'section_id' => $course['section_id'],
                             'version' => 1,
                             'user_id' => $user_id,
-                            'create_time' => date('Y-m-d H:i:s'),
+                            'create_time' => $course['create_time'],
                             'created' => date('Y-m-d H:i:s'),
                             'expire_time' => $expire_time,
                         );
@@ -155,7 +155,7 @@ class Order extends ActiveRecord
                             'section_id' => $course['section_id'],
                             'version' => 1,
                             'user_id' => $new_user_id,
-                            'create_time' => date('Y-m-d H:i:s'),
+                            'create_time' => $course['create_time'],
                             'created' => date('Y-m-d H:i:s'),
                             'expire_time' => $expire_time,
                         );
