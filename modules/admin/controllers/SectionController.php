@@ -244,7 +244,8 @@ class SectionController extends Controller
             }
             foreach ($sections as $k => $v) {
                 $res = Section::find()->where(['section_id' => $v['section_id']])->asArray()->one();
-                $sections[$k]['version'] = $res['$res'];
+                $sections[$k]['version'] = $res['version'] ? $res['version'] : 1;
+                $sections[$k]['started'] = 2;
                 $sections[$k]['create_time'] = $res['create_time'];
                 $sections[$k]['expire_time'] =  date('Y-m-d H:i:s', strtotime($res['expire_time']) + 86400 * 30 * 3);
             }

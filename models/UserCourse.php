@@ -95,6 +95,7 @@ class UserCourse extends ActiveRecord
         $this->course_id = $param['course_id'];
         $this->section_id = $param['section_id'];
         $this->version = $param['version'];
+        $this->started = $param['started'];
         $this->user_id = $param['user_id'];
         $this->create_time = $param['create_time'];
         $this->expire_time = $param['expire_time'];
@@ -113,6 +114,7 @@ class UserCourse extends ActiveRecord
             $usercourse->course_id = $param['course_id'];
             $usercourse->section_id = $param['section_id'];
             $usercourse->version = $param['version'];
+            $usercourse->started = $param['started'];
             $usercourse->user_id = $param['user_id'];
             $usercourse->create_time = $param['create_time'];
             $usercourse->expire_time = $param['expire_time'];
