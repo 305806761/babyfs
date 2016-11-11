@@ -181,7 +181,7 @@ class CourseSection extends ActiveRecord
         }
         $ware = array('section_name' => $section_ware[0]['section_name'], 'section_ware' => $section_ware);
         //$section_ware['section_name'] = $section_ware[0]['section_name'];
-        //print_r($ware);die;
+        print_r($ware);die;
         return $ware;
     }
 
