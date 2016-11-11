@@ -11,36 +11,45 @@ use yii\helpers\Html;
 $this->title = $wares['section_name'];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<header>
-    <div class="course-list-header">
-        <h1><?= $wares['section_name'] ?></h1>
+<?php if ($wares): ?>
+    <header>
+        <div class="course-list-header">
+            <h1><?= $wares['section_name'] ?></h1>
+        </div>
+    </header>
+    <div class="course-list-box">
+        <?php foreach ($wares['section_ware'] as $valueware): ?>
+            <?php if (isset($valueware['ware'])): ?>
+                <div class="course-list-con">
+                    <div class="course-list-con-top clearfix">
+                        <h1 class="clearfix">
+                            <span><img src="res/img/course-img2.png" alt=""/></span>
+                            <span><?= $valueware['cat_name'] ?></span>
+                        </h1>
+                    </div>
+                    <div class="course-list-con-bottom">
+                        <?php foreach ($valueware['ware'] as $value): ?>
+                            <dl class="clearfix">
+                                <dt><img src="res/img/course-img1.png" alt=""/></dt>
+                                <dd>
+                                    <a href="/ware/detail?ware_id=<?= $value['ware_id'] ?>">
+                                        <h1><?= $value['title'] ?></h1>
+                                    </a>
+                                    <p>
+                                        <?= $value['small_text'] ?>
+                                    </p>
+                                </dd>
+                            </dl>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            <?php endif; ?>
+        <?php endforeach; ?>
     </div>
-</header>
-<div class="course-list-box">
-    <?php foreach ($wares['section_ware'] as $valueware): ?>
-        <?php if (isset($valueware['ware'])): ?>
-            <div class="course-list-con">
-                <div class="course-list-con-top clearfix">
-                    <h1 class="clearfix">
-                        <span><img src="res/img/course-img2.png" alt=""/></span>
-                        <span><?= $valueware['cat_name'] ?></span>
-                    </h1>
-                </div>
-                <div class="course-list-con-bottom">
-                    <?php foreach ($valueware['ware'] as $value): ?>
-                        <dl class="clearfix">
-                            <dt><img src="res/img/course-img1.png" alt=""/></dt>
-                            <dd>
-                                <a href="/ware/detail?ware_id=<?= $value['ware_id'] ?>"><h1><?= $value['title'] ?></h1>
-                                </a>
-                                <p>
-                                    <?= $value['small_text'] ?>
-                                </p>
-                            </dd>
-                        </dl>
-                    <?php endforeach; ?>
-                </div>
-            </div>
-        <?php endif; ?>
-    <?php endforeach; ?>
-</div>
+    <? phpelse ?>
+    <header>
+        <div class="course-list-header">
+            <h1>您没有权限查看或者还没有到开课时间哦</h1>
+        </div>
+    </header>
+<?php endif; ?>
