@@ -32,7 +32,7 @@ class UserController extends Controller
             'defaultPageSize' => 20,
             'totalCount' => $query->count(),
         ]);
-        $users = $query->orderBy('id')
+        $users = $query->orderBy('user_id')
             ->offset($pagination->offset)
             ->limit($pagination->limit)
             ->all();
