@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <a href="/ware/detail?ware_id=<?= $value['ware_id'] ?>"><h1><?= $value['title'] ?></h1>
                                 </a>
                                 <p>
-                                    <?= $value['small_text'] ?>">
+                                    <?= $value['small_text'] ?>
                                 </p>
                             </dd>
                         </dl>
