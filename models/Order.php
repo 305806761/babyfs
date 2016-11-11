@@ -42,9 +42,13 @@ class Order extends ActiveRecord
         $this->data = json_encode($order);
 
         //订单已经存在
-        if(Order::findOne(['order_sn'=>trim($order['tid'])])){
+        if (!$this->order_sn ) {
             return false;
-       }
+        }
+        //订单已经存在
+        if (Order::findOne(['order_sn' => trim($order['tid'])])) {
+            return false;
+        }
         //$order_id = 8;
         $order_id = self::save() ? Yii::$app->db->lastInsertID : '';
         if (!$order_id) {
@@ -52,14 +56,14 @@ class Order extends ActiveRecord
             return false;
         }
 
-        foreach ($order['orders'] as $key=>$param) {
+        foreach ($order['orders'] as $key => $param) {
             $order_goods = new OrderGoods();
             $param['order_sn'] = $this->order_sn;
             $param['order_id'] = $order_id;
             $rec_id = $order_goods->AddOrderGoods($param);
             //$rec_id = 7;
             if (!$rec_id) {
-               // Yii::getLogger()->log("有赞订单：{$order['tid']},系统订单id{$order_id}没有创建成功order_goods");
+                // Yii::getLogger()->log("有赞订单：{$order['tid']},系统订单id{$order_id}没有创建成功order_goods");
                 break;
             }
             //1.判断是不是课程：如果是就继续，如果不是课程，就执行完成；
