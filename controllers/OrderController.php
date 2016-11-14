@@ -23,10 +23,10 @@ class OrderController extends \yii\web\Controller
             $param['type'] == 'TRADE'
         ) {
             $youzan_id = $param['id'];
-            $msg = json_decode(urldecode($param['msg']));
-            $result = Tool::objectArray($msg);
+            $msg = json_decode(urldecode($param['msg']),true);
+            Yii::warning(json_encode($msg));
             $ordernew = new Order();
-            $ordernew->AddOrder($result);
+            $ordernew->AddOrder($msg);
         }
         return '{"code":0,"msg":"success"}';
     }
