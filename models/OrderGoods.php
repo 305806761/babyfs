@@ -30,7 +30,7 @@ class OrderGoods extends ActiveRecord
         $this->refunded_fee = $param['refunded_fee'] ? $param['refunded_fee'] : '0.00';
         $this->state_str = $param['state_str'] ? $param['state_str'] : '已付款';
         $this->item_refund_state = $param['item_refund_state'] ? $param['item_refund_state'] : 'NO_REFUND';
-        $rec_id  = self::save() ? Yii::$app->db->lastInsertID : '';
+        $rec_id  = $this->save() ? Yii::$app->db->lastInsertID : '';
         return $rec_id;
     }
 }

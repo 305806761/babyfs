@@ -11,6 +11,7 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\db\ActiveRecord;
+use yii\data\Pagination;
 
 class Order extends ActiveRecord
 {
@@ -20,7 +21,6 @@ class Order extends ActiveRecord
     public function AddOrder($order)
     {
         Yii::warning(json_encode($order));
-        self::tableName();
         $this->order_sn = trim($order['tid']);
         $this->order_status = $order['status'] ? $order['status'] : 'WAIT_SELLER_SEND_GOODS';
         $this->refund_state = $order['refund_state'] ? $order['refund_state'] : 'NO_REFUND';
@@ -51,9 +51,9 @@ class Order extends ActiveRecord
             return false;
         }
         //$order_id = 8;
-        $order_id = self::save() ? Yii::$app->db->lastInsertID : '';
+        $order_id = $this->save() ? Yii::$app->db->lastInsertID : '';
         if (!$order_id) {
-
+            Yii::warning(json_encode($this->errors));
             return false;
         }
 
@@ -64,7 +64,7 @@ class Order extends ActiveRecord
             $rec_id = $order_goods->AddOrderGoods($param);
             //$rec_id = 7;
             if (!$rec_id) {
-                // Yii::getLogger()->log("有赞订单：{$order['tid']},系统订单id{$order_id}没有创建成功order_goods");
+                Yii::warning(json_encode($this->errors));
                 break;
             }
             //1.判断是不是课程：如果是就继续，如果不是课程，就执行完成；
@@ -78,13 +78,13 @@ class Order extends ActiveRecord
                     WHERE c.code = '{$code}'";//and s.sort=1
             $courses = Yii::$app->db->createCommand($sql)->queryAll();
             if (!$courses) {
-                //Yii::getLogger()->log("有赞订单：{$order['tid']},不是课程");
+                Yii::warning(json_encode($this->errors));
                 break;
             }
             //print_r($courses);die;
             foreach ($courses as $course) {
                 $expire_time = date('Y-m-d H:i:s', strtotime($course['expire_time']) + 86400 * 30 * 3);
-                //print_r($course);die;
+                Yii::warning(json_encode($this->errors));
                 if (!$course['course_id']) {
                     //Yii::getLogger()->log("有赞订单：{$order['tid']},不是课程");
                     break;
@@ -174,6 +174,42 @@ class Order extends ActiveRecord
                 }
             }
         }
+    }
+
+    public function getInfo($order_sn='',$mobile=''){
+
+        $sql = "SELECT oi.order_id,oi.order_sn,oi.user_id,oi.order_status,oi.refund_state,oi.address,oi.mobile
+              FROM order_info as oi";
+
+        $where = [];
+        if ($order_sn) {
+            $where[] = "oi.order_sn = '$order_sn'";
+        }
+        if ($mobile) {
+            $where[] = "oi.mobile = '$mobile'";
+        }
+        if ($where) {
+            $sql .= ' where ' . implode(' and ', $where);
+        }
+
+        $sql = $sql .' order by oi.order_id desc';
+
+        //echo $sql;die;
+        $result = Yii::$app->db->createCommand($sql)->query();
+
+        $pagination = new Pagination([
+            'defaultPageSize' => 20,
+            'totalCount' => $result->rowCount,
+        ]);
+        $result = Yii::$app->db->createCommand($sql . " LIMIT $pagination->offset,$pagination->limit");
+        $order = $result->queryAll();
+        foreach ($order as $key=>$value){
+            $sql = "select code,goods_name from order_goods where order_id = '{$value['order_id']}'";
+            $order_goods = Yii::$app->db->createCommand($sql)->queryAll();
+            $order[$key]['goods'] = $order_goods;
+        }
+        $orders = array('order' => $order, 'page' => $pagination);
+        return $orders;
     }
 
     public static function tableName()
