@@ -47,6 +47,7 @@ use yii\widgets\LinkPager;
         <tr>
             <td class="tdleft">用户id</td>
             <td class="tdleft">手机号</td>
+            <td class="tdleft">密码</td>
             <td class="tdleft">注册时间</td>
             <td class="tdleft">操作</td>
         </tr>
@@ -54,6 +55,7 @@ use yii\widgets\LinkPager;
             <tr id=user<?= $value['user_id'] ?>>
                 <td class="tdvleft"><?= $value['user_id']; ?></td>
                 <td class="tdvleft"><?= $value['phone']; ?></td>
+                <td class="tdvleft"><?= $value['password']; ?></td>
                 <td class="tdvleft"><?= $value['created']; ?></td>
 
                 <td>
