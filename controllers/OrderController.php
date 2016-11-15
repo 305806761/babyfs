@@ -13,7 +13,7 @@ class OrderController extends \yii\web\Controller
     public function actionNew()
     {
         $param = Yii::$app->request->bodyParams;
-        Yii::warning(json_encode($param));
+        //Yii::warning(json_encode($param));
         if (
             isset($param['test']) &&
             $param['test'] == false &&
@@ -24,7 +24,6 @@ class OrderController extends \yii\web\Controller
         ) {
             $youzan_id = $param['id'];
             $msg = json_decode(urldecode($param['msg']),true);
-            Yii::warning(json_encode($msg));
             $ordernew = new Order();
             $ordernew->AddOrder($msg);
         }

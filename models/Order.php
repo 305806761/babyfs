@@ -19,6 +19,7 @@ class Order extends ActiveRecord
      */
     public function AddOrder($order)
     {
+        Yii::warning(json_encode($order));
         self::tableName();
         $this->order_sn = trim($order['tid']);
         $this->order_status = $order['status'] ? $order['status'] : 'WAIT_SELLER_SEND_GOODS';

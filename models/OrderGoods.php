@@ -16,6 +16,7 @@ class OrderGoods extends ActiveRecord
 
     public function AddOrderGoods($param){
 
+        Yii::warning(json_encode($param));
         $this->order_sn = $param['order_sn'];
         $this->order_id = $param['order_id'];
         $this->code = $param['outer_item_id'];
