@@ -25,7 +25,7 @@ class OrderController extends \yii\web\Controller
             $youzan_id = $param['id'];
             $msg = json_decode(urldecode($param['msg']),true);
             $ordernew = new Order();
-            $ordernew->AddOrder($msg);
+            $ordernew->AddOrder($msg['trade']);
         }
         return '{"code":0,"msg":"success"}';
     }
