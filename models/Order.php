@@ -42,14 +42,17 @@ class Order extends ActiveRecord
         $this->consign_time = $order['consign_time'] ? $order['consign_time'] : date('Y-m-d H:i:s');
         $this->data = json_encode($order);
 
+        Yii::warning($order['tid']);
+        Yii::warning(0);
         //订单已经存在
-        if (!$this->order_sn ) {
+        if (!$this->order_sn ) {Yii::warning(1);
             return false;
         }
         //订单已经存在
-        if (Order::findOne(['order_sn' => trim($this->order_sn)])) {
+        if (Order::findOne(['order_sn' => trim($this->order_sn)])) {Yii::warning(2);
             return false;
         }
+        Yii::warning(3);
         //$order_id = 8;
         $order_id = $this->save() ? Yii::$app->db->lastInsertID : '';
         if (!$order_id) {
