@@ -22,13 +22,21 @@ $this->params['breadcrumbs'][] = $this->title;
     }
 
 </style>
-<form action="/admin/section/add-cat" method="post">
+<form action="/admin/section/add-cat" method="post" enctype="multipart/form-data">
     <table width="100%" align="center">
 
         <tr>
             <td class="tdleft">分类名称:</td>
             <td>
                 <input type="text" name="cat_name" value="<?= $cat['cat_name']?>" />
+            </td>
+        </tr>
+
+        <tr>
+            <td class="tdleft">上传阶段分组图片:</td>
+            <td>
+                <img src="<?= json_decode($cat['image']) ?>" width="120" height="auto"/>
+                <input type="file" name="image" size="35"/>
             </td>
         </tr>
 

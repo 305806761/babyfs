@@ -27,6 +27,9 @@ $this->registerJsFile('/default/js/public/ware.js');
     <div class="col-md-9">
         <?= $form->field($model, 'small_text')->textInput(['maxlength' => true]) ?>
     </div>
+    <div class="col-md-3">
+        <?= $form->field($model, 'image')->fileInput(['maxlength' => true]) ?>
+    </div>
 </div>
 
 <div class="row" style="margin: 20px">

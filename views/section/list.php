@@ -24,14 +24,20 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="course-list-con">
                     <div class="course-list-con-top clearfix">
                         <h1 class="clearfix">
-                            <span><img src="res/img/course-img2.png" alt=""/></span>
+                            <?php
+                            $img = $valueware['cat_image'] ? json_decode($valueware['cat_image']) : "/default/img/course-img2.png";
+                            ?>
+                            <span><img src="<?= $img?>" /></span>
                             <span><?= $valueware['cat_name'] ?></span>
                         </h1>
                     </div>
                     <div class="course-list-con-bottom">
                         <?php foreach ($valueware['ware'] as $value): ?>
                             <dl class="clearfix">
-                                <dt><img src="res/img/course-img1.png" alt=""/></dt>
+                                <?php
+                                $img = $value['ware_image'] ? json_decode($value['ware_image']) : "/default/img/course-img1.png";
+                                ?>
+                                <dt><img src="<?= $img?>" /></dt>
                                 <dd>
                                     <a href="/ware/detail?ware_id=<?= $value['ware_id'] ?>">
                                         <h1><?= $value['title'] ?></h1>

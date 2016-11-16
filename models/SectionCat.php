@@ -72,6 +72,19 @@ class SectionCat extends ActiveRecord
         $sectioncat->section_id = $param['section_id'] ? $param['section_id'] : $sectioncat->section_id;
         $sectioncat->cat_name = $param['cat_name'] ? $param['cat_name'] : $sectioncat->cat_name;
 
+        if (isset($param['image']['tmp_name'])
+            && $param['image']['tmp_name']
+        ) {
+            $path_parts = pathinfo($param['image']['name']);
+            $file = '/uploads/section/' . time() . rand(100, 999) . $path_parts['basename'];
+            copy(
+                $param['image']['tmp_name'],
+                Yii::getAlias('@webroot' . $file)
+            );
+            $image = json_encode($file);
+        }
+        $sectioncat->image = $image ? $image : $sectioncat->image;
+
         $cat_id = 0;
         if ($sectioncat->save()) {
             $cat_id = Yii::$app->db->lastInsertID ? Yii::$app->db->lastInsertID : $sectioncat->id;

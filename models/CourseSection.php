@@ -146,7 +146,7 @@ class CourseSection extends ActiveRecord
             return [];
         }
 
-        $sql = "SELECT sc.id,sc.cat_name,s.name AS section_name
+        $sql = "SELECT sc.id,sc.cat_name,sc.image as cat_image,s.name AS section_name
                 FROM section_cat AS sc 
                 LEFT JOIN section AS s ON sc.section_id = s.section_id 
                 LEFT JOIN user_course AS uc ON sc.section_id = uc.section_id";
@@ -163,7 +163,7 @@ class CourseSection extends ActiveRecord
 
         $section_ware = Yii::$app->db->createCommand($sql)->queryAll();
         foreach ($section_ware as $key => $value) {
-            $sql = "select w.title,w.ware_id 
+            $sql = "select w.title,w.ware_id,w.image as ware_image 
                     from course_ware as cw 
                     left join ware as w on cw.ware_id = w.ware_id 
                     where cw.section_cat_id = {$value['id']}";

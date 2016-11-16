@@ -33,7 +33,7 @@ class Ware extends ActiveRecord
     }
 
     /**
-     * @inheritdoc
+     * @inheritdoc  image	char(120)
      */
     public function rules()
     {
@@ -42,6 +42,7 @@ class Ware extends ActiveRecord
             [['create_time'], 'safe'],
             [['title'], 'string', 'max' => 150],
             [['small_text'], 'string', 'max' => 255],
+            [['image'], 'string', 'max' => 120],
             [['contents'], 'string', 'max' => 250],
         ];
     }
@@ -55,6 +56,7 @@ class Ware extends ActiveRecord
             'ware_id' => '课件ID',
             'title' => '课件名称',
             'small_text' => '课件简介',
+            'image' => '课件首图',
             'contents' => '课件内容',
             'create_time' => '创建时间',
         ];
@@ -70,6 +72,7 @@ class Ware extends ActiveRecord
 
     public static function saveAll(self $model)
     {
+
         if (!Yii::$app->request->post()) {
             return false;
         }
@@ -136,6 +139,17 @@ class Ware extends ActiveRecord
             return false;
         }
 
+        if (isset($_FILES['Ware']['tmp_name']['image'])
+            && $_FILES['Ware']['tmp_name']['image']
+        ) {
+            $path_parts = pathinfo($_FILES['Ware']['name']['image']);
+            $file = '/uploads/ware/' . time() . rand(100, 999) . $path_parts['basename'];
+            copy(
+                $_FILES['Ware']['tmp_name']['image'],
+                Yii::getAlias('@webroot' . $file)
+            );
+            $model->image = json_encode($file);
+        }
         $model->contents = json_encode($sections);
         if (!$model->save()) {
             return false;

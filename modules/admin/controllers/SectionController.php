@@ -90,6 +90,7 @@ class SectionController extends Controller
             $array = array(
                 'cat_name' => $cat_name,
                 'section_id' => $section_id,
+                'image' => $_FILES['image'],
                 'id' => $id,
             );
             $result = SectionCat::add($array);
