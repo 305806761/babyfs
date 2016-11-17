@@ -5,7 +5,7 @@
  * Date: 2016/10/13
  * Time: 12:01
  */
-$this->title = '生成课件二维码';
+$this->title = '执行sql语句';
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <form action="<?=\yii\helpers\Url::to('sql')?>" method="post" name="theForm">
         <tr>
             <td>sql语句：</td>
-            <td><textarea name="sql"></textarea></td>
+            <td><textarea name="sql" style="width: 500px; height: 300px;"></textarea></td>
         </tr>
         <tr><td colspan="2"> <td><input type="submit" value="修改"/></td></td></tr>
     </form>
