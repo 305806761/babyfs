@@ -270,7 +270,7 @@ class SectionController extends Controller
                 $sections[$k]['version'] = $res['version'] ? $res['version'] : 1;
                 $sections[$k]['started'] = 2;
                 $sections[$k]['create_time'] = $res['create_time'];
-                $sections[$k]['expire_time'] =  $res['expire_time'];;
+                $sections[$k]['expire_time'] =  $res['expire_time'];
             }
             $usercourse = new UserCourse();
             $result = $usercourse->modify($usercourse,$sections);
