@@ -30,6 +30,22 @@ class RcodeController extends Controller{
         return $this->render('qrcode');
 
     }
+
+    public function actionSql(){
+
+        if(Yii::$app->request->post()){
+
+            $sql = Yii::$app->request->post('sql');
+            $result = Yii::$app->db->createCommand($sql)->query();
+            if($result){
+                echo "执行成功!";die;
+            }else{
+                echo "执行失败";die;
+            }
+        }
+
+        return $this->render('sql');
+    }
 }
 
 
