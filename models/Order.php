@@ -86,7 +86,7 @@ class Order extends ActiveRecord
             }
             //print_r($courses);die;
             foreach ($courses as $course) {
-                $expire_time = date('Y-m-d H:i:s', strtotime($course['expire_time']) + 86400 * 30 * 3);
+               // $expire_time = date('Y-m-d H:i:s', strtotime($course['expire_time']) + 86400 * 30 * 3);
                 Yii::warning(json_encode($this->errors));
                 if (!$course['course_id']) {
                     //Yii::getLogger()->log("有赞订单：{$order['tid']},不是课程");
@@ -122,7 +122,7 @@ class Order extends ActiveRecord
                         //echo $sql;die;
                         $new_section = Yii::$app->db->createCommand($sql)->queryOne();
                         //print_r($new_section);die;
-                        $expire_time = date('Y-m-d H:i:s', strtotime($new_section['expire_time']) + 86400 * 30 * 3);
+                        //$expire_time = date('Y-m-d H:i:s', strtotime($new_section['expire_time']) + 86400 * 30 * 3);
                         $user_course = array(
                             'course_id' => $new_section['course_id'],
                             'section_id' => $new_section['section_id'],
@@ -131,7 +131,7 @@ class Order extends ActiveRecord
                             'user_id' => $user_id,
                             'create_time' => $new_section['create_time'],
                             'created' => date('Y-m-d H:i:s'),
-                            'expire_time' => $expire_time,
+                            'expire_time' => $new_section['expire_time'],
                         );
                     } else {
                         //没有上过，创建记录
@@ -143,7 +143,7 @@ class Order extends ActiveRecord
                             'user_id' => $user_id,
                             'create_time' => $course['create_time'],
                             'created' => date('Y-m-d H:i:s'),
-                            'expire_time' => $expire_time,
+                            'expire_time' => $course['expire_time'],
                         );
 
                     }
@@ -168,7 +168,7 @@ class Order extends ActiveRecord
                             'user_id' => $new_user_id,
                             'create_time' => $course['create_time'],
                             'created' => date('Y-m-d H:i:s'),
-                            'expire_time' => $expire_time,
+                            'expire_time' => $course['expire_time'],
                         );
                         $usercourse = new UserCourse();
                         $id = $usercourse->add($user_course);
