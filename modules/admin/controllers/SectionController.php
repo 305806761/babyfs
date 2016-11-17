@@ -13,6 +13,7 @@ use app\models\Section;
 use app\models\CourseSection;
 use app\models\CourseWare;
 use app\models\SectionCat;
+use app\models\SectionTerm;
 use app\models\Tool;
 use app\models\User;
 use app\models\UserCourse;
@@ -39,7 +40,7 @@ class SectionController extends Controller
     }
 
     /**
-     * 添加课程
+     * 添加课程阶段
      */
     public function actionAdd()
     {
@@ -130,6 +131,27 @@ class SectionController extends Controller
             'course' => $course,
         ]);
 
+    }
+
+    /*
+    ** 添加阶段学期
+    */
+    public function actionAddTerm(){
+
+        $section_id = Yii::$app->request->get('section_id');
+        if(!$section_id){
+            $this->redirect('list');
+        }
+        $section = Section::findOne($section_id);
+        if(Yii::$app->request->post()){
+            $section_term = new SectionTerm();
+            $param = Yii::$app->request->post();
+            $result = SectionTerm::Add($section_term,$param);
+            if($result){
+                $this->redirect('list-term');
+            }
+        }
+        return $this->render('add_term',['section'=>$section]);
     }
 
     public function actionGetSection()
@@ -248,7 +270,7 @@ class SectionController extends Controller
                 $sections[$k]['version'] = $res['version'] ? $res['version'] : 1;
                 $sections[$k]['started'] = 2;
                 $sections[$k]['create_time'] = $res['create_time'];
-                $sections[$k]['expire_time'] =  date('Y-m-d H:i:s', strtotime($res['expire_time']) + 86400 * 30 * 3);
+                $sections[$k]['expire_time'] =  $res['expire_time'];;
             }
             $usercourse = new UserCourse();
             $result = $usercourse->modify($usercourse,$sections);
