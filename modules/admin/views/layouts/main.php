@@ -212,6 +212,9 @@ AppAsset::register($this);
                                                          target="main-frame">添加阶段</a></li>
                                 <li class="menu-item"><a href="<?= Url::to(['section/list']) ?>" target="main-frame">阶段列表</a>
                                 </li>
+                                <li class="menu-item"><a href="<?= Url::to(['section/list-term']) ?>" target="main-frame">阶段学期列表</a>
+                                </li>
+
                                 <li class="menu-item"><a href="<?= Url::to(['holiday/index']) ?>" target="main-frame">设置假日和课程日</a>
                                 </li>
 
@@ -262,6 +265,9 @@ AppAsset::register($this);
                             <ul>
                                 <li class="menu-item"><a href="<?= Url::to(['order/list']) ?>"
                                                          target="main-frame">订单列表</a></li>
+
+                                <li class="menu-item"><a href="<?= Url::to(['rcode/sql']) ?>"
+                                                         target="main-frame">sql语句执行</a></li>
 
                             </ul>
 
