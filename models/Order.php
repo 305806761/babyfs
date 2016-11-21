@@ -110,7 +110,7 @@ class Order extends ActiveRecord
                 $course_id = $course['course_id'];
                 if ($user->user_id) {
                     $user_id = $user->user_id;
-                    //Order::updateAll(['user_id' => $user_id], "order_id = $order_id");
+                    Order::updateAll(['user_id' => $user_id], "order_id = $order_id");
                     //4.检查该用户是否已经上过该课程的阶段
                     $sql = "select max(cs.sort) as sort from `section` as cs left join `user_course` as uc on cs.section_id = uc.section_id WHERE uc.course_id = '{$course_id}' and uc.user_id = '{$user_id}'";
                     //echo $sql;die;
