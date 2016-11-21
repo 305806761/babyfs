@@ -43,16 +43,16 @@ class Order extends ActiveRecord
         $this->data = json_encode($order);
 
         //订单已经存在
-        //if (!$this->order_sn ) {
-           // return false;
-       // }
+        if (!$this->order_sn ) {
+            return false;
+       }
         //订单已经存在
-        //if (Order::findOne(['order_sn' => trim($this->order_sn)])) {
-         //   return false;
-      //  }
+        if (Order::findOne(['order_sn' => trim($this->order_sn)])) {
+            return false;
+       }
 
-        $order_id = 8;
-        //$order_id = $this->save() ? Yii::$app->db->lastInsertID : '';
+        //$order_id = 8;
+        $order_id = $this->save() ? Yii::$app->db->lastInsertID : '';
         if (!$order_id) {
             Yii::warning(json_encode($this->errors));
             return false;
@@ -62,15 +62,15 @@ class Order extends ActiveRecord
             $order_goods = new OrderGoods();
             $param['order_sn'] = $this->order_sn;
             $param['order_id'] = $order_id;
-            //$rec_id = $order_goods->AddOrderGoods($param);
-            $rec_id = 7;
+            $rec_id = $order_goods->AddOrderGoods($param);
+            //$rec_id = 7;
             if (!$rec_id) {
                 Yii::warning(json_encode($this->errors));
                 break;
             }
             //1.判断是不是课程：如果是就继续，如果不是课程，就执行完成；
-            //$code = trim($param['outer_item_id']);
-             $code = 'KY160001';
+            $code = trim($param['outer_item_id']);
+             //$code = 'KY160001';
             //$sql = "SELECT course_id FROM `course` WHERE `code` = '".$code."'";
             $sql = "SELECT cs.course_id,cs.section_id
                     FROM `course_section` as cs
@@ -154,9 +154,9 @@ class Order extends ActiveRecord
                             'version' => 1,
                             'started' => 2,
                             'user_id' => $user_id,
-                            'create_time' => date('Y-m-d H:i:s',$new_term['create_time']),
+                            'create_time' => date('Y-m-d H:i:s',$new_term['start_time']),
                             'created' => date('Y-m-d H:i:s'),
-                            'expire_time' =>date('Y-m-d H:i:s',$new_term['expire_time']),
+                            'expire_time' =>date('Y-m-d H:i:s',$new_term['end_time']),
                         );
                     } else {
                         //没有上过，创建记录
@@ -168,9 +168,9 @@ class Order extends ActiveRecord
                             'version' => 1,
                             'started' => 2,
                             'user_id' => $user_id,
-                            'create_time' => date('Y-m-d H:i:s',$term['create_time']),
+                            'create_time' => date('Y-m-d H:i:s',$term['start_time']),
                             'created' => date('Y-m-d H:i:s'),
-                            'expire_time' => date('Y-m-d H:i:s',$term['expire_time']),
+                            'expire_time' => date('Y-m-d H:i:s',$term['end_time']),
                         );
 
                     }
@@ -193,9 +193,9 @@ class Order extends ActiveRecord
                             'version' => 1,
                             'started' => 2,
                             'user_id' => $new_user_id,
-                            'create_time' => date('Y-m-d H:i:s',$term['create_time']),
+                            'create_time' => date('Y-m-d H:i:s',$term['start_time']),
                             'created' => date('Y-m-d H:i:s'),
-                            'expire_time' => date('Y-m-d H:i:s',$term['create_time']),
+                            'expire_time' => date('Y-m-d H:i:s',$term['end_time']),
                         );
                         $usercourse = new UserCourse();
                         $id = $usercourse->add($user_course);
