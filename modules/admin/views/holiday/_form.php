@@ -32,6 +32,12 @@ use yii\widgets\ActiveForm;
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-md-2" style="width: 300px;">
+            <?= $form->field($model, 'term_id')->dropDownList(\app\models\Holiday::getSectionTerm()) ?>
+        </div>
+    </div>
+
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? '新建' : '修改', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

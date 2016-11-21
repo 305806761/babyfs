@@ -166,9 +166,14 @@ class Ware extends ActiveRecord
         if (($start_time = strtotime($start_date)) > time()) {
             return false;
         }
+        if(!$term = TermModel::findOne(['section_id'=>$section_id])){
+            return false;
+        }
+
         $u = 0;
         for (; $start_time <= time(); $start_time += 86400) {
-            if ($day = Holiday::findOne(['day' => date('Y-m-d', $start_time)])) {
+
+            if ($day = Holiday::findOne(['day' => date('Y-m-d', $start_time),'term_id'=> $term->id])) {
                 if ($day->type == Holiday::TYPE_SCHOOL_DAY) {
                     $u++;
                 }

@@ -42,19 +42,17 @@ class Order extends ActiveRecord
         $this->consign_time = $order['consign_time'] ? $order['consign_time'] : date('Y-m-d H:i:s');
         $this->data = json_encode($order);
 
-        Yii::warning($order['tid']);
-        Yii::warning(0);
         //订单已经存在
-        if (!$this->order_sn ) {Yii::warning(1);
-            return false;
-        }
+        //if (!$this->order_sn ) {
+           // return false;
+       // }
         //订单已经存在
-        if (Order::findOne(['order_sn' => trim($this->order_sn)])) {Yii::warning(2);
-            return false;
-        }
-        Yii::warning(3);
-        //$order_id = 8;
-        $order_id = $this->save() ? Yii::$app->db->lastInsertID : '';
+        //if (Order::findOne(['order_sn' => trim($this->order_sn)])) {
+         //   return false;
+      //  }
+
+        $order_id = 8;
+        //$order_id = $this->save() ? Yii::$app->db->lastInsertID : '';
         if (!$order_id) {
             Yii::warning(json_encode($this->errors));
             return false;
@@ -64,20 +62,19 @@ class Order extends ActiveRecord
             $order_goods = new OrderGoods();
             $param['order_sn'] = $this->order_sn;
             $param['order_id'] = $order_id;
-            $rec_id = $order_goods->AddOrderGoods($param);
-            //$rec_id = 7;
+            //$rec_id = $order_goods->AddOrderGoods($param);
+            $rec_id = 7;
             if (!$rec_id) {
                 Yii::warning(json_encode($this->errors));
                 break;
             }
             //1.判断是不是课程：如果是就继续，如果不是课程，就执行完成；
-            $code = trim($param['outer_item_id']);
-            // $code = 'ZC160006';
+            //$code = trim($param['outer_item_id']);
+             $code = 'KY160001';
             //$sql = "SELECT course_id FROM `course` WHERE `code` = '".$code."'";
-            $sql = "SELECT c.course_id,s.section_id,s.expire_time,s.create_time
+            $sql = "SELECT cs.course_id,cs.section_id
                     FROM `course_section` as cs
                     LEFT JOIN `course` as c ON cs.course_id = c.course_id
-                    LEFT JOIN `section` as s ON cs.section_id = s.section_id 
                     WHERE c.code = '{$code}'";//and s.sort=1
             $courses = Yii::$app->db->createCommand($sql)->queryAll();
             if (!$courses) {
@@ -92,13 +89,28 @@ class Order extends ActiveRecord
                     //Yii::getLogger()->log("有赞订单：{$order['tid']},不是课程");
                     break;
                 }
+
+                //判断是阶段的那个学期
+                $term = TermModel::find()->where(
+                    [
+                        'AND',['=','status',2],
+                        ['=','section_id',$course['section_id']],
+                        ['>=','order_end_time',strtotime($this->created)],
+                        ['<=','order_start_time',strtotime($this->created)],
+                        //'order_end_time>:order_end_time' ,[':order_end_time' => strtotime($this->created)],
+                    ]
+                )->asArray()->one();
+                if (!$term) {
+                    //Yii::getLogger()->log("有赞订单：{$order['tid']},不是课程");
+                    break;
+                }
                 //$order['receiver_mobile'] = '18636342640';
                 //3.查看订单手机号是否在用户表存在  $user 是对象
                 $user = User::getUserByName($this->mobile);
                 $course_id = $course['course_id'];
                 if ($user->user_id) {
                     $user_id = $user->user_id;
-                    Order::updateAll(['user_id' => $user_id], "order_id = $order_id");
+                    //Order::updateAll(['user_id' => $user_id], "order_id = $order_id");
                     //4.检查该用户是否已经上过该课程的阶段
                     $sql = "select max(cs.sort) as sort from `section` as cs left join `user_course` as uc on cs.section_id = uc.section_id WHERE uc.course_id = '{$course_id}' and uc.user_id = '{$user_id}'";
                     //echo $sql;die;
@@ -121,7 +133,20 @@ class Order extends ActiveRecord
                                 WHERE cs.course_id = '{$course_id}' and s.sort='{$user_next_section['sort']}'";
                         //echo $sql;die;
                         $new_section = Yii::$app->db->createCommand($sql)->queryOne();
-                        //print_r($new_section);die;
+
+                        //判断用户是该阶段下的那个学期
+                        //order_start_time<=$this->created<=order_end_time
+                        $new_term = TermModel::findAll(
+                            [
+                                'AND',['=','status',2],
+                                ['=','section_id',$new_section['section_id']],
+                                ['>=','order_end_time',strtotime($this->created)],
+                                ['<=','order_start_time',strtotime($this->created)],
+                                //'order_end_time>:order_end_time' ,[':order_end_time' => strtotime($this->created)],
+                            ]
+                        );
+
+                        //print_r($term);die;
                         //$expire_time = date('Y-m-d H:i:s', strtotime($new_section['expire_time']) + 86400 * 30 * 3);
                         $user_course = array(
                             'course_id' => $new_section['course_id'],
@@ -129,21 +154,23 @@ class Order extends ActiveRecord
                             'version' => 1,
                             'started' => 2,
                             'user_id' => $user_id,
-                            'create_time' => $new_section['create_time'],
+                            'create_time' => date('Y-m-d H:i:s',$new_term['create_time']),
                             'created' => date('Y-m-d H:i:s'),
-                            'expire_time' => $new_section['expire_time'],
+                            'expire_time' =>date('Y-m-d H:i:s',$new_term['expire_time']),
                         );
                     } else {
                         //没有上过，创建记录
+                        //(['>', 'created_at', $time])->
+                        //print_r($term);die;
                         $user_course = array(
                             'course_id' => $course['course_id'],
                             'section_id' => $course['section_id'],
                             'version' => 1,
                             'started' => 2,
                             'user_id' => $user_id,
-                            'create_time' => $course['create_time'],
+                            'create_time' => date('Y-m-d H:i:s',$term['create_time']),
                             'created' => date('Y-m-d H:i:s'),
-                            'expire_time' => $course['expire_time'],
+                            'expire_time' => date('Y-m-d H:i:s',$term['expire_time']),
                         );
 
                     }
@@ -166,9 +193,9 @@ class Order extends ActiveRecord
                             'version' => 1,
                             'started' => 2,
                             'user_id' => $new_user_id,
-                            'create_time' => $course['create_time'],
+                            'create_time' => date('Y-m-d H:i:s',$term['create_time']),
                             'created' => date('Y-m-d H:i:s'),
-                            'expire_time' => $course['expire_time'],
+                            'expire_time' => date('Y-m-d H:i:s',$term['create_time']),
                         );
                         $usercourse = new UserCourse();
                         $id = $usercourse->add($user_course);

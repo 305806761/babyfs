@@ -38,6 +38,7 @@ class Holiday extends \yii\db\ActiveRecord
         return [
             [['day', 'ctime'], 'safe'],
             [['type'], 'integer'],
+            [['term_id'], 'integer'],
         ];
     }
 
@@ -50,7 +51,21 @@ class Holiday extends \yii\db\ActiveRecord
             'id' => 'ID',
             'day' => '日期',
             'type' => '类型',
+            'term_id'=> '学期ID',
             'ctime' => '创建时间',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public static function getSectionTerm()
+    {
+        $sql = "select s.name,st.id,st.term,st.start_time from section_term as st left join section as s on st.section_id = s.section_id";
+        $result = Yii::$app->db->createCommand($sql)->queryAll();
+        foreach ($result as $value){
+            $section[$value['id']] = $value['name'] .' | '.date('Y-m-d',$value['start_time']);
+        }
+        return $section;
     }
 }
