@@ -22,6 +22,10 @@ class BaseModel extends ActiveRecord
     const STATUS_ACTIVE = 2;
 
 
+    /**
+     * @状态
+     * @var array
+     */
     public static $statusAll = array(
         self::STATUS_ACTIVE => '正常',
         self::STATUS_DELETED => '删除',
