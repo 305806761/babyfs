@@ -36,6 +36,10 @@ class TermModel extends BaseModel
             [['end_time'], 'required', ],
             //['create_time', 'integer', 'min' => 1, 'max' => 2147483647],
 
+            [['order_start_time'], 'required', ],
+
+            [['order_end_time'], 'required', ],
+
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE,  self::STATUS_DELETED]],
 
@@ -64,6 +68,10 @@ class TermModel extends BaseModel
         return $this->hasOne(Section::className(),['section_id' => 'section_id']);
     }
 
+    public function getTerm()
+    {
+        return $this->hasMany(Section::className(), ['section_id' => 'section_id']);
+    }
 
     /**
      * @return array
@@ -77,6 +85,8 @@ class TermModel extends BaseModel
             'end_time' => '结束时间',
             'created_at' => '添加时间',
             'status' => '状态',
+            'order_start_time' => '订单开始时间',
+            'order_end_time' => '订单结束时间'
 
         ];
     }

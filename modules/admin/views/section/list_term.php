@@ -73,6 +73,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         'term',
                         'start_time:date',
                         'end_time:date',
+                        'order_start_time:date',
+                        'order_end_time:date',
                         'created_at:date',
 
                         [

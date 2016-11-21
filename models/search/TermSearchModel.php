@@ -34,7 +34,7 @@ class TermSearchModel extends TermModel
     public function search()
     {
 
-        $query = TermModel::find();
+        $query = TermModel::find()->where(['in', 'status', [self::STATUS_ACTIVE, self::STATUS_INACTIVE]]);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);

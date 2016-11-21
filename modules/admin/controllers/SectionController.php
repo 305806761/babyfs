@@ -153,6 +153,8 @@ class SectionController extends Controller
             $termModel->section_id = $section_id;
             $termModel->start_time = strtotime($termModel->start_time);
             $termModel->end_time = strtotime($termModel->end_time);
+            $termModel->order_start_time = strtotime($termModel->order_start_time);
+            $termModel->order_end_time = strtotime($termModel->order_end_time);
 
             if ($termModel->save()) {
                 $this->redirect('list-term');
@@ -184,7 +186,8 @@ class SectionController extends Controller
 
             $model->start_time = strtotime($model->start_time);
             $model->end_time = strtotime($model->end_time);
-
+            $model->order_start_time = strtotime($model->order_start_time);
+            $model->order_end_time = strtotime($model->order_end_time);
 
             if($model->start_time < $model->end_time){
                 if($model->save()){
@@ -192,6 +195,8 @@ class SectionController extends Controller
                 }else{
                     $model->start_time =  date("Y-m-d", $model->start_time);
                     $model->end_time = date("Y-m-d", $model->end_time);
+                    $model->order_start_time =  date("Y-m-d", $model->order_start_time);
+                    $model->order_end_time = date("Y-m-d", $model->order_end_time);
                     return $this->render('update-term', [
                         'model' => $model,
                         'section' => $section
@@ -200,6 +205,8 @@ class SectionController extends Controller
             }else{
                 $model->start_time =  date("Y-m-d", $model->start_time);
                 $model->end_time = date("Y-m-d", $model->end_time);
+                $model->order_start_time =  date("Y-m-d", $model->order_start_time);
+                $model->order_end_time = date("Y-m-d", $model->order_end_time);
                 return $this->render('update-term', [
                     'model' => $model,
                     'section' => $section
@@ -208,6 +215,8 @@ class SectionController extends Controller
         } else {
             $model->start_time = date("Y-m-d",$model->start_time);
             $model->end_time = date("Y-m-d",$model->end_time);
+            $model->order_start_time =  date("Y-m-d", $model->order_start_time);
+            $model->order_end_time = date("Y-m-d", $model->order_end_time);
             return $this->render('update-term', [
                 'model' => $model,
                 'section' => $section

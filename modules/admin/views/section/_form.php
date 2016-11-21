@@ -73,6 +73,27 @@ use yii\helpers\Html;
         </div>
     </div>
 
+    <div class="form-group field-term ">
+        <label class="col-lg-2 control-label" for="term">订单开始时间</label>
+        <div class="col-lg-10">
+            <input id="order_start_time" type="text" readonly="readonly" size="12" name="TermModel[order_start_time]"
+                   value="<?=$model->order_start_time?>"/>
+            <input id="selbtn1" class="button" type="button" value="选择"
+                   onclick="return showCalendar('order_start_time', '%Y-%m-%d', false, false, 'selbtn1');"
+                   name="selbtn1">
+        </div>
+    </div>
+    <div class="form-group field-term ">
+        <label class="col-lg-2 control-label" for="term">订单结束时间</label>
+        <div class="col-lg-10">
+            <input id="order_end_time" type="text" readonly="readonly" size="12" name="TermModel[order_end_time]"
+                   value="<?=$model->order_end_time?>"/>
+            <input id="selbtn1" class="button" type="button" value="选择"
+                   onclick="return showCalendar('order_end_time', '%Y-%m-%d', false, false, 'selbtn1');"
+                   name="selbtn1">
+        </div>
+    </div>
+
     <?= $form->field($model, 'status', [
         'labelOptions' => ['class'=>'col-lg-2 control-label'],
         'template' => '
