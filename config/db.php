@@ -2,9 +2,9 @@
 
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=babyfs_i',
+    'dsn' => 'mysql:host=localhost;dbname=baby',
     'username' => 'root',
-    'password' => '12345678',
+    'password' => 'pengboyu',
     'charset' => 'utf8',
 //    'on afterOpen'=>function($event){
 //        $event->sender->createCommand("SET time_zone = 'UTC'")->execute();

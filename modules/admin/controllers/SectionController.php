@@ -9,11 +9,12 @@
 namespace app\modules\admin\controllers;
 
 use app\models\Course;
+use app\models\search\TermSearchModel;
 use app\models\Section;
 use app\models\CourseSection;
 use app\models\CourseWare;
 use app\models\SectionCat;
-use app\models\SectionTerm;
+use app\models\TermModel;
 use app\models\Tool;
 use app\models\User;
 use app\models\UserCourse;
@@ -133,26 +134,108 @@ class SectionController extends Controller
 
     }
 
-    /*
-    ** 添加阶段学期
-    */
+    /**
+     * @添加学期
+     * @return string
+     */
     public function actionAddTerm(){
-
         $section_id = Yii::$app->request->get('section_id');
         if(!$section_id){
             $this->redirect('list');
         }
+
         $section = Section::findOne($section_id);
-        if(Yii::$app->request->post()){
-            $section_term = new SectionTerm();
-            $param = Yii::$app->request->post();
-            $result = SectionTerm::Add($section_term,$param);
-            if($result){
+        $termModel = new TermModel();
+
+        //$termModel->load(Yii::$app->request->post());
+
+        if($termModel->load(Yii::$app->request->post())){
+            $termModel->section_id = $section_id;
+            $termModel->start_time = strtotime($termModel->start_time);
+            $termModel->end_time = strtotime($termModel->end_time);
+
+            if ($termModel->save()) {
                 $this->redirect('list-term');
             }
         }
-        return $this->render('add_term',['section'=>$section]);
+
+        return $this->render('create',['model'=>$termModel, 'section' => $section]);
     }
+
+    /*
+     * @删除学期
+     */
+    public function actionDeleteTerm($id){
+
+        $model = TermModel::findOne($id);
+        if ($model->id) {
+            $model->delete();
+            return $this->redirect(['list-term']);
+        }
+
+    }
+
+    public function actionUpdateTerm($id){
+        $model = TermModel::findOne($id);
+
+        $section = Section::findOne($model->section_id);
+
+        if ($model->load(Yii::$app->request->post())) {
+
+            $model->start_time = strtotime($model->start_time);
+            $model->end_time = strtotime($model->end_time);
+
+
+            if($model->start_time < $model->end_time){
+                if($model->save()){
+                    return $this->redirect(['list-term']);
+                }else{
+                    $model->start_time =  date("Y-m-d", $model->start_time);
+                    $model->end_time = date("Y-m-d", $model->end_time);
+                    return $this->render('update-term', [
+                        'model' => $model,
+                        'section' => $section
+                    ]);
+                }
+            }else{
+                $model->start_time =  date("Y-m-d", $model->start_time);
+                $model->end_time = date("Y-m-d", $model->end_time);
+                return $this->render('update-term', [
+                    'model' => $model,
+                    'section' => $section
+                ]);
+            }
+        } else {
+            $model->start_time = date("Y-m-d",$model->start_time);
+            $model->end_time = date("Y-m-d",$model->end_time);
+            return $this->render('update-term', [
+                'model' => $model,
+                'section' => $section
+            ]);
+        }
+
+    }
+
+
+    /**
+     * @学期列表
+     * @return string
+     */
+    public function actionListTerm(){
+
+        $model = new TermSearchModel();
+        $dataProvider = $model->search();
+
+        //print_r($dataProvider);
+        //die;
+        return $this->render('list_term', [
+            'dataProvider' => $dataProvider,
+            'searchModel' => $model,
+        ]);
+
+    }
+
+
 
     public function actionGetSection()
     {
