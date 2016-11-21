@@ -20,7 +20,7 @@
     <div class="r-input-box">
         <p class="clearfix">
             <span><input type="text" placeholder="验证码" maxlength="6" name="verifyCode" class="ReIdentifyingCode" id="verifyCode"></span>
-            <span><button onclick="send();return false;">获取验证码</button></span>
+            <span><input href="javascript:;" class="login-send" id="login-send" value="获取验证码"></span>
         </p>
         <p class="prompt-error ReIdentifyingCodeError"></p>
     </div>
@@ -41,22 +41,70 @@
 <script src="/default/js/public/effect.js"></script>
 
 <script>
-    function send(){
-        var phone =  $("#phone").val() ;
-        $.ajax({
-            type: "get",
-            url: "/user/send",
-            data: "phone="+phone,
-            cache:false,
-            dataType: "json",
-            success: function(data){
-                var response = data;
-                if(response.cood = '0'){
-                    $(".regiserNumberError").html(data.message);
-                }
-            }
-        });
+    //获取验证码
+    var wait=60;
+    //var inputLoginSend = document.getElementById("login-send");
+    var inputLoginSend = $("#login-send");
+    document.getElementById("login-send").disabled = false;
+    function timeReg(o) {
+        inputLoginSend.addClass("login-send-grey");
+        if (wait == 0) {
+            o.removeAttribute("disabled");
+            o.value="获取验证码";
+            wait = 60;
+            inputLoginSend.removeClass("login-send-grey");
+        } else {
+            o.setAttribute("disabled", true);
+            o.value="重新发送(" + wait + ")";
+            wait--;
+            time = setTimeout(function() {
+                timeReg(o)
+            },1000)
+        }
     }
+
+    $(function() {
+        $(".login-send").click(function() {
+            var csrfToken = $('meta[name="csrf-token"]').attr("content");
+            var mobile = $("#phone").val();
+            var obj = $(this);
+
+            if (obj.hasClass('login-send-grey')) {
+                return false;
+            } else {
+                timeReg(this);
+            }
+
+            $.ajax({
+                type: 'get',
+                url: '/user/send',
+                dataType: 'json',
+                data: {'phone':mobile,_csrf:csrfToken},
+                cache:false,
+                success: function(data){
+
+                    if( data.status == 'success' ) {
+
+                    } else {
+                        clearTimeout(time)
+                        obj.attr("disabled",false);
+                        obj.text("获取验证码").removeClass("login-send-grey");
+                        wait = 60;
+                        alert(data.message);
+                    }
+                },
+                error: function(){
+                    clearTimeout(time)
+                    obj.attr("disabled",false);
+                    obj.text("获取验证码").removeClass("login-send-grey");
+                    wait = 60;
+                    alert('异常错误');
+                }
+            });
+        });
+    });
+
+
         //两次密码是否一致
         $("#password2").blur(function(){
             var password2 = $("#password2").val();

@@ -212,19 +212,19 @@ class UserController extends Controller
                 Yii::$app->session->set('login_sms_time', time());
                 //
                 $return = array(
-                    'cood' => 200,
+                    'status' => 'success',
                     // 'verifyCode' => Session::Get('code'),
                     'message' => '短信发送成功',
                 );
             } else {
                 $return = array(
-                    'cood' => 0,
+                    'status' => 'error',
                     'message' => '短信发送失败',
                 );
             }
         } else {
             $return = array(
-                'cood' => 0,
+                'status' => 'error',
                 'message' => '没有获取手机号',
             );
         }

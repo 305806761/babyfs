@@ -108,3 +108,27 @@ var effect=(function(){
     }
 })();
 effect.init();
+
+
+//获取验证码
+//var wait=60;
+//var inputLoginSend = document.getElementById("login-send");
+//var $inputLoginSend = $("#login-send");
+//document.getElementById("login-send").disabled = false;
+//function time(o) {
+//     $inputLoginSend.addClass("login-send-grey");
+//     if (wait == 0) {
+//         o.removeAttribute("disabled");
+//         o.value="获取验证码";
+//         wait = 60;
+//         $inputLoginSend.removeClass("login-send-grey");
+//     } else {
+//         o.setAttribute("disabled", true);
+//         o.value="重新发送(" + wait + ")";
+//         wait--;
+//         setTimeout(function() {
+//             time(o)
+//         },1000)
+//     }
+// }
+// document.getElementById("login-send").onclick=function(){time(this);}

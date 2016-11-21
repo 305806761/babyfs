@@ -683,10 +683,10 @@ body{
     line-height: 33px;
     font-size: 1.4rem;
 }
-.r-input-box p span,.r-input-box p span button,.r-input-box p span input{
+.r-input-box p span,.r-input-box p span input.login-send,.r-input-box p span input{
     float: left;
 }
-.r-input-box p span:nth-child(2) button{
+.r-input-box p span:nth-child(2) input.login-send{
     display: inline-block;
     height: 33px;
     background: #00e4a8;
@@ -696,6 +696,9 @@ body{
     line-height: 33px;
     margin-left: 11px;
     width: 100px;
+}
+.r-input-box p span:nth-child(2) input.login-send.login-send-grey{
+    background: #999;
 }
 .RegiserBtn{
     width: 100%;
