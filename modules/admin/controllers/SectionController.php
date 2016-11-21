@@ -358,11 +358,21 @@ class SectionController extends Controller
                 $sections[$ke]['user_id'] = Yii::$app->request->post('user_id');
             }
             foreach ($sections as $k => $v) {
-                $res = Section::find()->where(['section_id' => $v['section_id']])->asArray()->one();
-                $sections[$k]['version'] = $res['version'] ? $res['version'] : 1;
+                //判断是阶段的那个学期
+                $time = time();
+                $term = TermModel::find()->where(
+                    [
+                        'AND',['=','status',2],
+                        ['=','section_id',$v['section_id']],
+                        ['>=','order_end_time',$time],
+                        ['<=','order_start_time',$time],
+                        //'order_end_time>:order_end_time' ,[':order_end_time' => strtotime($this->created)],
+                    ]
+                )->asArray()->one();
+                $sections[$k]['version'] = 1;
                 $sections[$k]['started'] = 2;
-                $sections[$k]['create_time'] = $res['create_time'];
-                $sections[$k]['expire_time'] =  $res['expire_time'];
+                $sections[$k]['create_time'] = date('Y-m-d H:i:s',$term['create_time']);
+                $sections[$k]['expire_time'] =  date('Y-m-d H:i:s',$term['create_time']);
             }
             $usercourse = new UserCourse();
             $result = $usercourse->modify($usercourse,$sections);
