@@ -26,6 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 //            'id',
             'day',
+            'term_id',
             [
                 'attribute' => 'type',
                 'value' => function($data){
