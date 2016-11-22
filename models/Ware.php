@@ -43,7 +43,7 @@ class Ware extends ActiveRecord
             [['title'], 'string', 'max' => 150],
             [['small_text'], 'string', 'max' => 255],
             [['image'], 'string', 'max' => 120],
-            [['contents'], 'string', 'max' => 250],
+            [['contents'], 'string', 'max' => 2000],
         ];
     }
 
