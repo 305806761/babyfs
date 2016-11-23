@@ -18,7 +18,7 @@ class HolidaySearch extends Holiday
     public function rules()
     {
         return [
-            [['id', 'type'], 'integer'],
+            [['id', 'type','term_id'], 'integer'],
             [['day', 'ctime'], 'safe'],
         ];
     }
@@ -61,6 +61,7 @@ class HolidaySearch extends Holiday
         $query->andFilterWhere([
             'id' => $this->id,
             'day' => $this->day,
+            'term_id' => $this->term_id,
             'type' => $this->type,
             'ctime' => $this->ctime,
         ]);
