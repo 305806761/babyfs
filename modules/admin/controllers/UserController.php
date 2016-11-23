@@ -9,7 +9,9 @@
 namespace app\modules\admin\controllers;
 
 use app\models\Course;
+use app\models\Section;
 use app\models\TemplateCode;
+use app\models\TermModel;
 use app\models\Tool;
 use app\models\User;
 use app\models\UserCourse;
@@ -179,6 +181,42 @@ class UserController extends Controller
                 $this->redirect('course-list');
             }
         }
+    }
+
+
+    /**
+     * 会员课程列表修改
+     * @param $id
+     * @return string|\yii\web\Response
+     */
+    public function actionCourseUpdate($id)
+    {
+        $id = (int)$id;
+        $courseModel = UserCourse::findOne($id);
+        $userInfo = User::findOne($courseModel->user_id);
+        $sectionInfo = Section::findOne($courseModel->section_id);
+        $courseInfo = Course::findOne($courseModel->course_id);
+        if ($courseModel) {
+
+            if ($courseModel->load(Yii::$app->request->post())) {
+                if ($courseModel->save()) {
+                    return $this->redirect(['course-list']);
+                } else {
+                    return $this->render('course_update', [
+                        'model' => $courseModel,
+                    ]);
+                }
+            }
+        }
+
+        return $this->render('course_update', [
+            'model' => $courseModel,
+            'userInfo' => $userInfo,
+            'sectionInfo' => $sectionInfo,
+            'courseInfo' => $courseInfo,
+
+        ]);
+
     }
 
     /**

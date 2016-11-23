@@ -85,6 +85,7 @@ use yii\widgets\LinkPager;
                 <td class="tdvleft"><?= $value['expire_time']; ?></td>
 
                 <td>
+                    <a href="<?= \yii\helpers\Url::to(['user/course-update',"id"=>$value['user_course_id']])?>" >编辑</a> |
                     <a href="<?= \yii\helpers\Url::to(['user/course-del',"id"=>$value['user_course_id']])?>" onclick="return confirm('确定要删除吗？');">删除</a> |
                     <input type="checkbox" name="id[]"  id="id[]" value="<?= $value['user_course_id'] ?>"
                            onclick="if(this.checked){user<?= $value['user_course_id'] ?>.style.backgroundColor='#DBEAF5';}
