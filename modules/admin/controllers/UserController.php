@@ -260,7 +260,7 @@ class UserController extends Controller
                 ]);
 
                 $key = array('tid', 'receiver_name', 'receiver_state', 'receiver_city', 'receiver_district',
-                    'receiver_address', 'receiver_mobile', 'outer_item_id', 'title');
+                    'receiver_address', 'receiver_mobile', 'outer_item_id', 'title','created');
                 $section = array();
                 foreach ($data as $k=>$value){
                     $sections[$k] = array_combine($key, $value);
@@ -270,6 +270,7 @@ class UserController extends Controller
                     $sections[$v]['orders'][0]['outer_item_id'] = $val['outer_item_id'];
                     $sections[$v]['orders'][0]['title'] = $val['title'];
                 }
+                //print_r($sections);die;
                 foreach ($sections as $order){
                     $ordernew = new Order();
                     $ordernew->AddOrder($order);

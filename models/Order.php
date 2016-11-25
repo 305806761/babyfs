@@ -151,8 +151,9 @@ class Order extends ActiveRecord
                         $user_course = array(
                             'course_id' => $new_section['course_id'],
                             'section_id' => $new_section['section_id'],
-                            'version' => 1,
+                            'term_id' => $new_term['id'],
                             'started' => 2,
+                            'version' => 1,
                             'user_id' => $user_id,
                             'create_time' => date('Y-m-d H:i:s',$new_term['start_time']),
                             'created' => date('Y-m-d H:i:s'),
@@ -165,8 +166,9 @@ class Order extends ActiveRecord
                         $user_course = array(
                             'course_id' => $course['course_id'],
                             'section_id' => $course['section_id'],
-                            'version' => 1,
+                            'term_id' => $term['id'],
                             'started' => 2,
+                            'version' => 1,
                             'user_id' => $user_id,
                             'create_time' => date('Y-m-d H:i:s',$term['start_time']),
                             'created' => date('Y-m-d H:i:s'),
@@ -190,8 +192,9 @@ class Order extends ActiveRecord
                         $user_course = array(
                             'course_id' => $course['course_id'],
                             'section_id' => $course['section_id'],
-                            'version' => 1,
+                            'term_id' => $term['id'],
                             'started' => 2,
+                            'version' => 1,
                             'user_id' => $new_user_id,
                             'create_time' => date('Y-m-d H:i:s',$term['start_time']),
                             'created' => date('Y-m-d H:i:s'),
