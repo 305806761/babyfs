@@ -90,6 +90,7 @@ class Course extends ActiveRecord
                 where uc.user_id = '{$user_id}'";
         $section = Yii::$app->db->createCommand($sql)->queryAll();
         $newtime = time();
+        $free = array('7','8','9');
         foreach ($section as $key => $value) {
             $section[$key][is_buy] = '1';
             $expire_time = strtotime($value['user_course_expire']);
@@ -98,6 +99,9 @@ class Course extends ActiveRecord
             }
             if($value['started']=='1'){
                 $section[$key][is_buy] = '0';
+            }
+            if(in_array($value['section_id'],$free)){
+                break;
             }
             if ($key == 0) {
                 $section_ids = $value['section_id'];
@@ -108,6 +112,9 @@ class Course extends ActiveRecord
         // $section_ids = 2,3,4
         //print_r($section);die;
         $section_ids = $section_ids ? $section_ids : "''";
+        if($section_ids == "''"){
+            return $section;
+        }
         $sqlsection = "select * from section where section_id not in ($section_ids)";
         $course_section = Yii::$app->db->createCommand($sqlsection)->queryAll();
         foreach ($course_section as $key => $value) {

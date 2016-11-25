@@ -136,7 +136,7 @@ class Order extends ActiveRecord
 
                         //判断用户是该阶段下的那个学期
                         //order_start_time<=$this->created<=order_end_time
-                        $new_term = TermModel::findAll(
+                        $new_term = TermModel::find()->where(
                             [
                                 'AND',['=','status',2],
                                 ['=','section_id',$new_section['section_id']],
@@ -144,15 +144,16 @@ class Order extends ActiveRecord
                                 ['<=','order_start_time',strtotime($this->created)],
                                 //'order_end_time>:order_end_time' ,[':order_end_time' => strtotime($this->created)],
                             ]
-                        );
+                        )->asArray()->one();
 
                         //print_r($term);die;
                         //$expire_time = date('Y-m-d H:i:s', strtotime($new_section['expire_time']) + 86400 * 30 * 3);
                         $user_course = array(
                             'course_id' => $new_section['course_id'],
                             'section_id' => $new_section['section_id'],
-                            'version' => 1,
+                            'term_id' => $new_term['id'],
                             'started' => 2,
+                            'version' => 1,
                             'user_id' => $user_id,
                             'create_time' => date('Y-m-d H:i:s',$new_term['start_time']),
                             'created' => date('Y-m-d H:i:s'),
@@ -165,8 +166,9 @@ class Order extends ActiveRecord
                         $user_course = array(
                             'course_id' => $course['course_id'],
                             'section_id' => $course['section_id'],
-                            'version' => 1,
+                            'term_id' => $term['id'],
                             'started' => 2,
+                            'version' => 1,
                             'user_id' => $user_id,
                             'create_time' => date('Y-m-d H:i:s',$term['start_time']),
                             'created' => date('Y-m-d H:i:s'),
@@ -190,8 +192,9 @@ class Order extends ActiveRecord
                         $user_course = array(
                             'course_id' => $course['course_id'],
                             'section_id' => $course['section_id'],
-                            'version' => 1,
+                            'term_id' => $term['id'],
                             'started' => 2,
+                            'version' => 1,
                             'user_id' => $new_user_id,
                             'create_time' => date('Y-m-d H:i:s',$term['start_time']),
                             'created' => date('Y-m-d H:i:s'),

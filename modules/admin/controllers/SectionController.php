@@ -371,6 +371,7 @@ class SectionController extends Controller
                 )->asArray()->one();
                 $sections[$k]['version'] = 1;
                 $sections[$k]['started'] = 2;
+                $sections[$k]['term_id'] = $term['id'];
                 $sections[$k]['create_time'] = date('Y-m-d H:i:s',$term['start_time']);
                 $sections[$k]['expire_time'] =  date('Y-m-d H:i:s',$term['end_time']);
             }
