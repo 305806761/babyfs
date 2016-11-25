@@ -112,7 +112,7 @@ class Course extends ActiveRecord
         // $section_ids = 2,3,4
         //print_r($section);die;
         $section_ids = $section_ids ? $section_ids : "''";
-        if(!$section_ids){
+        if($section_ids == "''"){
             return $section;
         }
         $sqlsection = "select * from section where section_id not in ($section_ids)";
