@@ -136,7 +136,7 @@ class Order extends ActiveRecord
 
                         //判断用户是该阶段下的那个学期
                         //order_start_time<=$this->created<=order_end_time
-                        $new_term = TermModel::findAll(
+                        $new_term = TermModel::find()->where(
                             [
                                 'AND',['=','status',2],
                                 ['=','section_id',$new_section['section_id']],
@@ -144,7 +144,7 @@ class Order extends ActiveRecord
                                 ['<=','order_start_time',strtotime($this->created)],
                                 //'order_end_time>:order_end_time' ,[':order_end_time' => strtotime($this->created)],
                             ]
-                        );
+                        )->asArray()->one();
 
                         //print_r($term);die;
                         //$expire_time = date('Y-m-d H:i:s', strtotime($new_section['expire_time']) + 86400 * 30 * 3);
