@@ -71,7 +71,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'label' => '阶段',
                         ],
                         'term',
-                        'start_time:date',
+                        'start_time',
                         'end_time:date',
                         'order_start_time:date',
                         'order_end_time:date',

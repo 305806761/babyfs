@@ -232,14 +232,14 @@ class SectionController extends Controller
      */
     public function actionListTerm(){
 
-        $model = new TermSearchModel();
-        $dataProvider = $model->search();
+        $searchModel = new TermSearchModel();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         //print_r($dataProvider);
         //die;
         return $this->render('list_term', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'searchModel' => $model,
         ]);
 
     }
