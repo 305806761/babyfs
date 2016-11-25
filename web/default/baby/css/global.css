@@ -1,0 +1,34 @@
+/* CSS reset */
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td { margin:0; padding:0; }
+fieldset,img {border:0; }
+ol,ul {list-style:none; }
+h1,h2,h3,h4,h5,h6,button,input,select,textarea {font-size:100%; font-weight:normal;}
+button::-moz-focus-inner,input::-moz-focus-inner{padding:0; border:0; outline:none;}
+i, cite, em, var, dfn, address {font-style: normal;}
+body{font:12px "Microsoft Yahei","宋体",Arial, Helvetica, sans-serif;color:#616161;}
+a{color: #fff;font-size:12px;text-decoration:none;}
+a:hover{text-decoration:none;}
+a:active, a:focus{outline:none;}
+.clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; font-size:0;}
+.clearfix{zoom:1;clear:both;}
+.clear{clear:both; height:0; line-height:0; font-size:0;}
+.none{display: none;}
+script ~ a{display: none;}
+html{font-size:50px;}
+body{background:#fff;}
+html, body {position: relative;height: 100%;}
+/*global top nav
+header { position:absolute; top:0; z-index:1000; width:100%; background:#fff;}
+header div{ height:0.61rem; border-bottom:2px solid #dbdbdb; overflow:hidden; width:100%;}
+header div.opened{border-bottom:2px solid #f00; }
+header div h1{ float:left;margin-left:0.23rem; height:0.61rem;}
+header div h1 a{ display:block; background:url(../images/ling-VR.png) center no-repeat; width:1.7rem; height:0.15rem; background-size:1.7rem 0.15rem; height:100%;}
+header span{ display:block; float:right; padding:0.19rem; background:url(../images/show_nav.png) no-repeat center center; background-size:0.36rem 0.26rem; width:0.36rem; height:0.26rem;}
+header span.close{ background:url(../images/close.png) no-repeat center center;background-size:0.2rem 0.2rem;padding:0.19rem 0.3rem;}
+nav{ display:none;}
+nav ul{overflow:hidden;}
+nav ul li{ height:0.73rem; border-bottom:2px solid #eaeaea; line-height:0.73rem; position:relative;}
+nav ul li.inner{ border-bottom:2px solid #fff; background:#eaeaea; display:none;}
+nav ul li a{ display:block; width:100%; height:100%;color:#616161; font-size:0.24rem; text-indent:6.6%;}
+nav ul li i{ display:block; background:url(../images/open_arrow.png) no-repeat; width:0.21rem; height:0.1rem; position:absolute; left:90.9%; top:0.32rem; background-size:0.21rem 0.1rem;}
+*/

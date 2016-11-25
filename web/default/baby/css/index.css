@@ -1,0 +1,185 @@
+@charset "utf-8";
+/* CSS Document */
+.swiper-container { width:100%; height:100%; overflow:hidden;}
+/* page0 */
+.swiper-slide1 { background:url(../images/p0.jpg) top center no-repeat; background-size:100% 100%; position: relative;}
+.p0Title { width:82.5%; height: 16%; background:url(../images/p0_title1.png) top center no-repeat; background-size:auto 100%; position: absolute; top: 14.4%; left: 9%;}
+.babyMassage { width: 100%; height: 100%; position:absolute; top: 0; left: 0;}
+.p0Text1Bg { width: 100%; height: 36%; background:url(../images/p0_text1Bg.png) top center no-repeat; background-size:auto 100%; position: absolute; top: 34%; left: 0;}
+.p0Text1 { width: 100%; height: 35%; position: absolute; top: 34%; left: 0%;}
+.p0Select1ClickBtn { width: 260px; height: 56px; padding-right: 38px; position: absolute; top: 21.6%; left: 25.5%; font-size: 0.55rem; color: #fff; line-height: 1.1rem; text-align: center; font-weight: bold;}
+.p0Select1 { width: 260px; height: 160px; position: absolute; top: 36.3%; left: 25.5%; display: none; z-index: 2;}
+.p0Select1 li { width: 260px; height: 50px; background-color: #07a56d; border-top:1px solid #eee; font-size: 0.5rem; color: #fff; line-height: 1rem; text-align: center; font-weight: bold;}
+/* 城市插件 */
+.content-block { width: 72%; height: 60px; position: absolute; top: 58%; left: 14.5%; font-size: 0.55rem; color: #fff; line-height: 1rem; font-weight: bold; text-align: center;}
+.content-block input { border: 0; margin:0; padding:0; background:none; color: #fff; }
+.content-block input#demo1 { border: 0; display: inline-block; width: 98%; height: 60px; padding:0 1%; font-size: 0.5rem; color: #fff; line-height: 1rem; font-weight: bold; }
+/* 城市插件 */
+.btnStartK { width: 35%; height: 7%; background:url(../images/p0_btnStart.png) top center no-repeat; background-size:auto 100%; position: absolute; top: 60.5%; left: 32%; cursor:pointer; }
+.p0Img { width: 100%; height: 100%; position: animation; top:0; left: 0; }
+.p0Img1 { width: 20%; height: 20%; background:url(../images/p0_img1.png) top center no-repeat; background-size:auto 100%; position: absolute; top: 74%; left: 40%;}
+.p0Img2 { width: 5%; height: 5%; background:url(../images/p0_img2.png) top center no-repeat; background-size:auto 100%; position: absolute; top: 91%; left: 47.5%; opacity:0;}
+/* page0-animate */
+.p0TitleAnimate { -webkit-animation:bounceOutUp .8s .2s ease both;}
+@-webkit-keyframes bounceOutUp{
+0%{-webkit-transform:translateY(0)}
+20%{opacity:1;
+-webkit-transform:translateY(20px)}
+100%{opacity:0;
+-webkit-transform:translateY(-2000px)}
+}
+.babyMassageAnimate { -webkit-animation:scale0fadeOut .6s .8s ease both;}
+@-webkit-keyframes scale0fadeOut{
+0%{-webkit-transform:scale(1);opacity: 1;}
+100%{-webkit-transform:scale(0);opacity: 0;}
+}
+.p0ImgAnimate { -webkit-animation:bounceOutUp 1s 1s ease both; }
+.p0Img2Animate { -webkit-animation:fadeIn .4s .8s ease both;}
+@-webkit-keyframes fadeIn{
+0%{opacity:0;}
+100%{opacity:1;}
+}
+/*.slideFadeOut { -webkit-animation:fadeOut .5s 2.4s ease both; }
+@-webkit-keyframes fadeOut{
+0%{opacity: 1;}
+100%{opacity: 0;}
+}
+.slideFadeIn { -webkit-animation:fadeIn .5s 2.4s ease both; }
+@-webkit-keyframes fadeIn{
+0%{opacity: 0;}
+100%{opacity: 1;}
+}*/
+/* page1 */
+.swiper-slide2 { background:url(../images/p1.jpg) top center no-repeat; background-size:100% 100%; position: relative;}
+.question { width: 95%; height: 40%; background:url(../images/questionBg.png) top center no-repeat; background-size:100% 100%; position: absolute; top: 12%; left: 2.5%;}
+.question h2 { width: 15%; height: 7.3%; font-size: .45rem; color: #fff; text-align: center; line-height: .5rem; font-weight: bold; position: absolute; top: 1.4%; left: 7%; }
+.question p { width: 86%; height: 13%; font-size: .53rem; color: #fff; line-height: .8rem; text-align: center; position: absolute; top: 14%; left: 7.5%; display: none;}
+.question p.mamaQuestion {}
+.question p.babyQuestion {}
+.question p.page3FontSize { font-size: .51rem;}
+.rocketK { width: 100%; height: 100%; position: animation; top:0; left: 0; }
+.rocket { width: 40%; height: 34%; background:url(../images/imgRocket.png) top center no-repeat; background-size:100% 100%; position: absolute; top: 36%; left: 30%;}
+.rocketFire { width: 10%; height: 9%; background:url(../images/imgRocketFire.png) top center no-repeat; background-size:100% 100%; position: absolute; top: 66%; left: 45%;}
+.btnYes { width: 40%; height: 12%; background:url(../images/btnYes.png) top center no-repeat; background-size:auto 100%; position: absolute; top: 81.5%; left: 5%; cursor: pointer;}
+.btnNo { width: 40%; height: 12%; background:url(../images/btnNo.png) top center no-repeat; background-size:auto 100%; position: absolute; top: 81.5%; left: 55%; cursor: pointer;}
+/* page1-animate */
+.questionAnimateL { -webkit-animation:rotateOutUpLeft 1s .2s ease both;}
+.questionAnimateR { -webkit-animation:rotateOutUpRight 1s .2s ease both;}
+/* 左侧翻 */
+@-webkit-keyframes rotateOutUpLeft{
+0%{-webkit-transform-origin:left top;
+-webkit-transform:rotate(0);
+opacity:1}
+100%{-webkit-transform-origin:left top;
+-webkit-transform:rotate(-90deg);
+opacity:0}
+}
+/* 右侧翻 */
+@-webkit-keyframes rotateOutUpRight{
+0%{-webkit-transform-origin:right top;
+-webkit-transform:rotate(0);
+opacity:1}
+100%{-webkit-transform-origin:right top;
+-webkit-transform:rotate(90deg);
+opacity:0}
+}
+.btnYesAnimate { -webkit-animation:rotateOutDownLeft 1s .2s ease both;}
+@-webkit-keyframes rotateOutDownLeft{
+0%{-webkit-transform-origin:left bottom;
+-webkit-transform:rotate(0);
+opacity:1}
+100%{-webkit-transform-origin:left bottom;
+-webkit-transform:rotate(90deg);
+opacity:0}
+}
+.btnNoAnimate { -webkit-animation:rotateOutDownRight 1s .2s ease both;}
+@-webkit-keyframes rotateOutDownRight{
+0%{-webkit-transform-origin:right bottom;
+-webkit-transform:rotate(0);
+opacity:1}
+100%{-webkit-transform-origin:right bottom;
+-webkit-transform:rotate(-90deg);
+opacity:0}
+}
+.rocketKInAnimate { -webkit-animation:bounceInUp 1s .2s ease both;}
+@-webkit-keyframes bounceInUp{
+0%{-webkit-transform:translateY(2000px)}
+60%{-webkit-transform:translateY(-30px)}
+80%{-webkit-transform:translateY(10px)}
+100%{-webkit-transform:translateY(0)}
+}
+.rocketKFloatAnimate { -webkit-animation:fadeInUp02 2s 0s ease-in-out infinite;}
+@-webkit-keyframes fadeInUp02{
+0%{-webkit-transform:translateY(0)}
+50%{-webkit-transform:translateY(-20px)}
+100%{-webkit-transform:translateY(0)}
+}
+.rocketFireAnimate { -webkit-animation:flash 2s .1s ease-in-out infinite;}
+@-webkit-keyframes flash{
+0%,50%,100%{opacity: 1;}
+25%,75%{opacity: 0;}
+}
+.rocketKInOutimate { -webkit-animation:bounceOutUpIn 1s 1s ease both;}
+@-webkit-keyframes bounceOutUpIn{
+0%{-webkit-transform:translateY(0)}
+20%{-webkit-transform:translateY(20px)}
+100%{-webkit-transform:translateY(-2000px)}
+}
+/* page2 */
+.swiper-slide3 { background:url(../images/p2.jpg) top center no-repeat; background-size:100% 100%; position: relative;}
+/* page3 */
+.swiper-slide4 { background:url(../images/p3.jpg) top center no-repeat; background-size:100% 100%; position: relative;}
+
+/* page4 */
+.swiper-slide5 { background:url(../images/pLast.jpg) top center no-repeat; background-size:100% 100%; position: relative;}
+.code { width: 24%; height: 12%; background:url(../images/code.jpg) top center no-repeat; background-size:auto 100%; position: absolute; top: 86%; left: 74%;}
+.parachute { width: 100%; height: 100%; position: animation; top:0; left: 0;}
+.parachuteBody { width: 25%; height: 14%; background:url(../images/parachuteBody.png) top center no-repeat; background-size:100% 100%; position: absolute; top: 68.5%; left: 37.5%;}
+.parachuteHeader1 { width: 60%; height: 32%; background:url(../images/parachuteHeader1.png) top center no-repeat; background-size:100% 100%; position: absolute; top: 37.7%; left: 20%;}
+.parachuteHeader2 { width: 60%; height: 6%; background:url(../images/parachuteHeader2.png) top center no-repeat; background-size:100% 100%; position: absolute; top: 63.5%; left: 20%; display:none;}
+.parachuteHeader3 { width: 60%; height: 14%; background:url(../images/parachuteHeader3.png) top center no-repeat; background-size:100% 100%; position: absolute; top: 68.4%; left: 20%; display:none;}
+.shadow { width: 30.5%; height: 4%; background:url(../images/shadow.png) top center no-repeat; background-size:100% 100%; position: absolute; top: 80%; left: 35%; opacity: 0;}
+.light5 { width: 75%; height: 17%; background:url(../images/light5.png) top center no-repeat; background-size:100% 100%; position: absolute; top: 52.2%; left: 12.25%; opacity:0;}
+.resultTextBg { width: 75%; height: 28%; background:url(../images/resultTextBg.png) top center no-repeat; background-size:100% 100%; position: absolute; top: 24.8%; left: 12.25%; opacity: 0;}
+.resultText { width: 100%; height: 100%; opacity: 0;}
+.resultTextBg h3 { width: 100%; height: 26%; font-size: 1.1rem; line-height: 1.6rem; color: #fff; text-align: center; position: absolute; top: 21%; left: 0;}
+.resultTextBg h5 { width: 100%; height: 26%; font-size: 1.1rem; line-height: 1.6rem; color: #fff; text-align: center; position: absolute; top: 52%; left: 0;}
+/* page4-animate */
+.parachuteAnimate { -webkit-animation:fadeInDownSlow 3s .2s ease both;}
+@-webkit-keyframes fadeInDownSlow{
+0%{opacity:0;
+-webkit-transform:scale(0.1) translateY(-2000px)}
+100%{opacity:1;
+-webkit-transform:scale(1) translateY(0)}
+}
+.shadowAnimate { -webkit-animation:shadowScale 3s .2s ease both;}
+@-webkit-keyframes shadowScale{
+0%{opacity:0;-webkit-transform:scale(3)}
+100%{opacity:1;-webkit-transform:scale(1)}
+}
+
+.light5Animate { -webkit-animation:light5HeightChangefadeIn .7s 4.2s ease-out both;}
+@-webkit-keyframes light5HeightChangefadeIn{
+0%{opacity:0;height:0;top:68.4%;}
+100%{opacity:1;height: 17%;top:52.2%;}
+}
+.resultTextBgAnimate { -webkit-animation:HeightChangefadeIn 1s 4.8s ease both;}
+@-webkit-keyframes HeightChangefadeIn{
+0%{opacity:0;height:0;top:52.2%;}
+100%{opacity:1;height: 28%;top:24.8%;}
+}
+.resultTextAnimate {-webkit-animation:fadeIn .6s 5.7s ease both;}
+
+.btnClose { width: 45%; height: 7%; background:url(../images/btnClose.png) center center no-repeat; background-size:auto 100%; position: absolute; top: 90%; left: 27.5%; z-index: 99;}
+/* 课表 */
+.syllabus { width:100%; height:100%; position: absolute;top: 0;left: 0; overflow:hidden; z-index: 9; display: none;}
+.syllabus1, .syllabus2, .syllabus3 { width:100%; height:100%; position: absolute;top: 0;left: 0; overflow:hidden; display: none;}
+/*.syllabus3 { display: block; }*/
+.cherry1 { width: 100%; height: 100%; background:url(../images/cherry1.png) center center no-repeat; background-size:100% 100%; position: absolute; top: 0; left: 0; display: block;}
+.cherry2 { width: 100%; height: 100%; background:url(../images/cherry2.png) center center no-repeat; background-size:100% 100%; position: absolute; top: 0; left: 0; display: none;}
+.strawberry1 { width: 100%; height: 100%; background:url(../images/strawberry1.png) center center no-repeat; background-size:100% 100%; position: absolute; top: 0; left: 0; display: block;}
+.strawberry2 { width: 100%; height: 100%; background:url(../images/strawberry2.png) center center no-repeat; background-size:100% 100%; position: absolute; top: 0; left: 0; display: none;}
+.apple1 { width: 100%; height: 100%; background:url(../images/apple1.png) center center no-repeat; background-size:100% 100%; position: absolute; top: 0; left: 0; display: block;}
+.apple2 { width: 100%; height: 100%; background:url(../images/apple2.png) center center no-repeat; background-size:100% 100%; position: absolute; top: 0; left: 0; display: none;}
+.prev { width: 10%; height: 6%; background:url(../images/prev.png) center center no-repeat; background-size:auto 100%; position: absolute; top: 44%; left: 2%;z-index: 10; display: none;}
+.next { width: 10%; height: 6%; background:url(../images/next.png) center center no-repeat; background-size:auto 100%; position: absolute; top: 44%; left:88%; z-index: 10;}
