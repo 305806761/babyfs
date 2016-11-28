@@ -29,7 +29,7 @@ $this->title = '分组列表';
             'cat_name',
            // ['class' => 'yii\grid\ActionColumn'],
             ['class' => 'yii\grid\ActionColumn',
-                'template' => '{update} {delete}',
+                'template' => '{update} {delete}{getware}',
                 'buttons' => [
                     'delete' => function ($url, $model, $key) {
                         return Html::a('<span class="glyphicon glyphicon-trash"></span>',
@@ -53,6 +53,19 @@ $this->title = '分组列表';
                                 'aria-label' => '更新',
                                 'data-pjax' => '0',
                                 'data-method' => 'post'
+                            ]
+                        );
+
+                    },
+                    'getware' => function ($url, $model, $key) {
+                        return Html::a(
+                            '关联课件',
+                            ['get-ware', 'section_cat_id' => $key],
+                            [
+                                'title' => '关联课件',
+                                'aria-label' => '关联课件',
+                               //'data-pjax' => '0',
+                                //'data-method'=>'post',
                             ]
                         );
 

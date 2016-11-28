@@ -23,9 +23,6 @@ use yii\db\ActiveRecord;
  */
 class SectionCat extends ActiveRecord
 {
-    public $section_name;
-    public $term;
-    public $cat_name;
     /**
      * @inheritdoc
      */

@@ -22,7 +22,6 @@ class CatSearch extends SectionCat
      */
     public $section_name;
     public $term;
-    public $cat_name;
     public function rules()
     {
         return [
