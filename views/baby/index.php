@@ -172,8 +172,3 @@ $this->registerjs($js, View::POS_HEAD);
   <div class="btnClose" id="btnClose"></div>
 </div>
 <!-- /课表 -->
-<script>
-  var mySwiper = new Swiper('.swiper-container',{
-    preloadImages:true,
-  })
-</script>
