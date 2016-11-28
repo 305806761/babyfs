@@ -11,7 +11,7 @@
 .p0Select1 { width: 260px; height: 160px; position: absolute; top: 36.3%; left: 25.5%; display: none; z-index: 2;}
 .p0Select1 li { width: 260px; height: 50px; background-color: #07a56d; border-top:1px solid #eee; font-size: 0.5rem; color: #fff; line-height: 1rem; text-align: center; font-weight: bold;}
 /* 城市插件 */
-.content-block { width: 72%; height: 60px; position: absolute; top: 58%; left: 14.5%; font-size: 0.55rem; color: #fff; line-height: 1rem; font-weight: bold; text-align: center;}
+.content-block { width: 69%; height: 60px; position: absolute; top: 58%; left: 15.5%; font-size: 0.55rem; color: #fff; line-height: 1rem; font-weight: bold; text-align: center;}
 .content-block input { border: 0; margin:0; padding:0; background:none; color: #fff; }
 .content-block input#demo1 { border: 0; display: inline-block; width: 98%; height: 60px; padding:0 1%; font-size: 0.5rem; color: #fff; line-height: 1rem; font-weight: bold; }
 /* 城市插件 */
