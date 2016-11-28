@@ -2,54 +2,65 @@
 /**
  * Created by PhpStorm.
  * User: malil
- * Date: 2016/10/13
- * Time: 12:01
+ * Date: 2016/10/30
+ * Time: 下午6:54
+ * @var $this
+ * @var $searchModel app\models\search\CatSearch
+ * @var $dataProvider yii\data\ActiveDataProvider
  */
-$this->title = '课程阶段列表';
-$this->params['breadcrumbs'][] = $this->title;
+
+use yii\helpers\Html;
+use yii\grid\GridView;
+
+$this->title = '分组列表';
 ?>
-<style>
-    .tdvleft{
-        font-size:12px;
-        padding: 5px 1em;
-        text-align: left;
-        vertical-align: top;
-        width: auto;
 
-    }
+<div class="ware-index">
 
-    .tdleft{
-        font-size:20px;
-        font-weight: bold;
-        text-align: left;
+    <h1><?= Html::encode($this->title) ?></h1>
+
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'columns' => [
+            'id',
+            ['label' => '阶段名称', 'attribute' => 'section_name', 'value' => 'section.name'],
+            ['label' => '学期批次', 'attribute' => 'term', 'value' => 'section_term.term'],
+            'cat_name',
+           // ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn',
+                'template' => '{update} {delete}',
+                'buttons' => [
+                    'delete' => function ($url, $model, $key) {
+                        return Html::a('<span class="glyphicon glyphicon-trash"></span>',
+                            ['delete-cat', 'id' => $key],
+                            [
+                                'data' => ['confirm' => '您确定要删除此项吗？',],
+                                'title' => '删除',
+                                'aria-label' => '删除',
+                                'data-pjax' => '0',
+                                'data-method' => 'post'
+                            ]
+                        );
+
+                    },
+
+                    'update' => function ($url, $model, $key) {
+                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>',
+                            ['edit-cat', 'id' => $key],
+                            [
+                                'title' => '更新',
+                                'aria-label' => '更新',
+                                'data-pjax' => '0',
+                                'data-method' => 'post'
+                            ]
+                        );
+
+                    },
+                ],
+            ],
+        ],
 
 
-    }
-</style>
-<form action="index.php?r=course/add" method="post">
-    <table width="100%" align="center">
-        <tr>
-
-            <td  class="tdleft">课程阶段名称</td>
-            <td  class="tdleft">课程阶段分组名称</td>
-            <td class="tdleft">操作</td>
-        </tr>
-        <?php foreach($list_cat as $key=>$value): ?>
-            <tr>
-
-                <td class="tdvleft"><?= $value['section_name']; ?></td>
-                <td class="tdvleft"><?= $value['cat_name']; ?></td>
-                <td class="tdvleft">
-                    <a href="<?= \yii\helpers\Url::to([
-                        'section/get-ware',
-                        "section_cat_id"=>$value['section_cat_id'],
-                    ])?>">添加课件</a> |
-                    <a href="<?= \yii\helpers\Url::to(['section/edit-cat', "id"=>$value['section_cat_id']])?>">修改</a>
-                </td>
-
-            </tr>
-        <?php endforeach; ?>
-
-
-    </table>
-</form>
+    ]); ?>
+</div>

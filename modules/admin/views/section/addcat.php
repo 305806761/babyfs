@@ -44,6 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <td class="tdleft"></td>
             <td>
                 <input type="hidden" name="section_id" value="<?=$section_id?>">
+                <input type="hidden" name="term_id" value="<?=$term_id?>">
                 <input type="hidden" name="id" value="<?=$cat['id']?>">
                 <input type="submit" class="tdsubmit" value="提交" />
 

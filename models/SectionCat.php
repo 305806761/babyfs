@@ -23,6 +23,9 @@ use yii\db\ActiveRecord;
  */
 class SectionCat extends ActiveRecord
 {
+    public $section_name;
+    public $term;
+    public $cat_name;
     /**
      * @inheritdoc
      */
@@ -53,23 +56,33 @@ class SectionCat extends ActiveRecord
         return [
             'id' => '段落ID',
             'section_id' => '阶段ID',
+            'term_id' => '学期ID',
             'cat_name' => '段落名字',
             'created' => '创建时间',
         ];
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery  ->with([
+    'province' => function ($query) {
+    $query->select('name');
+    },
+
      */
     public function getSection()
     {
         return $this->hasOne(Section::className(), ['section_id' => 'section_id']);
+    }
+    public function getSection_term()
+    {
+        return $this->hasOne(TermModel::className(), ['id' => 'term_id']);
     }
 
     public static function add($param)
     {
         $sectioncat = self::getById($param['id']);
         $sectioncat->section_id = $param['section_id'] ? $param['section_id'] : $sectioncat->section_id;
+        $sectioncat->term_id = $param['term_id'] ? $param['term_id'] : $sectioncat->term_id;
         $sectioncat->cat_name = $param['cat_name'] ? $param['cat_name'] : $sectioncat->cat_name;
 
         if (isset($param['image']['tmp_name'])
@@ -102,10 +115,17 @@ class SectionCat extends ActiveRecord
 
     }
 
+    public function getTermCatlist(){
+
+    }
+
+
     public function getList()
     {
         $sql = "select s.name as section_name,sc.cat_name,sc.id as section_cat_id from section_cat as sc left join section as s on sc.section_id = s.section_id";
         return Yii::$app->db->createCommand($sql)->queryAll();
         //return $this->hasMany(CourseSection::className(), ['section_id' => 'section_id']);
     }
+
+
 }

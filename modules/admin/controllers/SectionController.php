@@ -10,6 +10,7 @@ namespace app\modules\admin\controllers;
 
 use app\models\Course;
 use app\models\search\TermSearchModel;
+use app\models\search\CatSearch;
 use app\models\Section;
 use app\models\CourseSection;
 use app\models\CourseWare;
@@ -73,11 +74,14 @@ class SectionController extends Controller
 
     public function actionListCat()
     {
-        $cat = new SectionCat();
-        $result = $cat->getList();
-        // print_r($result);die;
-        return $this->render('list_cat',
-            ['list_cat' => $result]);
+        $searchModel = new CatSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        //var_dump($dataProvider);die;
+        return $this->render('list_cat', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
     /**
@@ -85,24 +89,30 @@ class SectionController extends Controller
      */
     public function actionAddCat()
     {
-        $section_id = Yii::$app->request->post('section_id');
+        $section_id = (int)Yii::$app->request->get('section_id');
+        $term_id = (int)Yii::$app->request->get('term_id');
         $cat_name = Yii::$app->request->post('cat_name');
         $id = Yii::$app->request->post('id');
-        if (Yii::$app->request->post()) {
+
+        if (Yii::$app->request->post() && (int)Yii::$app->request->post('section_id') && (int)Yii::$app->request->post('term_id')) {
+
             $array = array(
                 'cat_name' => $cat_name,
-                'section_id' => $section_id,
+                'section_id' => Yii::$app->request->post('section_id'),
+                'term_id' => Yii::$app->request->post('term_id'),
                 'image' => $_FILES['image'],
                 'id' => $id,
             );
+
             $result = SectionCat::add($array);
 
             if ($result) {
-                Tool::Redirect('/admin/section/list-cat', '操作处理成功', 'success');
+                Tool::Redirect('/admin/section/list-cat/', '操作处理成功', 'success');
             }
         }
-        return $this->render('addcat', ['section_id' => Yii::$app->request->get('section_id')]);
+        return $this->render('addcat', ['section_id' => $section_id, 'term_id' => $term_id]);
     }
+
 
     public function actionEditCat()
     {
@@ -138,9 +148,10 @@ class SectionController extends Controller
      * @添加学期
      * @return string
      */
-    public function actionAddTerm(){
+    public function actionAddTerm()
+    {
         $section_id = Yii::$app->request->get('section_id');
-        if(!$section_id){
+        if (!$section_id) {
             $this->redirect('list');
         }
 
@@ -149,7 +160,7 @@ class SectionController extends Controller
 
         //$termModel->load(Yii::$app->request->post());
 
-        if($termModel->load(Yii::$app->request->post())){
+        if ($termModel->load(Yii::$app->request->post())) {
             $termModel->section_id = $section_id;
             $termModel->start_time = strtotime($termModel->start_time);
             $termModel->end_time = strtotime($termModel->end_time);
@@ -161,13 +172,14 @@ class SectionController extends Controller
             }
         }
 
-        return $this->render('create',['model'=>$termModel, 'section' => $section]);
+        return $this->render('create', ['model' => $termModel, 'section' => $section]);
     }
 
     /*
      * @删除学期
      */
-    public function actionDeleteTerm($id){
+    public function actionDeleteTerm($id)
+    {
 
         $model = TermModel::findOne($id);
         if ($model->id) {
@@ -177,7 +189,8 @@ class SectionController extends Controller
 
     }
 
-    public function actionUpdateTerm($id){
+    public function actionUpdateTerm($id)
+    {
         $model = TermModel::findOne($id);
 
         $section = Section::findOne($model->section_id);
@@ -189,23 +202,23 @@ class SectionController extends Controller
             $model->order_start_time = strtotime($model->order_start_time);
             $model->order_end_time = strtotime($model->order_end_time);
 
-            if($model->start_time < $model->end_time){
-                if($model->save()){
+            if ($model->start_time < $model->end_time) {
+                if ($model->save()) {
                     return $this->redirect(['list-term']);
-                }else{
-                    $model->start_time =  date("Y-m-d", $model->start_time);
+                } else {
+                    $model->start_time = date("Y-m-d", $model->start_time);
                     $model->end_time = date("Y-m-d", $model->end_time);
-                    $model->order_start_time =  date("Y-m-d", $model->order_start_time);
+                    $model->order_start_time = date("Y-m-d", $model->order_start_time);
                     $model->order_end_time = date("Y-m-d", $model->order_end_time);
                     return $this->render('update-term', [
                         'model' => $model,
                         'section' => $section
                     ]);
                 }
-            }else{
-                $model->start_time =  date("Y-m-d", $model->start_time);
+            } else {
+                $model->start_time = date("Y-m-d", $model->start_time);
                 $model->end_time = date("Y-m-d", $model->end_time);
-                $model->order_start_time =  date("Y-m-d", $model->order_start_time);
+                $model->order_start_time = date("Y-m-d", $model->order_start_time);
                 $model->order_end_time = date("Y-m-d", $model->order_end_time);
                 return $this->render('update-term', [
                     'model' => $model,
@@ -213,9 +226,9 @@ class SectionController extends Controller
                 ]);
             }
         } else {
-            $model->start_time = date("Y-m-d",$model->start_time);
-            $model->end_time = date("Y-m-d",$model->end_time);
-            $model->order_start_time =  date("Y-m-d", $model->order_start_time);
+            $model->start_time = date("Y-m-d", $model->start_time);
+            $model->end_time = date("Y-m-d", $model->end_time);
+            $model->order_start_time = date("Y-m-d", $model->order_start_time);
             $model->order_end_time = date("Y-m-d", $model->order_end_time);
             return $this->render('update-term', [
                 'model' => $model,
@@ -230,7 +243,8 @@ class SectionController extends Controller
      * @学期列表
      * @return string
      */
-    public function actionListTerm(){
+    public function actionListTerm()
+    {
 
         $searchModel = new TermSearchModel();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -243,7 +257,6 @@ class SectionController extends Controller
         ]);
 
     }
-
 
 
     public function actionGetSection()
@@ -362,24 +375,24 @@ class SectionController extends Controller
                 $time = time();
                 $term = TermModel::find()->where(
                     [
-                        'AND',['=','status',2],
-                        ['=','section_id',$v['section_id']],
-                        ['>=','order_end_time',$time],
-                        ['<=','order_start_time',$time],
+                        'AND', ['=', 'status', 2],
+                        ['=', 'section_id', $v['section_id']],
+                        ['>=', 'order_end_time', $time],
+                        ['<=', 'order_start_time', $time],
                         //'order_end_time>:order_end_time' ,[':order_end_time' => strtotime($this->created)],
                     ]
                 )->asArray()->one();
                 $sections[$k]['version'] = 1;
                 $sections[$k]['started'] = 2;
                 $sections[$k]['term_id'] = $term['id'];
-                $sections[$k]['create_time'] = date('Y-m-d H:i:s',$term['start_time']);
-                $sections[$k]['expire_time'] =  date('Y-m-d H:i:s',$term['end_time']);
+                $sections[$k]['create_time'] = date('Y-m-d H:i:s', $term['start_time']);
+                $sections[$k]['expire_time'] = date('Y-m-d H:i:s', $term['end_time']);
             }
             $usercourse = new UserCourse();
-            $result = $usercourse->modify($usercourse,$sections);
-            if($result){
+            $result = $usercourse->modify($usercourse, $sections);
+            if ($result) {
                 Tool::Redirect('/admin/user/course-list');
-            }else{
+            } else {
                 Tool::Redirect('/admin/user/list');
             }
         }
