@@ -8,83 +8,58 @@
  */
 namespace app\models\search;
 
-use Yii;
-use yii\base\Model;
-use yii\data\ActiveDataProvider;
-use app\models\TermModel;
 
+use app\models\TermModel;
+use yii\data\ActiveDataProvider;
+use app\models\base\BaseModel;
 
 class TermSearchModel extends TermModel
 {
 
     /**
-     * @inheritdoc
+     * @return array
      */
     public function rules()
     {
         return [
-            [['id', 'term'], 'integer'],
-            [['start_time', 'end_time', 'order_start_time', 'order_end_time', 'status'], 'safe'],
+            [['term'], 'integer'],
+            [['start_time', 'end_time', 'order_start_time', 'order_end_time'], 'safe'],
         ];
     }
 
+
     /**
-     * @inheritdoc
+     * @param  array $params
+     * @return \yii\data\ActiveDataProvider
      */
-    public function scenarios()
-    {
-        // bypass scenarios() implementation in the parent class
-        return Model::scenarios();
-    }
-
-
     public function search($params)
     {
 
-        $query = TermModel::find();
+        $query = TermModel::find()->where(['in', 'status', [self::STATUS_ACTIVE, self::STATUS_INACTIVE]]);
 
-        // add conditions that should always apply here
-
-        $dataProvider = new ActiveDataProvider([
+        $model = new ActiveDataProvider([
             'query' => $query,
         ]);
 
-        /*foreach ($params as $key => $value) {
-
-            $params[$key]['start_time'] = strtotime($value['start_time']);
-            $params[$key]['end_time'] = strtotime($value['end_time']);
-            $params[$key]['order_start_time'] = strtotime($value['order_start_time']);
-            $params[$key]['order_end_time'] = strtotime($value['order_end_time']);
-
-        }*/
-        $this->load($params);
-
-        if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
-            return $dataProvider;
+        if (!($this->load($params) && $this->validate())) {
+            return $model;
         }
 
-        //print_r($this);die;
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'start_time' => $this->start_time,
-            'end_time' => $this->end_time,
-            'order_start_time' => $this->order_start_time,
-            'order_end_time' => $this->order_end_time,
-            /*'start_time' => strtotime($this->start_time),
-            'end_time' => strtotime($this->end_time),
-            'order_start_time' => strtotime($this->order_start_time),
-            'order_end_time' => strtotime($this->order_end_time),*/
-        ]);
+        $query->andFilterWhere(['like', 'DATE_FORMAT(FROM_UNIXTIME(start_time),\'%Y-%m-%d %H:%i:%s\')', strtolower($this->start_time)])
+            ->andFilterWhere(['like', 'DATE_FORMAT(FROM_UNIXTIME(end_time),\'%Y-%m-%d %H:%i:%s\')', strtolower($this->end_time)])
+            ->andFilterWhere(['like', 'DATE_FORMAT(FROM_UNIXTIME(order_start_time),\'%Y-%m-%d %H:%i:%s\')', strtolower($this->order_start_time)])
+            ->andFilterWhere(['like', 'DATE_FORMAT(FROM_UNIXTIME(order_end_time),\'%Y-%m-%d %H:%i:%s\')', strtolower($this->order_end_time)])
+            ->andFilterWhere(['like', 'lower(term)', strtolower($this->term)]);
 
-        $query->andFilterWhere(['like', 'term', $this->term]);
-        // ->andFilterWhere(['like', 'end_time', $this->end_time])
-        //  ->andFilterWhere(['like', 'order_start_time', $this->order_start_time])
-        // ->andFilterWhere(['like', 'order_end_time', $this->order_end_time]);
+//        if ($this->status) {
+//            $query->andFilterWhere(['status' => $this->status]);
+//        }
 
-        return $dataProvider;
+
+
+        return $model;
+
+
     }
 
 }
