@@ -48,7 +48,6 @@ $this->params['breadcrumbs'][] = $this->title;
             <td class="tdvleft"><?php echo $value['buyurl']; ?></td>
             <td class="tdvleft">
                 <a href="/admin/section/edit-section/?section_id=<?= $value['section_id']; ?>">修改</a> |
-                <a href="/admin/section/add-cat?section_id=<?= $value['section_id']; ?>">加分组</a> |
                 <a href="/admin/section/add-term?section_id=<?= $value['section_id']; ?>">加学期</a>
             </td>
 
