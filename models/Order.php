@@ -53,6 +53,7 @@ class Order extends ActiveRecord
 
         //$order_id = 8;
         $order_id = $this->save() ? Yii::$app->db->lastInsertID : '';
+        Yii::warning(json_encode($order_id.'order_id存在'));
         if (!$order_id) {
             Yii::warning(json_encode($this->errors));
             return false;
@@ -66,8 +67,10 @@ class Order extends ActiveRecord
             //$rec_id = 7;
             if (!$rec_id) {
                 Yii::warning(json_encode($this->errors));
-                break;
+                continue;
+                //break;
             }
+            Yii::warning(json_encode($rec_id.'rec_id存在'));
             //1.判断是不是课程：如果是就继续，如果不是课程，就执行完成；
             $code = trim($param['outer_item_id']);
              //$code = 'KY160001';
@@ -79,15 +82,18 @@ class Order extends ActiveRecord
             $courses = Yii::$app->db->createCommand($sql)->queryAll();
             if (!$courses) {
                 Yii::warning(json_encode($this->errors));
-                break;
+                continue;
+                //break;
             }
+            Yii::warning(json_encode($courses.'课程存在'));
             //print_r($courses);die;
             foreach ($courses as $course) {
                // $expire_time = date('Y-m-d H:i:s', strtotime($course['expire_time']) + 86400 * 30 * 3);
                 Yii::warning(json_encode($this->errors));
                 if (!$course['course_id']) {
                     //Yii::getLogger()->log("有赞订单：{$order['tid']},不是课程");
-                    break;
+                    continue;
+                    //break;
                 }
 
                 //判断是阶段的那个学期
@@ -102,8 +108,10 @@ class Order extends ActiveRecord
                 )->asArray()->one();
                 if (!$term) {
                     //Yii::getLogger()->log("有赞订单：{$order['tid']},不是课程");
-                    break;
+                    continue;
+                    //break;
                 }
+                Yii::warning(json_encode($term.'阶段学期存在'));
                 //$order['receiver_mobile'] = '18636342640';
                 //3.查看订单手机号是否在用户表存在  $user 是对象
                 $user = User::getUserByName($this->mobile);
@@ -125,7 +133,8 @@ class Order extends ActiveRecord
                         $user_next_section = Yii::$app->db->createCommand($sql)->queryOne();
                         //没有最新阶段
                         if (!$user_next_section['sort']) {
-                            break;
+                            continue;
+                            //break;
                         }
                         //print_r($user_next_section);die;
                         $sql = "select s.* from `section` as s 
@@ -179,8 +188,9 @@ class Order extends ActiveRecord
                     //用户存在插入新的课程和用户的关系
                     $usercourse = new UserCourse();
                     $id = $usercourse->add($user_course);
+                    Yii::warning(json_encode($id.'用户和课程的关系建立'));
                     //echo $id;die;  ok
-                    return $id;
+                    //return $id;
                 } else {
                     //用户不存在，创建用户，建立用户关系
                     $user = array('phone' => $this->mobile, 'password' => '');
@@ -202,7 +212,8 @@ class Order extends ActiveRecord
                         );
                         $usercourse = new UserCourse();
                         $id = $usercourse->add($user_course);
-                        return $id;
+                        Yii::warning(json_encode($id.'用户和课程的关系建立'));
+                        //return $id;
                     }
                 }
             }
