@@ -89,7 +89,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     ],
                         ['class' => 'yii\grid\ActionColumn',
-                            'template' => '{update} {delete}',
+                            'template' => '{update} {delete} {addcat}',
+                            'contentOptions' => [
+                                'class' => 'text-center',
+                                'width' => 120,
+                            ],
                             'buttons' => [
                                 'delete' => function($url, $model, $key) {
                                     return Html::a('<span class="glyphicon glyphicon-trash"></span>',
@@ -117,10 +121,25 @@ $this->params['breadcrumbs'][] = $this->title;
                                     );
 
                                 },
+
+                                'addcat' => function($url, $model, $key) {
+                                    return Html::a(
+                                        '添加分组',
+                                        ['add-cat', 'section_id' => $model->section_id, 'term_id' => $key],
+                                        [
+                                            'title' => '添加分组',
+                                            'aria-label' => '添加分组',
+                                            'data-pjax' => '0',
+                                            'data-method'=>'post',
+                                        ]
+                                    );
+
+                                },
                             ],
                         ],
                     ],
                 ]);
+
                 ?>
                 <?php Pjax::end(); ?>
             </div>
