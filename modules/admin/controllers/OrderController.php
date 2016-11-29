@@ -36,6 +36,7 @@ class OrderController extends Controller
     }
 
     public function actionUpdateUcourse(){
+        die;
         $section_id = Yii::$app->request->get('section_id');
         if($section_id){
 
@@ -57,6 +58,7 @@ class OrderController extends Controller
     }
 
     public function actionTest(){
+        die;
         $section_id = Yii::$app->request->get('section_id');
         $sectionInfo = Section::findOne($section_id);
         if ($sectionInfo->section_id >0) {
