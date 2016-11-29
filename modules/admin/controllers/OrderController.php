@@ -45,7 +45,7 @@ class OrderController extends Controller
 //                print_r($value);die;
                 $expire_time = date('Y-m-d',$value->end_time);
                 //echo $expire_time;die;
-                $user_course = UserCourse::updateAll(['term_id'=>$value->id],"section_id = $value->section_id AND expire_time like '{$expire_time}%'");
+                $user_course = UserCourse::updateAll(['term_id'=>$value->id],"section_id = $value->section_id AND term_id=0 AND expire_time like '{$expire_time}%'");
                 if($user_course){
                     echo "成功".$user_course;
                 }else{
