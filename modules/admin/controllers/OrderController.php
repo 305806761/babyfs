@@ -9,6 +9,7 @@
 namespace app\modules\admin\controllers;
 
 use app\models\OrderGoods;
+use app\models\Section;
 use app\models\SectionCat;
 use app\models\TermModel;
 use app\models\UserCourse;
