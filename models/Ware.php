@@ -70,6 +70,7 @@ class Ware extends ActiveRecord
         return $this->hasMany(CourseWare::className(), ['ware_id' => 'ware_id']);
     }
 
+
     public static function saveAll(self $model)
     {
 
@@ -158,12 +159,12 @@ class Ware extends ActiveRecord
         return true;
     }
 
-    public static function getUsable($section_id, $start_date)
+    public static function getUsable($section_id, $start_time)
     {
         if (!$section = Section::findOne($section_id)) {
             return false;
         }
-        if (($start_time = strtotime($start_date)) > time()) {
+        if ($start_time > time()) {
             return false;
         }
         if(!$term = TermModel::findOne(['section_id'=>$section_id])){

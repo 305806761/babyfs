@@ -51,10 +51,10 @@ class User extends ActiveRecord
      ***/
     static public function modify(self $user, $phone, $password)
     {
-        if($password){
+        if ($password) {
             $user->password = self::GenPassword($password);
         }
-        if($phone){
+        if ($phone) {
             $user->phone = $phone;
         }
         if ($user->save()) {
@@ -116,8 +116,9 @@ class User extends ActiveRecord
         Tool::cookieset($cookiename, null, -1);
     }
 
-    static function get_loginpage($default = null) {
-        if(Yii::$app->session->isActive){
+    static function get_loginpage($default = null)
+    {
+        if (Yii::$app->session->isActive) {
             Yii::$app->session->open();
         }
         $loginpage = Yii::$app->session->get('loginpage');
@@ -222,7 +223,7 @@ class User extends ActiveRecord
         $sql .= " user_course as uc left join course as c on uc.course_id = c.course_id 
         left join section as s on uc.section_id = s.section_id left join user as u on uc.user_id = u.user_id";
         $sql = $where ? $sql . $where : $sql;
-        $sql = $sql .' order by uc.id desc';
+        $sql = $sql . ' order by uc.id desc';
         $result = Yii::$app->db->createCommand($sql)->query();
 
         $pagination = new Pagination([
@@ -236,40 +237,98 @@ class User extends ActiveRecord
         return $course;
     }
 
-    static public function checkPermit($user_id,$section_id='',$ware_id=''){
+    /**
+     * 验证section是否有权限
+     * @param string $user_id
+     * @param string $section_id
+     * @param string $term_id
+     * @return boolen
+     * @access public
+     */
+    static public function checkPermitSection($user_id, $section_id = '', $term_id = '')
+    {
 
-        $sql = "SELECT uc.expire_time
-                FROM section_cat AS sc 
-                LEFT JOIN course_ware AS cw ON sc.id = cw.section_cat_id 
-                LEFT JOIN user_course AS uc ON sc.section_id = uc.section_id";
-        $where = [];
-        if ($section_id) {
-            $where[] = "sc.section_id = '$section_id'";
+        if ($section_id && $term_id) {
+            $query = UserCourse::find()
+                ->where(['uc.user_id' => $user_id, 'uc.section_id' => $section_id, 'uc.term_id' => $term_id])
+                ->from(['uc' => UserCourse::tableName()]);
+            $query->joinWith(['term' => function ($query) {
+                $query->select('end_time');
+            }]);
+            $section_ware = $query->asArray()->all();
+
+            if (!$section_ware) {
+                return false;
+            }
+            $newtime = time();
+            foreach ($section_ware as $value) {
+                //$expire_time = $value['term']['end_time']; //从学期表查询时间
+                $expire_time = strtotime($value['expire_time']); //从user_course表查询时间
+            }
+            if (!$expire_time) {
+                return false;
+            }
+            //print_r($expire_time);die;
+            if ($newtime >= $expire_time) {
+                return false;
+            }
+            return true;
+        } else {
+            return false;
         }
-        if ($user_id) {
-            $where[] = "uc.user_id = '$user_id'";
-        }
+    }
+
+
+    /**
+     * 验证ware是否有权限
+     * @param string $user_id
+     * @param string $ware_id
+     * @return boolen
+     * @access public
+     */
+
+    static public function checkPermitWare($user_id, $ware_id = '')
+    {
         if ($ware_id) {
-            $where[] = "cw.ware_id = '$ware_id'";
-        }
-        if ($where) {
-            $sql .= ' where ' . implode(' and ', $where);
-        }
-        //echo $sql;die;
-        $section_ware = Yii::$app->db->createCommand($sql)->queryAll();
-        //print_r($section_ware);die;
-        if(!$section_ware){
+            $cat = CourseWare::find()->where(['ware_id' => $ware_id]);
+            $cat->joinWith(['sectionCat' => function ($cat) {
+                //$cat->select('section_id,term_id');
+            }]);
+            $usercat = $cat->asArray()->all();//6,1,3
+            $usercourse = UserCourse::find()->where(['user_id' => $user_id])->asArray()->all();
+            foreach ($usercourse as $value) {
+                if (!$value['section_id']) {
+                    return false;
+                }
+
+                foreach ($usercat as $val) {
+                    //print_r($val);die;
+                    if (!$val['sectionCat']['section_id']) {
+                        return false;
+                    }
+                    if ($value['section_id'] = $val['sectionCat']['section_id']) {
+                        $end_time = strtotime($value['expire_time']); //user_course 获取时间
+                       /* $end_time = TermModel::find()->select('end_time')
+                            ->where(['section_id' => $value['section_id'], 'id' => $value['term_id']])
+                            ->asArray()->one();*/
+                    } else {
+                        continue;
+                    }
+                }
+            }
+
+            if ($end_time) {
+                $newtime = time();
+                if ($newtime >= $end_time) {
+                    return false;
+                }
+                return true;
+            } else {
+                return false;
+            }
+        } else {
             return false;
         }
-        $newtime = time();
-        foreach($section_ware as $value){
-            $expire_time = strtotime($value['expire_time']);
-        }
-        //print_r($expire_time);die;
-        if($newtime>=$expire_time){
-            return false;
-        }
-        return true;
     }
 
 }

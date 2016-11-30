@@ -36,7 +36,7 @@ class WareController extends Controller
             Tool::Redirect("/user/login");
         }
         //判断是否有权限查看该课件
-        if(!User::checkPermit($user->user_id,'',$ware_id)){
+        if(!User::checkPermitWare($user->user_id,$ware_id)){
             Tool::Redirect('/section/list','没有权限查看','notice');
         };
         $model = $this->findModel($ware_id);

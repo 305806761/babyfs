@@ -84,16 +84,21 @@ class Course extends ActiveRecord
      **/
     public static function getCourseSection($user_id)
     {
-        $sql = "select s.*,uc.expire_time as user_course_expire,uc.started
-                from user_course as uc 
-                left join section as s  on uc.section_id = s.section_id 
-                where uc.user_id = '{$user_id}'";
-        $section = Yii::$app->db->createCommand($sql)->queryAll();
+        $query = UserCourse::find()->where(['user_id'=>$user_id]);
+        $query->joinWith(['section' => function ($query){
+            $query->select('name,image,buyurl,section_id');
+        }]);
+        $query->joinWith(['term' => function ($query){
+            $query->select('id,start_time,end_time');
+        }]);
+        $section = $query->asArray()->all();
         $newtime = time();
         $free = array('7','8','9');
+        $section_ids = array();
         foreach ($section as $key => $value) {
             $section[$key][is_buy] = '1';
-            $expire_time = strtotime($value['user_course_expire']);
+            //$expire_time = $value['term']['end_time'];   获取学期term 时间
+            $expire_time = strtotime($value['expire_time']); //user_course 获取时间
             if($newtime>=$expire_time){
                 $section[$key][is_buy] = '0';
             }
@@ -101,26 +106,22 @@ class Course extends ActiveRecord
                 $section[$key][is_buy] = '0';
             }
             if(in_array($value['section_id'],$free)){
-                break;
+                continue;
             }
-            if ($key == 0) {
-                $section_ids = $value['section_id'];
-            } else {
-                $section_ids .= ',' . $value['section_id'];
-            }
+            $section_ids[] = $value['section_id'];
         }
-        // $section_ids = 2,3,4
-        //print_r($section);die;
-        $section_ids = $section_ids ? $section_ids : "''";
-        if($section_ids == "''"){
+
+        if(empty($section_ids)){
             return $section;
         }
-        $sqlsection = "select * from section where section_id not in ($section_ids)";
-        $course_section = Yii::$app->db->createCommand($sqlsection)->queryAll();
+
+        $course_section = Section::find()->where(['not in','section_id', $section_ids])->asArray()->all();
         foreach ($course_section as $key => $value) {
+            $course_section[$key]['section'] = $value;
             $course_section[$key][is_buy] = '0';
         }
         $course = array_merge($section, $course_section);
+        //echo "<pre>";
         //print_r($course);die;
         return $course;
     }

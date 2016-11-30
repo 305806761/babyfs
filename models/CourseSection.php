@@ -136,49 +136,50 @@ class CourseSection extends ActiveRecord
      * 获取所有课程$is_free=0 是免费，￥is_free=1是收费
      */
 
-    public function getSectionWare($section_id, $user_id)
+    public function getSectionWare($section_id, $user_id,$term_id)
     {
-        if (!$uc = UserCourse::findOne(['section_id' => $section_id, 'user_id' => $user_id])) {
+        if (!$uc = UserCourse::findOne(['section_id' => $section_id, 'user_id' => $user_id,'term_id'=>$term_id])) {
+            return [];
+        }
+        if (!$term = TermModel::findOne(['section_id' => $section_id,'id'=>$term_id])) {
+            return [];
+        }
+        /*//从学期中获取开始时间
+        if (!$usable = Ware::getUsable($section_id, $term->	start_time)) {
+            return [];
+        }*/
+
+        //从user_course中获取开始时间
+        if (!$usable = Ware::getUsable($section_id, strtotime($uc->create_time))) {
             return [];
         }
 
-        if (!$usable = Ware::getUsable($section_id, $uc->create_time)) {
-            return [];
-        }
-
-        $sql = "SELECT sc.id,sc.cat_name,sc.image as cat_image,s.name AS section_name
-                FROM section_cat AS sc 
-                LEFT JOIN section AS s ON sc.section_id = s.section_id 
-                LEFT JOIN user_course AS uc ON sc.section_id = uc.section_id";
-        $where = [];
-        if ($section_id) {
-            $where[] = "sc.section_id = '$section_id'";
-        }
-        if ($user_id) {
-            $where[] = "uc.user_id = '$user_id'";
-        }
-        if ($where) {
-            $sql .= ' where ' . implode(' and ', $where);
-        }
-
-        $section_ware = Yii::$app->db->createCommand($sql)->queryAll();
+        $section_ware = SectionCat::find()->where(['section_id'=>$section_id,'term_id'=>$term_id])->asArray()->all();
+       // print_r($section_ware);die;
         foreach ($section_ware as $key => $value) {
-            $sql = "select w.title,w.ware_id,w.image as ware_image 
-                    from course_ware as cw 
-                    left join ware as w on cw.ware_id = w.ware_id 
-                    where cw.section_cat_id = {$value['id']}";
-            $ware = Yii::$app->db->createCommand($sql)->queryAll();
+            $query = CourseWare::find()->from(['cw'=>CourseWare::tableName()])->where(['cw.section_cat_id'=>$value['id']]);
+            $query->joinWith(['ware'=>function($query){
+                $query->from(['w'=>Ware::tableName()])
+                    ->select('w.title,w.ware_id,w.image,w.small_text');
+            }]);
+            $ware = $query->asArray()->all();
+
             $all = count($ware);
             if ($all > $usable) {
                 $ware = array_slice($ware, 0, $usable);
             }
             $section_ware[$key]['ware'] = $ware;
+
             if ($all >= $usable) {
                 break;
             }
             $usable -= $all;
         }
-        $ware = array('section_name' => $section_ware[0]['section_name'], 'section_ware' => $section_ware);
+
+        $section = Section::findOne(['section_id'=>$section_id]);
+        $ware = array('section_name' => $section->name, 'section_ware' => $section_ware);
+        //echo "<pre>";
+        //print_r($ware);die;
         //$section_ware['section_name'] = $section_ware[0]['section_name'];
         return $ware;
     }

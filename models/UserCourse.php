@@ -80,6 +80,22 @@ class UserCourse extends ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getSection()
+    {
+        return $this->hasOne(Section::className(), ['section_id' => 'section_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTerm()
+    {
+        return $this->hasOne(TermModel::className(), ['id' => 'term_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getUser()
     {
         return $this->hasOne(User::className(), ['user_id' => 'user_id']);

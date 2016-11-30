@@ -35,15 +35,15 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?php foreach ($valueware['ware'] as $value): ?>
                             <dl class="clearfix">
                                 <?php
-                                $img = $value['ware_image'] ? json_decode($value['ware_image']) : "/default/img/course-img1.png";
+                                $img = $value['ware']['image'] ? json_decode($value['ware']['image']) : "/default/img/course-img1.png";
                                 ?>
                                 <dt><img src="<?= $img?>" /></dt>
                                 <dd>
-                                    <a href="/ware/detail?ware_id=<?= $value['ware_id'] ?>">
-                                        <h1><?= $value['title'] ?></h1>
+                                    <a href="/ware/detail?ware_id=<?= $value['ware']['ware_id'] ?>">
+                                        <h1><?= $value['ware']['title'] ?></h1>
                                     </a>
                                     <p>
-                                        <?= $value['small_text'] ?>
+                                        <?= $value['ware']['small_text'] ?>
                                     </p>
                                 </dd>
                             </dl>

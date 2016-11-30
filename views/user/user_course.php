@@ -20,24 +20,24 @@ $this->params['breadcrumbs'][] = $this->title;
         <dl>
             <dt>
                 <?php if ($value['is_buy']): ?>
-                    <a href="/section/list?section_id=<?= $value['section_id'] ?>">
+                    <a href="/section/list?section_id=<?= $value['section_id'] ?>&term_id=<?= $value['term_id']?>">
                         <?php
-                        $img = $value['image'] ? json_decode($value['image']) : "/default/img/already-buy-img1.png";
+                        $img = $value['section']['image'] ? json_decode($value['section']['image']) : "/default/img/already-buy-img1.png";
                         ?>
                         <img src="<?= $img?>" />
                     </a>
                     <span class="active">学习中</span>
                 <?php else: ?>
-                    <a href="<?= $value['buyurl']?>">
+                    <a href="<?= $value['section']['buyurl']?>">
                         <?php
-                        $img = $value['image'] ? json_decode($value['image']) : "/default/img/already-buy-img1.png";
+                        $img = $value['section']['image'] ? json_decode($value['section']['image']) : "/default/img/already-buy-img1.png";
                         ?>
                         <img src="<?= $img?>" />
                     </a>
                     <span>未开放</span>
                 <?php endif ?>
             </dt>
-            <dd><?= $value['name'] ?></dd>
+            <dd><?= $value['section']['name'] ?></dd>
         </dl>
         <?php if ($key % 2 == 1): ?>
             </div>

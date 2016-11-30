@@ -8,6 +8,7 @@
 
 namespace app\controllers;
 
+use Yii;
 use yii\web\Controller;
 use yii\data\Pagination;
 use app\models\CourseSection;
@@ -23,15 +24,16 @@ class SectionController extends Controller
         if (!$user) {
             Tool::Redirect("/user/login");
         }
-        $section_id = \Yii::$app->request->get('section_id', '');
+        $section_id = (int)Yii::$app->request->get('section_id');
+        $term_id = (int)Yii::$app->request->get('term_id');
         //echo $section_id;die;
 
         $cs = new CourseSection();
-        //判断是否有权限查看该课件
-        if(!User::checkPermit($user->user_id,$section_id)){
+        //判断是否有权限查看该课件checkPermitSection
+        if(!User::checkPermitSection($user->user_id,$section_id,$term_id)){
             Tool::Redirect('/user/user-course','没有权限查看','notice');
         };
-        $wares = $cs->getSectionWare($section_id, $user->user_id);
+        $wares = $cs->getSectionWare($section_id, $user->user_id,$term_id);
         //print_r($wares);die;
         return $this->render('list', ['wares' => $wares]);
     }
