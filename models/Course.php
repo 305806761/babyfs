@@ -113,6 +113,9 @@ class Course extends ActiveRecord
         }
 
         if(empty($section_ids)){
+            if(!$section){
+                $section = Section::find()->where(['not in','section_id', $free])->asArray()->all();
+            }
             return $section;
         }
 
@@ -122,9 +125,6 @@ class Course extends ActiveRecord
             $course_section[$key][is_buy] = '0';
         }
         $course = array_merge($section, $course_section);
-        if(!$course){
-            $course = Section::find()->where(['not in','section_id', $free])->asArray()->all();
-        }
         //echo "<pre>";
         //print_r($course);die;
         return $course;
