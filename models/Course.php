@@ -11,6 +11,7 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\db\ActiveRecord;
+use yii\web\Session;
 
 class Course extends ActiveRecord
 {
@@ -121,6 +122,9 @@ class Course extends ActiveRecord
             $course_section[$key][is_buy] = '0';
         }
         $course = array_merge($section, $course_section);
+        if(!$course){
+            $course = Section::find()->where(['not in','section_id', $free])->asArray()->all();
+        }
         //echo "<pre>";
         //print_r($course);die;
         return $course;
