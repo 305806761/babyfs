@@ -62,7 +62,7 @@ class UserController extends Controller
         }
         $phone = Yii::$app->request->post('phone');
         $password = Yii::$app->request->post('password');
-        if ($phone) {
+        if ($phone && $password) {
             $member = new User();
             $user = array('phone' => $phone, 'password' => $password);
             if (!$member->login($user)) {
@@ -89,7 +89,7 @@ class UserController extends Controller
         }
         $phone = Yii::$app->request->post('phone');
         $password = Yii::$app->request->post('password');
-        if ($phone) {
+        if ($phone && $password) {
             $member = new User();
             $user = array('phone' => $phone, 'password' => $password);
 
