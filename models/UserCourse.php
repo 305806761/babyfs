@@ -43,8 +43,8 @@ class UserCourse extends ActiveRecord
     public function rules()
     {
         return [
-            [['course_id', 'section_id', 'user_id'], 'required'],
-            [['course_id', 'section_id', 'version', 'user_id', 'started'], 'integer'],
+            [['course_id', 'section_id', 'user_id','term_id'], 'required'],
+            [['course_id', 'section_id', 'version','term_id', 'user_id', 'started'], 'integer'],
             [['create_time', 'expire_time', 'created'], 'safe'],
             [['course_id'], 'exist', 'skipOnError' => true, 'targetClass' => Course::className(), 'targetAttribute' => ['course_id' => 'course_id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'user_id']],
