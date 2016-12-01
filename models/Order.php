@@ -248,7 +248,7 @@ class Order extends ActiveRecord
         $result = Yii::$app->db->createCommand($sql . " LIMIT $pagination->offset,$pagination->limit");
         $order = $result->queryAll();
         foreach ($order as $key=>$value){
-            $sql = "select code,goods_name from order_goods where order_id = '{$value['order_id']}'";
+            $sql = "select code,goods_name,goods_number from order_goods where order_id = '{$value['order_id']}'";
             $order_goods = Yii::$app->db->createCommand($sql)->queryAll();
             $order[$key]['goods'] = $order_goods;
         }
