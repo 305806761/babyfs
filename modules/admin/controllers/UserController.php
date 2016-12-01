@@ -9,6 +9,7 @@
 namespace app\modules\admin\controllers;
 
 use app\models\Course;
+use app\models\search\UserCourseSearch;
 use app\models\Section;
 use app\models\TemplateCode;
 use app\models\TermModel;
@@ -94,13 +95,27 @@ class UserController extends Controller
         ]);
     }
 
+    public function actionCourseList(){
+
+        $searchModel = new UserCourseSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        //print_r($dataProvider);
+        //die;
+        return $this->render('course_list', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+
     /**
      * 查看用户课程列表
      * @param string 密码
      * @return str 返回加密的用户密码
      * @access public
      */
-    public function actionCourseList()
+    public function actionCourseList_old()
     {
         $course = Course::getCourse();
         $user_course = User::getUserCourse();
@@ -196,8 +211,10 @@ class UserController extends Controller
         $userInfo = User::findOne($courseModel->user_id);
         $sectionInfo = Section::findOne($courseModel->section_id);
         $courseInfo = Course::findOne($courseModel->course_id);
+        $termInfo = TermModel::findOne($courseModel->term_id);
         if ($courseModel) {
-
+            //echo 'pre';
+            //print_r(Yii::$app->request->post());die;
             if ($courseModel->load(Yii::$app->request->post())) {
                 if ($courseModel->save()) {
                     return $this->redirect(['course-list']);
@@ -212,6 +229,7 @@ class UserController extends Controller
         return $this->render('course_update', [
             'model' => $courseModel,
             'userInfo' => $userInfo,
+            'termInfo' => $termInfo,
             'sectionInfo' => $sectionInfo,
             'courseInfo' => $courseInfo,
 

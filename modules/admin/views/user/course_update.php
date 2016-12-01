@@ -20,6 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'userInfo' => $userInfo,
         'sectionInfo' => $sectionInfo,
+        'termInfo' => $termInfo,
         'courseInfo' => $courseInfo,
     ]);
     ?>

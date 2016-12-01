@@ -46,6 +46,12 @@ use yii\helpers\Html;
                         <?=$sectionInfo->name?>
                     </div>
                 </div>
+                <div class="form-group field-term ">
+                    <label class="col-lg-2 control-label" >学期</label>
+                    <div class="col-lg-5">
+                        <?= $form->field($model, 'term_id')->dropDownList(\app\models\TermModel::getTermNames()) ?>
+                    </div>
+                </div>
 
                 <div class="form-group field-term ">
                     <label class="col-lg-2 control-label" for="term">开课时间</label>
