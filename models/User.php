@@ -317,7 +317,7 @@ class User extends ActiveRecord
                 }
             }
 
-            if (max($end_time)) {
+            if (is_array($end_time) && max($end_time)) {
                 $newtime = time();
                 if ($newtime >= $end_time) {
                     return false;
