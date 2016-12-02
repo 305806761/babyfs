@@ -8,13 +8,47 @@
 
 namespace app\models;
 
+use app\models\base\BaseModel;
 use Yii;
 use yii\base\Model;
 use yii\db\ActiveRecord;
 use yii\web\Session;
 
-class Course extends ActiveRecord
+class Course extends BaseModel
 {
+
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return 'course';
+    }
+
+    /**
+     * @inheritdoc  image	char(120)
+     */
+    public function rules()
+    {
+        return [
+            [['name', 'code'], 'required'],
+            [['name'], 'string', 'max' => 100],
+            [['code'], 'string', 'max' => 10],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'course_id' => '课程ID',
+            'name' => '课程名称',
+            'code' => '课程code',
+        ];
+    }
+
 
     /**
      *

@@ -8,6 +8,7 @@
 namespace app\modules\admin\controllers;
 
 use app\models\Course;
+use app\models\search\CourseSearch;
 use app\models\Tool;
 use Yii;
 use yii\web\Controller;
@@ -23,9 +24,15 @@ class CourseController extends Controller
      */
     public function actionList()
     {
+        $searchModel = new CourseSearch(); //Yii::$app->request->queryParams
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         $course = Course::getCourse();
-        return $this->render('list', ['course' => $course]);
+        return $this->render('list',
+            [
+                'searchModel' => $searchModel,
+                'course' => $dataProvider,
+            ]);
 
     }
 
@@ -34,36 +41,41 @@ class CourseController extends Controller
      */
     public function actionAdd()
     {
-        $course = new Course();
-        if (Yii::$app->request->post()) {
-            $array = array(
-                'name' => Yii::$app->request->post('name'),
-                'code' => Yii::$app->request->post('code'),
-                'course_id' => Yii::$app->request->post('course_id'),
-                'class_hour' => Yii::$app->request->post('class_hour'),
-            );
-
-            $result = $course->add($array);
-
-            if ($result) {
-                Tool::Redirect('/admin/course/list');
+        $model = new Course();
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save()) {
+                $this->redirect('list');
             }
-
         }
 
-        return $this->render('add', ['course' => $course]);
+        return $this->render('add', ['model' => $model]);
     }
 
     /***
      * 修改课程
      ***/
-    public function actionEdit()
+    public function actionEdit($course_id)
+    {
+        $model = Course::findOne($course_id);
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save()) {
+                $this->redirect('list');
+            }
+        }
+        return $this->render('update', ['model' => $model,]);
+
+    }
+    /*
+     * @删除学期
+     */
+    public function actionDelete($course_id)
     {
 
-        $course_id = Yii::$app->request->get('course_id');
-        $course = Course::getCourseById($course_id);
-        //print_r($course);die;
-        return $this->render('add', ['course' => $course,]);
+        $model = Course::findOne($course_id);
+        if ($model->course_id) {
+            $model->delete();
+            return $this->redirect(['list']);
+        }
 
     }
 
