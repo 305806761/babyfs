@@ -298,13 +298,13 @@ class User extends ActiveRecord
             $usercourse = UserCourse::find()->where(['user_id' => $user_id])->asArray()->all();
             foreach ($usercourse as $value) {
                 if (!$value['section_id']) {
-                    return false;
+                    continue;
                 }
 
                 foreach ($usercat as $val) {
                     //print_r($val);die;
                     if (!$val['sectionCat']['section_id']) {
-                        return false;
+                        continue;
                     }
                     if ($value['section_id'] == $val['sectionCat']['section_id']) {
                         $end_time[] = strtotime($value['expire_time']); //user_course 获取时间
