@@ -20,6 +20,8 @@ class BaseModel extends ActiveRecord
     const STATUS_DELETED = -2;
     const STATUS_INACTIVE = 1;
     const STATUS_ACTIVE = 2;
+    const COURSETYPEK = 1;
+    const COURSETYPEH = 2;
 
 
     /**
@@ -38,6 +40,24 @@ class BaseModel extends ActiveRecord
             self::STATUS_ACTIVE => self::$statusAll[self::STATUS_ACTIVE],
             self::STATUS_INACTIVE => self::$statusAll[self::STATUS_INACTIVE],
             self::STATUS_DELETED => self::$statusAll[self::STATUS_DELETED],
+
+        );
+    }
+
+    /**
+     * 课程类型        const COURSETYPEK = 1;const COURSETYPEh = 2;
+     * @var array
+     */
+    public static $coursetype = array(
+        self::COURSETYPEK => '课程',
+        self::COURSETYPEH => '绘本',
+    );
+
+    public static function getCourseType(){
+
+        return array(
+            self::COURSETYPEK => self::$coursetype[self::COURSETYPEK],
+            self::COURSETYPEH => self::$coursetype[self::COURSETYPEH],
 
         );
     }
