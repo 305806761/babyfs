@@ -78,7 +78,7 @@ class Order extends ActiveRecord
             $sql = "SELECT cs.course_id,cs.section_id
                     FROM `course_section` as cs
                     LEFT JOIN `course` as c ON cs.course_id = c.course_id
-                    WHERE c.code = '{$code} AND c.type=1'";//and s.sort=1
+                    WHERE c.code = '{$code}' AND c.type=1";//and s.sort=1
             $courses = Yii::$app->db->createCommand($sql)->queryAll();
             if (!$courses) {
                 Yii::warning(json_encode($this->errors));
