@@ -46,6 +46,11 @@
         </ul>
     </div>
 </footer>
+<div class="imgChangeBigK">
+    <p class="tmBgOpacity60"></p>
+    <div class="imgChangeBig" id="imgChangeBig"></div>
+
+</div>
 <!--script src="/default/js/public/jquery-1.9.1.min.js"></script-->
 <script src="/default/js/public/effect.js"></script>
 </body>

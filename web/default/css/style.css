@@ -796,3 +796,9 @@ body{
     background: url("../img/user-center-img2-active.png") no-repeat center center;
     background-size: 27px 26px;
 }
+
+
+/* imgChangeBig */
+.imgChangeBigK { width: 100%; height: 100%; position: absolute; top: 0; left: 0; overflow: hidden; display: none;}
+.imgChangeBig { width: 100%; height: 100%; background-repeat: no-repeat; background-size: 100% auto; background-position: center center; overflow: hidden; position: absolute; top: 0; left:0;}
+.tmBgOpacity60 { width: 100%; height: 100%; background-color: #000; opacity: 0.6; position: absolute; top: 0; left: 0;}

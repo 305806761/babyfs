@@ -1,15 +1,31 @@
 var effect=(function(){
     function init(){
-       showHide();
-       Verification();
-        showImg();
+        showHide();
+        Verification();
+        //showImg();
+        showBigImg();
     }
-    function  showImg(){
-        $('#img').click(function() {
-            $(this).toggleClass('min');
-            $(this).toggleClass('max');
+    /*function  showImg(){
+     $('#img').click(function() {
+     $(this).toggleClass('min');
+     $(this).toggleClass('max');
+     })
+     }*/
+    function showBigImg(){
+        $(".introduce2-center-bot img").click(function(){
+            var imgUrl1 = $(this).attr("src");
+            var imgOffsetTop = $(this).offset().top;
+            imgUrl2 = "url(" + imgUrl1 + ")";
+            //alert(imgUrl2);
+            $(".imgChangeBigK").css({"top":imgOffsetTop-300}).show();
+            $("#imgChangeBig").css({"background-image":imgUrl2});
+        })
+
+        $(".imgChangeBigK").click(function(){
+            $(".imgChangeBigK").hide();
         })
     }
+
     function showHide(){
        $(".course-list-con-top").click(function(){
            if($(this).siblings(".course-list-con-bottom").is(":hidden")){
