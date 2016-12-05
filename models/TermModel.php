@@ -73,6 +73,20 @@ class TermModel extends BaseModel
         return $this->hasMany(Section::className(), ['section_id' => 'section_id']);
     }
 
+    public static function getTermNames()
+    {
+        $temp = self::find()->joinWith(['stage'])->asArray()->all();
+        $term = array();
+        foreach ($temp as $key=> $value){
+            $term[$value['id']] = $value['stage']['name'] .'  |  ' .$value['term'] .'  |  ' .date('Y-m-d',$value['start_time']);
+       }
+//        echo "<pre>";
+//        print_r($term);die;
+
+        return $term;
+
+    }
+
     /**
      * @return array
      */

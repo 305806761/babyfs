@@ -306,7 +306,7 @@ class User extends ActiveRecord
                     if (!$val['sectionCat']['section_id']) {
                         return false;
                     }
-                    if ($value['section_id'] = $val['sectionCat']['section_id']) {
+                    if ($value['section_id'] == $val['sectionCat']['section_id']) {
                         $end_time[] = strtotime($value['expire_time']); //user_course 获取时间
                        /* $end_time = TermModel::find()->select('end_time')
                             ->where(['section_id' => $value['section_id'], 'id' => $value['term_id']])
@@ -317,7 +317,7 @@ class User extends ActiveRecord
                 }
             }
 
-            if (max($end_time)) {
+            if (is_array($end_time) && max($end_time)) {
                 $newtime = time();
                 if ($newtime >= $end_time) {
                     return false;

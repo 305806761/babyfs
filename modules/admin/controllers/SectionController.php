@@ -122,6 +122,22 @@ class SectionController extends Controller
         return $this->render('addcat', ['cat' => $cat]);
     }
 
+    /**
+     * 删除分组
+     */
+
+    public function actionDeleteCat($id)
+    {
+
+        $model = SectionCat::findOne($id);
+        if ($model->id) {
+            $model->delete();
+            return $this->redirect(['list-cat']);
+        }
+
+    }
+
+
     public function actionEditSection()
     {
         $course = Course::getCourse();
