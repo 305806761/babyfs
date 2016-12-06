@@ -47,7 +47,7 @@ class CsvController extends Controller
     //统计课程
     public function actionTongji(){
         $date = Yii::$app->request->post('order_add_time');
-
+        $date = $date ? $date : date("Y-m-d");
         $groupModel = GroupModel::find()->asArray()->all();
         $courseModel = Course::find()->where(['type' => 1])->asArray()->all();
 
@@ -64,6 +64,7 @@ class CsvController extends Controller
     public function actionStatistics(){
 
         $date = Yii::$app->request->post('order_add_time');
+        $date = $date ? $date : date("Y-m-d");
         $groupModel = GroupModel::find()->asArray()->all();
         $courseModel = Course::find()->where(['type' => 2])->asArray()->all();
 
