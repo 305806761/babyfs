@@ -27,7 +27,6 @@ class CourseController extends Controller
         $searchModel = new CourseSearch(); //Yii::$app->request->queryParams
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        $course = Course::getCourse();
         return $this->render('list',
             [
                 'searchModel' => $searchModel,
@@ -66,7 +65,7 @@ class CourseController extends Controller
 
     }
     /*
-     * @删除学期
+     * @删除课程
      */
     public function actionDelete($course_id)
     {

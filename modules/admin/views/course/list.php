@@ -28,6 +28,7 @@ $this->title = '课程列表';
            // ['label' => '学期批次', 'attribute' => 'term', 'value' => 'section_term.term'],
             'name',
             'code',
+            'type',
             // ['class' => 'yii\grid\ActionColumn'],
             ['class' => 'yii\grid\ActionColumn',
                 'template' => '{update} {delete}',

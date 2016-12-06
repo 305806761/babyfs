@@ -52,6 +52,18 @@ use yii\helpers\Html;
         'class' => 'form-control',
     ]) ?>
 
+
+    <?= $form->field($model, 'type', [
+        'labelOptions' => ['class'=>'col-lg-2 control-label'],
+        'template' => '
+                            {label}
+                            <div class="col-lg-2">
+                            {input}
+                            {error}
+                            </div>
+                            ',
+    ])->dropDownList(\app\models\TermModel::getCourseType()) ?>
+
     <div class="form-group">
         <div class="col-lg-offset-2 col-lg-10">
             <?=

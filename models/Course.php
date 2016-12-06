@@ -33,6 +33,8 @@ class Course extends BaseModel
         return [
             [['name', 'code'], 'required'],
             [['name'], 'string', 'max' => 100],
+            ['type', 'default', 'value' => self::COURSETYPEK],
+            ['type', 'in', 'range' => [self::COURSETYPEK, self::COURSETYPEH]],
             [['code'], 'string', 'max' => 10],
         ];
     }
@@ -46,6 +48,7 @@ class Course extends BaseModel
             'course_id' => '课程ID',
             'name' => '课程名称',
             'code' => '课程code',
+            'type' =>'类别',
         ];
     }
 
