@@ -22,6 +22,7 @@ class BaseModel extends ActiveRecord
     const STATUS_ACTIVE = 2;
     const COURSETYPEK = 1;
     const COURSETYPEH = 2;
+    const COURSETYPEKN = 3;
 
 
     /**
@@ -51,12 +52,14 @@ class BaseModel extends ActiveRecord
     public static $coursetype = array(
         self::COURSETYPEK => '课程',
         self::COURSETYPEH => '绘本',
+        self::COURSETYPEKN => '没有学期课程',
     );
 
     public static function getCourseType(){
 
         return array(
             self::COURSETYPEK => self::$coursetype[self::COURSETYPEK],
+            self::COURSETYPEKN => self::$coursetype[self::COURSETYPEKN],
             self::COURSETYPEH => self::$coursetype[self::COURSETYPEH],
 
         );

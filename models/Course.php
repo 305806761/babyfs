@@ -34,7 +34,7 @@ class Course extends BaseModel
             [['name', 'code'], 'required'],
             [['name'], 'string', 'max' => 100],
             ['type', 'default', 'value' => self::COURSETYPEK],
-            ['type', 'in', 'range' => [self::COURSETYPEK, self::COURSETYPEH]],
+            ['type', 'in', 'range' => [self::COURSETYPEK, self::COURSETYPEH,self::COURSETYPEKN]],
             [['code'], 'string', 'max' => 10],
         ];
     }
