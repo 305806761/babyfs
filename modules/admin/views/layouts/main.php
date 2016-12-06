@@ -191,8 +191,8 @@ AppAsset::register($this);
     </style>
 
 
-    <div class="container">
-        <div class="main_column_left">
+    <div class="container" style="width:1270px;">
+        <div class="main_column_left" style="margin-left: -10px;">
             <div id="main-div">
                 <div id="menu-list">
                     <ul id="menu-ul">
@@ -293,6 +293,24 @@ AppAsset::register($this);
 
                         </li>
 
+                        <!--统计管理-->
+                        <li class="explode"><a href="" target="main-frame">统计管理</a></li>
+
+                        <li class="explode" key="{$k}" name="menu">
+
+                            <ul>
+                                <li class="menu-item"><a href="<?= Url::to(['csv/csv-up']) ?>"
+                                                         target="main-frame">订单csv导入</a></li>
+                                <li class="menu-item"><a href="<?= Url::to(['csv/tongji']) ?>"
+                                                         target="main-frame">课程统计</a></li>
+                                <li class="menu-item"><a href="<?= Url::to(['csv/statistics']) ?>"
+                                                         target="main-frame">绘本统计</a></li>
+                                <li class="menu-item"><a href="<?= Url::to(['csv/index']) ?>"
+                                                         target="main-frame">订单列表</a></li>
+                            </ul>
+
+                        </li>
+
 
                     </ul>
                 </div>
@@ -300,7 +318,7 @@ AppAsset::register($this);
             </div>
         </div>
 
-        <div class="right_column">
+        <div class="right_column" style="width:85%">
             <?= $content ?>
             <!-- 在右侧共用的统一数据 -->
         </div>

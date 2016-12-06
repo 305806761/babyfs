@@ -19,16 +19,16 @@ class GroupModel extends BaseModel
         return [
 
             ['name', 'default', 'value' =>''],
-            [['name'], 'string', 'min' => 0, 'max' => 255],
+            ['name', 'safe'],
 
             ['code', 'default', 'value' =>''],
-            [['code'], 'string', 'min' => 0, 'max' => 255],
+            ['code', 'safe'],
 
             ['wx_name', 'default', 'value' =>''],
-            [['wx_name'], 'string', 'min' => 0, 'max' => 255],
+            ['wx_name', 'safe'],
 
             ['leader', 'default', 'value' =>''],
-            [['leader'], 'string', 'min' => 0, 'max' => 255],
+            ['leader', 'safe'],
 
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE,  self::STATUS_DELETED]],
