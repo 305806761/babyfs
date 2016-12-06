@@ -103,6 +103,10 @@ class CsvModel extends BaseModel
             ['money_type', 'default', 'value' => 0],
             ['money_type', 'integer', 'min' => 0, 'max' => 2147483647],
 
+            ['order_status', 'default', 'value' => 0],
+            ['order_status', 'integer', 'min' => 0, 'max' => 2147483647],
+
+
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE,  self::STATUS_DELETED]],
 
