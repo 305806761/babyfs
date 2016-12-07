@@ -163,17 +163,21 @@ class CourseSection extends ActiveRecord
                     ->select('w.title,w.ware_id,w.image,w.small_text');
             }]);
             $ware = $query->asArray()->all();
+            $course = Course::findOne($uc->course_id);
+            if($course->type == 3){
+                $section_ware[$key]['ware'] = $ware;
+            }else{
+                $all = count($ware);
+                if ($all > $usable) {
+                    $ware = array_slice($ware, 0, $usable);
+                }
+                $section_ware[$key]['ware'] = $ware;
 
-            $all = count($ware);
-            if ($all > $usable) {
-                $ware = array_slice($ware, 0, $usable);
+                if ($all >= $usable) {
+                    break;
+                }
+                $usable -= $all;
             }
-            $section_ware[$key]['ware'] = $ware;
-
-            if ($all >= $usable) {
-                break;
-            }
-            $usable -= $all;
         }
 
         $section = Section::findOne(['section_id'=>$section_id]);
