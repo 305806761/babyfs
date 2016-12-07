@@ -398,6 +398,11 @@ class SectionController extends Controller
                         //'order_end_time>:order_end_time' ,[':order_end_time' => strtotime($this->created)],
                     ]
                 )->asArray()->one();
+                $course = Course::findOne($v['course_id']);
+                if($course->type == 3){
+                    $term['start_time'] = $time;
+                    $term['end_time'] = Yii::$app->params['course_expire'];
+                }
                 $sections[$k]['version'] = 1;
                 $sections[$k]['started'] = 2;
                 $sections[$k]['term_id'] = $term['id'];

@@ -78,7 +78,7 @@ class Order extends ActiveRecord
             $sql = "SELECT cs.course_id,cs.section_id
                     FROM `course_section` as cs
                     LEFT JOIN `course` as c ON cs.course_id = c.course_id
-                    WHERE c.code = '{$code}' AND c.type=1";//and s.sort=1
+                    WHERE c.code = '{$code}' AND c.type in (1,3)";//and s.sort=1
             $courses = Yii::$app->db->createCommand($sql)->queryAll();
             if (!$courses) {
                 Yii::warning(json_encode($this->errors));
@@ -110,6 +110,10 @@ class Order extends ActiveRecord
                     //Yii::getLogger()->log("有赞订单：{$order['tid']},不是课程");
                     continue;
                     //break;
+                }
+                if($course['type'] == 3){
+                    $term['start_time'] = time();
+                    $term['end_time'] = Yii::$app->params['course_expire'];
                 }
                 Yii::warning(json_encode($term.'阶段学期存在'));
                 //$order['receiver_mobile'] = '18636342640';
@@ -154,6 +158,10 @@ class Order extends ActiveRecord
                                 //'order_end_time>:order_end_time' ,[':order_end_time' => strtotime($this->created)],
                             ]
                         )->asArray()->one();
+                        if($course['type'] == 3){
+                            $new_term['start_time'] = time();
+                            $new_term['end_time'] = Yii::$app->params['course_expire'];
+                        }
 
                         //print_r($term);die;
                         //$expire_time = date('Y-m-d H:i:s', strtotime($new_section['expire_time']) + 86400 * 30 * 3);
