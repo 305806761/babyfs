@@ -42,7 +42,8 @@ class UserCourseSearch extends UserCourse
      */
     public function search($params)
     {
-        $query = UserCourse::find();
+        $query = UserCourse::find()
+            ->from(['uc' => self::tableName()]);
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -72,8 +73,8 @@ class UserCourseSearch extends UserCourse
         $query->andFilterWhere(['like', 's.name', $this->section_name])
             ->andFilterWhere(['like', 't.term', $this->term])
             ->andFilterWhere(['like', 'u.phone', $this->phone])
-            ->andFilterWhere(['like', 'create_time', $this->create_time])
-            ->andFilterWhere(['like', 'expire_time', $this->expire_time]);
+            ->andFilterWhere(['like', 'uc.create_time', $this->create_time])
+            ->andFilterWhere(['like', 'uc.expire_time', $this->expire_time]);
         //print_r($query->asArray()->all());die;
         //print_r($query->createCommand()->getRawSql());die;
         return $dataProvider;
