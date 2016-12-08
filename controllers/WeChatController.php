@@ -112,7 +112,7 @@ class WeChatController extends Controller
                                 $wechatModel->nickname = $userInfoArray['nickname'];
                                 $wechatModel->sex = $userInfoArray['sex'];
                                 $wechatModel->headimgurl = $userInfoArray['headimgurl'];
-                                $wechatModel->info = "{$userInfoArray}";
+                                $wechatModel->info = json_decode($userInfoArray);
                                 if ($wechatModel->save()) {
                                     return $this->render('/wechat/info', ['model' => $wechatModel]);
                                 } else {
