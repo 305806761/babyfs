@@ -103,20 +103,24 @@ class WeChatController extends Controller
                         $userInfoArray = $wechat->getSnsMemberInfo($newTokenArray['openid'], $newTokenArray['access_token'], $lang = 'zh_CN');
                         if (!empty($userInfoArray['openid'])) {
                             $wechatModel = new WechatModel();
-                            $wechatModel->web_openid = $userInfoArray['openid'];
-                            $wechatModel->nickname = $userInfoArray['nickname'];
-                            $wechatModel->sex = $userInfoArray['sex'];
-                            $wechatModel->headimgurl = $userInfoArray['headimgurl'];
-                            $wechatModel->info = '{$userInfoArray}';
-
-                            if ($wechatModel->save()) {
-                                echo "<pre>";
-                                print_r($wechatModel);
-                                //$this->render('/wechat/info', ['model' => $wechatModel]);
+                            $wechatInfo = WechatModel::findOne(['web_openid' => $userInfoArray['openid']]);
+                            if ($wechatInfo) {
+                                $this->render('/wechat/info', ['model' => $wechatInfo]);
                             } else {
-                                print_r($wechatModel->errors);
-                                return '系统错误';
+                                $wechatModel->web_openid = $userInfoArray['openid'];
+                                $wechatModel->nickname = $userInfoArray['nickname'];
+                                $wechatModel->sex = $userInfoArray['sex'];
+                                $wechatModel->headimgurl = $userInfoArray['headimgurl'];
+                                $wechatModel->info = '{$userInfoArray}';
+                                if ($wechatModel->save()) {
+
+                                    $this->render('/wechat/info', ['model' => $wechatModel]);
+                                } else {
+
+                                    return '系统错误';
+                                }
                             }
+                            
                         } else {
                             return '获取用户信息失败';
                         }
