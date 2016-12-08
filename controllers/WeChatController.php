@@ -79,7 +79,7 @@ class WeChatController extends Controller
 
         $url = 'http://course.babyfs.cn/we-chat/code';
         $redirectUrl = $url;
-        $wechat = Yii::$app->wechat;
+        $wechat = Yii::$app->params->wechat;
         $goUrl = $wechat->getOauth2AuthorizeUrl($redirectUrl, $state = 'authorize', $scope = 'snsapi_userinfo');
 
         $this->redirect($goUrl);
