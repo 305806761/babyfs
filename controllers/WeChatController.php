@@ -114,6 +114,7 @@ class WeChatController extends Controller
                                 print_r($wechatModel);
                                 //$this->render('/wechat/info', ['model' => $wechatModel]);
                             } else {
+                                print_r($wechatModel->errors);
                                 return '系统错误';
                             }
                         } else {
