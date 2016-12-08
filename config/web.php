@@ -14,7 +14,7 @@ $config = [
     ],
     'components' => [
         'request' => [
-            // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
+            // !!! insert  a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'babyfs',
             'parsers' => [
                 'application/json' => 'yii\web\JsonParser',
@@ -60,6 +60,7 @@ $config = [
             'rules' => [
             ],
         ],
+        
         'wechat' => [
             'class' => 'callmez\wechat\sdk\Wechat',
             'appId' => 'wx57d7c046fc6a6786',

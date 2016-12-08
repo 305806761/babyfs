@@ -96,6 +96,7 @@ class WeChatController extends Controller
             $newTokenArray = $wechat->getOauth2AccessToken($code, $grantType = 'authorization_code');
 
             echo "<pre>";
+
             print_r($newTokenArray);
             die;
             
