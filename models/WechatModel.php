@@ -34,7 +34,8 @@ class WechatModel extends BaseModel
             ['headimgurl', 'string', 'min' => 1, 'max' => 255],
 
             ['info', 'default', 'value' => ''],
-            ['info', 'string', 'min' => 1, 'max' => 65535],
+
+            [['info', 'headimgurl', 'nickname', 'web_openid'],'safe'],
 
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
