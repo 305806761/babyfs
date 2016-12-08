@@ -75,7 +75,7 @@ class Order extends ActiveRecord
             $code = trim($param['outer_item_id']);
              //$code = 'KY160001';
             //$sql = "SELECT course_id FROM `course` WHERE `code` = '".$code."'";
-            $sql = "SELECT cs.course_id,cs.section_id
+            $sql = "SELECT cs.course_id,cs.section_id,c.type
                     FROM `course_section` as cs
                     LEFT JOIN `course` as c ON cs.course_id = c.course_id
                     WHERE c.code = '{$code}' AND c.type in (1,3)";//and s.sort=1
