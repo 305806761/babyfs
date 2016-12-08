@@ -94,7 +94,6 @@ class WeChatController extends Controller
         if ($code) {
             $wechat = Yii::$app->wechat;
             $newTokenArray = $wechat->getOauth2AccessToken($code, $grantType = 'authorization_code');
-
             if (!empty($newTokenArray['refresh_token'])) {
                 //$newTokenArray = $wechat->refreshOauth2AccessToken($tokenArray['refresh_token'], $grantType = 'refresh_token');
                 if (!empty($newTokenArray['openid']) && !empty($newTokenArray['access_token'])) {
@@ -102,15 +101,8 @@ class WeChatController extends Controller
                     if ($isTokenArray) {
                         $userInfoArray = $wechat->getSnsMemberInfo($newTokenArray['openid'], $newTokenArray['access_token'], $lang = 'zh_CN');
                         if (!empty($userInfoArray['openid'])) {
-                            $setCookies = Yii::$app->response->cookies;
-                            $openid = Yii::$app->security->encryptByKey($userInfoArray['openid'], self::OPENID_KEY);
-                            // 在要发送的响应中添加一个新的cookie
-                            $setCookies->add(new \yii\web\Cookie([
-                                'name' => 'openId',
-                                'value' => $openid,
-                            ]));
-                            $this->redirect(['/user/user-course']);
-
+                            echo "<pre>";
+                            print_r($userInfoArray);
                         } else {
                             return '获取用户信息失败';
                         }
@@ -127,6 +119,9 @@ class WeChatController extends Controller
             return '获取code失败';
         }
     }
+
+
+
 
     /**
      * Displays homepage.
