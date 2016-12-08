@@ -26,6 +26,7 @@
         "yiisoft/yii2-httpclient": "*",
         "janisto/yii2-timepicker": "*",
         "xamin/handlebars.php": "dev-master",
+        "callmez/yii2-wechat-sdk": "^0.3.0",
         "xj/yii2-qrcode-widget": "*",
         "moonlandsoft/yii2-phpexcel": "*"
     },
