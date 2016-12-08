@@ -105,7 +105,8 @@ class WeChatController extends Controller
                             $wechatModel = new WechatModel();
                             $wechatInfo = WechatModel::findOne(['web_openid' => $userInfoArray['openid']]);
                             if ($wechatInfo) {
-                                $this->render('/wechat/info', ['model' => $wechatInfo]);
+
+                                return $this->render('/wechat/info', ['model' => $wechatInfo]);
                             } else {
                                 $wechatModel->web_openid = $userInfoArray['openid'];
                                 $wechatModel->nickname = $userInfoArray['nickname'];
@@ -113,9 +114,7 @@ class WeChatController extends Controller
                                 $wechatModel->headimgurl = $userInfoArray['headimgurl'];
                                 $wechatModel->info = "{$userInfoArray}";
                                 if ($wechatModel->save()) {
-
-                                    die('aaa');
-                                    $this->render('/wechat/info', ['model' => $wechatModel]);
+                                    return $this->render('/wechat/info', ['model' => $wechatModel]);
                                 } else {
 
                                     return '系统错误';
