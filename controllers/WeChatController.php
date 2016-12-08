@@ -8,6 +8,7 @@
 
 namespace app\controllers;
 
+use app\models\WechatModel;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -101,8 +102,18 @@ class WeChatController extends Controller
                     if ($isTokenArray) {
                         $userInfoArray = $wechat->getSnsMemberInfo($newTokenArray['openid'], $newTokenArray['access_token'], $lang = 'zh_CN');
                         if (!empty($userInfoArray['openid'])) {
-                            echo "<pre>";
-                            print_r($userInfoArray);
+                            $wechatModel = new WechatModel();
+                            $wechatModel->web_openid = $userInfoArray['openid'];
+                            $wechatModel->nickname = $userInfoArray['nickname'];
+                            $wechatModel->sex = $userInfoArray['sex'];
+                            $wechatModel->headimgurl = $userInfoArray['headimgurl'];
+                            $wechatModel->info = $userInfoArray['info'];
+
+                            if ($wechatModel->save()) {
+                                $this->render('/we-chat/info', ['model' => $wechatModel]);
+                            } else {
+                                return '系统错误';
+                            }
                         } else {
                             return '获取用户信息失败';
                         }
@@ -118,20 +129,6 @@ class WeChatController extends Controller
         } else {
             return '获取code失败';
         }
-    }
-
-
-
-
-    /**
-     * Displays homepage.
-     *
-     * @return string
-     */
-    public function actionMobile()
-    {
-
-        return $this->redirect(['user/user-course']);
     }
 
 
