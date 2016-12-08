@@ -111,7 +111,7 @@ class WeChatController extends Controller
                                 $wechatModel->nickname = $userInfoArray['nickname'];
                                 $wechatModel->sex = $userInfoArray['sex'];
                                 $wechatModel->headimgurl = $userInfoArray['headimgurl'];
-                                $wechatModel->info = '{$userInfoArray}';
+                                $wechatModel->info = "{$userInfoArray}";
                                 if ($wechatModel->save()) {
 
                                     $this->render('/wechat/info', ['model' => $wechatModel]);
@@ -120,7 +120,7 @@ class WeChatController extends Controller
                                     return '系统错误';
                                 }
                             }
-                            
+
                         } else {
                             return '获取用户信息失败';
                         }
