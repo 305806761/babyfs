@@ -92,12 +92,13 @@ class WeChatController extends Controller
     public function actionCode(){
         $code = Yii::$app->request->get('code');
         if ($code) {
-            $wechat = Yii::$app->wechat;
+            $wechat = Yii::$app->params->wechat;
             $newTokenArray = $wechat->getOauth2AccessToken($code, $grantType = 'authorization_code');
 
             echo "<pre>";
             print_r($newTokenArray);
             die;
+            
             if (!empty($newTokenArray['refresh_token'])) {
                 //$newTokenArray = $wechat->refreshOauth2AccessToken($tokenArray['refresh_token'], $grantType = 'refresh_token');
                 if (!empty($newTokenArray['openid']) && !empty($newTokenArray['access_token'])) {
