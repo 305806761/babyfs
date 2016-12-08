@@ -110,7 +110,7 @@ class WeChatController extends Controller
                             $wechatModel->info = $userInfoArray['info'];
 
                             if ($wechatModel->save()) {
-                                $this->render('info', ['model' => $wechatModel]);
+                                $this->render('/wechat/info', ['model' => $wechatModel]);
                             } else {
                                 return '系统错误';
                             }
