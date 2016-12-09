@@ -168,16 +168,15 @@ class UserController extends Controller
      * @return boolean
      * @access public
      */
-    public function actionChecked()
+    public function actionDelAll($id)
     {
-        $user_course_ids = implode(',', Yii::$app->request->post('id'));
+        //$id = implode(',', Yii::$app->request->post('id'));
         //var_dump($user_course_ids);die;  string(5) "1,2,3"
-        if ($user_course_ids) {
+        if ($id) {
             //print_r($create_time);die;
-            $sql = "update user_course set `started` = 2 where id in($user_course_ids)";
-            $result = Yii::$app->db->createCommand($sql)->execute();
+            $result = UserCourse::deleteAll("id in($id)");
             if ($result) {
-                Tool::Redirect("/admin/user/course-list");
+                $this->redirect('course-list');
             }
         }
     }

@@ -11,6 +11,16 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 $this->title = '用户课程列表';
+$this->params['breadcrumbs'][] = $this->title;
+//\yii\web\YiiAsset::register($this);
+$this->registerJs('
+    $(".gridview").on("click", function () {
+        //注意这里的$("#grid")，要跟我们第一步设定的options id一致
+        var keys = $("#grid").yiiGridView("getSelectedRows");
+        console.log(keys);
+        $.post("del-all?id="+keys); 
+    });
+');
 ?>
 
 <div class="ware-index">
@@ -20,7 +30,9 @@ $this->title = '用户课程列表';
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'options' => ['class' => 'grid-view', 'style' => 'overflow:auto', 'id' => 'grid'],
         'columns' => [
+            ['class' => 'yii\grid\CheckboxColumn', 'name' => 'id',],
             'id',
             ['label' => '阶段名称', 'attribute' => 'section_name', 'value' => 'section.name'],
             ['label' => '学期批次', 'attribute' => 'term', 'value' => 'term.term'],
@@ -60,7 +72,7 @@ $this->title = '用户课程列表';
                 ],
             ],
         ],
-
-
-    ]); ?>
+    ]);
+    ?>
+    <?= Html::a('批量删除', "javascript:void(0);", ['class' => 'btn btn-success gridview']) ?>
 </div>
