@@ -206,6 +206,14 @@ class Tool extends Model
     }
 
 
+    //跳转，可带提示
+    static function notice($message = '', $type = 'notice')
+    {
+        if ( $message ) {
+            self::cookieset($type,$message,10);
+        }
+      return true;
+    }
 
 
 

@@ -176,7 +176,8 @@ class UserController extends Controller
             //print_r($create_time);die;
             $result = UserCourse::deleteAll("id in($id)");
             if ($result) {
-                $this->redirect('course-list');
+                Tool::notice("$id 删除成功！",'notice');
+                return $this->redirect('course-list');
             }
         }
     }

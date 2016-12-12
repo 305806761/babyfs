@@ -21,6 +21,14 @@ AppAsset::register($this);
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+    <style>
+        .sysmsg{clear:both;position:relative;width:90%;margin:8px auto;}
+        .sysmsg p{font-size:16px;color:#f60;padding:8px 0 8px 40px;background:#f9feda url(/default/img//sysmsg.png) no-repeat 10px 10px;border:1px solid #fc0;}
+        .sysmsg-success p{color:#690;background:#eefcd3 url(/default/img/sysmsg.png) no-repeat 10px -24px;border:1px solid #990;}
+        .sysmsg-error p{color:#f00;background:#feeada url(/default/img/sysmsg.png) no-repeat 10px -58px;border:1px solid #f00;}
+        .sysmsg.inbox p{width:690px;}.sysmsg .close{position:absolute;top:12px;right:8px;background:url(/default/img/sysmsg.png) no-repeat 100% 100%;text-indent:-99px;cursor:pointer;display:block;width:16px;height:16px;overflow:hidden;}
+        .sysmsg.inbox .close{right:260px;}
+    </style>
 </head>
 <body>
 <?php $this->beginBody() ?>
@@ -319,6 +327,15 @@ AppAsset::register($this);
         </div>
 
         <div class="right_column" style="width:85%">
+            <?php if($_COOKIE['notice']):?>
+                <div class="sysmsg sysmsg-notice"><p><?= $_COOKIE['notice'] ?></p><span class="J_Close close">关闭</span></div>
+            <?php endif;?>
+            <?php if($_COOKIE['error']):?>
+                <div class="sysmsg sysmsg-error"><p><?= $_COOKIE['error'] ?></p><span class="J_Close close">关闭</span></div>
+            <?php endif;?>
+            <?php if($_COOKIE['success']):?>
+                <div class="sysmsg sysmsg-success"><p><?= $_COOKIE['success'] ?></p><span class="J_Close close">关闭</span></div>
+            <?php endif;?>
             <?= $content ?>
             <!-- 在右侧共用的统一数据 -->
         </div>
@@ -333,6 +350,22 @@ AppAsset::register($this);
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>
 </footer>
+<?php
+$this->registerJs("afterLoad();");
+?>
+<script>
+    function afterLoad(){
+    $(".J_Close").click(
+        function () {
+            $(this).parent().fadeTo(400, 0, function () { // Links with the class "close" will close parent
+                $(this).slideUp(400);
+            });
+            <?php Yii::$app->session->remove('')?>
+            return false;
+        }
+    );}
+
+    </script>
 
 <?php $this->endBody() ?>
 </body>
