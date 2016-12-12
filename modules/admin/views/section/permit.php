@@ -7,6 +7,10 @@
  */
 $this->title = '会员添加权限';
 $this->params['breadcrumbs'][] = $this->title;
+
+//echo "<pre>";
+//print_r($course_section);
+//die;
 ?>
 <script type="text/javascript" src="/calendar/calendar.php"></script>
 <link href="/calendar/calendar.css" rel="stylesheet" type="text/css"/>
@@ -33,14 +37,26 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php if ($value['section']): ?>
                     <td>阶段：
                         <table>
-                            <?php foreach ($value['section'] as $key => $val): ?>
-                                <tr>
-                                    <td>
-                                        <input type="checkbox" name="course_section_id[]" value="<?= $value['course_id'].','.$val['section_id']?>"/>
-<?= $val['name'] ?>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
+
+                                <?php
+                                foreach ($value['section'] as $key => $val) {
+                                    if ($val['section_id']) {
+
+                                        $tInfo = \app\models\TermModel::find()->andWhere(['section_id' => $val['section_id']])->asArray()->all();
+                                        if ($tInfo) {
+                                            foreach ($tInfo as $tkey => $tval) {
+                                                echo '<tr>
+                                                        <td>
+                                                            <input type="checkbox" name="course_section_id[]" value="'.$value['course_id'].','.$val['section_id'].','.$tval['id'].'"/>
+                                                            '.$val['name'].'--'.$tval['term'].'--'.date('Y-m-d', $tval['start_time']).'
+                                                        </td>
+                                                    </tr>';
+                                            }
+                                        }
+                                    }
+                                }
+
+                                ?>
                         </table>
                     </td>
                 <?php endif; ?>

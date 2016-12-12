@@ -377,10 +377,11 @@ class SectionController extends Controller
         }
         $user = User::findOne(['user_id' => $user_id]);
         $course_section = CourseSection::getCourse();
+
         if (Yii::$app->request->post()) {
             //Array ( [course_section_id] => Array ( [0] => 3,2 [1] => 4,2 ) [user_id] => 2 )
             $course_section_id = Yii::$app->request->post('course_section_id');
-            $key = array('course_id', 'section_id');
+            $key = array('course_id', 'section_id', 'term_id');
             foreach ($course_section_id as $ke => $value) {
                 $val = explode(',', $value);
                 $sections[$ke] = array_combine($key, $val);
@@ -393,8 +394,9 @@ class SectionController extends Controller
                     [
                         'AND', ['=', 'status', 2],
                         ['=', 'section_id', $v['section_id']],
-                        ['>=', 'order_end_time', $time],
-                        ['<=', 'order_start_time', $time],
+                        ['=', 'id', $v['term_id']],
+                        //['>=', 'order_end_time', $time],
+                        //['<=', 'order_start_time', $time],
                         //'order_end_time>:order_end_time' ,[':order_end_time' => strtotime($this->created)],
                     ]
                 )->asArray()->one();
