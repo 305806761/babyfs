@@ -150,7 +150,7 @@ class CourseSection extends ActiveRecord
         }*/
 
         //从user_course中获取开始时间
-        if (!$usable = Ware::getUsable($section_id, strtotime($uc->create_time))) {
+        if (!$usable = Ware::getUsable($section_id,$term_id, strtotime($uc->create_time))) {
             return [];
         }
 

@@ -159,7 +159,7 @@ class Ware extends ActiveRecord
         return true;
     }
 
-    public static function getUsable($section_id, $start_time)
+    public static function getUsable($section_id,$term_id, $start_time)
     {
         if (!$section = Section::findOne($section_id)) {
             return false;
@@ -167,7 +167,7 @@ class Ware extends ActiveRecord
         if ($start_time > time()) {
             return false;
         }
-        if(!$term = TermModel::findOne(['section_id'=>$section_id])){
+        if(!$term = TermModel::findOne(['section_id'=>$section_id,'id'=>$term_id])){
             return false;
         }
 
