@@ -307,8 +307,10 @@ class Order extends ActiveRecord
                 //break;
             }
             Yii::warning(json_encode($courses.'课程存在'));
-            //print_r($sql);die;
+            print_r($courses);
             foreach ($courses as $course) {
+                echo 'a';
+                continue;
                 // $expire_time = date('Y-m-d H:i:s', strtotime($course['expire_time']) + 86400 * 30 * 3);
                 Yii::warning(json_encode($this->errors));
                 if (!$course['course_id']) {
