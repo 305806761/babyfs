@@ -124,59 +124,59 @@ class Order extends ActiveRecord
                     $user_id = $user->user_id;
                     Order::updateAll(['user_id' => $user_id], "order_id = $order_id");
                     //4.检查该用户是否已经上过该课程的阶段
-                    $sql = "select max(cs.sort) as sort from `section` as cs left join `user_course` as uc on cs.section_id = uc.section_id WHERE uc.course_id = '{$course_id}' and uc.user_id = '{$user_id}'";
-                    //echo $sql;die;
-                    $user_max_sort = Yii::$app->db->createCommand($sql)->queryOne();
-                    //print_r($user_max_sort);die;
-                    if ($user_max_sort['sort']) {
-                        //上过该课程，需要创建新的阶段课程
-                        $sql = "select min(s.sort) as sort from `section` as s 
-                                left join `course_section` as cs on s.section_id = cs.section_id 
-                                WHERE cs.course_id = '{$course_id}' and s.sort>'{$user_max_sort['sort']}'";
-                        //echo $sql;die;
-                        $user_next_section = Yii::$app->db->createCommand($sql)->queryOne();
-                        //没有最新阶段
-                        if (!$user_next_section['sort']) {
-                            continue;
-                            //break;
-                        }
-                        //print_r($user_next_section);die;
-                        $sql = "select s.* from `section` as s 
-                                left join `course_section` as cs on s.section_id = cs.section_id 
-                                WHERE cs.course_id = '{$course_id}' and s.sort='{$user_next_section['sort']}'";
-                        //echo $sql;die;
-                        $new_section = Yii::$app->db->createCommand($sql)->queryOne();
-
-                        //判断用户是该阶段下的那个学期
-                        //order_start_time<=$this->created<=order_end_time
-                        $new_term = TermModel::find()->where(
-                            [
-                                'AND',['=','status',2],
-                                ['=','section_id',$new_section['section_id']],
-                                ['>=','order_end_time',strtotime($this->created)],
-                                ['<=','order_start_time',strtotime($this->created)],
-                                //'order_end_time>:order_end_time' ,[':order_end_time' => strtotime($this->created)],
-                            ]
-                        )->asArray()->one();
-                        if($course['type'] == 3){
-                            $new_term['start_time'] = time();
-                            $new_term['end_time'] = Yii::$app->params['course_expire'];
-                        }
-
-                        //print_r($term);die;
-                        //$expire_time = date('Y-m-d H:i:s', strtotime($new_section['expire_time']) + 86400 * 30 * 3);
-                        $user_course = array(
-                            'course_id' => $new_section['course_id'],
-                            'section_id' => $new_section['section_id'],
-                            'term_id' => $new_term['id'],
-                            'started' => 2,
-                            'version' => 1,
-                            'user_id' => $user_id,
-                            'create_time' => date('Y-m-d H:i:s',$new_term['start_time']),
-                            'created' => date('Y-m-d H:i:s'),
-                            'expire_time' =>date('Y-m-d H:i:s',$new_term['end_time']),
-                        );
-                    } else {
+//                    $sql = "select max(cs.sort) as sort from `section` as cs left join `user_course` as uc on cs.section_id = uc.section_id WHERE uc.course_id = '{$course_id}' and uc.user_id = '{$user_id}'";
+//                    //echo $sql;die;
+//                    $user_max_sort = Yii::$app->db->createCommand($sql)->queryOne();
+//                    //print_r($user_max_sort);die;
+//                    if ($user_max_sort['sort']) {
+//                        //上过该课程，需要创建新的阶段课程
+//                        $sql = "select min(s.sort) as sort from `section` as s
+//                                left join `course_section` as cs on s.section_id = cs.section_id
+//                                WHERE cs.course_id = '{$course_id}' and s.sort>'{$user_max_sort['sort']}'";
+//                        //echo $sql;die;
+//                        $user_next_section = Yii::$app->db->createCommand($sql)->queryOne();
+//                        //没有最新阶段
+//                        if (!$user_next_section['sort']) {
+//                            continue;
+//                            //break;
+//                        }
+//                        //print_r($user_next_section);die;
+//                        $sql = "select s.* from `section` as s
+//                                left join `course_section` as cs on s.section_id = cs.section_id
+//                                WHERE cs.course_id = '{$course_id}' and s.sort='{$user_next_section['sort']}'";
+//                        //echo $sql;die;
+//                        $new_section = Yii::$app->db->createCommand($sql)->queryOne();
+//
+//                        //判断用户是该阶段下的那个学期
+//                        //order_start_time<=$this->created<=order_end_time
+//                        $new_term = TermModel::find()->where(
+//                            [
+//                                'AND',['=','status',2],
+//                                ['=','section_id',$new_section['section_id']],
+//                                ['>=','order_end_time',strtotime($this->created)],
+//                                ['<=','order_start_time',strtotime($this->created)],
+//                                //'order_end_time>:order_end_time' ,[':order_end_time' => strtotime($this->created)],
+//                            ]
+//                        )->asArray()->one();
+//                        if($course['type'] == 3){
+//                            $new_term['start_time'] = time();
+//                            $new_term['end_time'] = Yii::$app->params['course_expire'];
+//                        }
+//
+//                        //print_r($term);die;
+//                        //$expire_time = date('Y-m-d H:i:s', strtotime($new_section['expire_time']) + 86400 * 30 * 3);
+//                        $user_course = array(
+//                            'course_id' => $new_section['course_id'],
+//                            'section_id' => $new_section['section_id'],
+//                            'term_id' => $new_term['id'],
+//                            'started' => 2,
+//                            'version' => 1,
+//                            'user_id' => $user_id,
+//                            'create_time' => date('Y-m-d H:i:s',$new_term['start_time']),
+//                            'created' => date('Y-m-d H:i:s'),
+//                            'expire_time' =>date('Y-m-d H:i:s',$new_term['end_time']),
+//                        );
+//                    } else {
                         //没有上过，创建记录
                         //(['>', 'created_at', $time])->
                         //print_r($term);die;
@@ -191,8 +191,6 @@ class Order extends ActiveRecord
                             'created' => date('Y-m-d H:i:s'),
                             'expire_time' => date('Y-m-d H:i:s',$term['end_time']),
                         );
-
-                    }
                     //用户存在插入新的课程和用户的关系
                     $usercourse = new UserCourse();
                     $id = $usercourse->add($user_course);
@@ -346,59 +344,59 @@ class Order extends ActiveRecord
                     $user_id = $user->user_id;
                     Order::updateAll(['user_id' => $user_id], "order_id = $order_id");
                     //4.检查该用户是否已经上过该课程的阶段
-                    $sql = "select max(cs.sort) as sort from `section` as cs left join `user_course` as uc on cs.section_id = uc.section_id WHERE uc.course_id = '{$course_id}' and uc.user_id = '{$user_id}'";
-                    //echo $sql;die;
-                    $user_max_sort = Yii::$app->db->createCommand($sql)->queryOne();
-                    //print_r($user_max_sort);die;
-                    if ($user_max_sort['sort']) {
-                        //上过该课程，需要创建新的阶段课程
-                        $sql = "select min(s.sort) as sort from `section` as s 
-                                left join `course_section` as cs on s.section_id = cs.section_id 
-                                WHERE cs.course_id = '{$course_id}' and s.sort>'{$user_max_sort['sort']}'";
-                        //echo $sql;die;
-                        $user_next_section = Yii::$app->db->createCommand($sql)->queryOne();
-                        //没有最新阶段
-                        if (!$user_next_section['sort']) {
-                            continue;
-                            //break;
-                        }
-                        //print_r($user_next_section);die;
-                        $sql = "select s.* from `section` as s 
-                                left join `course_section` as cs on s.section_id = cs.section_id 
-                                WHERE cs.course_id = '{$course_id}' and s.sort='{$user_next_section['sort']}'";
-                        //echo $sql;die;
-                        $new_section = Yii::$app->db->createCommand($sql)->queryOne();
-
-                        //判断用户是该阶段下的那个学期
-                        //order_start_time<=$this->created<=order_end_time
-                        $new_term = TermModel::find()->where(
-                            [
-                                'AND',['=','status',2],
-                                ['=','section_id',$new_section['section_id']],
-                                ['>=','order_end_time',strtotime($this->created)],
-                                ['<=','order_start_time',strtotime($this->created)],
-                                //'order_end_time>:order_end_time' ,[':order_end_time' => strtotime($this->created)],
-                            ]
-                        )->asArray()->one();
-                        if($course['type'] == 3){
-                            $new_term['start_time'] = time();
-                            $new_term['end_time'] = Yii::$app->params['course_expire'];
-                        }
-
-                        //print_r($term);die;
-                        //$expire_time = date('Y-m-d H:i:s', strtotime($new_section['expire_time']) + 86400 * 30 * 3);
-                        $user_course = array(
-                            'course_id' => $new_section['course_id'],
-                            'section_id' => $new_section['section_id'],
-                            'term_id' => $new_term['id'],
-                            'started' => 2,
-                            'version' => 1,
-                            'user_id' => $user_id,
-                            'create_time' => date('Y-m-d H:i:s',$new_term['start_time']),
-                            'created' => date('Y-m-d H:i:s'),
-                            'expire_time' =>date('Y-m-d H:i:s',$new_term['end_time']),
-                        );
-                    } else {
+//                    $sql = "select max(cs.sort) as sort from `section` as cs left join `user_course` as uc on cs.section_id = uc.section_id WHERE uc.course_id = '{$course_id}' and uc.user_id = '{$user_id}'";
+//                    //echo $sql;die;
+//                    $user_max_sort = Yii::$app->db->createCommand($sql)->queryOne();
+//                    //print_r($user_max_sort);die;
+//                    if ($user_max_sort['sort']) {
+//                        //上过该课程，需要创建新的阶段课程
+//                        $sql = "select min(s.sort) as sort from `section` as s
+//                                left join `course_section` as cs on s.section_id = cs.section_id
+//                                WHERE cs.course_id = '{$course_id}' and s.sort>'{$user_max_sort['sort']}'";
+//                        //echo $sql;die;
+//                        $user_next_section = Yii::$app->db->createCommand($sql)->queryOne();
+//                        //没有最新阶段
+//                        if (!$user_next_section['sort']) {
+//                            continue;
+//                            //break;
+//                        }
+//                        //print_r($user_next_section);die;
+//                        $sql = "select s.* from `section` as s
+//                                left join `course_section` as cs on s.section_id = cs.section_id
+//                                WHERE cs.course_id = '{$course_id}' and s.sort='{$user_next_section['sort']}'";
+//                        //echo $sql;die;
+//                        $new_section = Yii::$app->db->createCommand($sql)->queryOne();
+//
+//                        //判断用户是该阶段下的那个学期
+//                        //order_start_time<=$this->created<=order_end_time
+//                        $new_term = TermModel::find()->where(
+//                            [
+//                                'AND',['=','status',2],
+//                                ['=','section_id',$new_section['section_id']],
+//                                ['>=','order_end_time',strtotime($this->created)],
+//                                ['<=','order_start_time',strtotime($this->created)],
+//                                //'order_end_time>:order_end_time' ,[':order_end_time' => strtotime($this->created)],
+//                            ]
+//                        )->asArray()->one();
+//                        if($course['type'] == 3){
+//                            $new_term['start_time'] = time();
+//                            $new_term['end_time'] = Yii::$app->params['course_expire'];
+//                        }
+//
+//                        //print_r($term);die;
+//                        //$expire_time = date('Y-m-d H:i:s', strtotime($new_section['expire_time']) + 86400 * 30 * 3);
+//                        $user_course = array(
+//                            'course_id' => $new_section['course_id'],
+//                            'section_id' => $new_section['section_id'],
+//                            'term_id' => $new_term['id'],
+//                            'started' => 2,
+//                            'version' => 1,
+//                            'user_id' => $user_id,
+//                            'create_time' => date('Y-m-d H:i:s',$new_term['start_time']),
+//                            'created' => date('Y-m-d H:i:s'),
+//                            'expire_time' =>date('Y-m-d H:i:s',$new_term['end_time']),
+//                        );
+//                    } else {
                         //没有上过，创建记录
                         //(['>', 'created_at', $time])->
                         //print_r($term);die;
@@ -414,7 +412,6 @@ class Order extends ActiveRecord
                             'expire_time' => date('Y-m-d H:i:s',$term['end_time']),
                         );
 
-                    }
                     //用户存在插入新的课程和用户的关系
                     $usercourse = new UserCourse();
                     $id = $usercourse->add($user_course);
