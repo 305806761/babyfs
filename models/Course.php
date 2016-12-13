@@ -133,33 +133,58 @@ class Course extends BaseModel
         $newtime = time();
         $free = array('7','8','9');
         $section_ids = array();
+        //用户的所有权限
+        $freebuy = false;
+        $a = false;
         foreach ($section as $key => $value) {
-            $section[$key][is_buy] = '1';
+            //开放中
+            $section[$key]['is_buy'] = '1';
             //$expire_time = $value['term']['end_time'];   获取学期term 时间
+            //判断时候过期
             $expire_time = strtotime($value['expire_time']); //user_course 获取时间
             if($newtime>=$expire_time){
-                $section[$key][is_buy] = '0';
+                $section[$key]['is_buy'] = '0';
             }
+            //1是未审核，2是审核
             if($value['started']=='1'){
-                $section[$key][is_buy] = '0';
+                $section[$key]['is_buy'] = '0';
             }
+            // 如果单独买的免费课，只显示买的第一个为学习中，其他未开放，如果买的精品和免费，买的为开放，没买的为为开放。
             if(in_array($value['section_id'],$free)){
-                continue;
+                if($freebuy){
+                    $section[$key]['is_buy'] = '0';
+                    unset($section[$key]);
+                    continue;
+                }
+                $freebuy = true;
+            }else{
+                //买了精品
+                $a = true;
             }
+            //所有免费和精品课，免费只有一个
             $section_ids[] = $value['section_id'];
         }
 
         if(empty($section_ids)){
             if(!$section){
+                //如果什么都没买 ，只显示精品
                 $section = Section::find()->where(['not in','section_id', $free])->asArray()->all();
             }
             return $section;
         }
+        //只卖了免费，反正就显示三个，只有一个开放
+        if(empty($a)){
+            //$section_ids = array_udiff($section_ids,$free);
+            $section_ids = array_diff($free,$section_ids);
+            $course_section = Section::find()->where(['in','section_id', $section_ids])->asArray()->all();
+        } else {
+            //显示精品和免费
+            $course_section = Section::find()->where(['not in','section_id', $section_ids])->asArray()->all();
+        }
 
-        $course_section = Section::find()->where(['not in','section_id', $section_ids])->asArray()->all();
         foreach ($course_section as $key => $value) {
             $course_section[$key]['section'] = $value;
-            $course_section[$key][is_buy] = '0';
+            $course_section[$key]['is_buy'] = '0';
         }
         $course = array_merge($section, $course_section);
         //echo "<pre>";
