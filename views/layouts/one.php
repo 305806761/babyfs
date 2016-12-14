@@ -10,7 +10,7 @@ use yii\helpers\Html;
 
 app\assets\LoginAsset::register($this);
 ?>
-<?php $this->beginPage() ?>
+<?php $this->beginPage() ?> 
 <!doctype html>
 <html lang="<?= Yii::$app->language ?>">
 <head>
