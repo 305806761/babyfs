@@ -175,6 +175,9 @@ class Course extends BaseModel
             if (!$section) {
                 //如果什么都没买 ，只显示精品
                 $section = Section::find()->where(['not in', 'section_id', $free])->asArray()->all();
+                foreach ($section as $skey => $sval) {
+                    $section[$skey]['section'] = $sval;
+                }
             }
             return $section;
         }
