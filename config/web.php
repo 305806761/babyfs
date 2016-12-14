@@ -51,8 +51,17 @@ $config = [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
                 ],
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['info'],
+                    'categories' => ['test'],
+                    'logFile' => '@app/runtime/logs/test.log',
+                    'maxFileSize' => 1024 * 2,
+                    'maxLogFiles' => 20,
+                ],
             ],
         ],
+
         'db' => require(__DIR__ . '/db.php'),
         'urlManager' => [
             'enablePrettyUrl' => true,
@@ -60,7 +69,7 @@ $config = [
             'rules' => [
             ],
         ],
-        
+
         'wechat' => [
             'class' => 'callmez\wechat\sdk\Wechat',
             'appId' => 'wx57d7c046fc6a6786',
