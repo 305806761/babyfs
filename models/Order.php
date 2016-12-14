@@ -95,7 +95,18 @@ class Order extends ActiveRecord
                     continue;
                     //break;
                 }
-
+                //如果是免费课，不管购买几次，都只添加一次权限
+                $usfree = UserCourse::find()->from(['uc' => UserCourse::tableName()])->select('id')
+                    ->joinWith('section')
+                    ->where([
+                        'AND',
+                        ['in','code',['KY160030','KC160031','KC160032']],
+                        ['=','uc.section_id',$course['section_id']],
+                    ])->count();
+                if($usfree){
+                    //Yii::info($usfree,'test');
+                    continue;
+                }
                 //判断是阶段的那个学期
                 $term = TermModel::find()->where(
                     [
@@ -313,6 +324,20 @@ class Order extends ActiveRecord
                     //Yii::getLogger()->log("有赞订单：{$order['tid']},不是课程");
                     continue;
                     //break;
+                }
+                //如果是免费课，不管购买几次，都只添加一次权限
+                $usfree = UserCourse::find()->from(['uc' => UserCourse::tableName()])->select('id')
+                    ->joinWith('section')
+                    ->where([
+                        'AND',
+                        ['in','code',['KY160030','KC160031','KC160032']],
+                        ['=','uc.section_id',$course['section_id']],
+                    ])->count();
+                //echo $usfree->createCommand()->getRawSql();die;
+                //Yii::info($usfree,'test');
+                if($usfree){
+                    //Yii::info($usfree,'test');
+                    continue;
                 }
 
                 //判断是阶段的那个学期

@@ -26,7 +26,7 @@ class Course extends BaseModel
     }
 
     /**
-     * @inheritdoc  image	char(120)
+     * @inheritdoc  image    char(120)
      */
     public function rules()
     {
@@ -34,7 +34,7 @@ class Course extends BaseModel
             [['name', 'code'], 'required'],
             [['name'], 'string', 'max' => 100],
             ['type', 'default', 'value' => self::COURSETYPEK],
-            ['type', 'in', 'range' => [self::COURSETYPEK, self::COURSETYPEH,self::COURSETYPEKN]],
+            ['type', 'in', 'range' => [self::COURSETYPEK, self::COURSETYPEH, self::COURSETYPEKN]],
             [['code'], 'string', 'max' => 10],
         ];
     }
@@ -48,7 +48,7 @@ class Course extends BaseModel
             'course_id' => '课程ID',
             'name' => '课程名称',
             'code' => '课程code',
-            'type' =>'类别',
+            'type' => '类别',
         ];
     }
 
@@ -122,42 +122,48 @@ class Course extends BaseModel
      **/
     public static function getCourseSection($user_id)
     {
-        $query = UserCourse::find()->where(['user_id'=>$user_id]);
-        $query->joinWith(['section' => function ($query){
+        $query = UserCourse::find()->where(['user_id' => $user_id]);
+        $query->joinWith(['section' => function ($query) {
             $query->select('name,image,buyurl,section_id');
         }]);
-        $query->joinWith(['term' => function ($query){
-            $query->select('id,start_time,end_time');
+        $query->joinWith(['term' => function ($query) {
+            $query->select('id,term,start_time,end_time');
         }]);
         $section = $query->asArray()->all();
         $newtime = time();
-        $free = array('7','8','9');
+        $free = array('7', '8', '9');
         $section_ids = array();
         //用户的所有权限
         $freebuy = false;
         $a = false;
+        //print_r($section);die;
         foreach ($section as $key => $value) {
             //开放中
             $section[$key]['is_buy'] = '1';
             //$expire_time = $value['term']['end_time'];   获取学期term 时间
             //判断时候过期
             $expire_time = strtotime($value['expire_time']); //user_course 获取时间
-            if($newtime>=$expire_time){
+            if ($newtime >= $expire_time) {
                 $section[$key]['is_buy'] = '0';
             }
             //1是未审核，2是审核
-            if($value['started']=='1'){
+            if ($value['started'] == '1') {
                 $section[$key]['is_buy'] = '0';
             }
             // 如果单独买的免费课，只显示买的第一个为学习中，其他未开放，如果买的精品和免费，买的为开放，没买的为为开放。
-            if(in_array($value['section_id'],$free)){
-                if($freebuy){
-                    $section[$key]['is_buy'] = '0';
-                    unset($section[$key]);
-                    continue;
+            if (in_array($value['section_id'], $free)) {
+                if ($value['term']['term'] == '1') {
+
+                } else {
+                    if ($freebuy) {
+                        $section[$key]['is_buy'] = '0';
+                        unset($section[$key]);
+                        continue;
+                    }
+                    $freebuy = true;
                 }
-                $freebuy = true;
-            }else{
+
+            } else {
                 //买了精品
                 $a = true;
             }
@@ -165,21 +171,21 @@ class Course extends BaseModel
             $section_ids[] = $value['section_id'];
         }
 
-        if(empty($section_ids)){
-            if(!$section){
+        if (empty($section_ids)) {
+            if (!$section) {
                 //如果什么都没买 ，只显示精品
-                $section = Section::find()->where(['not in','section_id', $free])->asArray()->all();
+                $section = Section::find()->where(['not in', 'section_id', $free])->asArray()->all();
             }
             return $section;
         }
         //只卖了免费，反正就显示三个，只有一个开放
-        if(empty($a)){
+        if (empty($a)) {
             //$section_ids = array_udiff($section_ids,$free);
-            $section_ids = array_diff($free,$section_ids);
-            $course_section = Section::find()->where(['in','section_id', $section_ids])->asArray()->all();
+            $section_ids = array_diff($free, $section_ids);
+            $course_section = Section::find()->where(['in', 'section_id', $section_ids])->asArray()->all();
         } else {
             //显示精品和免费
-            $course_section = Section::find()->where(['not in','section_id', $section_ids])->asArray()->all();
+            $course_section = Section::find()->where(['not in', 'section_id', $section_ids])->asArray()->all();
         }
 
         foreach ($course_section as $key => $value) {
