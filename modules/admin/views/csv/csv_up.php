@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <td></td>
                 <td>
                     <input type="submit" class="button" name="Submit" value=" 确定 " />
-                </td>
+                                     </td>
             </tr>
         </table>
     </div>

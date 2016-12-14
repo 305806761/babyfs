@@ -116,7 +116,6 @@ class WeChatController extends Controller
                                 if ($wechatModel->save()) {
                                     return $this->render('/wechat/info', ['model' => $wechatModel]);
                                 } else {
-
                                     return '系统错误';
                                 }
                             }
@@ -136,6 +135,10 @@ class WeChatController extends Controller
         } else {
             return '获取code失败';
         }
+    }
+
+    public function actionInfo(){
+        return $this->render('/wechat/info');
     }
 
 }
