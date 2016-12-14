@@ -319,6 +319,21 @@ AppAsset::register($this);
 
                         </li>
 
+                        <!--词汇卡管理-->
+                        <li class="explode"><a href="" target="main-frame">词汇卡管理</a></li>
+
+                        <li class="explode" key="{$k}" name="menu">
+
+                            <ul>
+                                <li class="menu-item"><a href="<?= Url::to(['card/index']) ?>"
+                                                         target="main-frame">卡列表</a></li>
+                                <li class="menu-item"><a href="<?= Url::to(['class/index']) ?>"
+                                                         target="main-frame">课列表</a></li>
+
+                            </ul>
+
+                        </li>
+
 
                     </ul>
                 </div>

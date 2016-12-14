@@ -216,7 +216,38 @@ class Tool extends Model
     }
 
 
+    /**
+     * @param int $length
+     * @return string
+     * @随机字符串数字，字母大小写,密码
+     */
+    static function getRandWord($length = 4)
+    {
+        $chars = '23456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghgkmnpqrstuvwxyz';
 
+        for ($i = 0, $count = strlen($chars); $i < $count; $i++)
+        {
+            $arr[$i] = $chars[$i];
+        }
+
+        mt_srand((double) microtime() * 1000000);
+        shuffle($arr);
+        return substr(implode('', $arr), 5, $length);
+    }
+
+    /**
+     * @param int $size
+     * @return mixed|string
+     * @随机生成数字，code
+     */
+    static function getRandCode($size=12) {
+        $table = Array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
+        $randomCode = $table[mt_rand(1, 9)];
+        for ($i = 0; $i < $size; $i++) {
+            $randomCode = $randomCode . $table[mt_rand(0, 9)];
+        }
+        return $randomCode;
+    }
 
 
 }
