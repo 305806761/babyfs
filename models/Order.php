@@ -95,18 +95,7 @@ class Order extends ActiveRecord
                     continue;
                     //break;
                 }
-                //如果是免费课，不管购买几次，都只添加一次权限
-                $usfree = UserCourse::find()->from(['uc' => UserCourse::tableName()])->select('id')
-                    ->joinWith('section')
-                    ->where([
-                        'AND',
-                        ['in','code',['KY160030','KC160031','KC160032']],
-                        ['=','uc.section_id',$course['section_id']],
-                    ])->count();
-                if($usfree){
-                    //Yii::info($usfree,'test');
-                    continue;
-                }
+
                 //判断是阶段的那个学期
                 $term = TermModel::find()->where(
                     [
@@ -133,6 +122,19 @@ class Order extends ActiveRecord
                 $course_id = $course['course_id'];
                 if ($user->user_id) {
                     $user_id = $user->user_id;
+                    //如果是免费课，不管购买几次，都只添加一次权限
+                    $usfree = UserCourse::find()->from(['uc' => UserCourse::tableName()])->select('id')
+                        ->joinWith('section')
+                        ->where([
+                            'AND',
+                            ['in','code',['KY160030','KC160031','KC160032']],
+                            ['=','uc.section_id',$course['section_id']],
+                            ['=','uc.user_id',$user_id],
+                        ])->count();
+                    if($usfree){
+                        //Yii::info($usfree,'test');
+                        continue;
+                    }
                     Order::updateAll(['user_id' => $user_id], "order_id = $order_id");
                     //4.检查该用户是否已经上过该课程的阶段
 //                    $sql = "select max(cs.sort) as sort from `section` as cs left join `user_course` as uc on cs.section_id = uc.section_id WHERE uc.course_id = '{$course_id}' and uc.user_id = '{$user_id}'";
@@ -325,21 +327,6 @@ class Order extends ActiveRecord
                     continue;
                     //break;
                 }
-                //如果是免费课，不管购买几次，都只添加一次权限
-                $usfree = UserCourse::find()->from(['uc' => UserCourse::tableName()])->select('id')
-                    ->joinWith('section')
-                    ->where([
-                        'AND',
-                        ['in','code',['KY160030','KC160031','KC160032']],
-                        ['=','uc.section_id',$course['section_id']],
-                    ])->count();
-                //echo $usfree->createCommand()->getRawSql();die;
-                //Yii::info($usfree,'test');
-                if($usfree){
-                    //Yii::info($usfree,'test');
-                    continue;
-                }
-
                 //判断是阶段的那个学期
                 $term = TermModel::find()->where(
                     [
@@ -367,6 +354,19 @@ class Order extends ActiveRecord
                 $course_id = $course['course_id'];
                 if ($user->user_id) {
                     $user_id = $user->user_id;
+                    $usfree = UserCourse::find()->from(['uc' => UserCourse::tableName()])->select('id')
+                        ->joinWith('section')
+                        ->where([
+                            'AND',
+                            ['in','code',['KY160030','KC160031','KC160032']],
+                            ['=','uc.section_id',$course['section_id']],
+                            ['=','uc.user_id',$user_id],
+                        ])->count();
+                    if($usfree){
+                        //Yii::info($usfree,'test');
+                        continue;
+                    }
+
                     Order::updateAll(['user_id' => $user_id], "order_id = $order_id");
                     //4.检查该用户是否已经上过该课程的阶段
 //                    $sql = "select max(cs.sort) as sort from `section` as cs left join `user_course` as uc on cs.section_id = uc.section_id WHERE uc.course_id = '{$course_id}' and uc.user_id = '{$user_id}'";
