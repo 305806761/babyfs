@@ -91,35 +91,64 @@ class SectionController extends Controller
     {
         $section_id = (int)Yii::$app->request->get('section_id');
         $term_id = (int)Yii::$app->request->get('term_id');
-        $cat_name = Yii::$app->request->post('cat_name');
-        $id = Yii::$app->request->post('id');
-
-        if (Yii::$app->request->post() && (int)Yii::$app->request->post('section_id') && (int)Yii::$app->request->post('term_id')) {
-
-            $array = array(
-                'cat_name' => $cat_name,
-                'section_id' => Yii::$app->request->post('section_id'),
-                'term_id' => Yii::$app->request->post('term_id'),
-                'image' => $_FILES['image'],
-                'id' => $id,
-            );
-
-            $result = SectionCat::add($array);
-
-            if ($result) {
-                Tool::Redirect('/admin/section/list-cat/', '操作处理成功', 'success');
-            }
+        $image = '';
+        if (!$section_id || !$term_id) {
+            return $this->render('list');
         }
-        return $this->render('addcat', ['section_id' => $section_id, 'term_id' => $term_id]);
+        $sectioncat = new SectionCat();
+        if ($sectioncat->load(Yii::$app->request->post())) {
+            $sectioncat->section_id = $section_id;
+            $sectioncat->term_id = $term_id;
+
+            if (isset($_FILES['SectionCat']['image']['tmp_name'])
+                && $_FILES['SectionCat']['image']['tmp_name']
+            ) {
+                $path_parts = pathinfo($_FILES['SectionCat']['image']['name']);
+                $file = '/uploads/section/' . time() . rand(100, 999) . $path_parts['basename'];
+                copy(
+                    $_FILES['SectionCat']['image']['tmp_name'],
+                    Yii::getAlias('@webroot' . $file)
+                );
+                $image = json_encode($file);
+            }
+            $sectioncat->image = $image;
+            if ($sectioncat->save()) {
+                Tool::notice('分组添加成功', 'success');
+                return $this->redirect(['list-cat']);
+            }
+
+        }
+        return $this->render('addcat', ['model' => $sectioncat]);
     }
 
 
     public function actionEditCat()
     {
         $id = Yii::$app->request->get('id');
-        $cat = SectionCat::find()->where(['id' => $id])->asArray()->one();
+        $sectioncat = SectionCat::findOne($id);
+        $image = '';
+        if ($sectioncat->load(Yii::$app->request->post())) {
+
+            if (isset($_FILES['SectionCat']['image']['tmp_name'])
+                && $_FILES['SectionCat']['image']['tmp_name']
+            ) {
+                $path_parts = pathinfo($_FILES['SectionCat']['image']['name']);
+                $file = '/uploads/section/' . time() . rand(100, 999) . $path_parts['basename'];
+                copy(
+                    $_FILES['SectionCat']['image']['tmp_name'],
+                    Yii::getAlias('@webroot' . $file)
+                );
+                $image = json_encode($file);
+            }
+            $sectioncat->image = $image;
+            if ($sectioncat->save()) {
+                Tool::notice('修改分组成功', 'success');
+                return $this->redirect(['list-cat']);
+            }
+
+        }
         //print_r($cat);die;
-        return $this->render('addcat', ['cat' => $cat]);
+        return $this->render('addcat', ['model' => $sectioncat]);
     }
 
     /**
@@ -401,7 +430,7 @@ class SectionController extends Controller
                     ]
                 )->asArray()->one();
                 $course = Course::findOne($v['course_id']);
-                if($course->type == 3){
+                if ($course->type == 3) {
                     $term['start_time'] = $time;
                     $term['end_time'] = Yii::$app->params['course_expire'];
                 }
