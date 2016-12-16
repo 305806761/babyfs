@@ -29,6 +29,7 @@ $this->title = '课程列表';
             'name',
             'code',
             'type',
+            'price',
             // ['class' => 'yii\grid\ActionColumn'],
             ['class' => 'yii\grid\ActionColumn',
                 'template' => '{update} {delete}',

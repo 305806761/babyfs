@@ -64,6 +64,20 @@ use yii\helpers\Html;
                             ',
     ])->dropDownList(\app\models\TermModel::getCourseType()) ?>
 
+    <?= $form->field($model, 'price', [
+        'labelOptions' => ['class'=>'col-lg-2 control-label'],
+        'template' => '
+                                {label}
+                                <div class="col-lg-2">
+                                {input}
+                                {error}
+                                </div>
+                                ',
+    ])->textInput([
+        'maxlength' => 10,
+        'class' => 'form-control',
+    ]) ?>
+
     <div class="form-group">
         <div class="col-lg-offset-2 col-lg-10">
             <?=
