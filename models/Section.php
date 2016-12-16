@@ -139,12 +139,18 @@ class Section extends ActiveRecord
      */
     public static function addPermit($course_section_id,$user_id,$expire_time=''){
 
+        if(empty($course_section_id) || !$user_id){
+            return false;
+        }
         $sections = array();
         $key = array('course_id', 'section_id', 'term_id');
         foreach ($course_section_id as $ke => $value) {
             $val = explode(',', $value);
             $sections[$ke] = array_combine($key, $val);
             $sections[$ke]['user_id'] = $user_id;
+        }
+        if(empty($sections)){
+            return false;
         }
         foreach ($sections as $k => $v) {
             //判断是阶段的那个学期
@@ -159,6 +165,9 @@ class Section extends ActiveRecord
                     //'order_end_time>:order_end_time' ,[':order_end_time' => strtotime($this->created)],
                 ]
             )->asArray()->one();
+            if(empty($term)){
+                return false;
+            }
             $course = Course::findOne($v['course_id']);
             if ($course->type == 3) {
                 $term['start_time'] = $time;
