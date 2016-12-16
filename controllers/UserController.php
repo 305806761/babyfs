@@ -8,6 +8,8 @@
 
 namespace app\controllers;
 
+use app\models\CardModel;
+use app\models\Section;
 use Yii;
 use app\models\Course;
 use app\models\LoginForm;
@@ -255,6 +257,44 @@ class UserController extends Controller
         }
        // echo $signup_sms_code;
         return json_encode($result);
+    }
+
+    public function actionActivate(){
+        $this->layout = 'webmain';
+        $model = new CardModel();
+        $userInfo = User::isLogin();
+
+
+        if ($userInfo) {
+            if ($model->load(Yii::$app->request->post())) {
+                $cardInfo = CardModel::getCardStatus($model->code, $model->password, 1);
+                if ($cardInfo) {
+                    $cardInfos = CardModel::findOne(['code' => $model->code, 'password' => $model->password]);
+                    $cardInfos->user_id = $userInfo->user_id;
+                    $cardInfos->is_used = 1;
+                    $cardInfos->is_useable = -1;
+
+                    if ($cardInfos->save()) {
+                        // ( [course_section_id] => Array ( [0] => 3,2,1 [1] => 4,2,1 ) [user_id] => 2 )
+                        $result = Section::addPermit(['course_section_id' => '42,10,16'], $cardInfos->user_id, $cardInfos->expired_at);
+                        if ($result) {
+                            Tool::Redirect(User::get_loginpage());
+                        } else {
+                            Tool::notice('卡号/密码错误或异常','error');
+                            return $this->redirect('activate');
+                        }
+
+                    } else {
+                        Tool::notice('卡号/密码错误或异常','error');
+                        return $this->redirect('activate');
+                    }
+                } else {
+                    Tool::notice('卡号异常','error');
+                    return $this->redirect('activate');
+                }
+            }
+        }
+        return $this->render('activate', ['model' => $model]);
     }
 
 

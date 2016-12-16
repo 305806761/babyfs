@@ -24,6 +24,21 @@ use yii\helpers\Html;
         ]
     ]); ?>
 
+    <?= $form->field($model, 'card_sn', [
+        'labelOptions' => ['class'=>'col-lg-2 control-label'],
+        'template' => '
+                                {label}
+                                <div class="col-lg-2">
+                                {input}
+                                {hint}
+                                {error}
+                                </div>
+                                ',
+    ])->textInput([
+        'id' => 'card_sn',
+        'class' => 'form-control',
+        'type' => 'number',
+    ])->hint('必须输入0不能开头的八位数字，') ?>
 
     <?= $form->field($model, 'number', [
         'labelOptions' => ['class'=>'col-lg-2 control-label'],
@@ -39,7 +54,7 @@ use yii\helpers\Html;
         'id' => 'number',
         'class' => 'form-control',
         'type' => 'number',
-    ]) ?>
+    ])->hint('必须输入数字') ?>
 
 
     <div class="form-group">

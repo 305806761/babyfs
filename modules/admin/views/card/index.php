@@ -67,10 +67,79 @@ $this->params['breadcrumbs'][] = $this->title;
                             'attribute' => 'password',
                             'headerOptions' => ['width' => '100'],
                         ],
+                        [
+                            'attribute' =>'dada.name',
+                            'contentOptions' => [
+                                'class' => 'text-center',
+                            ],
+                            'filter' => Html::activeTextInput($searchModel, 'class_name', [
+                                'class' => 'form-control', 'id' => null
+                            ]),
+                            'label' => '课',
+                        ],
 
                         [
-                            'attribute' => 'user_id',
-                            'headerOptions' => ['width' => '100'],
+                            'attribute' =>'users.phone',
+                            'contentOptions' => [
+                                'class' => 'text-center',
+                            ],
+                            'filter' => Html::activeTextInput($searchModel, 'user_name', [
+                                'class' => 'form-control', 'id' => null
+                            ]),
+                            'label' => '用户',
+                        ],
+
+
+                        [
+                            'attribute' => 'is_active',
+                            'contentOptions' => [
+                                'class' => 'center',
+                            ],
+                            'value'=>function($model){
+                                return \app\models\CardModel::getActive()[$model->is_active];
+                            },
+                            'filter' => Html::activeDropDownList($searchModel, 'is_active', \app\models\CardModel::getActiveAll(), ['class' => 'form-control']),
+                        ],
+                        [
+                            'attribute' => 'is_useable',
+                            'contentOptions' => [
+                                'class' => 'center',
+                            ],
+                            'value'=>function($model){
+                                return \app\models\CardModel::getUseable()[$model->is_useable];
+                            },
+                            'filter' => Html::activeDropDownList($searchModel, 'is_useable', \app\models\CardModel::getUseableAll(), ['class' => 'form-control']),
+                        ],
+                        [
+                            'attribute' => 'is_used',
+                            'contentOptions' => [
+                                'class' => 'center',
+                            ],
+                            'value'=>function($model){
+                                return \app\models\CardModel::getUsed()[$model->is_used];
+                            },
+                            'filter' => Html::activeDropDownList($searchModel, 'is_used', \app\models\CardModel::getUsedAll(), ['class' => 'form-control']),
+                        ],
+                        [
+                            'attribute' => 'is_cancel',
+                            'contentOptions' => [
+                                'class' => 'center',
+                            ],
+                            'value'=>function($model){
+                                return \app\models\CardModel::getCancel()[$model->is_cancel];
+                            },
+                            'filter' => Html::activeDropDownList($searchModel, 'is_cancel', \app\models\CardModel::getCancelAll(), ['class' => 'form-control']),
+                        ],
+                        [
+                            'attribute' => 'status',
+                            'contentOptions' => [
+                                'class' => 'center',
+                            ],
+                            'format'=>'raw',
+                            'value'=>function($model){
+                                return \app\models\CardModel::getStatus()[$model->status];
+                            },
+                            'filter' => Html::activeDropDownList($searchModel, 'status', \app\models\CardModel::getStatusAll(), ['class' => 'form-control']),
                         ],
                         'expired_at:datetime',
 

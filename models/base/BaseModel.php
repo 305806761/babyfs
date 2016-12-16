@@ -12,6 +12,7 @@ namespace app\models\base;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
+use yii\helpers\ArrayHelper;
 
 class BaseModel extends ActiveRecord
 {
@@ -43,6 +44,15 @@ class BaseModel extends ActiveRecord
             self::STATUS_DELETED => self::$statusAll[self::STATUS_DELETED],
 
         );
+    }
+
+
+    /**
+     * @return array
+     */
+    public static function getStatusAll()
+    {
+        return ArrayHelper::merge([0 => '全部'], self::getStatus());
     }
 
     /**
@@ -115,6 +125,31 @@ class BaseModel extends ActiveRecord
             $transaction->rollBack();
             throw $e;
         }
+    }
+
+    /**
+     * @param $class
+     * @param string|array|Exception $condition the new WHERE condition. Please refer to [[where()]]
+     * @return array
+     */
+    public static function getNames($class, $condition = null)
+    {
+        /**
+         * @var $model BaseModel
+         */
+        $model = new $class;
+        $query = $model::find()->select(['id', 'name'])->orderBy(['order_sort' => SORT_DESC, 'created_at' => SORT_DESC])
+            ->where(['status'=>2]);
+        if ($condition) {
+            $query->andWhere($condition);
+        }
+        $result = $query->asArray()->all();
+        if ($result) {
+            return \yii\helpers\ArrayHelper::map($result, 'id', 'name');
+        }
+
+        return [];
+
     }
 
     /**
