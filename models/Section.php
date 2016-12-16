@@ -132,9 +132,12 @@ class Section extends ActiveRecord
     }
 
     /**
-     * @param $course_section_id //Array ( [course_section_id] => Array ( [0] => 3,2,1 [1] => 4,2,1 ) [user_id] => 2 )
+     * @param $course_section_id  $course_section_id //Array ( [course_section_id] => Array ( [0] => 3,2,1 [1] => 4,2,1 )
+     * @param $user_id  [user_id] => 2
+     * @param string $expire_time  strtotime
+     * @return bool
      */
-    public static function addPermit($course_section_id,$user_id){
+    public static function addPermit($course_section_id,$user_id,$expire_time=''){
 
         $sections = array();
         $key = array('course_id', 'section_id', 'term_id');
@@ -159,7 +162,7 @@ class Section extends ActiveRecord
             $course = Course::findOne($v['course_id']);
             if ($course->type == 3) {
                 $term['start_time'] = $time;
-                $term['end_time'] = Yii::$app->params['course_expire'];
+                $term['end_time'] = $expire_time ? $expire_time :Yii::$app->params['course_expire'];
             }
             $sections[$k]['version'] = 1;
             $sections[$k]['started'] = 2;
