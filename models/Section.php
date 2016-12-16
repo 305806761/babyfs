@@ -131,4 +131,49 @@ class Section extends ActiveRecord
         return $ware;
     }
 
+    /**
+     * @param $course_section_id //Array ( [course_section_id] => Array ( [0] => 3,2,1 [1] => 4,2,1 ) [user_id] => 2 )
+     */
+    public static function addPermit($course_section_id){
+
+        $sections = array();
+        $key = array('course_id', 'section_id', 'term_id');
+        foreach ($course_section_id as $ke => $value) {
+            $val = explode(',', $value);
+            $sections[$ke] = array_combine($key, $val);
+            $sections[$ke]['user_id'] = Yii::$app->request->post('user_id');
+        }
+        foreach ($sections as $k => $v) {
+            //判断是阶段的那个学期
+            $time = time();
+            $term = TermModel::find()->where(
+                [
+                    'AND', ['=', 'status', 2],
+                    ['=', 'section_id', $v['section_id']],
+                    ['=', 'id', $v['term_id']],
+                    //['>=', 'order_end_time', $time],
+                    //['<=', 'order_start_time', $time],
+                    //'order_end_time>:order_end_time' ,[':order_end_time' => strtotime($this->created)],
+                ]
+            )->asArray()->one();
+            $course = Course::findOne($v['course_id']);
+            if ($course->type == 3) {
+                $term['start_time'] = $time;
+                $term['end_time'] = Yii::$app->params['course_expire'];
+            }
+            $sections[$k]['version'] = 1;
+            $sections[$k]['started'] = 2;
+            $sections[$k]['term_id'] = $term['id'];
+            $sections[$k]['create_time'] = date('Y-m-d H:i:s', $term['start_time']);
+            $sections[$k]['expire_time'] = date('Y-m-d H:i:s', $term['end_time']);
+        }
+        $usercourse = new UserCourse();
+        $result = $usercourse->modify($usercourse, $sections);
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
