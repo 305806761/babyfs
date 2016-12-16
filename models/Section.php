@@ -134,14 +134,14 @@ class Section extends ActiveRecord
     /**
      * @param $course_section_id //Array ( [course_section_id] => Array ( [0] => 3,2,1 [1] => 4,2,1 ) [user_id] => 2 )
      */
-    public static function addPermit($course_section_id){
+    public static function addPermit($course_section_id,$user_id){
 
         $sections = array();
         $key = array('course_id', 'section_id', 'term_id');
         foreach ($course_section_id as $ke => $value) {
             $val = explode(',', $value);
             $sections[$ke] = array_combine($key, $val);
-            $sections[$ke]['user_id'] = Yii::$app->request->post('user_id');
+            $sections[$ke]['user_id'] = $user_id;
         }
         foreach ($sections as $k => $v) {
             //判断是阶段的那个学期
