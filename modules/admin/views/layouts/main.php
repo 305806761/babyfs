@@ -331,8 +331,7 @@ AppAsset::register($this);
                                                          target="main-frame">课列表</a></li>
                                 <li class="menu-item"><a href="<?= Url::to(['card/activate']) ?>"
                                                          target="main-frame">激活卡</a></li>
-                                <li class="menu-item"><a href="<?= Url::to(['card/activate']) ?>"
-                                                         target="main-frame">激活卡</a></li>
+
 
                             </ul>
 

@@ -67,16 +67,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'attribute' => 'password',
                             'headerOptions' => ['width' => '100'],
                         ],
-                        [
-                            'attribute' =>'dada.name',
-                            'contentOptions' => [
-                                'class' => 'text-center',
-                            ],
-                            'filter' => Html::activeTextInput($searchModel, 'class_name', [
-                                'class' => 'form-control', 'id' => null
-                            ]),
-                            'label' => '课',
-                        ],
+
 
                         [
                             'attribute' =>'users.phone',

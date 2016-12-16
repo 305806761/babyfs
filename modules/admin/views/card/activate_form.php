@@ -7,6 +7,7 @@
  */
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
+use yii\jui\Sortable;
 
 
 ?>
@@ -25,17 +26,12 @@ use yii\helpers\Html;
                     ]
                 ]); ?>
 
-                <?= $form->field($model, 'class_id', [
-                    'labelOptions' => ['class'=>'col-lg-2 control-label'],
-                    'template' => '
-                                {label}
-                                <div class="col-lg-2">
-                                {input}
-                                {error}
-                                </div>
-                                ',
-                ])->dropDownList($classData, [
-                    'prompt' => '--请选择课--',
+                <?= \app\models\widgets\SelectClass::widget([
+                    'view' => 'linkage',
+                    'className' => \app\models\CardModel::className(),
+                    'model' => $model,
+                    'form' => $form,
+                    'type' => 88,
                 ])?>
 
                 <?= $form->field($model, 'start_code', [

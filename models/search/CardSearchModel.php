@@ -37,20 +37,20 @@ class CardSearchModel extends CardModel
             'query' => $query
         ]);
 
-        $query->joinWith(['dada' => function ($query) {
-            $query->from(['s' => ClassModel::tableName()]);
-        }]);
+//        $query->joinWith(['dada' => function ($query) {
+//            $query->from(['s' => ClassModel::tableName()]);
+//        }]);
 
         $query->joinWith(['users' => function ($query) {
             $query->from(['u' => User::tableName()]);
         }]);
         $sort = $dataProvider->getSort();
 
-        $sort->attributes['dada.name'] = [
-            'asc' => ['s.name' => SORT_ASC],
-            'desc' => ['s.name' => SORT_DESC],
-            'label' => 'name',
-        ];
+//        $sort->attributes['dada.name'] = [
+//            'asc' => ['s.name' => SORT_ASC],
+//            'desc' => ['s.name' => SORT_DESC],
+//            'label' => 'name',
+//        ];
         $sort->attributes['users.phone'] = [
             'asc' => ['u.phone' => SORT_ASC],
             'desc' => ['u.phone' => SORT_DESC],
@@ -63,7 +63,7 @@ class CardSearchModel extends CardModel
 
         $query->andFilterWhere(['like', 'lower(c.code)', strtolower($this->code)]);
         $query->andFilterWhere(['like', 'lower(c.password)', strtolower($this->password)]);
-        $query->andFilterWhere(['like', 'lower(s.name)', strtolower($this->class_name)]);
+        //$query->andFilterWhere(['like', 'lower(s.name)', strtolower($this->class_name)]);
         $query->andFilterWhere(['like', 'lower(u.phone)', strtolower($this->user_name)]);
 
         //$query->andFilterWhere(['like', 'DATE_FORMAT(FROM_UNIXTIME(order_add_time),\'%Y-%m-%d %H:%i:%s\')', strtolower($this->order_add_time)]);

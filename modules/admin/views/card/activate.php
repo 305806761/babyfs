@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?=
     $this->render('activate_form', [
         'model' => $model,
-        'classData' => $classData,
+        'items' => $items,
     ]);
     ?>
 </section>
