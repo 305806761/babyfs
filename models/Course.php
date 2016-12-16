@@ -33,6 +33,10 @@ class Course extends BaseModel
         return [
             [['name', 'code'], 'required'],
             [['name'], 'string', 'max' => 100],
+
+            ['price', 'double', 'min' => 1, 'max' => 999999999999.99],
+            ['price', 'match', 'pattern' => '/^[1-9][0-9]{0,11}(\.[0-9]{1,2})?$/', 'message' => '请输入整数或小数二位'],
+
             ['type', 'default', 'value' => self::COURSETYPEK],
             ['type', 'in', 'range' => [self::COURSETYPEK, self::COURSETYPEH, self::COURSETYPEKN]],
             [['code'], 'string', 'max' => 10],
@@ -49,6 +53,7 @@ class Course extends BaseModel
             'name' => '课程名称',
             'code' => '课程code',
             'type' => '类别',
+            'price' => '价格',
         ];
     }
 
