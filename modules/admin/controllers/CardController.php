@@ -331,7 +331,7 @@ class CardController extends Controller
             Excel::export([
                 'models' => $result,
                 'fileName'=> date('Ymd').'_'.'CardExport',
-                'format' => 'Excel2007',
+                'format' => 'Excel5',
                 'columns' => [
                     [
                         'attribute' => 'id',
