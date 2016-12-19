@@ -283,7 +283,7 @@ class CardController extends Controller
         $cardModel = new CardModel();
         if($cardModel->load(Yii::$app->request->post())){
 
-            $status = $cardModel->status;
+            $status = $cardModel->statuss;
             $number = $cardModel->number;
             //'1' => '已激活（已卖出）',
             if($status == 1){

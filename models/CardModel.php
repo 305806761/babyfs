@@ -19,7 +19,7 @@ class CardModel extends BaseModel
     public $card_sn;
     public $start_code;
     public $end_code;
-    public $status;
+    public $statuss;
 
     //1 已激活，2 未激活，3作废，4已使用 5 过期
     public static function getCard(){
