@@ -330,9 +330,40 @@ class CardController extends Controller
             }
             Excel::export([
                 'models' => $result,
-                'fileName'=> date('Ymd').'_'.'Export',
+                'fileName'=> date('Ymd').'_'.'CardExport',
                 'format' => 'Excel5',
-                'columns' => ['id','code','password','is_useable','is_used','is_active','is_cancel','expired_at','created_at'],
+                'columns' => [
+                    [
+                        'attribute' => 'id',
+                        'format' => 'text',],
+                    [
+                        'attribute' => 'code',
+                        'format' => 'text',
+                    ],
+                    [
+                        'attribute' => 'password',
+                        'format' => 'text',],
+                    [
+                        'attribute' => 'is_useable',
+                        'format' => 'text',],
+                    [
+                        'attribute' => 'is_used',
+                        'format' => 'text',],
+                    [
+                        'attribute' => 'is_active',
+                        'format' => 'text',],
+                    [
+                        'attribute' => 'is_cancel',
+                        'format' => 'text',],
+                    [
+	 				'attribute' => 'expired_at',
+	  				'format' => 'date',
+	    		    ],
+                    [
+                        'attribute' => 'created_at',
+                        'format' => 'date',
+                    ],
+                ],
                 'headers' => ['id' => 'ID','code' => '卡号', 'password' => '密码','is_useable'=> '是否可用',
                     'is_used'=> '是否兑换','is_active'=> '是否激活','is_cancel'=> '是否作废','expired_at'=> '截止日期','created_at'=> '创建时间'],
             ]);
