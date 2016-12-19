@@ -335,11 +335,13 @@ class CardController extends Controller
                 'columns' => [
                     [
                         'attribute' => 'id',
-                        'format' => 'text',],
+                        'format' => 'text',
+                    ],
                     [
                         'attribute' => 'code',
                         'format' => 'text',
                     ],
+
                     [
                         'attribute' => 'password',
                         'format' => 'text',],
