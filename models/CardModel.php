@@ -167,7 +167,7 @@ class CardModel extends BaseModel
             'password' => '密码',
             'number' => '数量',
             'card_sn' => '前缀',
-            'course_id' => '',
+            'course_id' => '课程',
             'section_id' => '阶段',
             'term_id' => '学期',
             'start_code' => '起始卡段',

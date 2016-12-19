@@ -158,23 +158,26 @@ class CardController extends Controller
                             }
 
                         } else {
-                            die('没有符合的卡信息');
+                            //die('没有符合的卡信息');
+                            return $this->redirect('activate');
                         }
                     } else {
-                        die('卡段有误');
+                        //die('卡段有误');
+                        return $this->redirect('activate');
                     }
                 } else {
-                    die('卡段不存在');
+                    //die('卡段不存在');
+                    return $this->redirect('activate');
                 }
             } else {
-                die('时间不符合');
+                //die('时间不符合');
+                return $this->redirect('activate');
             }
 
         } else {
             $classData = ClassModel::getNames(ClassModel::className());
             return $this->render('activate', [
                 'model' => $model,
-
             ]);
         }
         //print_r($classData);
