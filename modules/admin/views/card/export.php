@@ -8,6 +8,7 @@
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 
+
 ?>
 <!-- page start-->
 <div class="row">
@@ -24,7 +25,18 @@ use yii\helpers\Html;
                     ]
                 ]); ?>
 
-                <?= $form->field($model, "status")->dropDownList(\app\models\CardModel::getCard()) ?>
+                <?= $form->field($model, 'statuss', [
+                    'labelOptions' => ['class'=>'col-lg-2 control-label'],
+                    'template' => '
+                                {label}
+                                <div class="col-lg-3">
+                                {input}
+                                {hint}
+                                {error}
+                                </div>
+                                ',
+                ])->dropDownList(\app\models\CardModel::getCard()) ?>
+
 
                 <?= $form->field($model, 'number', [
                     'labelOptions' => ['class'=>'col-lg-2 control-label'],

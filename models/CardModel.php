@@ -90,7 +90,7 @@ class CardModel extends BaseModel
     public function rules()
     {
         return [
-            ['number', 'required', 'on' => 'create'],
+            ['number', 'required', 'on' => ['create', 'export']],
             ['number', 'integer', 'min' => 1, 'max' => 4294967295],
             ['number','default', 'value' => 0],
 
@@ -145,6 +145,9 @@ class CardModel extends BaseModel
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED, self::STATUS_INACTIVE]],
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
 
+            ['statuss', 'in', 'range' => [1,2,3,4,5], 'on' => ['export']],
+            ['statuss', 'default', 'value' => 0],
+
             ['order_sort', 'integer', 'min' => 0, 'max' => 4294967295],
             ['order_sort', 'default', 'value' => 0],
 
@@ -175,6 +178,7 @@ class CardModel extends BaseModel
             'is_used' => '是否使用',
             'is_cancel' => '是否作废',
             'status' => '状态',
+            'statuss' => '导出状态',
 
         ];
     }

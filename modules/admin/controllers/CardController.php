@@ -281,10 +281,14 @@ class CardController extends Controller
     public function actionCardExport()
     {
         $cardModel = new CardModel();
+        $cardModel->setScenario('export');
         if($cardModel->load(Yii::$app->request->post())){
 
             $status = $cardModel->statuss;
             $number = $cardModel->number;
+//            echo '<pre>';
+//            print_r($cardModel);
+//            die;
             //'1' => '已激活（已卖出）',
             if($status == 1){
                 $result = CardModel::find()->where([
@@ -331,7 +335,7 @@ class CardController extends Controller
                     'is_used'=> '是否兑换','is_active'=> '是否激活','is_cancel'=> '是否作废','expired_at'=> '截止日期','created_at'=> '创建时间'],
             ]);
         }
-        $this->render('export');
+        return $this->render('export', ['model' => $cardModel]);
     }
 
 
