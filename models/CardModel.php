@@ -184,8 +184,8 @@ class CardModel extends BaseModel
     }
 
 
-    public function getDada(){
-        return $this->hasOne(ClassModel::className(), ['id' => 'class_id']);
+    public function getCourse(){
+        return $this->hasOne(Course::className(), ['course_id' => 'course_id']);
     }
 
     public function getUsers(){

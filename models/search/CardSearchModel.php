@@ -11,13 +11,14 @@ namespace app\models\search;
 
 use app\models\CardModel;
 use app\models\ClassModel;
+use app\models\Course;
 use app\models\User;
 use yii\data\ActiveDataProvider;
 
 class CardSearchModel extends CardModel
 {
 
-    public $class_name;
+    public $course_name;
     public $user_name;
     /**
      * @return array
@@ -25,7 +26,7 @@ class CardSearchModel extends CardModel
     public function rules()
     {
         return [
-            [['code', 'password', 'class_name', 'user_name'], 'safe'],
+            [['code', 'password', 'course_name', 'user_name'], 'safe'],
             [['user_id', 'status', 'is_useable', 'is_active', 'is_used', 'is_cancel'], 'integer'],
         ];
     }
@@ -37,20 +38,20 @@ class CardSearchModel extends CardModel
             'query' => $query
         ]);
 
-//        $query->joinWith(['dada' => function ($query) {
-//            $query->from(['s' => ClassModel::tableName()]);
-//        }]);
+        $query->joinWith(['course' => function ($query) {
+            $query->from(['s' => Course::tableName()]);
+        }]);
 
         $query->joinWith(['users' => function ($query) {
             $query->from(['u' => User::tableName()]);
         }]);
         $sort = $dataProvider->getSort();
 
-//        $sort->attributes['dada.name'] = [
-//            'asc' => ['s.name' => SORT_ASC],
-//            'desc' => ['s.name' => SORT_DESC],
-//            'label' => 'name',
-//        ];
+        $sort->attributes['course.name'] = [
+            'asc' => ['s.name' => SORT_ASC],
+            'desc' => ['s.name' => SORT_DESC],
+            'label' => 'name',
+        ];
         $sort->attributes['users.phone'] = [
             'asc' => ['u.phone' => SORT_ASC],
             'desc' => ['u.phone' => SORT_DESC],
@@ -63,7 +64,7 @@ class CardSearchModel extends CardModel
 
         $query->andFilterWhere(['like', 'lower(c.code)', strtolower($this->code)]);
         $query->andFilterWhere(['like', 'lower(c.password)', strtolower($this->password)]);
-        //$query->andFilterWhere(['like', 'lower(s.name)', strtolower($this->class_name)]);
+        $query->andFilterWhere(['like', 'lower(s.name)', strtolower($this->course_name)]);
         $query->andFilterWhere(['like', 'lower(u.phone)', strtolower($this->user_name)]);
 
         //$query->andFilterWhere(['like', 'DATE_FORMAT(FROM_UNIXTIME(order_add_time),\'%Y-%m-%d %H:%i:%s\')', strtolower($this->order_add_time)]);

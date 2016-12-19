@@ -175,7 +175,6 @@ class CardController extends Controller
             }
 
         } else {
-            $classData = ClassModel::getNames(ClassModel::className());
             return $this->render('activate', [
                 'model' => $model,
             ]);

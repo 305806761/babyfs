@@ -80,6 +80,17 @@ $this->params['breadcrumbs'][] = $this->title;
                             'label' => '用户',
                         ],
 
+                        [
+                            'attribute' =>'course.name',
+                            'contentOptions' => [
+                                'class' => 'text-center',
+                            ],
+                            'filter' => Html::activeTextInput($searchModel, 'course_name', [
+                                'class' => 'form-control', 'id' => null
+                            ]),
+                            'label' => '课程',
+                        ],
+
 
                         [
                             'attribute' => 'is_active',
