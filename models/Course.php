@@ -211,7 +211,7 @@ class Course extends BaseModel
         $section = Section::find()->where(['section_id' => 13, 'is_show' => 1])->asArray()->all();
         foreach ($section as $skey => $sval) {
             $section[$skey]['section'] = $sval;
-            $section[$skey]['term_id'] = 23;
+            $section[$skey]['term_id'] = 29;
             $section[$skey]['is_buy'] = 1;
 
         }
