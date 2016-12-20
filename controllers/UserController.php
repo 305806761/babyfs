@@ -144,6 +144,7 @@ class UserController extends Controller
         session_unset();
         //Yii::$app->session->remove('user_id');
         User::NoRemember('user_rnd');
+        User::NoRemember('isGuest');
         $user = User::isLogin();
         if(!$user){
             Tool::Redirect("/user/login");
