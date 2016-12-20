@@ -31,34 +31,95 @@ class WareController extends Controller
         }
         Yii::$app->session->set("loginpage", "/ware/detail?ware_id=$ware_id");
         //判断是否登录
+
         $user = User::isLogin();
-        if(!$user){
-            Tool::Redirect("/user/login");
-        }
-        //判断是否有权限查看该课件
-        if(!User::checkPermitWare($user->user_id,$ware_id)){
-            Tool::Redirect('/section/list','没有权限查看','notice');
-        };
-        $model = $this->findModel($ware_id);
-        $result = '';
-        if ($c = json_decode($model->contents, true)) {
-            foreach ($c as $type_id) {
-                if ($wt = WareType::findOne($type_id)) {
-                   // print_r($c);die;
-                    if ($template_code = TemplateCode::findOne($wt->temp_code_id)) {
-                        $engine = new Handlebars();
-                        $engine->registerHelper('addOne', function ($index){
-                            return ++$index;
-                        });
-                        $result .= $engine->render(
-                            $template_code->code,
-                            json_decode($wt->content, true)
-                        );
+        if ($_COOKIE['isGuest'] == 1) {
+            //如果用户是游客
+            if ($user) {
+                //判断是否有权限查看该课件
+                if(!User::checkPermitWare($user->user_id,$ware_id)){
+                    Tool::Redirect('/section/list','没有权限查看','notice');
+                };
+                $model = $this->findModel($ware_id);
+                $result = '';
+                if ($c = json_decode($model->contents, true)) {
+                    foreach ($c as $type_id) {
+                        if ($wt = WareType::findOne($type_id)) {
+                            // print_r($c);die;
+                            if ($template_code = TemplateCode::findOne($wt->temp_code_id)) {
+                                $engine = new Handlebars();
+                                $engine->registerHelper('addOne', function ($index){
+                                    return ++$index;
+                                });
+                                $result .= $engine->render(
+                                    $template_code->code,
+                                    json_decode($wt->content, true)
+                                );
+                            }
+                        }
                     }
                 }
+                $model->contents = $result;
+
+            } else {
+                //只能看游客的课
+                $models = User::checkGuestWare(13, $ware_id);
+                if ($models) {
+                    $model = $this->findModel($ware_id);
+                    $result = '';
+                    if ($c = json_decode($model->contents, true)) {
+                        foreach ($c as $type_id) {
+                            if ($wt = WareType::findOne($type_id)) {
+                                // print_r($c);die;
+                                if ($template_code = TemplateCode::findOne($wt->temp_code_id)) {
+                                    $engine = new Handlebars();
+                                    $engine->registerHelper('addOne', function ($index){
+                                        return ++$index;
+                                    });
+                                    $result .= $engine->render(
+                                        $template_code->code,
+                                        json_decode($wt->content, true)
+                                    );
+                                }
+                            }
+                        }
+                    }
+                    $model->contents = $result;
+                } else {
+                    die('数据有误！');
+                }
+            }
+        } else {
+            if ($user) {
+                //如果用户存在，那么用户不能看游客的课
+                //判断是否有权限查看该课件
+                if(!User::checkPermitWare($user->user_id,$ware_id)){
+                    Tool::Redirect('/section/list','没有权限查看','notice');
+                };
+                $model = $this->findModel($ware_id);
+                $result = '';
+                if ($c = json_decode($model->contents, true)) {
+                    foreach ($c as $type_id) {
+                        if ($wt = WareType::findOne($type_id)) {
+                            // print_r($c);die;
+                            if ($template_code = TemplateCode::findOne($wt->temp_code_id)) {
+                                $engine = new Handlebars();
+                                $engine->registerHelper('addOne', function ($index){
+                                    return ++$index;
+                                });
+                                $result .= $engine->render(
+                                    $template_code->code,
+                                    json_decode($wt->content, true)
+                                );
+                            }
+                        }
+                    }
+                }
+                $model->contents = $result;
+            } else {
+                Tool::Redirect("/user/login");
             }
         }
-        $model->contents = $result;
         //print_r($model);die;
         return $this->render('detail',['ware'=>$model]);
     }

@@ -188,4 +188,39 @@ class CourseSection extends ActiveRecord
         return $ware;
     }
 
+
+    /**
+     *
+     * 获取所有课程$is_free=0 是免费，￥is_free=1是收费
+     */
+
+    public function getGuestWare($section_id,$term_id)
+    {
+        $ware = [];
+        if ($section_id && $term_id) {
+            $sectionInfo = CourseSection::find()->where(['section_id' => $section_id])->one();
+            if ($sectionInfo) {
+                $section_ware = SectionCat::find()->where(['section_id'=>$section_id,'term_id'=>$term_id])->asArray()->all();
+                //print_r($section_ware);die;
+                foreach ($section_ware as $key => $value) {
+                    $query = CourseWare::find()->from(['cw'=>CourseWare::tableName()])->where(['cw.section_cat_id'=>$value['id']]);
+                    $query->joinWith(['ware'=>function($query){
+                        $query->from(['w'=>Ware::tableName()])
+                            ->select('w.title,w.ware_id,w.image,w.small_text');
+                    }]);
+                    $ware = $query->asArray()->all();
+                    $course = Course::findOne($sectionInfo->course_id);
+                    if($course->type == 3){
+                        $section_ware[$key]['ware'] = $ware;
+                    }
+                }
+
+                $section = Section::findOne(['section_id'=>$section_id]);
+                $ware = array('section_name' => $section->name, 'section_ware' => $section_ware);
+            }
+
+        }
+        //$section_ware['section_name'] = $section_ware[0]['section_name'];
+        return $ware;
+    }
 }

@@ -41,11 +41,30 @@ class UserController extends Controller
 
     public function actionUserCourse(){
         $user = User::isLogin();
-        if(!$user){
-            Tool::Redirect("/user/login");
+        if (Yii::$app->request->get('type') == 1) {
+            //游客点击
+            if ($user) {
+                //如果用户登陆了，那么不能看游客的课
+                $course = Course::getCourseSection($user->user_id);
+            } else {
+                //如果游客第一次点击，就设置cookie，否则
+                if ($_COOKIE['isGuest'] == 1) {
+
+                } else {
+                    Tool::cookieset('isGuest', 1);
+                }
+                $course = Course::getGuestCourse();
+            }
+
+        } else {
+
+            if(!$user){
+                Tool::Redirect("/user/login");
+            }
+            $course = Course::getCourseSection($user->user_id);
         }
 
-        $course = Course::getCourseSection($user->user_id);
+        //echo "<pre>";
         //print_r($course);die;
         return $this->render('user_course',['course'=>$course]);
     }

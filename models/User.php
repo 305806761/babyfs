@@ -331,4 +331,34 @@ class User extends ActiveRecord
         }
     }
 
+    /**
+     * 验证游客ware是否有权限
+     * @param string $user_id
+     * @param string $ware_id
+     * @return boolen
+     * @access public
+     */
+
+    static public function checkGuestWare($section_id=0, $ware_id = 0)
+    {
+        if ($ware_id && $section_id) {
+            $cat = CourseWare::find()->where(['ware_id' => $ware_id]);
+            $cat->joinWith(['sectionCat' => function ($cat) {
+                //$cat->select('section_id,term_id');
+            }]);
+            $usercat = $cat->asArray()->all();//6,1,3
+            if ($usercat) {
+
+                foreach ($usercat as $uKey => $uVal) {
+                    if ($uVal['sectionCat']['section_id'] == 13) {
+                        return true;
+                    } else {
+                        continue;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
 }
