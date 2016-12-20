@@ -57,11 +57,20 @@ class UserController extends Controller
             }
 
         } else {
-
-            if(!$user){
-                Tool::Redirect("/user/login");
+            if ($_COOKIE['isGuest'] == 1) {
+                if ($user) {
+                    $course = Course::getCourseSection($user->user_id);
+                } else {
+                    $course = Course::getGuestCourse();
+                }
+            } else {
+                if ($user) {
+                    $course = Course::getCourseSection($user->user_id);
+                } else {
+                    Tool::Redirect("/user/login");
+                }
             }
-            $course = Course::getCourseSection($user->user_id);
+
         }
 
         //echo "<pre>";
