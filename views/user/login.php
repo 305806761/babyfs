@@ -22,7 +22,7 @@
         <p class="prompt-error loginpassWordError"></p>
     </div>
     <div class="l-input-btn"><input type="submit" value="登陆"></div>
-    <div class="l-input-link"><a href="/user/signup">没有账号，点我注册</a></div>
+    <div class="l-input-link"><a href="/user/signup">注册</a> | <a href="/user/signup">忘记密码</a> |<a href="/user/user-course/?type=1">游客登陆</a></div>
 </div>
 </form>
 <div class="l-sign-icon"><img src="/default/img/sign-icon.png" alt=""></div>

@@ -299,4 +299,66 @@ class UserController extends Controller
         }
         return $this->render('course_import');
     }
+    /**
+     * 会员关联数据的导入
+     * @param string id user_course(id)
+     * @return boolean
+     * @access public
+     */
+    public function actionImportEdit()
+    {
+        if (Yii::$app->request->post()) {
+
+            if (isset($_FILES['import_edit']['tmp_name'])
+                && $_FILES['import_edit']['tmp_name']
+            ) {
+                //$path_parts = pathinfo($param['user_course']['name']);
+                $file = 'uploadFile.xlsx'; //可以定义一个上传后的文件名称uploadFile.xlsx
+                $filename = '/uploads/user_course/' . $file;
+                $filePath = Yii::getAlias('@webroot' . $filename);
+                copy(
+                    $_FILES['import_edit']['tmp_name'],
+                    $filePath
+                );
+                $data = Excel::import($filePath, [
+                    'setFirstRecordAsKeys' => true, // if you want to set the keys of record column with first record, if it not set, the header with use the alphabet column on excel.
+                    'setIndexSheetByName' => true, // set this if your excel data with multiple worksheet, the index of array will be set with the sheet name. If this not set, the index will use numeric.
+                    'getOnlySheet' => 'Sheet1', // you can set this property if you want to get the specified sheet from the excel data with multiple worksheet.
+                ]);
+
+                $key = array('phone', 'id','expire_time');
+                $section = array();
+                $success= 0;
+                $error = 0;
+                //print_r($data);die;
+                foreach ($data as $k=>$value){
+                    $sections[$k] = array_combine($key, $value);
+                }
+                if(!$sections){
+                    Tool::notice("没有任何数据上传",'error');
+                    return $this->redirect('course_list');
+                }
+                //print_r($sections);die;
+                foreach ($sections as $value){
+                    $user = User::findOne(['phone'=>$value['phone']]);
+                    $term = TermModel::findOne($value['id']);
+                    if(!$user || !$term){
+                        continue;
+                    }
+                    $user_course = UserCourse::findOne(['user_id'=>$user->user_id,'term_id'=>$term->id]);
+                    $end = date('Y-m-d H:i:s',$term->end_time);
+                    $expire_time = date('Y-m-d H:i:s',strtotime( "$end +6 month" ));
+                    $user_course->expire_time = isset($value['expire_time']) ? $value['expire_time'] :$expire_time;
+                    if($user_course->save()){
+                        $success++;
+                    }else{
+                        $error++;
+                    }
+                }
+                Tool::notice("成功$success | $error",'success');
+                return $this->redirect('course-list');
+            }
+        }
+        return $this->render('course_edit');
+    }
 }

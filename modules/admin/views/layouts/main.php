@@ -260,6 +260,8 @@ AppAsset::register($this);
                                                          target="main-frame">会员课程列表</a></li>
                                 <li class="menu-item"><a href="<?= Url::to(['user/course-import']) ?>"
                                                          target="main-frame">会员课程关联导入</a></li>
+                                <li class="menu-item"><a href="<?= Url::to(['user/import-edit']) ?>"
+                                                         target="main-frame">批量修改有效期</a></li>
 
                             </ul>
 

@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>注册</title>
+    <title></title>
     <meta name="viewport"content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -32,7 +32,7 @@
         <p><input type="password" placeholder="确认密码" maxlength="32" name="password2" id="password2" class="RegiserPassword2"></p>
         <p class="prompt-error RegiserPasswordError2"></p>
     </div>
-    <div class="RegiserBtn"><input type="submit" value="注册"/></div>
+    <div class="RegiserBtn"><input type="submit" value="提交"/></div>
     </form>
 </div>
 <div class="l-sign-icon"><img src="/default/img/sign-icon.png" alt=""></div>
