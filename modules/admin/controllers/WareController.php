@@ -10,6 +10,7 @@ namespace app\modules\admin\controllers;
 
 use app\models\Template;
 use app\models\TemplateCode;
+use app\models\Tool;
 use app\models\WareType;
 use Handlebars\Handlebars;
 use Yii;
@@ -128,7 +129,7 @@ class WareController extends Controller
                 if ($wt = WareType::findOne($type_id)) {
                     if ($template_code = TemplateCode::findOne($wt->temp_code_id)) {
                         $engine = new Handlebars();
-                        $engine->registerHelper('addOne', function ($index){
+                        $engine->registerHelper('addOne', function ($index) {
                             return ++$index;
                         });
                         $result .= $engine->render(
@@ -141,6 +142,53 @@ class WareController extends Controller
         }
 
         return $result;
+    }
+
+    /**
+     * @param $id
+     * @return string
+     */
+    public function actionCopy($id)
+    {
+
+        $model = $this->findModel($id);
+        $content = [];
+        $type_ids = [];
+        if ($model->contents) {
+            $t = json_decode($model->contents, true);
+            foreach ($t as $type_id) {
+                if ($wt = WareType::findOne($type_id)) {
+                    $wt_model = new WareType();
+                    $wt_model->template_id = $wt->template_id;
+                    $wt_model->temp_code_id = $wt->temp_code_id;
+                    $wt_model->content = $wt->content;
+                    if ($wt_model->save()) {
+                        $type_ids[] = $wt_model->type_id; //Yii::$app->db->lastInsertID;
+                        $content[] = $this->renderPartial('ware', ['model' => $wt_model]);
+                    };
+
+                }
+            }
+        }
+        if ($type_ids) {
+
+            $ware_model = new Ware();
+            $ware_model->title = $model->title;
+            $ware_model->small_text = $model->small_text;
+            $ware_model->image = $model->image;
+            $ware_model->contents = json_encode($type_ids);
+
+            if (!$ware_model->save()) {
+                Tool::notice('ware课件主表添加失败', 'error');
+                return $this->redirect(['list']);
+            } else {
+                Tool::notice('复制课件成功', 'success');
+                return $this->redirect(['list']);
+            }
+        } else {
+            Tool::notice('ware_type课件章节添加失败', 'error');
+            return $this->redirect(['list']);
+        }
     }
 
     /**

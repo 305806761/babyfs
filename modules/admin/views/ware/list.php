@@ -36,7 +36,69 @@ $this->title = '课件';
 //            'contents',
             'create_time',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn',
+                'template' => '{view}{update} {delete} {copy}',
+                'contentOptions' => [
+                    'class' => 'text-center',
+                    'width' => 120,
+                ],
+                'buttons' => [
+                    'view' => function($url, $model, $key) {
+                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>',
+                            ['view', 'id' => $key],
+                            [
+                                'title' => '预览',
+                                'aria-label' => '预览',
+                                'data-pjax' => '0',
+                                'data-method'=>'post'
+                            ]
+                        );
+
+                    },
+                    'update' => function($url, $model, $key) {
+                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>',
+                            ['update', 'id' => $key],
+                            [
+                                'title' => '更新',
+                                'aria-label' => '更新',
+                                'data-pjax' => '0',
+                                'data-method'=>'post'
+                            ]
+                        );
+
+                    },
+                    'delete' => function($url, $model, $key) {
+                        return Html::a('<span class="glyphicon glyphicon-trash"></span>',
+                            ['delete', 'id' => $key],
+                            [
+                                'data' => ['confirm' => '您确定要删除此项吗？',],
+                                'title' => '删除',
+                                'aria-label' => '删除',
+                                'data-pjax' => '0',
+                                'data-method'=>'post'
+                            ]
+                        );
+
+                    },
+
+                    'copy' => function($url, $model, $key) {
+                        return Html::a(
+                            '<span class="glyphicon glyphicon-share"></span>',
+                            ['copy', 'id' => $key],
+                            [
+                                'title' => '复制',
+                                'aria-label' => '复制',
+                                'data-pjax' => '0',
+                                'data-method'=>'post',
+                            ]
+                        );
+
+                    },
+                ],
+            ],
+
+
+
         ],
     ]); ?>
 </div>
