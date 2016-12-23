@@ -86,7 +86,7 @@ class WareController extends Controller
                     }
                     $model->contents = $result;
                 } else {
-                    die('数据有误！');
+                    Tool::Redirect("/user/login");
                 }
             }
         } else {
