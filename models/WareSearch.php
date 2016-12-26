@@ -41,7 +41,7 @@ class WareSearch extends Ware
      */
     public function search($params)
     {
-        $query = Ware::find();
+        $query = Ware::find()->orderBy('ware_id desc');
 
         // add conditions that should always apply here
 
