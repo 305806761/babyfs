@@ -93,7 +93,7 @@ class User extends ActiveRecord
      * @return str 返回用户cookies
      * @access public
      */
-    static public function Remember($user, $rememberMe = '86400 * 365')
+    static public function Remember($user, $rememberMe = 86400 * 365)
     {
         $user_rnd = self::GenLoginRnd($user['user_id'], $user['phone']);
 
