@@ -295,34 +295,34 @@ class CardController extends Controller
             if($status == 1){
                 $result = CardModel::find()->where([
                     'is_useable' => 1 , 'is_used' => -1 , 'is_active' => 1 , 'is_cancel' => -1 ,
-                ])->asArray()->orderBy('created_at desc')->limit($number)->all();
+                ])->asArray()->orderBy('id desc')->limit($number)->all();
             }
 
             //'2' => '未激活（需印刷）',
             if($status == 2){
                 $result = CardModel::find()->where([
                     'is_useable' => 1 , 'is_used' => -1 , 'is_active' => -1 , 'is_cancel' => -1 ,
-                ])->asArray()->orderBy('created_at desc')->limit($number)->all();
+                ])->asArray()->orderBy('id desc')->limit($number)->all();
             }
 
             //'3' => '作废',
             if($status == 3){
                 $result = CardModel::find()->where([
                     'is_useable' => -1 , 'is_used' => 1 , 'is_active' => 1 , 'is_cancel' => 1 ,
-                ])->asArray()->orderBy('created_at desc')->limit($number)->all();
+                ])->asArray()->orderBy('id desc')->limit($number)->all();
             }
             //'4' => '已使用',
             if($status == 4){
                 $result = CardModel::find()->where([
                     'is_useable' => -1 , 'is_used' => 1 , 'is_active' => 1 , 'is_cancel' => -1 ,
-                ])->asArray()->orderBy('created_at desc')->limit($number)->all();
+                ])->asArray()->orderBy('id desc')->limit($number)->all();
             }
 
             //'5' => '过期（未使用过期）',
             if($status == 5){
                 $result = CardModel::find()->where([
                     'is_useable' => -1 , 'is_used' => -1 , 'is_active' => 1 , 'is_cancel' => 1 ,
-                ])->asArray()->orderBy('created_at desc')->limit($number)->all();
+                ])->asArray()->orderBy('id desc')->limit($number)->all();
             }
 
             if(!$result){
