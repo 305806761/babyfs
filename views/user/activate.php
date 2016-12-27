@@ -33,8 +33,8 @@ $this->title = '绑定卡';
           ',
     ])->textInput([
         'class' => 'loginphoneNumber',
-        'maxlength' => '16',
-        'minlength' => '16',
+        'maxlength' => '13',
+        'minlength' => '13',
         'placeholder' => "请输入卡号"
     ]) ?>
     <?= $form->field($model, 'password', [
