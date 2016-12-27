@@ -95,18 +95,18 @@ class CardModel extends BaseModel
             ['number','default', 'value' => 0],
 
             ['card_sn', 'required', 'on' => 'create'],
-            ['card_sn', 'match', 'pattern' => '/^[1-9]{1}[0-9]{7}$/', 'on' => 'create'],
-            ['card_sn', 'integer', 'min' => 10000000, 'max' => 99999999],
+            ['card_sn', 'match', 'pattern' => '/^[1-9]{1}[0-9]{4}$/', 'on' => 'create'],
+            ['card_sn', 'integer', 'min' => 10000, 'max' => 99999],
 
             ['code', 'required', 'on' => 'create'],
             ['code', 'string', 'min' => 1, 'max' => 65535],
             ['code', 'unique', 'on' => 'create'],
 
             ['start_code', 'required', 'on' => 'activate'],
-            ['start_code', 'match', 'pattern' => '/^[1-9]{1}[0-9]{15}$/', 'on' => 'activate'],
+            ['start_code', 'match', 'pattern' => '/^[1-9]{1}[0-9]{12}$/', 'on' => 'activate'],
 
             ['end_code', 'required', 'on' => 'activate'],
-            ['end_code', 'match', 'pattern' => '/^[1-9]{1}[0-9]{15}$/', 'on' => 'activate'],
+            ['end_code', 'match', 'pattern' => '/^[1-9]{1}[0-9]{12}$/', 'on' => 'activate'],
 
             ['password', 'required', 'on' => 'create'],
             ['password', 'string', 'min' => 1, 'max' => 65535],

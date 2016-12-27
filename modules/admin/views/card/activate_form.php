@@ -47,7 +47,7 @@ use yii\jui\Sortable;
                 ])->textInput([
                     'class' => 'form-control',
                     'type' => 'number',
-                ])->hint('开头不能为0的16位数字') ?>
+                ])->hint('开头不能为0的13位数字') ?>
 
                 <?= $form->field($model, 'end_code', [
                     'labelOptions' => ['class'=>'col-lg-2 control-label'],
@@ -62,7 +62,7 @@ use yii\jui\Sortable;
                 ])->textInput([
                     'class' => 'form-control',
                     'type' => 'number',
-                ])->hint('开头不能为0的16位数字') ?>
+                ])->hint('开头不能为0的13位数字') ?>
 
                 <div class="form-group field-cardmodel-expired_at required">
 

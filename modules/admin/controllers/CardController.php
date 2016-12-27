@@ -52,11 +52,11 @@ class CardController extends Controller
 
             if($maxCode){
                 //echo $maxCode.'---';
-                $num1 = substr($maxCode, 8, 8) + 1;
+                $num1 = substr($maxCode, 5, 5) + 1;
             } else {
                 $num1 = '1';
             }
-            $cardSn = $model->card_sn ? $model->card_sn : '88888888';
+            $cardSn = $model->card_sn ? $model->card_sn : '88888';
 
             for ($i = 0; $i < $model->number; $i++) {
                 //==============生成礼品册用户名和密====.
@@ -154,7 +154,7 @@ class CardController extends Controller
                                 echo '执行成功'.$success;
                             } catch (\Exception $e) {
                                 $connection->rollBack();
-                                echo '数据有异常';
+                                echo '数据有异常one';
                             }
 
                         } else {

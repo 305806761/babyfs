@@ -38,7 +38,7 @@ use yii\helpers\Html;
         'id' => 'card_sn',
         'class' => 'form-control',
         'type' => 'number',
-    ])->hint('必须输入0不能开头的八位数字，') ?>
+    ])->hint('必须输入0不能开头5位数字，') ?>
 
     <?= $form->field($model, 'number', [
         'labelOptions' => ['class'=>'col-lg-2 control-label'],
