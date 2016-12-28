@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\models\base\BaseModel;
 use Yii;
 
 /**
@@ -12,7 +13,7 @@ use Yii;
  * @property integer $type
  * @property string $ctime
  */
-class Holiday extends \yii\db\ActiveRecord
+class Holiday extends BaseModel
 {
     const TYPE_HOLIDAY = 1;
     const TYPE_SCHOOL_DAY = 2;
@@ -36,9 +37,19 @@ class Holiday extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['day', 'ctime'], 'safe'],
-            [['type'], 'integer'],
-            [['term_id'], 'integer'],
+            ['type', 'required'],
+            ['type', 'integer', 'min' => 1, 'max' => 4294967295],
+            ['type','default', 'value' => 1],
+
+            //['day', 'string', 'max' => 255],
+            //['day', 'default', 'value' => 0],
+
+            //['term_ids', 'required'],
+            ['term_id', 'string', 'max' => 255],
+            ['term_id','default', 'value' => ''],
+
+            [['start_time', 'end_time', 'term_id', 'day'], 'safe'],
+
         ];
     }
 
@@ -49,10 +60,11 @@ class Holiday extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'day' => '日期',
+            'start_time' => '开始日期',
+            'end_time' => '结束日期',
             'type' => '类型',
             'term_id'=> '学期ID',
-            'ctime' => '创建时间',
+//            'created_at' => '创建时间',
         ];
     }
 
