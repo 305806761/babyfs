@@ -33,7 +33,7 @@ class Ware extends ActiveRecord
     }
 
     /**
-     * @inheritdoc  image	char(120)
+     * @inheritdoc  image    char(120)
      */
     public function rules()
     {
@@ -159,31 +159,94 @@ class Ware extends ActiveRecord
         return true;
     }
 
-    public static function getUsable($section_id,$term_id, $start_time)
+//    public static function getUsable($section_id, $term_id, $start_time)
+//    {
+//        if (!$section = Section::findOne($section_id)) {
+//            return false;
+//        }
+//        if ($start_time > time()) {
+//            return false;
+//        }
+//        if (!$term = TermModel::findOne(['section_id' => $section_id, 'id' => $term_id])) {
+//            return false;
+//        }
+//
+//        $u = 0;
+//        for (; $start_time <= time(); $start_time += 86400) {
+//
+//            if ($day = Holiday::findOne(['day' => date('Y-m-d', $start_time), 'term_id' => $term->id])) {
+//                if ($day->type == Holiday::TYPE_SCHOOL_DAY) {
+//                    $u++;
+//                }
+//                continue;
+//            }
+//            if (in_array(date('w', $start_time), [1, 3, 5])) {
+//                $u++;
+//            }
+//        }
+//        return $u;
+//    }
+
+    public static function getUsable($section_id, $term_id, $start_time)
     {
+        //如果阶段不存在，返回false
         if (!$section = Section::findOne($section_id)) {
             return false;
         }
+        //如果开始时间大于当前时间 返回false
         if ($start_time > time()) {
             return false;
         }
-        if(!$term = TermModel::findOne(['section_id'=>$section_id,'id'=>$term_id])){
+        //如果阶段和学期的都不存在，返回false
+        if (!$term = TermModel::findOne(['section_id' => $section_id, 'id' => $term_id])) {
             return false;
         }
 
         $u = 0;
         for (; $start_time <= time(); $start_time += 86400) {
+            //1483200000  11
+            //1482595200  25
+            //1482854400  28
 
-            if ($day = Holiday::findOne(['day' => date('Y-m-d', $start_time),'term_id'=> $term->id])) {
-                if ($day->type == Holiday::TYPE_SCHOOL_DAY) {
-                    $u++;
-                }
+            $holidays = Holiday::findOne(['day' => date('Y-m-d', $start_time), 'term_id' => $term->id]);
+            if (!$holidays->day) {
+                $holidays = Holiday::find()
+                    ->where(['<=', 'start_time', $start_time])
+                    ->andWhere(['>=', 'end_time', $start_time])
+                    ->andWhere(['like', 'term_id', ',' . $term_id . ','])
+                    ->one();
+
+                //echo date('Y-m-d', $start_time);
+                //echo "<br />";
+
+
+            }
+
+            if ($holidays->type == Holiday::TYPE_SCHOOL_DAY) {
+                $u++;
+                //echo date('Y-m-d', $start_time);
+                //echo "<br />";
                 continue;
             }
+
+            if ($holidays->type == Holiday::TYPE_HOLIDAY) {
+                //echo date('Y-m-d', $start_time);
+                //echo "<br />";
+                continue;
+            }
+
             if (in_array(date('w', $start_time), [1, 3, 5])) {
+
                 $u++;
+
+                //echo date('Y-m-d', $start_time);
+                //echo "<br />";
+            } else {
+                //echo '2467不上课';
             }
         }
+
+//        die();
         return $u;
     }
 }
