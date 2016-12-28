@@ -104,4 +104,9 @@ class TermModel extends BaseModel
 
         ];
     }
+
+    public function getSectionInfo()
+    {
+        return $this->hasMany(Section::className(), ['section_id' => 'section_id']);
+    }
 }
