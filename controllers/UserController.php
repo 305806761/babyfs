@@ -309,16 +309,16 @@ class UserController extends Controller
                         if ($result) {
                             Tool::Redirect(User::get_loginpage());
                         } else {
-                            Tool::notice('卡号/密码错误或异常','error');
+                            Tool::notice('卡号或密码错误，请重新输入','error');
                             return $this->redirect('activate');
                         }
 
                     } else {
-                        Tool::notice('卡号/密码错误或异常','error');
+                        Tool::notice('卡号或密码错误，请重新输入','error');
                         return $this->redirect('activate');
                     }
                 } else {
-                    Tool::notice('卡号异常','error');
+                    Tool::notice('卡号或密码错误，请重新输入','error');
                     return $this->redirect('activate');
                 }
             }
