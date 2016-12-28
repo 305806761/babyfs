@@ -63,8 +63,9 @@ class Holiday extends BaseModel
             'start_time' => '开始日期',
             'end_time' => '结束日期',
             'type' => '类型',
+            'day' => '日期',
             'term_id'=> '学期ID',
-//            'created_at' => '创建时间',
+            'created_at' => '创建时间',
         ];
     }
 
