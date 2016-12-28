@@ -9,7 +9,6 @@ use yii\helpers\Html;
 $this->registerJsFile("/default/js/public/jquery-1.9.1.min.js");
 $this->registerJsFile("/default/js/public/effect.js");
 
-
 ?>
 
 
