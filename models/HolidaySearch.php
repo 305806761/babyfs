@@ -18,8 +18,8 @@ class HolidaySearch extends Holiday
     public function rules()
     {
         return [
-            [['id', 'type','term_id'], 'integer'],
-            [['day', 'ctime'], 'safe'],
+            [['id', 'type'], 'integer'],
+            //[['day', 'ctime'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class HolidaySearch extends Holiday
      */
     public function search($params)
     {
-        $query = Holiday::find();
+        $query = Holiday::find()->orderBy('id desc');
 
         // add conditions that should always apply here
 
@@ -60,10 +60,10 @@ class HolidaySearch extends Holiday
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'day' => $this->day,
-            'term_id' => $this->term_id,
+            //'day' => $this->day,
+            //'term_id' => $this->term_id,
             'type' => $this->type,
-            'ctime' => $this->ctime,
+            //'ctime' => $this->ctime,
         ]);
 
         return $dataProvider;
