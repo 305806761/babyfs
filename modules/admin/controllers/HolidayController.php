@@ -2,6 +2,7 @@
 
 namespace app\modules\admin\controllers;
 
+use app\models\TermModel;
 use Yii;
 use app\models\Holiday;
 use app\models\HolidaySearch;
@@ -63,15 +64,63 @@ class HolidayController extends Controller
      */
     public function actionCreate()
     {
+
         $model = new Holiday();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+        $query = TermModel::find()
+            ->joinWith(['sectionInfo' => function(){
+
+            }])
+            ->asArray()->all();
+        $newArray = [];
+        if ($query)
+        {
+            foreach ($query as $oneVal)
+            {
+                if ($oneVal['sectionInfo'])
+                {
+                    foreach ($oneVal['sectionInfo'] as $twoVal)
+                    {
+                        $newArray[$oneVal['id']] = $twoVal['name'].'（第'.$oneVal['term'].'学期）'.$oneVal['id'];
+                    }
+                }
+            }
+
+        }
+        if (!empty($newArray))
+        {
+
+        } else {
+            die('数据有误');
+        }
+
+
+        if ($model->load(Yii::$app->request->post())) {
+            $model->start_time = strtotime($model->start_time);
+            $model->end_time = strtotime($model->end_time);
+            if (!empty($model->term_id) && is_array($model->term_id)) {
+                $model->term_id = implode(',', $model->term_id);
+                $model->term_id = ','.$model->term_id.',';
+            } else {
+                $model->term_id = '';
+            }
+
+            if ($model->save())
+            {
+                return $this->redirect(['index']);
+            } else {
+                return $this->render('create', [
+                    'model' => $model,
+                    'arrayData' => $newArray,
+                ]);
+            }
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'arrayData' => $newArray,
             ]);
         }
+
     }
 
     /**
@@ -83,13 +132,77 @@ class HolidayController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $query = TermModel::find()
+            ->joinWith(['sectionInfo' => function(){
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+            }])
+            ->asArray()->all();
+        $newArray = [];
+        if ($query)
+        {
+            foreach ($query as $oneVal)
+            {
+                if ($oneVal['sectionInfo'])
+                {
+                    foreach ($oneVal['sectionInfo'] as $twoVal)
+                    {
+                        $newArray[$oneVal['id']] = $twoVal['name'].'（第'.$oneVal['term'].'学期）'.$oneVal['id'];
+                    }
+                }
+            }
+
+        }
+        if (!empty($newArray))
+        {
+
         } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+            die('数据有误');
+        }
+
+
+
+        if ($model->load(Yii::$app->request->post())) {
+            $model->start_time = strtotime($model->start_time);
+            $model->end_time = strtotime($model->end_time);
+            if (!empty($model->term_id) && is_array($model->term_id)) {
+                $model->term_id = implode(',', $model->term_id);
+                $model->term_id = ','.$model->term_id.',';
+            } else {
+                $model->term_id = '';
+            }
+
+            if ($model->save())
+            {
+                return $this->redirect(['index']);
+            } else {
+                $options = explode(',', $model->term_id );
+                //去除第一个逗号和最后一个逗号
+                array_pop($options);
+                array_shift($options);
+                $model->term_id = $options;
+                return $this->render('update', [
+                    'model' => $model,
+                    'arrayData' => $newArray,
+                ]);
+            }
+        } else {
+            if ($model->term_id) {
+                $options = explode(',', $model->term_id );
+                //去除第一个逗号和最后一个逗号
+                array_pop($options);
+                array_shift($options);
+                $model->term_id = $options;
+                return $this->render('update', [
+                    'model' => $model,
+                    'arrayData' => $newArray,
+                ]);
+            } else {
+                return $this->render('update', [
+                    'model' => $model,
+                    'arrayData' => $newArray,
+                ]);
+            }
+
         }
     }
 

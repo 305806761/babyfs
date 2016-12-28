@@ -11,13 +11,21 @@ use yii\widgets\ActiveForm;
 <div class="holiday-form">
 
     <?php $form = ActiveForm::begin(); ?>
+    <div class="row">
+        <div class="col-md-2">
+            <?= $form->field($model, 'type')->dropDownList(\app\models\Holiday::$types) ?>
+        </div>
+    </div>
+
+    <?= $form->field($model, 'term_id')->checkboxList($arrayData)?>
+
 
     <div class="row">
         <div class="col-md-3">
-            日期
+            开始日期
             <?= \yii\jui\DatePicker::widget([
                 'model' => $model,
-                'attribute' => 'day',
+                'attribute' => 'start_time',
                 'language' => 'zh-CN',
                 'dateFormat' => 'yyyy-MM-dd',
             ]); ?>
@@ -27,16 +35,20 @@ use yii\widgets\ActiveForm;
     </div>
 
     <div class="row">
-        <div class="col-md-2">
-            <?= $form->field($model, 'type')->dropDownList(\app\models\Holiday::$types) ?>
+        <div class="col-md-3">
+            结束日期
+            <?= \yii\jui\DatePicker::widget([
+                'model' => $model,
+                'attribute' => 'end_time',
+                'language' => 'zh-CN',
+                'dateFormat' => 'yyyy-MM-dd',
+            ]); ?>
+            <br/>
+            <br/>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-2" style="width: 300px;">
-            <?= $form->field($model, 'term_id')->dropDownList(\app\models\Holiday::getSectionTerm()) ?>
-        </div>
-    </div>
+
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? '新建' : '修改', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

@@ -25,15 +25,16 @@ $this->params['breadcrumbs'][] = $this->title;
 //            ['class' => 'yii\grid\SerialColumn'],
 
 //            'id',
-            'day',
-            'term_id',
+            'start_time',
+            'end_time',
+
             [
                 'attribute' => 'type',
                 'value' => function($data){
                     return isset(\app\models\Holiday::$types[$data->type]) ? \app\models\Holiday::$types[$data->type] : '';
                 }
             ],
-            'ctime',
+            'created_at',
 
             [
                 'class' => 'yii\grid\ActionColumn',
