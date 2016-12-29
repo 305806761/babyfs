@@ -98,22 +98,43 @@ class HolidayController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             $model->start_time = strtotime($model->start_time);
             $model->end_time = strtotime($model->end_time);
+            if ($model->end_time <= $model->start_time) {
+                die('结束时间必须大于开始时间');
+            }
+            $error = 0;
             if (!empty($model->term_id) && is_array($model->term_id)) {
+
+                foreach ($model->term_id as $term)
+                {
+                    $isResult = Holiday::find()
+                        ->where(['>=', 'end_time', $model->start_time])
+                        ->andWhere(['like', 'term_id', ','.$term.','])
+                        ->exists();
+                    if ($isResult)
+                    {
+                        $error++;
+                    }
+                }
                 $model->term_id = implode(',', $model->term_id);
                 $model->term_id = ','.$model->term_id.',';
             } else {
                 $model->term_id = '';
             }
 
-            if ($model->save())
-            {
-                return $this->redirect(['index']);
+            if ($error) {
+                die('时间已经存在设置，请确认后添加');
             } else {
-                return $this->render('create', [
-                    'model' => $model,
-                    'arrayData' => $newArray,
-                ]);
+                if ($model->save())
+                {
+                    return $this->redirect(['index']);
+                } else {
+                    return $this->render('create', [
+                        'model' => $model,
+                        'arrayData' => $newArray,
+                    ]);
+                }
             }
+
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -164,27 +185,46 @@ class HolidayController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             $model->start_time = strtotime($model->start_time);
             $model->end_time = strtotime($model->end_time);
+
+            $error = 0;
             if (!empty($model->term_id) && is_array($model->term_id)) {
+                foreach ($model->term_id as $term)
+                {
+                    $isResult = Holiday::find()
+                        ->where(['>=', 'end_time', $model->start_time])
+                        ->andWhere(['like', 'term_id', ','.$term.','])
+                        ->andWhere(['<>', 'id', $id])
+                        ->exists();
+                    if ($isResult)
+                    {
+                        $error++;
+                    }
+                }
                 $model->term_id = implode(',', $model->term_id);
                 $model->term_id = ','.$model->term_id.',';
             } else {
                 $model->term_id = '';
             }
 
-            if ($model->save())
-            {
-                return $this->redirect(['index']);
+            if ($error) {
+                die('时间已经存在设置，请确认后添加');
             } else {
-                $options = explode(',', $model->term_id );
-                //去除第一个逗号和最后一个逗号
-                array_pop($options);
-                array_shift($options);
-                $model->term_id = $options;
-                return $this->render('update', [
-                    'model' => $model,
-                    'arrayData' => $newArray,
-                ]);
+                if ($model->save())
+                {
+                    return $this->redirect(['index']);
+                } else {
+                    $options = explode(',', $model->term_id );
+                    //去除第一个逗号和最后一个逗号
+                    array_pop($options);
+                    array_shift($options);
+                    $model->term_id = $options;
+                    return $this->render('update', [
+                        'model' => $model,
+                        'arrayData' => $newArray,
+                    ]);
+                }
             }
+
         } else {
             if ($model->term_id) {
                 $options = explode(',', $model->term_id );
