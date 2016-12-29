@@ -98,9 +98,10 @@ class HolidayController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             $model->start_time = strtotime($model->start_time);
             $model->end_time = strtotime($model->end_time);
-            if ($model->end_time <= $model->start_time) {
+            if ($model->end_time < $model->start_time) {
                 die('结束时间必须大于开始时间');
             }
+
             $error = 0;
             if (!empty($model->term_id) && is_array($model->term_id)) {
 
@@ -185,7 +186,9 @@ class HolidayController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             $model->start_time = strtotime($model->start_time);
             $model->end_time = strtotime($model->end_time);
-
+            if ($model->end_time < $model->start_time) {
+                die('结束时间必须大于开始时间');
+            }
             $error = 0;
             if (!empty($model->term_id) && is_array($model->term_id)) {
                 foreach ($model->term_id as $term)
