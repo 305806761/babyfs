@@ -141,4 +141,16 @@ class WeChatController extends Controller
         return $this->render('/wechat/info');
     }
 
+    /**
+     * 获取微信分享
+     */
+    public function actionShare()
+    {
+        $wechat = Yii::$app->wechat;
+        $configArr = ['jsApiList' => ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo']];
+        $config = json_encode($wechat->jsApiConfig($configArr, true));
+
+        //$get = Yii::$app->request->get('url');
+        return json_encode([$config]);
+    }
 }
