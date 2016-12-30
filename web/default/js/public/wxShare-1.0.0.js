@@ -14,10 +14,10 @@ $.get('http://course.babyfs.cn/we-chat/share/', { url: location.href.split('#')[
 var wxShare = {
     ok: function() {
         var self = this;
-        self.title = self.title || '宝宝玩英语';
-        self.desc = self.desc || '宝宝玩英语互动小游戏';
-        self.link = self.link || location.href;
-        self.imgUrl = self.imgUrl || 'http://www.babyfs.cn/skin/web/index_img/logo.png';
+        self.title = self.title ? self.title : '宝宝玩英语';
+        self.desc = self.desc ? self.desc : '宝宝玩英语互动小游戏';
+        self.link = self.link ? self.link : location.href;
+        self.imgUrl = self.imgUrl ? self.imgUrl : 'http://www.babyfs.cn/skin/web/index_img/logo.png';
         wx.ready(function() {
             wx.onMenuShareAppMessage({
                 title: self.title,
