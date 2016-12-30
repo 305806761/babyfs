@@ -16,7 +16,7 @@ use yii\widgets\ActiveForm;
             <?= $form->field($model, 'type')->dropDownList(\app\models\Holiday::$types) ?>
         </div>
     </div>
-
+    <?='这个是日期时间，仅供参考：'.$model->day?>
     <?= $form->field($model, 'term_id')->checkboxList($arrayData)?>
 
 
