@@ -7,7 +7,7 @@
 //location.href.split('#')[0]
 $.get('http://course.babyfs.cn/we-chat/share/', { url: location.href.split('#')[0] }).done(function(res) {
 
-    wx.config(res);
+    alert(res.appId);
     //wx.config({
         //debug: true,
         //appId: res.appId,
