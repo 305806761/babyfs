@@ -191,6 +191,7 @@ class HolidayController extends Controller
             }
             $error = 0;
             if (!empty($model->term_id) && is_array($model->term_id)) {
+
                 foreach ($model->term_id as $term)
                 {
                     $isResult = Holiday::find()
@@ -198,13 +199,19 @@ class HolidayController extends Controller
                         ->andWhere(['like', 'term_id', ','.$term.','])
                         ->andWhere(['<>', 'id', $id])
                         ->exists();
+
                     if ($isResult)
                     {
                         $error++;
                     }
                 }
-                $model->term_id = implode(',', $model->term_id);
-                $model->term_id = ','.$model->term_id.',';
+                if ($model->day) {
+                    $model->term_id = $model->term_id[0];
+                } else {
+                    $model->term_id = implode(',', $model->term_id);
+                    $model->term_id = ','.$model->term_id.',';
+                }
+
             } else {
                 $model->term_id = '';
             }

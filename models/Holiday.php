@@ -45,7 +45,7 @@ class Holiday extends BaseModel
             //['day', 'default', 'value' => 0],
 
             //['term_ids', 'required'],
-            ['term_id', 'string', 'max' => 255],
+            //['term_id', 'string', 'max' => 255],
             ['term_id','default', 'value' => ''],
 
             [['start_time', 'end_time', 'term_id', 'day'], 'safe'],
