@@ -151,6 +151,6 @@ class WeChatController extends Controller
         $url = Yii::$app->request->get('url');
         $configArr = ['jsApiList' => ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo']];
         $config = json_encode($wechat->jsApiConfig($configArr, false, $url));
-        return $config;
+        echo $config;
     }
 }
