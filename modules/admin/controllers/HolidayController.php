@@ -216,10 +216,15 @@ class HolidayController extends Controller
                 {
                     return $this->redirect(['index']);
                 } else {
-                    $options = explode(',', $model->term_id );
-                    //去除第一个逗号和最后一个逗号
-                    array_pop($options);
-                    array_shift($options);
+                    if ($model->day) {
+                        $options = [$model->term_id];
+                    } else {
+                        $options = explode(',', $model->term_id );
+                        //去除第一个逗号和最后一个逗号
+                        array_pop($options);
+                        array_shift($options);
+                    }
+
                     $model->term_id = $options;
                     return $this->render('update', [
                         'model' => $model,
@@ -230,10 +235,16 @@ class HolidayController extends Controller
 
         } else {
             if ($model->term_id) {
-                $options = explode(',', $model->term_id );
-                //去除第一个逗号和最后一个逗号
-                array_pop($options);
-                array_shift($options);
+                if ($model->day) {
+                    $options = [$model->term_id];
+
+                } else {
+                    $options = explode(',', $model->term_id );
+                    //去除第一个逗号和最后一个逗号
+                    array_pop($options);
+                    array_shift($options);
+                }
+
                 $model->term_id = $options;
                 return $this->render('update', [
                     'model' => $model,
