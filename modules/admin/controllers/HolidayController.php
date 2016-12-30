@@ -192,19 +192,24 @@ class HolidayController extends Controller
             $error = 0;
             if (!empty($model->term_id) && is_array($model->term_id)) {
 
-                foreach ($model->term_id as $term)
-                {
-                    $isResult = Holiday::find()
-                        ->where(['>=', 'end_time', $model->start_time])
-                        ->andWhere(['like', 'term_id', ','.$term.','])
-                        ->andWhere(['<>', 'id', $id])
-                        ->exists();
-
-                    if ($isResult)
+                if ($model->day) {
+                    //如果是以前的数据，就不判断了。虽然有问题，
+                } else {
+                    foreach ($model->term_id as $term)
                     {
-                        $error++;
+                        $isResult = Holiday::find()
+                            ->where(['>=', 'end_time', $model->start_time])
+                            ->andWhere(['like', 'term_id', ','.$term.','])
+                            ->andWhere(['<>', 'id', $id])
+                            ->exists();
+
+                        if ($isResult)
+                        {
+                            $error++;
+                        }
                     }
                 }
+
                 if ($model->day) {
                     $model->term_id = $model->term_id[0];
                 } else {
