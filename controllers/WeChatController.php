@@ -152,6 +152,6 @@ class WeChatController extends Controller
         $config = json_encode($wechat->jsApiConfig($configArr, false));
 
         //$get = Yii::$app->request->get('url');
-        return json_encode([$config]);
+        echo json_encode([$config]);
     }
 }
