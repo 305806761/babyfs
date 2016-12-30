@@ -194,6 +194,11 @@ class Ware extends ActiveRecord
             return false;
         }
         //如果开始时间大于当前时间 返回false
+        //由于课件时间导入存在是分秒，现在将是分秒去掉
+        if ($start_time) {
+            $start_time = date('Y-m-d', $start_time);
+            $start_time = strtotime($start_time);
+        }
         if ($start_time > time()) {
             return false;
         }
