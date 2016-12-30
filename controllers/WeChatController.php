@@ -153,6 +153,6 @@ class WeChatController extends Controller
         //$config = json_encode($wechat->jsApiConfig($configArr, false, $url));
         $config = ['appId'=>123456];
         $config = json_encode($config);
-        echo $config;
+        return $config;
     }
 }
