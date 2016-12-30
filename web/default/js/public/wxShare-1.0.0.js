@@ -6,67 +6,18 @@
 */
 //location.href.split('#')[0]
 $.get('http://course.babyfs.cn/we-chat/share/', { url: location.href.split('#')[0] }).done(function(res) {
-
-
     var datares = $.parseJSON(res);
     wx.config(datares);
-    // wx.config({
-    //     debug: true,
-    //     appId: datares.appId,
-    //     timestamp: datares.timestamp,
-    //     nonceStr: datares.nonceStr,
-    //     signature: datares.signature,
-    //     jsApiList: [
-    //        'checkJsApi',
-    //        'onMenuShareTimeline',
-    //        'onMenuShareAppMessage',
-    //        'onMenuShareQQ',
-    //        'onMenuShareWeibo',
-            // 'hideMenuItems',
-            // 'showMenuItems',
-            // 'hideAllNonBaseMenuItem',
-            // 'showAllNonBaseMenuItem',
-            // 'translateVoice',
-            // 'startRecord',
-            // 'stopRecord',
-            // 'onRecordEnd',
-            // 'playVoice',
-            // 'pauseVoice',
-            // 'stopVoice',
-            // 'uploadVoice',
-            // 'downloadVoice',
-            // 'chooseImage',
-            // 'previewImage',
-            // 'uploadImage',
-            // 'downloadImage',
-            // 'getNetworkType',
-            // 'openLocation',
-            // 'getLocation',
-            // 'hideOptionMenu',
-            // 'showOptionMenu',
-            // 'closeWindow',
-            // 'scanQRCode',
-            // 'chooseWXPay',
-            // 'openProductSpecificView',
-            // 'addCard',
-            // 'chooseCard',
-            // 'openCard'
-    //     ]
-    // });
 
 }).fail(function() { console.log('微信分享获取后台参数ajax失败！'); });
 
-wx.error(function(res){
-    alert('wx.error: '+JSON.stringify(res));
-    // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
-});
 var wxShare = {
     ok: function() {
         var self = this;
-        self.title = self.title || 'title';
-        self.desc = self.desc || 'desc';
+        self.title = self.title || '宝宝玩英语';
+        self.desc = self.desc || '宝宝玩英语互动小游戏';
         self.link = self.link || location.href;
-        self.imgUrl = self.imgUrl || location.protocol + '//' + location.host + '/logo.jpg';
+        self.imgUrl = self.imgUrl || 'http://www.babyfs.cn/skin/web/index_img/logo.png';
         wx.ready(function() {
             wx.onMenuShareAppMessage({
                 title: self.title,
