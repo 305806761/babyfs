@@ -6,18 +6,20 @@
 */
 //location.href.split('#')[0]
 $.get('http://course.babyfs.cn/we-chat/share/', { url: location.href.split('#')[0] }).done(function(res) {
-    wx.config({
-        debug: true,
-        appId: res.appId,
-        timestamp: res.timestamp,
-        nonceStr: res.nonceStr,
-        signature: res.signature,
-        jsApiList: [
-            'checkJsApi',
-            'onMenuShareTimeline',
-            'onMenuShareAppMessage',
-            'onMenuShareQQ',
-            'onMenuShareWeibo',
+
+    wx.config(res);
+    //wx.config({
+        //debug: true,
+        //appId: res.appId,
+        //timestamp: res.timestamp,
+        //nonceStr: res.nonceStr,
+        //signature: res.signature,
+        //jsApiList: [
+        //    'checkJsApi',
+        //    'onMenuShareTimeline',
+        //    'onMenuShareAppMessage',
+        //    'onMenuShareQQ',
+        //    'onMenuShareWeibo',
             // 'hideMenuItems',
             // 'showMenuItems',
             // 'hideAllNonBaseMenuItem',
@@ -47,8 +49,8 @@ $.get('http://course.babyfs.cn/we-chat/share/', { url: location.href.split('#')[
             // 'addCard',
             // 'chooseCard',
             // 'openCard'
-        ]
-    });
+        //]
+    //});
 
 }).fail(function() { console.log('微信分享获取后台参数ajax失败！'); });
 
