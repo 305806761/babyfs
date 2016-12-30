@@ -148,10 +148,10 @@ class WeChatController extends Controller
     {
         header("Access-Control-Allow-Origin:*");
         $wechat = Yii::$app->wechat;
+        $url = Yii::$app->request->get('url');
         $configArr = ['jsApiList' => ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo']];
-        $config = json_encode($wechat->jsApiConfig($configArr, false));
+        $config = json_encode($wechat->jsApiConfig($configArr, false, $url));
 
-        //$get = Yii::$app->request->get('url');
-        echo json_encode([$config]);
+        echo $config;
     }
 }
