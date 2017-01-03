@@ -94,7 +94,7 @@ class UserController extends Controller
         $model->setScenario('login');
 
         if($model->load(Yii::$app->request->post()) && $model->validate()){
-            //echo 'ddd';
+
             if($model->login($model->loginname,$model->password)){
                 Tool::Redirect(User::get_loginpage());
             }else{

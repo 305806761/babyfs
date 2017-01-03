@@ -42,9 +42,9 @@ class User extends ActiveRecord
             ['email', 'unique', 'targetClass' => 'app\models\User', 'message' => '{attribute}已经存在', 'on' =>['signup']],
             ['email','default', 'value' => ''],
 
-            [['password','password2'], 'required'],
+            [['password'], 'required','on'=>['login','signup']],
             [['password','password2'], 'string', 'min' => 6],
-            ['password2', 'compare', 'compareAttribute' => 'password','message'=>'两次输入的密码不一致！'],
+            ['password2', 'compare', 'compareAttribute' => 'password','message'=>'两次输入的密码不一致！','on'=>'signup'],
 
             ['loginname','required', 'on' =>['login']],
             ['loginname','string', 'max'=>'255', 'on' =>['login']],
