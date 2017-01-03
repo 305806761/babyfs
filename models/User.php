@@ -64,7 +64,7 @@ class User extends ActiveRecord
             'phone' => '手机号',
             'id' => '用户id',
             'email' => '邮箱',
-            'loginname' => '用户名/电话/邮箱',
+            'loginname' => '用户名',
             'password' => '密 & 码',
             'verifyCode' => '验证码',
             'password2' => '确认密码',
