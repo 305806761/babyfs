@@ -1,0 +1,1124 @@
+@import "reset.css";
+@font-face {
+    font-family: "迷你简卡通";
+    src: url("迷你简卡通.ttf");
+}
+html{
+    font-size: 62.5%;
+}
+body{
+    -webkit-text-size-adjust: none;
+    overflow-x: hidden;
+}
+/* login */
+.login-body{
+    width: 100%;
+    height: 100%;
+    background: url("../images/loginBg.jpg") no-repeat top center;
+    background-size: cover;
+}
+.login-con{
+    width: 300px;
+    height: 350px;
+    margin:27% auto 0 auto;
+    /*border: 1px solid red;*/
+    color: #003f00;
+}
+.login-con h2:nth-child(1) {
+    width: 100%;
+    height: auto;
+    text-align: center;
+    font-size: 2.3rem;
+    line-height: 4rem;
+}
+.l-input-box {
+    width:80%;
+    height:auto;
+    /*border:1px solid red;*/
+    padding-left: 3%;
+    margin: 0 auto;
+}
+.l-input-box p:nth-child(1){
+    width:100%;
+    height:30px;
+}
+.l-input-box p:nth-child(1) label, .l-input-box p:nth-child(1) input {
+    float:left;
+    line-height: 3rem;
+}
+.l-input-box p:nth-child(1) label {
+    font-size:1.8rem;
+    padding-right:8px;
+    font-weight:bold;
+}
+.l-input-box p:nth-child(1) input {
+    width:60%;
+    padding:0 2%;
+    height: 30px;
+    background-color:#fbfcd0;
+    border: 1px dotted #7d9d67;
+    border-radius: 10px;
+    font-size: 1.4rem;
+}
+.l-input-box p:nth-child(2){
+    height: 20px;
+    line-height: 20px;
+    padding-right: 15px;
+    color: #ff5a5f;
+    text-align: right;
+}
+.l-input-btn span {
+    float: left;
+    display: inline-block;
+    width: auto;
+    height: 34px;
+    padding:10px 0 0 10px;
+    text-align: center;
+}
+.l-input-btn span a {
+    color: #f00;
+    font-size: 1.5rem;
+    font-family: "迷你简卡通";
+}
+.l-input-btn{
+    width: 60%;
+    height: 34px;
+    padding-left: 10%;
+    margin:0 auto;
+    text-align: center;
+}
+.l-input-btn input{
+    float: left;
+    display: inline-block;
+    height: 34px;
+    width: 80px;
+    margin: 0 auto;
+    background-color:#fbfcd0;
+    border: 1px dotted #7d9d67;
+    border-radius: 25px;
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #003f00;
+}
+.l-input-link{
+    width: 50%;
+    padding-top: 15px;
+    padding-left: 2%;
+    margin: 0 auto;
+}
+.l-input-link a{
+    display: inline-block;
+    float: left;
+    text-align: center;
+    color: #003f00;
+    font-size: 1.6rem;
+    font-family: "迷你简卡通";
+}
+.l-input-link a:nth-child(1) {
+    padding-right:10%;
+}
+.l-logo-babyfs {
+    text-align: left;
+}
+.l-logo-babyfs img {
+    width: 147px;
+    height: 53px;
+    padding-left: 20px;
+    margin-top: 20px;
+}
+/* register */
+.register-body{
+    width:100%;
+    height: 100%;
+    background-color: #e8ffc4;
+}
+.register-con{
+    width: 300px;
+    height: 360px;
+    background: url("../images/register-con-bg.png") no-repeat center center;
+    background-size: 100% 100%;
+    margin: 15% auto 0 auto;
+}
+.r-input-box{
+    width:82%;
+    height:auto;
+    margin: 0 auto;
+    position: relative;
+    /*border: 1px solid red;*/
+}
+.r-input-box-one {
+    padding-top: 20px;
+}
+.r-input-box p:nth-child(1){
+    background: none;
+    height: 28px;
+    width: 100%;
+    font-size: 1.4rem;
+}
+.r-input-box p:nth-child(1) input {
+    width: 88%;
+    margin:0 auto;
+    height: 26px;
+    padding:0 2%;
+    line-height: 26px;
+    font-size: 1.4rem;
+    background-color:#fbfcd0;
+    border: 1px dotted #216a02;
+    border-radius: 10px;
+    color: #552101;
+}
+.r-input-box p:nth-child(2){
+    height: 20px;
+    line-height: 20px;
+    padding-left: 10px;
+    color: #ff5a5f;
+   /* visibility: hidden;*/
+}
+.r-input-box p span:nth-child(1){
+    width: 42%;
+    height: 28px;
+    line-height: 26px;
+    overflow: hidden;
+}
+.r-input-box p span:nth-child(1) input{
+    width: 85%;
+    padding-left: 10px;
+    height: 26px;
+    line-height: 26px;
+    font-size: 1.4rem;
+    background-color:#fbfcd0;
+    border: 1px dotted #216a02;
+    border-radius: 25px;
+    font-size: 1.4rem;
+    color: #552101;
+}
+.r-input-box p span,.r-input-box p span input.login-send,.r-input-box p span input{
+    float: left;
+}
+.r-input-box p span:nth-child(2){
+    display: inline-block;
+    height: 26px;
+    border: 1px dotted #fbfcd0;
+    background: #0e4a0e;
+    font-size: 1.5rem;
+    color: #ffffff;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 26px;
+    margin-left: 11px;
+    width: 100px;
+}
+.r-input-box p span:nth-child(2).login-send-grey{
+    background: #999;
+}
+.RegiserBtn{
+    width: 100%;
+    height: auto;
+    text-align: center;
+}
+.RegiserBtn input{
+    display: block;
+    width: 30%;
+    height: 30px;
+    background: none;
+    text-align: center;
+    line-height: 30px;
+    border-radius: 5px;
+    margin: 0 auto;
+    background-color:#fbfcd0;
+    border: 1px dotted #216a02;
+    border-radius: 10px;
+    color: #003f00;
+    font-size: 1.6rem;
+    font-weight: bold;
+}
+.hide {
+    display: none;
+}
+.r-input-box p:nth-child(3){
+    width: 20px;
+    height: 60px;
+    padding:2px 0;
+    position: absolute;
+    right: -15px;
+    bottom: 0;
+    line-height: 15px;
+    background-color:#0e4a0e;
+    border: 1px dotted #216a02;
+    border-radius: 10px;
+    color: #fff;
+    text-align: center;
+}
+/* my-lessons */
+.lessons-big-box{
+    width: 100%;
+    height: auto;
+    background:url("../images/my_lessons_bg.png") top center repeat-y;
+    background-size: cover;
+    margin: 0 auto 0 auto;
+    padding:10px 0 75px 0;
+}
+.lessons-con{
+   width: 92%;
+   height: auto;
+   margin: 10px auto;
+}
+.lessons-con dl{
+   width: 47%;
+   height: auto;
+   overflow: hidden;
+   border-radius: 8px;
+   background:url("../images/my_lessons_dl_bg.png") top center no-repeat;
+   background-size: cover;
+   text-align: center;
+}
+.lessons-con dl:nth-child(1){
+    margin-right: 4%;
+    float: left;
+}
+.lessons-con dl:nth-child(2){
+    float: right;
+}
+.lessons-con dl dt{
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    position: relative;
+}
+.lessons-con dl dt img{
+    width: 96%;
+    height: auto;
+    padding:0 2%;
+    max-height: 200px;
+}
+.lessons-con dl dt span{
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 10;
+    background: #afafaf;
+    color: #ffffff;
+    border-radius: 15px;
+    font-size: 1rem;
+    padding: 3px 4px;
+}
+.lessons-con dl dd{
+    width: 86%;
+    height: 35px;
+    padding-right: 14%;
+    background:url("../images/my_lessons_lock.png") center right no-repeat;
+    background-size:26px 24px;
+    line-height: 30px;
+    font-weight: bold;
+    font-size: 1.3rem;
+    color: #f67402;
+}
+.lessons-con dl.active  dd{
+    background:url("../images/my_lessons_open.png") center right no-repeat;
+    background-size:26px 24px;
+}
+.lessons-con dl.active span {
+    background: #fd454a;
+}
+/* course-list */
+.course-list-header{
+    width: 100%;
+    height: 45px;
+    padding-top:5px;
+    border-bottom:3px solid #bfefaa;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    text-align: center;
+    line-height: 45px;
+}
+.course-list-header h1{
+    width: 100%;
+    height: 42px;
+    background: #bfefaa;
+    font-size: 2rem;
+    color: #f67402;
+    font-weight: bold;
+}
+.course-list-box{
+    width: 100%;
+    height: auto;
+    margin: 60px auto 50px auto;
+    padding-bottom: 20px;
+}
+.course-list-con{
+    width: 100%;
+    height: auto;
+    
+}
+.course-list-con-top{
+    width: 100%;
+    height: 40px;
+    line-height: 36px;
+}
+.course-list-con-top h2{
+    width: 90%;
+    margin: 0 auto;
+    border-bottom:1px dotted #b37745;
+    font-weight: bold;
+}
+.course-list-con-top h2 span img,.course-list-con-top h2 span{
+    float: left;
+}
+.course-list-con-top h2 span:nth-child(1) img{
+    width: 25px;
+    height: 21px;
+    margin: 6px 5px 0 0;
+}
+.course-list-con-top h2 span:nth-child(2){
+    font-size: 1.6rem;
+    color: #f67402;
+}
+.course-list-con-bottom{
+    width: 100%;
+    height: auto;
+    background: #ffffff;
+    border-bottom: dotted 1px #b37745;
+    display: none;
+}
+.course-list-con-bottom dl{
+    width: 90%;
+    height: auto;
+    margin: 0 auto;
+    border-bottom:1px dotted #b37745;
+    padding: 10px 0;
+    display: -moz-box;
+    display: -webkit-box;
+    display: box;
+}
+.course-list-con-bottom dl:last-child{
+    border-bottom: none;
+}
+.course-list-con-bottom dl dt{
+    width: 39px;
+    height: 39px;
+    margin-left: 11px;
+}
+.course-list-con-bottom dl dt img{
+    width: 26px;
+    height: 30px;
+    padding-top:5px;
+}
+.course-list-con-bottom dl dd{
+    -moz-box-flex: 2;
+    -webkit-box-flex: 2;
+    box-flex: 2;
+}
+.course-list-con-bottom dl dd h2{
+    font-size: 1.6rem;
+    color: #f67402;
+    padding: 5px 0;
+}
+.course-list-con-bottom dl dd p span{
+    color: #6a3906;
+    font-size: 1.3rem;
+    padding-right: 6px;
+}
+/* introduce1 */
+.introduce1-top {
+    width: 100%;
+    height: 60px;
+    background: url("../images/introduce1-top-bg.png") no-repeat center center;
+    background-size: 100% 100%;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+}
+.introduce1-top h1{
+    font-size: 2rem;
+    font-weight: bold;
+    /*font-family: "Microsoft yahei";*/
+    color: #f67402;
+    padding: 7px 0 5px 0;
+}
+.introduce1-top h2{
+    /*font-family: "Microsoft yahei";*/
+    color: #f67402;
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+.C-dialogue-title{
+    width: 260px;
+    height: 56px;
+    text-align: center;
+    background: url("../images/introduce-tip-bg.png") no-repeat center center;
+    background-size: 100% 100%;
+    margin: 0 auto 14px auto;
+}
+.C-dialogue-title h2{
+    color: #81511c;
+    font-size: 1.8rem;
+    font-weight: bold;
+    padding: 10px 0 5px 0;
+}
+.C-dialogue-title h3{
+    font-size: 1.3rem;
+    color: #81511c;
+}
+.C-dialogue-title h5{
+    font-size: 1.8rem;
+    color: #81511c;
+    font-weight: bold;
+    padding: 15px 0 5px 0;
+}
+.C-con-dialogue{
+    width: 100%;
+    height: auto;
+    margin: 80px auto 0 auto;
+    padding-bottom: 55px;
+}
+.C-left-dialogue{
+    width: 90%;
+    height: auto;
+    margin: 5px auto 5px auto;
+}
+.C-left-dialogue-img{
+    height: 40px;
+    width: 40px;
+    border-radius: 5px;
+    background: url('../images/introduce1-header-img.png') no-repeat center center;
+    background-size: cover;
+    float: left;
+    margin-right: 20px;
+}
+.C-left-dialogue-content{
+    width: 76%;
+    height: auto;
+    word-break: break-all;
+    word-wrap: break-word;
+    float: left;
+    position: relative;
+    background: #e2ffe5;
+    border-radius: 7px;
+    margin-bottom: 15px;
+}
+.C-left-dialogue-content h1{
+    width: auto;
+    height: auto;
+    border-radius: 4px;
+    display: table;
+    line-height: 22px;
+    min-height: 22px;
+    padding: 5px 7px;
+    text-align: left;
+    margin-top: 5px;
+    font-size: 1.5rem;
+    color: #333;
+}
+.C-left-dialogue-content:before {
+    background: #e2ffe5;
+    border-top: 0;
+    border-right: 0;
+    content: "";
+    height: 20px;
+    left: -8px;
+    position: absolute;
+    top: 15px;
+    -moz-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+    width: 20px;
+    z-index: -1;
+}
+.C-left-dialogue-content h2{
+    padding: 5px 7px 10px 7px;
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #333;
+    line-height: 22px;
+}
+.C-left-dialogue-content dl{
+    padding: 5px 7px;
+    display: -moz-box;
+    display: -webkit-box;
+    display: box;
+}
+.C-left-dialogue-content dl dt{
+    width: 16px;
+    height: 16px;
+    background: #f9c79b;
+    border: solid 2px #f9c79b;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    line-height: 15px;
+    color: #54361a;
+    margin-top: 2px;
+}
+.C-left-dialogue-content dl dd{
+    -moz-box-flex: 2;
+    -webkit-box-flex: 2;
+    box-flex: 2;
+    margin-left: 10px;
+}
+.C-left-dialogue-content dl dd p{
+    font-size: 1.5rem;
+    color: #333;
+    line-height: 20px;
+}
+/* introduce2 */
+.introduce2-big-box{
+    width: 85%;
+    height: auto;
+    margin: 70px auto 0 auto;
+}
+.introduce2-big-box h4 {
+    width: 100%;
+    font-size: 1.6rem;
+    color: #f67402;
+    text-align: center;
+    font-weight: bold;
+    line-height: 30px;
+}
+.introduce2-video{
+    width: 100%;
+    background-color: #fff;
+    border: 3px solid #ffddae;
+    border-radius: 10px;
+    position: relative;
+}
+.vjs-tech{
+    width: 100%;
+    padding:0;
+    margin: 0;
+    border-radius: 10px;
+}
+.icon-video {
+    display: block;
+    width: 44px;
+    height: 30px;
+    background: url("../images/icon_video.png") bottom right no-repeat;
+    background-size: 100% 100%;
+    position: absolute;
+    bottom:-10px;
+    right: -20px;
+}
+.introduce2-center{
+    width: 88%;
+    height: auto;
+    margin: 20px auto 75px auto;
+}
+.introduce2-center-top{
+    width: 100%;
+    height: auto;
+    margin: 0 auto 30px auto;
+}
+.introduce2-center-top h2{
+    width: 100%;
+    height: 15px;
+    margin: 0 auto 10px auto;
+}
+.introduce2-center-top h2 img{
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+}
+.introduce2-center-top p{
+    font-size: 1.5rem;
+    color: #616161;
+    line-height: 22px;
+}
+.introduce2-center-top p a{
+    color: #04e177;
+    font-weight: bold;
+}
+.introduce2-center-bot{
+    width: 100%;
+    height: auto;
+    margin-top:20px;
+}
+.introduce2-center-bot h2 span{
+    float: left;
+    margin-bottom: 15px;
+}
+.introduce2-center-bot h2 span:nth-child(1){
+    width: 45px;
+    height: 40px;
+    background: url("../images/introduce2-icon1.png") no-repeat center center;
+    background-size: 100% 100%;
+    text-align: center;
+    line-height: 40px;
+    font-size: 2.2rem;
+    font-weight: bolder;
+    color: #b4b4b4;
+}
+.introduce2-center-bot h2 span:nth-child(2){
+    border-bottom: solid 1px #00eebb;
+    height: 36px;
+    line-height: 36px;
+    padding-left: 15px;
+    margin-left: -8px;
+    color: #616161;
+    font-weight: bold;
+    font-size: 1.6rem;
+}
+.introduce2-center-bot h2 span b{
+    display: block;
+    font-weight: bold;
+    height: 10px;
+    padding-bottom: 6px;
+}
+.introduce2-center-bot h2 span b:nth-child(1){
+    margin-top: -9px;
+}
+.introduce-audio{
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+}
+.introduce-audio dl{
+    width: 100%;
+    height: auto;
+    margin-bottom: 15px;
+}
+.introduce-audio dl dt{
+    width: 45px;
+    height: 45px;
+    background: url("../images/introduce1-header-img.png") no-repeat center center;
+    background-size: 100% 100%;
+    float: left;
+}
+.introduce-audio dl dd{
+    float: left;
+}
+.introduce-audio dl dd span{
+    float: left;
+}
+.introduce-audio dl dd span:nth-child(1){
+    width: 36px;
+    height: 45px;
+    background: url("../images/introduce-audio-img1.png") no-repeat center center;
+    background-size: 100% 100%;
+}
+.introduce-audio dl dd span:nth-child(1) b{
+    display: inline-block;
+    width: 14px;
+    height: 20px;
+    background: url("../images/introduce-audio-icon1.png") no-repeat center center;
+    background-size: 100% 100%;
+    float: right;
+    margin-top: 12px;
+}
+.introduce-audio dl dd span:nth-child(2){
+    width: 150px;
+    height: 45px;
+    background: url("../images/introduce2-audio-img2.png") repeat-x;
+}
+.introduce-audio dl dd span:nth-child(3){
+    width: 10px;
+    height: 45px;
+    background: url("../images/introduce-audio-img3.png") no-repeat center center;
+    background-size: 100% 100%;
+}
+.introduce-audio p{
+    line-height: 24px;
+    font-size: 1.5rem;
+    color: #616161;
+}
+.introduce-audio p span{
+    padding-right: 20px;
+}
+.introduce-audio dl dd div{
+    width: 280px;
+    height: auto;
+    border-radius: 8px;
+    margin-left: 10px;
+
+}
+.introduce-auxiliary-btn{
+    width: 280px;
+    height: 56px;
+    background: url("../images/introduce-auxiliary-btn.png") no-repeat center center;
+    background-size: 100% 100%;
+    margin: 30px auto 0 auto;
+}
+.introduce-auxiliary-btn a{
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+.introduce-auxiliary-btn a span{
+    display: block;
+    color: #81511c;
+}
+.introduce-auxiliary-btn a span:nth-child(1){
+    font-size: 1.6rem;
+    font-weight: bold;
+    padding: 8px 0 3px 0;
+}
+.introduce-auxiliary-btn a span:nth-child(2){
+    font-size: 1.3rem;
+}
+.introduce-task-card{
+    width: 330px;
+    height: 335px;
+    background: url("../images/introduce-task-card.png") no-repeat center center;
+    background-size: 100% 100%;
+    margin: 30px auto;
+    text-align: center;
+}
+.introduce-task-card div{
+    padding-top: 150px;
+}
+.introduce2-center-bot-dl dl dd{
+    width: 83%;
+    height:auto;
+}
+.introduce2-center-bot-dl dl dd div{
+    width: 220px;
+    height: auto;
+    text-align: center;
+    position: relative;
+}
+.introduce2-center-bot-dl dl dd div img {
+    width: 200px;
+    height: auto;
+    padding:2px;
+    border: 5px solid #ffe2bb;
+    border-radius: 8px;
+}
+.introduce2-center-bot-dl dl dd div em {
+    display: inline-block;
+    width: 12px;
+    height: 17px;
+    background: url("../images/icon_introduce_imgBg.png") no-repeat center center;
+    background-size: 100% 100%;
+    position: absolute;
+    top: -14px;
+    left: 5px;
+}
+.C-dialogue-title2{
+    width: 240px;
+    height: 52px;
+    text-align: center;
+    background: url("../images/introduce-tip-bg2.png") no-repeat center center;
+    background-size: 100% 100%;
+    margin: 40px auto 15px auto;
+}
+.C-dialogue-title2 h5{
+    padding: 15px 0 5px 0;
+}
+.C-dialogue-title2 h5 a {
+    font-size: 1.6rem;
+    color: #81511c;
+    font-weight: bold;
+    text-decoration: none;
+}
+/* imgChangeBig */
+.imgChangeBigK { width: 100%; height: 100%; position: absolute; top: 0; left: 0; overflow: hidden; display: none;}
+.imgChangeBig { width: 100%; height: 100%; background-image: ; background-repeat: no-repeat; background-size: 100% auto; background-position: center center; overflow: hidden; position: absolute; top: 0; left:0;}
+.tmBgOpacity60 { width: 100%; height: 100%; background-color: #000; opacity: 0.6; position: absolute; top: 0; left: 0;}
+/* introduce3 */
+.introduce3-content{
+    margin: 80px auto 50px auto;
+}
+/* userinfo */
+.userinfo-input-box1 {
+    padding-top:10px;
+}
+.userinfo-input-box1:nth-child(3) {
+    padding-bottom: 15px;
+}
+.userinfo-input-box2{
+    width:70%;
+    height:auto;
+    margin: 0 auto;
+}
+.userinfo-input-box2:nth-child(1){
+    padding-top: 50px;
+}
+.userinfo-input-box2 p:nth-child(1){
+    width:100%;
+    height: 33px;
+    border-radius: 4px;
+}
+.userinfo-input-box2 p:nth-child(1) input{
+    background: none;
+    height: 33px;
+    width: 100%;
+    padding-left: 10px;
+    font-size: 1.4rem;
+    background-color: #fbfcd0;
+    border: 1px dotted #7d9d67;
+    border-radius: 10px;
+}
+.userinfo-input-box2 p:nth-child(2){
+    height: 20px;
+    line-height: 20px;
+    padding-left: 10px;
+    color: #ff5a5f;
+  /*  visibility: hidden;*/
+}
+/* footer */
+.footer{
+    width: 100%;
+    height: 60px;
+    background: #fff;
+    position: fixed;
+    border-top: solid 1px #bfefaa;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
+}
+.footer ul{
+    width: 100%;
+    height: 60px;
+    display: table;
+}
+.footer ul li{
+    width: 25%;
+    display: table-cell;
+    text-align: center;
+}
+.footer ul li a{
+    text-decoration: none;
+}
+.footer-li-a{
+    display: table-cell;
+    width: 25%;
+    height: auto;
+    text-align: center;
+}
+.footer-li-a a{
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+}
+.footer ul li.active{
+    background: #bfefaa;
+}
+.icon1,.icon2{
+    display: inline-block;
+    width: 50px;
+    height: 32px;
+    position: relative;
+    top: .1em;
+    margin-bottom: 5px;
+    margin-top: .2em;
+}
+.footer ul li a span:nth-child(2){
+    display: block;
+    color: #f67402;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+.icon1{
+    background: url("../images/icon_footerLeft.png") no-repeat center center;
+    background-size: 100% 100%;
+}
+.icon2{
+    background: url("../images/icon_footerRight.png") no-repeat center center;
+    background-size: 100% 100%;
+}
+/* user-center */
+.user-center-top{
+    width: 100%;
+    height: 180px;
+    max-height: 200px;
+    background: url("../images/bg_user.jpg") center center no-repeat;
+    background-size:100% 100%;
+    text-align: center;
+    margin: 0 auto;
+}
+.user-center-top dl{
+    width: 100%;
+    height: auto;
+    padding: 110px 0 0 128px;
+}
+.user-center-top dl dt{
+    width: 46px;
+    height: 46px;
+    background: url("../images/headPortrait1.png") no-repeat center center;
+    background-size: cover;
+    margin: 0 auto;
+    border-radius: 50%;
+}
+.user-center-top dl dd p{
+    width: 100px;
+    height: 20px;
+    background-color: #fff;
+    border: 1px solid #bce3d4;
+    font-size: 1.4rem;
+    color: #552101;
+    text-align: center;
+    line-height: 20px;
+    border-radius: 5px;
+    margin: 6px auto 0 auto;
+}
+.user-center-con1,.user-center-con2{
+    width: 100%;
+    height: auto;
+    background: #ffffff;
+    margin-top: 25px;
+}
+.user-center-con2 {
+    margin: 25px 0 80px 0;
+}
+.user-center-con1 ul,.user-center-con2 ul{
+    width: 90%;
+    height: auto;
+    margin: 0 auto;
+}
+.user-center-con1 ul li,.user-center-con2 ul li{
+    width: 100%;
+    height: 45px;
+    border-bottom: dotted 1px #a99161;
+    line-height: 45px;
+}
+.user-center-con2 ul li:last-child{
+    border-bottom: none;
+}
+.user-center-con1 ul li a,.user-center-con2 ul li a{
+    display: block;
+    float: left;
+    width: 80%;
+    height: 45px;
+    font-family: "迷你简卡通";
+    color: #552101;
+    font-size: 1.6rem;
+}
+.user-center-con1 ul li img,.user-center-con2 ul li img {
+    float: right;
+    width: 40px;
+    height: 40px;
+    padding-top:3px;
+}
+/* media screen */
+@media screen and (min-width:961px){
+    /*.l-input-link { border: 1px solid red;}*/
+}
+@media screen and (min-width: 768px) and (max-width: 960px) {
+    
+}
+@media only screen and (min-width: 480px) and (max-width: 767px){
+    
+}
+@media only screen and (min-width: 400px) and (max-width: 479px) {
+    /*.l-input-link { border: 1px solid red;}*/
+}
+@media only screen and (min-width: 384px) and (max-width: 399px) {
+    /*.l-input-link { border: 1px solid green;}*/
+}
+/* sony+mi */
+@media only screen and (min-width: 360px) and (max-width: 383px) {
+    /*.user-center-con2 { border: 1px solid yellow;}*/
+    .login-con{
+        margin:23% auto 0 auto;
+    }
+    .login-con h2:nth-child(1) {
+        font-size: 2rem;
+    }
+    .l-input-box {
+        width:62%;
+        padding-left: 2%;
+        /*border: 1px solid red;*/
+        height: auto;
+        margin: 0 auto;
+    }
+    .input-box p:nth-child(2) {
+        height: 16px;
+        line-height: 16px;
+      }
+    .l-input-box p:nth-child(1) label, .l-input-box p:nth-child(1) input {
+        line-height: 2rem;
+    }
+    .l-input-box p:nth-child(1) label {
+        font-size:1.4rem;
+        padding-right:8px;
+    }
+    .l-input-box p:nth-child(1) input {
+        width:66%;
+        padding:0 2%;
+        height: 22px;
+    }
+    .l-input-btn input{
+        height: 30px;
+        width: 70px;
+        font-size: 1.4rem;
+    }
+    .l-input-link{
+        width: 50%;
+        padding-top: 15px;
+        margin: 0 auto;
+    }
+    .l-input-link a{
+        font-size: 1.4rem;
+    }
+    .l-input-link a:nth-child(1) {
+        padding-right:8%;
+    }
+    .register-con{
+        margin: 8% auto 0 auto;
+    }
+    .user-center-top dl{
+        padding: 110px 0 0 112px;
+    }
+}
+/* 5s*/
+@media only screen and (min-width: 320px) and (max-width: 359px) {
+    /*.user-center-con2 { border: 1px solid yellow;}*/
+    .login-con{
+        margin:20% auto 0 auto;
+    }
+    .login-con h2:nth-child(1) {
+        font-size: 2rem;
+    }
+    .l-input-box {
+        width:62%;
+        padding-left: 2%;
+        /*border: 1px solid green;*/
+    }
+    .input-box p:nth-child(2) {
+        height: 16px;
+        line-height: 16px;
+      }
+    .l-input-box p:nth-child(1) label, .l-input-box p:nth-child(1) input {
+        line-height: 2rem;
+    }
+    .l-input-box p:nth-child(1) label {
+        font-size:1.4rem;
+        padding-right:8px;
+    }
+    .l-input-box p:nth-child(1) input {
+        width:66%;
+        padding:0 1%;
+        height: 22px;
+    }
+    .l-input-btn input{
+        height: 30px;
+        width: 70px;
+        font-size: 1.4rem;
+    }
+    .l-input-link{
+        width: 50%;
+        padding-top: 15px;
+        margin: 0 auto;
+    }
+    .l-input-link a{
+        font-size: 1.4rem;
+    }
+    .l-input-link a:nth-child(1) {
+        padding-right:8%;
+    }
+    .register-con{
+        margin: 8% auto 0 auto;
+    }
+    .user-center-top dl{
+        padding: 110px 0 0 100px;
+    }
+}
+@media only screen and (max-width: 319px) {
+    /*.l-input-link { border: 1px solid blue;}*/
+}
