@@ -22,7 +22,7 @@ use yii\web\Controller;
 
 class UserController extends Controller
 {
-    public $enableCsrfValidation = false;
+
     /**
      * 用户个人中心
      *
@@ -85,24 +85,23 @@ class UserController extends Controller
      */
     public function actionLogin()
     {
-        $this->layout = false;
+        $this->layout = 'user';
         $user = User::isLogin();
         if($user){
             Tool::Redirect(User::get_loginpage());
         }
-        $phone = Yii::$app->request->post('phone');
-        $password = Yii::$app->request->post('password');
-        if ($phone && $password) {
-            $member = new User();
-            $user = array('phone' => $phone, 'password' => $password);
-            if (!$member->login($user)) {
-                Tool::Redirect("/user/login", '登陆失败！', 'error');
-            } else {
-                //echo Session::Get('phone');die;
+        $model = new User();
+        $model->setScenario('login');
+
+        if($model->load(Yii::$app->request->post()) && $model->validate()){
+            //echo 'ddd';
+            if($model->login($model->loginname,$model->password)){
                 Tool::Redirect(User::get_loginpage());
+            }else{
+               return $this->redirect('login');
             }
         }
-        return $this->render('login');
+        return $this->render('login',['model'=> $model]);
     }
 
     /**
@@ -112,26 +111,53 @@ class UserController extends Controller
      */
     public function actionSignup()
     {
-        $this->layout = false;
+        $this->layout = 'user';
         $user = User::isLogin();
         if($user){
             Tool::Redirect(User::get_loginpage());
         }
-        $phone = Yii::$app->request->post('phone');
-        $password = Yii::$app->request->post('password');
-        if ($phone && $password) {
-            $member = new User();
-            $user = array('phone' => $phone, 'password' => $password);
+        $model = new User();
+        $model->setScenario('signup');
 
-            if (!$member->signup($user)) {
-                Tool::Redirect("/user/signup", '注册失败！', 'error');
-            } else {
-                //echo Session::Get('phone');die;
-                Tool::Redirect(User::get_loginpage());
+
+        if($model->load(Yii::$app->request->post())){
+            if($model->validate()){
+
+                if($usermodel = $model::findByLogin($model->phone)){
+
+                    $usermodel->password = $model::GenPassword($model->password);
+                    $usermodel->phone = $model->phone;
+                    $usermodel->email = $model->email;
+                    $usermodel->username = $model->username;
+
+                    if($usermodel->save()){
+                        User::Remember($usermodel);
+                        Tool::Redirect(User::get_loginpage());
+                    }else{
+                        Tool::notice('注册失败','error');
+                        return $this->redirect('signup');
+                    }
+                }
+
+                $model->password = $model::GenPassword($model->password);
+                $model->password2 = $model::GenPassword($model->password2);
+
+                if($model->save()){
+                    User::Remember($model);
+                    Tool::Redirect(User::get_loginpage());
+                }else{
+                    print_r($model->errors);die;
+                    Tool::notice('注册失败','error');
+                    return $this->redirect('signup');
+                }
+            }
+            else{
+                print_r($model->getErrors());
             }
         }
-        return $this->render('signup');
+        return $this->render('signup',['model'=> $model]);
     }
+
 
 
     /*

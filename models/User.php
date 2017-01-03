@@ -16,6 +16,88 @@ use yii\data\Pagination;
 class User extends ActiveRecord
 {
     const SECRET_KEY = '@4!@#$%@';
+    public $verifyCode;
+    public $password2;
+    public $loginname;
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            ['username','required', 'on' =>['signup']],
+            ['username', 'unique', 'targetClass' => 'app\models\User', 'message' => '{attribute}已经存在', 'on' =>['signup']],
+            ['username','string', 'max'=>'255', 'on' =>['signup']],
+            ['username','default', 'value' => ''],
+
+            ['phone','required','on'=>['signup']],
+            ['phone', 'string', 'min' => 11, 'max' => 11,'on'=>['signup']],
+            // ['mobile','match','pattern'=>'/^1[34578][\d]{9}$/','message'=>'{attribute}必须为1开头的11位纯数字'],
+            ['phone','default', 'value' => ''],// '/^'
+
+            ['email','required','on'=>['signup']],
+            //['email','match','pattern'=>'\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*','message' => '{attribute}格式不正确'], 'operator'=>'=='
+            ['email', 'email'],
+            ['email', 'unique', 'targetClass' => 'app\models\User', 'message' => '{attribute}已经存在', 'on' =>['signup']],
+            ['email','default', 'value' => ''],
+
+            [['password','password2'], 'required'],
+            [['password','password2'], 'string', 'min' => 6],
+            ['password2', 'compare', 'compareAttribute' => 'password','message'=>'两次输入的密码不一致！'],
+
+            ['loginname','required', 'on' =>['login']],
+            ['loginname','string', 'max'=>'255', 'on' =>['login']],
+
+            ['verifyCode','required', 'on' =>['signup']],
+            ['verifyCode','number'],
+            ['verifyCode','string', 'max'=>'4','min'=>'4', 'on' =>['signup']],
+
+        ];
+    }
+
+
+    public function attributeLabels()
+    {
+        return [
+            'username' => '用户名',
+            'phone' => '手机号',
+            'id' => '用户id',
+            'email' => '邮箱',
+            'loginname' => '用户名/电话/邮箱',
+            'password' => '密 & 码',
+            'verifyCode' => '验证码',
+            'password2' => '确认密码',
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return '{{%user}}';
+    }
+
+    /**
+     * Finds user by username or phone or email
+     * @param $username
+     * @return static
+     */
+    public static function findByLogin($username)
+    {
+        if (preg_match('/^1[34578][\d]{9}$/',$username)){
+
+            return self::findOne(['phone' => $username]);
+
+        } elseif (preg_match('/^[\w\-\.]+@[\w\-]+(\.\w+)+$/',$username)){
+
+            return self::findOne(['email' => $username]);
+        }
+        else{
+            return self::findOne(['username' => $username]);
+        }
+    }
 
 
     /**
@@ -70,38 +152,39 @@ class User extends ActiveRecord
      * @return $user_id int 用户ID
      * @access public
      */
-    public function login($param)
+    public function login($username,$password)
     {
+        if ($username && $password) {
+            $user = self::findByLogin($username);
 
-        if ($param) {
-            $user = self::findOne(['phone' => $param['phone'], 'password' => self::GenPassword($param['password'])])->attributes;
-            //print_r($user);die;
-            //   SELECT * FROM `member` WHERE `username`='15210663958' AND `password`='123456'
-            if ($user) {
+            if($user->password == self::GenPassword($password)){
                 self::Remember($user);
                 return true;
-            } else {
+            }else{
                 return false;
             }
-
+        }else{
+            return false;
         }
     }
 
     /**
-     * 设置登录cookies
-     * @param $user array 用户信息
-     * @return str 返回用户cookies
-     * @access public
+     * @param $user
+     * @param int $rememberMe
      */
     static public function Remember($user, $rememberMe = 86400 * 365)
     {
-        $user_rnd = self::GenLoginRnd($user['user_id'], $user['phone']);
+        $user_rnd = self::GenLoginRnd($user->user_id, $user->phone);
 
-        $user = User::findOne($user['user_id']);
+        $user = User::findOne($user->user_id);
         $user->rnd = $user_rnd;
-        if ($user->update()) {
+        $user->password2 = '123456';
+        if ($user->save()) {
             //self::NoRemember('user_rnd');
             Tool::cookieset('user_rnd', $user_rnd, $rememberMe);
+        }else{
+            print_r($user->errors);die;
+            return false;
         }
     }
 

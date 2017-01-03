@@ -1,32 +1,54 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>登录</title>
-    <meta name="viewport"content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-touch-fullscreen" content="yes">
-    <meta content="telephone=no" name="format-detection" />
-    <link rel="stylesheet" href="/default/css/style.css"/>
-</head>
+<?php
+
+use yii\helpers\Html;
+use yii\bootstrap\ActiveForm;
+
+$this->title = '用户登录';
+$this->params['breadcrumbs'][] = $this->title;
+$login = true;
+?>
 <body class="login-body">
-<form method="post" action="/user/login">
+<div class="l-logo-babyfs"><img src="/wap/images/logo_babyfs.png" alt="" /></div>
 <div class="login-con">
-    <div class="l-input-box">
-        <p><input type="text" name="phone" placeholder="用户名/手机号" class="loginphoneNumber" maxlength="11"></p>
-        <p class="prompt-error loginphoneNumberError"></p>
+    <h2><?= Html::encode($this->title) ?> </h2>
+
+    <?php $form = ActiveForm::begin(); ?>
+
+    <?= $form->field($model, 'loginname', [
+        'template' => '
+          <div class="l-input-box">
+            <p><lable>{label}</lable>{input}</p>
+            {error}
+          </div>
+          ',
+    ])->textInput([
+        'class' => 'loginUser',
+        'maxlength' => '255',
+        'minlength' => '2',
+        'placeholder' => "用户名/手机号/邮箱"
+    ]) ->error(['class'=> 'prompt-error loginphoneNumberError'])
+    ?>
+
+    <?= $form->field($model, 'password', [
+        'template' => '
+          <div class="l-input-box">
+            <p><lable>{label}</lable>{input}</p>
+            {error}
+          </div>
+          ',
+    ])->passwordInput([
+        'class' => 'loginpassWord',
+        'maxlength' => '32',
+        'minlength' => '2',
+        'placeholder' => "密码"
+    ]) ->error(['class'=> 'prompt-error loginpassWordError'])
+    ?>
+
+    <div class="l-input-btn">
+        <?= Html::buttonInput('登录',['onclick'=>'javascript:this.form.submit()']) ?>
+        <span><a href="<?= \yii\helpers\Url::to(['signup'])?>" target="_self">忘记密码</a></span></p>
     </div>
-    <div class="l-input-box">
-        <p><input type="password" name="password" placeholder="密码"class="loginpassWord" maxlength="32"></p>
-        <p class="prompt-error loginpassWordError"></p>
-    </div>
-    <div class="l-input-btn"><input type="submit" value="登陆"></div>
-    <div class="l-input-link"><a href="/user/signup">注册</a> | <a href="/user/signup">忘记密码</a> |<a href="/user/user-course/?type=1">游客登陆</a></div>
+    <div class="l-input-link"><a href="<?= \yii\helpers\Url::to(['user/user-course','type'=>1])?>">游客登录</a><a href="<?= \yii\helpers\Url::to('signup')?>">注册账号</a></div>
+
+    <?php ActiveForm::end(); ?>
 </div>
-</form>
-<div class="l-sign-icon"><img src="/default/img/sign-icon.png" alt=""></div>
-<script src="/default/js/public/jquery-1.9.1.min.js"></script>
-<script src="/default/js/public/effect.js"></script>
-</body>
-</html>
