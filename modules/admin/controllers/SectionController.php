@@ -57,6 +57,7 @@ class SectionController extends Controller
                 'expire_time' => Yii::$app->request->post('expire_time'),
                 'create_time' => Yii::$app->request->post('create_time'),
                 'sort' => Yii::$app->request->post('sort'),
+                'is_show' => Yii::$app->request->post('is_show'),
                 'image' => $_FILES['image'],
                 'buyurl' => Yii::$app->request->post('buyurl'),
             );

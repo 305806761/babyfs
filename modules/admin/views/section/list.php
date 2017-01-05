@@ -36,6 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <td  class="tdleft">课程阶段有效期</td>
             <td  class="tdleft">顺序</td>
             <td  class="tdleft">有赞购买链接</td>
+            <td  class="tdleft">（0显示，1不显示）</td>
             <td class="tdleft">操作</td>
         </tr>
         <?php foreach($coursesection as $key=>$value): ?>
@@ -46,6 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <td class="tdvleft"><?php echo $value['expire_time']; ?></td>
             <td class="tdvleft"><?php echo $value['sort']; ?></td>
             <td class="tdvleft"><?php echo $value['buyurl']; ?></td>
+            <td class="tdvleft"><?php echo $value['is_show']; ?></td>
             <td class="tdvleft">
                 <a href="/admin/section/edit-section/?section_id=<?= $value['section_id']; ?>">修改</a> |
                 <a href="/admin/section/add-term?section_id=<?= $value['section_id']; ?>">加学期</a>
