@@ -43,6 +43,7 @@ class Section extends ActiveRecord
         $course_section->expire_time = $param['expire_time'] ? $param['expire_time'] : $course_section->expire_time;
         $course_section->create_time = $param['create_time'] ? $param['create_time'] : $course_section->create_time;
         $course_section->sort = $param['sort'] ? $param['sort'] : $course_section->sort;
+        $course_section->is_show = $param['is_show'] ? $param['is_show'] : $course_section->is_show;
         $course_section->section_id = $param['section_id'] ? $param['section_id'] : $course_section->section_id;
         $course_section->buyurl = $param['buyurl'] ? $param['buyurl'] : $course_section->buyurl;
 

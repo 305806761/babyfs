@@ -134,6 +134,15 @@ $this->params['breadcrumbs'][] = $this->title;
             </td>
         </tr>
         <tr>
+            <td class="tdleft">是否显示（0显示，1不显示）</td>
+            <td>
+                <select name="is_show">
+                    <option value="0" <?php if($section['is_show'] == 0) echo " selected"?>>显示</option>
+                    <option value="1" <?php if($section['is_show'] == 1) echo " selected"?>>不显示</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
             <td class="tdleft"></td>
             <td>
                 <input type="hidden" name="section_id" value="<?= $section['section_id'] ?>">

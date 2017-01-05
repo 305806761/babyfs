@@ -208,6 +208,7 @@ class Ware extends ActiveRecord
         }
 
         $u = 0;
+
         for (; $start_time <= time(); $start_time += 86400) {
             //1483200000  11
             //1482595200  25
@@ -239,15 +240,26 @@ class Ware extends ActiveRecord
                 //echo "<br />";
                 continue;
             }
+            if (in_array($section_id, [7, 8, 9])){
+                if (in_array(date('w', $start_time), [1, 2, 3, 4, 5])) {
 
-            if (in_array(date('w', $start_time), [1, 3, 5])) {
+                    $u++;
 
-                $u++;
+                    //echo date('Y-m-d', $start_time);
+                    //echo "<br />";
+                }else {
+                    //echo '2467不上课';
+                }
+            }else{
+                if (in_array(date('w', $start_time), [1, 3, 5])) {
 
-                //echo date('Y-m-d', $start_time);
-                //echo "<br />";
-            } else {
-                //echo '2467不上课';
+                    $u++;
+
+                    //echo date('Y-m-d', $start_time);
+                    //echo "<br />";
+                } else {
+                    //echo '2467不上课';
+                }
             }
         }
 
