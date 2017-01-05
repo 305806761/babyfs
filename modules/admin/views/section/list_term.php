@@ -61,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     </div>
                                 </div>',
                     'columns' => [
-                        ['class' => 'yii\grid\SerialColumn'],
+                        'id',
                         [
                             'attribute' => 'stage.name',
                             'contentOptions' => [
