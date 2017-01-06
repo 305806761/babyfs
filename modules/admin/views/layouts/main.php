@@ -244,6 +244,8 @@ AppAsset::register($this);
                                                          target="main-frame">课件列表</a></li>
                                 <li class="menu-item"><a href="<?= Url::to(['rcode/get-qrcode']) ?>"
                                                          target="main-frame">生成二维码</a></li>
+                                <li class="menu-item"><a href="<?= Url::to(['rcode/get-free-url']) ?>"
+                                                         target="main-frame">免费课链接</a></li>
                             </ul>
 
                         </li>
