@@ -69,23 +69,23 @@ function showBigImg(){
                 }
             }
             //手机注册
-            if($(this).is(".regiserNumber")){
-                var objvalue=$(this).val();
-                var regx=/^(?:13\d|15\d|17\d|18[0123456789])-?\d{5}(\d{3}|\*{3})$/
-                if(objvalue==""){
-                    $(".regiserNumberError").html("请输入手机号码!");
-                    // $(".ReIdentifyingCode").attr("disabled","disabled"); 
-                    $("#login-send").unbind("click");
-                }
-                else if(regx.test(objvalue)){
-                    $(".regiserNumberError").html("");
-                    $("#login-send").bind("click", function(){
-                        codeSend();
-                    })
-                }else{
-                    $(".regiserNumberError").html("请输入正确手机号!");
-                }
-            }
+            // if($(this).is(".regiserNumber")){
+            //     var objvalue=$(this).val();
+            //     var regx=/^(?:13\d|15\d|17\d|18[0123456789])-?\d{5}(\d{3}|\*{3})$/
+            //     if(objvalue==""){
+            //         $(".regiserNumberError").html("请输入手机号码!");
+            //         // $(".ReIdentifyingCode").attr("disabled","disabled");
+            //         $("#login-send").unbind("click");
+            //     }
+            //     else if(regx.test(objvalue)){
+            //         $(".regiserNumberError").html("");
+            //         $("#login-send").bind("click", function(){
+            //             codeSend();
+            //         })
+            //     }else{
+            //         $(".regiserNumberError").html("请输入正确手机号!");
+            //     }
+            // }
             if($(this).is(".ReIdentifyingCode")){
                 var ReIdentifyingCode=$(".ReIdentifyingCode").val();
                 var ReIdentifyingCodeError=$(".ReIdentifyingCodeError");
@@ -222,31 +222,31 @@ function showBigImg(){
 effect.init();
 
 //获取验证码
-var wait=60;
-$("#login-send").bind("click", function(){
-    var val = $(".regiserNumber").val();
-    if(val!=""){
-        codeSend();
-    }
-})
-function codeSend(){
-    $("#login-send").addClass("login-send-grey");
-    if(wait==0){
-        $("#login-send").html("获取验证码");
-        wait = 60;
-        $("#login-send").bind("click", function(){
-            codeSend();
-        })
-        $("#login-send").removeClass("login-send-grey");
-    }else{
-        $("#login-send").unbind("click");
-         $("#login-send").html("重新发送(" + wait + ")");
-         wait--;
-         setTimeout(function(){
-            codeSend();
-         }, 1000);
-    }
-}
+// var wait=60;
+// $("#login-send").bind("click", function(){
+//     var val = $(".regiserNumber").val();
+//     if(val!=""){
+//         codeSend();
+//     }
+// })
+// function codeSend(){
+//     $("#login-send").addClass("login-send-grey");
+//     if(wait==0){
+//         $("#login-send").html("获取验证码");
+//         wait = 60;
+//         $("#login-send").bind("click", function(){
+//             codeSend();
+//         })
+//         $("#login-send").removeClass("login-send-grey");
+//     }else{
+//         $("#login-send").unbind("click");
+//          $("#login-send").html("重新发送(" + wait + ")");
+//          wait--;
+//          setTimeout(function(){
+//             codeSend();
+//          }, 1000);
+//     }
+// }
 
 //footer
 $(".footer li").click(function(){
