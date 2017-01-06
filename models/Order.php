@@ -123,14 +123,15 @@ class Order extends ActiveRecord
                 if ($user->user_id) {
                     $user_id = $user->user_id;
                     //如果是免费课，不管购买几次，都只添加一次权限
-                    $usfree = UserCourse::find()->from(['uc' => UserCourse::tableName()])->select('id')
-                        ->joinWith('section')
-                        ->where([
-                            'AND',
-                            ['in','code',['KY160030','KC160031','KC160032']],
-                            ['=','uc.section_id',$course['section_id']],
-                            ['=','uc.user_id',$user_id],
-                        ])->count();
+//                    $usfree = UserCourse::find()->from(['uc' => UserCourse::tableName()])->select('id')
+//                        ->joinWith('section')
+//                        ->where([
+//                            'AND',
+//                            ['in','code',['KY160030','KC160031','KC160032']],
+//                            ['=','uc.section_id',$course['section_id']],
+//                            ['=','uc.user_id',$user_id],
+//                        ])->count();
+                    $usfree=$this->checkUserFree($code,$course['section_id'],$user_id);
                     if($usfree){
                         //Yii::info($usfree,'test');
                         continue;
@@ -354,14 +355,15 @@ class Order extends ActiveRecord
                 $course_id = $course['course_id'];
                 if ($user->user_id) {
                     $user_id = $user->user_id;
-                    $usfree = UserCourse::find()->from(['uc' => UserCourse::tableName()])->select('id')
-                        ->joinWith('section')
-                        ->where([
-                            'AND',
-                            ['in','code',['KY160030','KC160031','KC160032']],
-                            ['=','uc.section_id',$course['section_id']],
-                            ['=','uc.user_id',$user_id],
-                        ])->count();
+//                    $usfree = UserCourse::find()->from(['uc' => UserCourse::tableName()])->select('id')
+//                        ->joinWith('section')
+//                        ->where([
+//                            'AND',
+//                            ['in','code',['KY160030','KC160031','KC160032']],
+//                            ['=','uc.section_id',$course['section_id']],
+//                            ['=','uc.user_id',$user_id],
+//                        ])->count();
+                    $usfree=$this->checkUserFree($code,$course['section_id'],$user_id);
                     if($usfree){
                         //Yii::info($usfree,'test');
                         continue;
@@ -513,5 +515,26 @@ class Order extends ActiveRecord
         return 'order_info';
     }
 
+    /**
+     * hanhh
+     * @param $code
+     * @param $sectionId
+     * @param $user_id
+     * @return int|string
+     */
+    private function checkUserFree($code,$sectionId,$user_id){
+        $usfree=0;
+        //if(in_array($code,['KY160030','KC160031','KC160032'])){
+        $usfree = UserCourse::find()->from(['uc' => UserCourse::tableName()])->select('id')
+            ->joinWith('section')
+            ->where([
+                'AND',
+                ['=','code',$code],
+                ['=','uc.section_id',$sectionId],
+                ['=','uc.user_id',$user_id],
+            ])->count();
+        //}
+        return $usfree;
+    }
 
 }
