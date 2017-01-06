@@ -20,9 +20,11 @@ use app\models\User;
 use yii\web\Controller;
 
 
+
 class UserController extends Controller
 {
 
+    const EMAIL_KEY= 'BABYENGLISH';
     /**
      * 用户个人中心
      *
@@ -104,61 +106,172 @@ class UserController extends Controller
         return $this->render('login',['model'=> $model]);
     }
 
+
+//    /**
+//     * @return string
+//     * @注册页面
+//     */
+//    public function actionSignup()
+//    {
+//        $this->layout = 'user';
+//        $user = User::isLogin();
+//        if($user){
+//            Tool::Redirect(User::get_loginpage());
+//        }
+//        $model = new User();
+//        return $this->render('signup',['model'=> $model]);
+//    }
+
+
     /**
-     * Displays contact page.
-     *
-     * @return string
+     * @return string|\yii\web\Response
+     * @手机号注册
      */
-    public function actionSignup()
+    public function actionMobileSignup()
     {
         $this->layout = 'user';
-        $user = User::isLogin();
-        if($user){
-            Tool::Redirect(User::get_loginpage());
-        }
         $model = new User();
-        $model->setScenario('signup');
-
-
+        $model->setScenario('mobilesignup');
         if($model->load(Yii::$app->request->post())){
             if($model->validate()){
-
-                if($usermodel = $model::findByLogin($model->phone)){
-
-                    $usermodel->password = $model::GenPassword($model->password);
-                    $usermodel->phone = $model->phone;
-                    $usermodel->email = $model->email;
-                    $usermodel->username = $model->username;
-
-                    if($usermodel->save()){
-                        User::Remember($usermodel);
-                        Tool::Redirect(User::get_loginpage());
+                if ($model->verifyCode) {
+                    //检查session是否打开
+                    if (!Yii::$app->session->isActive) {
+                        Yii::$app->session->open();
+                    }
+                    //取得验证码和短信发送时间session
+                    $signup_sms_code = intval(Yii::$app->session->get('login_sms_code'));
+                    $signup_sms_time = Yii::$app->session->get('login_sms_time');
+                    if (time() - $signup_sms_time < 600) {
+                        if ($model->verifyCode != $signup_sms_code) {
+                            Tool::notice('验证码输入有误','error');
+                            return $this->redirect('mobile-signup');
+                        }
+                    } else {
+                        Tool::notice('验证码已经失效','error');
+                        return $this->redirect('mobile-signup');
+                    }
+                } else {
+                    Tool::notice('请输入验证码','error');
+                    return $this->redirect('mobile-signup');
+                }
+                $userInfo = $model::findByLogin($model->phone);
+                if($userInfo->password){
+                    Tool::notice('用户已经存在','error');
+                    return $this->redirect('mobile-signup');
+                } else {
+                    $model->password = $model::GenPassword($model->password);
+                    $model->repassword = $model::GenPassword($model->repassword);
+                    if($model->save()){
+                        //User::Remember($model);
+                        //Tool::Redirect(User::get_loginpage());
+                        return $this->redirect('login');
                     }else{
+//                        print_r($model->errors);
+//                        die;
                         Tool::notice('注册失败','error');
-                        return $this->redirect('signup');
+                        return $this->redirect('mobile-signup');
                     }
                 }
-
-                $model->password = $model::GenPassword($model->password);
-                $model->password2 = $model::GenPassword($model->password2);
-
-                if($model->save()){
-                    User::Remember($model);
-                    Tool::Redirect(User::get_loginpage());
-                }else{
-                    print_r($model->errors);die;
-                    Tool::notice('注册失败','error');
-                    return $this->redirect('signup');
-                }
-            }
-            else{
-                print_r($model->getErrors());
             }
         }
         return $this->render('signup',['model'=> $model]);
     }
 
+    /**
+     * @return string|\yii\web\Response
+     * @邮箱登陆
+     */
+    public function actionEmailSignup()
+    {
+        $this->layout = 'user';
+        $model = new User();
+        $model->setScenario('emailsignup');
+        if($model->load(Yii::$app->request->post())){
+            if($model->validate()){
+                $userInfo = $model::findByLogin($model->email);
+                if ($userInfo->user_id) {
 
+                    Tool::notice('用户已经注册','error');
+                    return $this->redirect('email-signup');
+                } else {
+                    $model->password = $model::GenPassword($model->password);
+                    $model->repassword = $model::GenPassword($model->repassword);
+                    if($model->save()){
+                        $code = base64_encode(Yii::$app->security->encryptByKey($model->email, self::EMAIL_KEY));
+                        //User::Remember($model);
+                        //Tool::Redirect(User::get_loginpage());
+                        $mail= Yii::$app->mailer->compose();
+                        $mail->setTo($model->email); //要发送给那个人的邮箱
+                        $mail->setSubject("宝宝玩英语帐户激活邮件"); //邮件主题
+                        //$mail->setTextBody('测试text'); //发布纯文字文本
+                        $mail->setHtmlBody("<br>您好!<br><br><br>
+                        感谢您在宝宝玩英语注册帐户！<br><br><br>
+                        帐户需要激活才能使用，赶紧激活成为宝玩正式的一员吧:<br><br><br>
+                        点击下面的链接立即激活帐户(或将网址复制到浏览器中打开)：<br><br><br>
+                        http://course.babyfs.cn/user/email-activate/?code=".$code."
+                        )"); //发送的消息内容
+                        if ($mail->send())
+                        {
+                            $msg = '请到您的注册邮箱'.$model->email.'收取激活邮件';
+                            $result = ['title' => '注册成功', 'msg' => $msg];
+                            return $this->render('signup_msg', ['model' => $result]);
+                        } else {
+                            $msg = '';
+                            $result = ['title' => '发送邮件失败', 'msg' => $msg];
+                            return $this->render('signup_msg', ['model' => $result]);
+                        }
+                        //return $this->redirect('login');
+                    }else{
+                        Tool::notice('注册失败','error');
+                        return $this->redirect('email-signup');
+                    }
+                }
+            }
+        }
+        return $this->render('signup', ['model' => $model, 'dada' => 1]);
+    }
+
+
+    /**
+     * @return string
+     * @邮箱激活验证
+     */
+    public function actionEmailActivate()
+    {
+        $this->layout = 'user';
+        if (Yii::$app->request->get('code'))
+        {
+            $code = Yii::$app->request->get('code');
+            $email = Yii::$app->security->decryptByKey(base64_decode($code), self::EMAIL_KEY);
+            if ($email)
+            {
+                $userInfo = User::find()->where(['email' => $email, 'is_email' => '1'])->one();
+                if ($userInfo)
+                {
+                    $userInfo->is_email = 2;
+                    if ($userInfo->save())
+                    {
+                        $result = ['title' => '激活成功', 'msg' => ''];
+                        return $this->render('signup_msg', ['model' => $result]);
+                    } else {
+
+                        $result = ['title' => '激活失败', 'msg' => ''];
+                        return $this->render('signup_msg', ['model' => $result]);
+                    }
+                } else {
+                    $result = ['title' => '邮箱已经激活或未注册', 'msg' => ''];
+                    return $this->render('signup_msg', ['model' => $result]);
+                }
+            } else {
+                $result = ['title' => '链接有误', 'msg' => ''];
+                return $this->render('signup_msg', ['model' => $result]);
+            }
+        } else {
+            $result = ['title' => '链接无效', 'msg' => ''];
+            return $this->render('signup_msg', ['model' => $result]);
+        }
+    }
 
     /*
     * 退出登录
@@ -251,32 +364,39 @@ class UserController extends Controller
     {
         if (Yii::$app->request->get('phone')) {
             $mobile = $_GET['phone'];
-            $verifyCode = rand(1000, 9999);
-            //Yii::$app->session->set('code', $verifyCode);
-            // Session::Set('code', $verifyCode);
-            //Tool::cookieset("code", $verifyCode, "600");
-
-            $content = "【宝宝玩英语】您的验证码为：{$verifyCode}此验证码10分钟内有效，请尽快使用！";
-            $result = Tool::Send($mobile, $content);
-            if ($result) {
-                //发送成功，保存session
-                //检查session是否打开
-                if (!Yii::$app->session->isActive) {
-                    Yii::$app->session->open();
+            //Yii::info($mobile, 'test');
+            if(preg_match("/1[34578]{1}\d{9}$/",$mobile)){
+                $verifyCode = rand(1000, 9999);
+                //Yii::$app->session->set('code', $verifyCode);
+                // Session::Set('code', $verifyCode);
+                //Tool::cookieset("code", $verifyCode, "600");
+                $content = "【宝宝玩英语】您的验证码为：{$verifyCode}此验证码10分钟内有效，请尽快使用！";
+                $result = Tool::Send($mobile, $content);
+                if ($result) {
+                    //发送成功，保存session
+                    //检查session是否打开
+                    if (!Yii::$app->session->isActive) {
+                        Yii::$app->session->open();
+                    }
+                    //验证码和短信发送时间存储session
+                    Yii::$app->session->set('login_sms_code', $verifyCode);
+                    Yii::$app->session->set('login_sms_time', time());
+                    //
+                    $return = array(
+                        'status' => 'success',
+                        // 'verifyCode' => Session::Get('code'),
+                        'message' => '短信发送成功',
+                    );
+                } else {
+                    $return = array(
+                        'status' => 'error',
+                        'message' => '短信发送失败',
+                    );
                 }
-                //验证码和短信发送时间存储session
-                Yii::$app->session->set('login_sms_code', $verifyCode);
-                Yii::$app->session->set('login_sms_time', time());
-                //
-                $return = array(
-                    'status' => 'success',
-                    // 'verifyCode' => Session::Get('code'),
-                    'message' => '短信发送成功',
-                );
             } else {
                 $return = array(
                     'status' => 'error',
-                    'message' => '短信发送失败',
+                    'message' => '手机号格式错误',
                 );
             }
         } else {

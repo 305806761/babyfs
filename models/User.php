@@ -17,7 +17,7 @@ class User extends ActiveRecord
 {
     const SECRET_KEY = '@4!@#$%@';
     public $verifyCode;
-    public $password2;
+    public $repassword;
     public $loginname;
 
     /**
@@ -26,36 +26,56 @@ class User extends ActiveRecord
     public function rules()
     {
         return [
-            ['username','required', 'on' =>['signup']],
-            ['username', 'unique', 'targetClass' => 'app\models\User', 'message' => '{attribute}已经存在', 'on' =>['signup']],
-            ['username','string', 'max'=>'255', 'on' =>['signup']],
+            //['username','required', 'on' =>['signup']],
+            //['username', 'unique', 'targetClass' => 'app\models\User', 'message' => '{attribute}已经存在', 'on' =>['signup']],
+            ['username', 'validateUserName'],
             ['username','default', 'value' => ''],
 
-            ['phone','required','on'=>['signup']],
-            ['phone', 'string', 'min' => 11, 'max' => 11,'on'=>['signup']],
-            // ['mobile','match','pattern'=>'/^1[34578][\d]{9}$/','message'=>'{attribute}必须为1开头的11位纯数字'],
-            ['phone','default', 'value' => ''],// '/^'
+            ['phone','required','on'=>['mobilesignup']],
+            ['phone', 'string', 'min' => 11, 'max' => 11,'on'=>['mobilesignup']],
+            ['phone','match','pattern'=>'/^1[34578][\d]{9}$/','message'=>'{attribute}必须为1开头的11位纯数字'],
+            ['phone', 'unique', 'targetClass' => 'app\models\User', 'message' => '{attribute}已经存在'],
+            ['phone','default', 'value' => ''],
 
-            ['email','required','on'=>['signup']],
+            ['email','required','on'=>['emailsignup']],
             //['email','match','pattern'=>'\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*','message' => '{attribute}格式不正确'], 'operator'=>'=='
             ['email', 'email'],
-            ['email', 'unique', 'targetClass' => 'app\models\User', 'message' => '{attribute}已经存在', 'on' =>['signup']],
+            ['email', 'unique', 'targetClass' => 'app\models\User', 'message' => '{attribute}已经存在', 'on' =>['emailsignup']],
             ['email','default', 'value' => ''],
 
-            [['password'], 'required','on'=>['login','signup']],
-            [['password','password2'], 'string', 'min' => 6],
-            ['password2', 'compare', 'compareAttribute' => 'password','message'=>'两次输入的密码不一致！','on'=>'signup'],
+            [['password'], 'required','on'=>['mobilesignup', 'emailsignup']],
+            [['password','repassword'], 'string', 'min' => 6],
+            ['repassword', 'compare', 'compareAttribute' => 'password','message'=>'两次输入的密码不一致！','on'=>['emailsignup', 'mobilesignup']],
 
             ['loginname','required', 'on' =>['login']],
             ['loginname','string', 'max'=>'255', 'on' =>['login']],
 
-            ['verifyCode','required', 'on' =>['signup']],
-            ['verifyCode','number'],
-            ['verifyCode','string', 'max'=>'4','min'=>'4', 'on' =>['signup']],
+            ['verifyCode','required', 'on' =>['mobilesignup']],
+            ['verifyCode','number', 'on' => ['mobilesignup']],
+            ['verifyCode','string', 'max'=>'4','min'=>'4', 'on' =>['mobilesignup']],
+
+            ['is_email', 'default', 'value' => 1],
+            ['is_email', 'in', 'range' => [1, 2]],
+
+
 
         ];
     }
 
+    public function validateUserName($attribute, $params)
+    {
+        Yii::info($params, 'test');
+        if (preg_match('/^\d{6,20}$/', $this->$attribute, $matches)) {
+            //Yii::info('aaaa', 'test');
+            $this->addError($attribute,'不能是纯数字');
+            return false;
+        } else if (!preg_match('/^[\x80-\xffa-zA-Z0-9—_]{4,20}$/', $this->$attribute, $matches)){
+            $this->addError($attribute,'支持中文、字母、数字、“-”“_”的组合，4-20个字符');
+            return false;
+        }
+        return true;
+        //return $validate ? null : ['有错误请', [$this->message]];
+    }
 
     public function attributeLabels()
     {
@@ -65,9 +85,9 @@ class User extends ActiveRecord
             'id' => '用户id',
             'email' => '邮箱',
             'loginname' => '用户名',
-            'password' => '密 & 码',
+            'password' => '密码',
             'verifyCode' => '验证码',
-            'password2' => '确认密码',
+            'repassword' => '确认密码',
         ];
     }
 
@@ -100,19 +120,12 @@ class User extends ActiveRecord
     }
 
 
-    /**
-     * 创建用户
-     * @param $user_row $array 需要设置的参数
-     * @return $user_id int 用户ID 或则false
-     * @access public
-     */
 
     public static function Signup($param)
     {
         $user = self::GetUserByName($param['phone']);
         $user->phone = $param['phone'];
         $user->password = $param['password'] ? self::GenPassword($param['password']) : '';
-
         //var_dump($user);die;
         //用户信息插入数据库
         //$user_id  = $user->save() ? Yii::$app->db->lastInsertID : '';
@@ -178,7 +191,7 @@ class User extends ActiveRecord
 
         $user = User::findOne($user->user_id);
         $user->rnd = $user_rnd;
-        $user->password2 = '123456';
+        $user->repassword = '123456';
         if ($user->save()) {
             //self::NoRemember('user_rnd');
             Tool::cookieset('user_rnd', $user_rnd, $rememberMe);

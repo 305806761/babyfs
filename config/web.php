@@ -35,7 +35,21 @@ $config = [
             // send all mails to a file by default. You have to set
             // 'useFileTransport' to false and configure a transport
             // for the mailer to send real emails.
-            'useFileTransport' => true,
+            'useFileTransport' => false,    //这里一定要改成false，不然邮件不会发送
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'smtp.exmail.qq.com',  //每种邮箱的host配置不一样
+                'username' => 'bbwyy@babyfs.cn',
+                'password' => 'Qimeng1234',
+                'port' => '25',
+                'encryption' => 'tls',
+
+            ],
+            'messageConfig'=>[
+                'charset'=>'UTF-8',
+                'from'=>['bbwyy@babyfs.cn'=>'北京启萌教育科技有限公司']
+            ],
+
         ],
         'formatter' => [
             'dateFormat' => 'yyyy-MM-dd',

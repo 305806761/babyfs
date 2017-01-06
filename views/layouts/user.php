@@ -17,20 +17,14 @@ WapAsset::register($this);
 <head>
     <meta charset="utf-8">
     <title><?= Html::encode($this->title) ?></title>
-    <meta name="viewport"content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-touch-fullscreen" content="yes">
     <meta content="telephone=no" name="format-detection" />
+    <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-
-<?php $this->beginBody() ?>
-
 <?= $content ?>
-
-
-<?php $this->endBody() ?>
-</body>
 </html>
 <?php $this->endPage() ?>
