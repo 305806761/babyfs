@@ -201,7 +201,7 @@ class UserController extends Controller
                     $model->password = $model::GenPassword($model->password);
                     $model->repassword = $model::GenPassword($model->repassword);
                     if($model->save()){
-                        $code = base64_encode(Yii::$app->security->encryptByKey($model->email, self::EMAIL_KEY));
+                        $code = self::base64Encode(Yii::$app->security->encryptByKey($model->email, self::EMAIL_KEY));
                         //User::Remember($model);
                         //Tool::Redirect(User::get_loginpage());
                         $mail= Yii::$app->mailer->compose();
@@ -246,7 +246,7 @@ class UserController extends Controller
         if (Yii::$app->request->get('code'))
         {
             $code = Yii::$app->request->get('code');
-            $email = Yii::$app->security->decryptByKey(base64_decode($code), self::EMAIL_KEY);
+            $email = Yii::$app->security->decryptByKey(self::base64Decode($code), self::EMAIL_KEY);
             if ($email)
             {
                 $userInfo = User::find()->where(['email' => $email, 'is_email' => 0])->one();
@@ -475,5 +475,20 @@ class UserController extends Controller
         return $this->render('activate', ['model' => $model]);
     }
 
+    public static function base64Encode($string) {
+        $src  = array("/", "+", "&", "=");
+        $dist = array("_a", "_b", "_c", "_d");
+        $old  = base64_encode($string);
+        $new  = str_replace($src,$dist,$old);
+        return $new;
+    }
+
+    public static function base64Decode($string) {
+        $src = array("_a", "_b", "_c", "_d");
+        $dist  = array("/", "+", "&", "=");
+        $old  = str_replace($src, $dist, $string);
+        $new = base64_decode($old);
+        return $new;
+    }
 
 }
