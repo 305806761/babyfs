@@ -240,7 +240,7 @@ class Ware extends ActiveRecord
                 //echo "<br />";
                 continue;
             }
-            if (in_array($section_id, [7, 8, 9])){
+            if (in_array($section_id, [7, 8, 9]) || in_array($section_id,Yii::$app->params['free'])){
                 if (in_array(date('w', $start_time), [1, 2, 3, 4, 5])) {
 
                     $u++;

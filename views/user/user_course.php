@@ -17,28 +17,35 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php if ($key % 2 == 0): ?>
             <div class="lessons-con clearfix">
         <?php endif ?>
-        <dl>
-            <dt>
+
                 <?php if ($value['is_buy']): ?>
-                    <a href="/section/list?section_id=<?= $value['section_id'] ?>&term_id=<?= $value['term_id']?>">
-                        <?php
-                        $img = $value['section']['image'] ? json_decode($value['section']['image']) : "/default/img/already-buy-img1.png";
-                        ?>
-                        <img src="<?= $img?>" />
-                    </a>
-                    <span class="active">学习中</span>
+                 <dl class="active">
+                    <dt>
+                        <a href="/section/list?section_id=<?= $value['section_id'] ?>&term_id=<?= $value['term_id']?>">
+                            <?php
+                            $img = $value['section']['image'] ? json_decode($value['section']['image']) : "/wap/images/my_lessons_img1.png";
+                            ?>
+                            <img src="<?= $img?>" />
+                        </a>
+                        <span>学习中</span>
+                    </dt>
+                     <dd><?= $value['section']['name'] ?></dd>
+                </dl>
                 <?php else: ?>
-                    <a href="<?= $value['section']['buyurl']?>">
-                        <?php
-                        $img = $value['section']['image'] ? json_decode($value['section']['image']) : "/default/img/already-buy-img1.png";
-                        ?>
-                        <img src="<?= $img?>" />
-                    </a>
-                    <span>未开放</span>
-                <?php endif ?>
-            </dt>
-            <dd><?= $value['section']['name'] ?></dd>
-        </dl>
+                <dl>
+                    <dt>
+                        <a href="<?= $value['section']['buyurl']?>">
+                            <?php
+                            $img = $value['section']['image'] ? json_decode($value['section']['image']) : "/wap/images/my_lessons_img1.png";
+                            ?>
+                            <img src="<?= $img?>" />
+                        </a>
+                        <span>未开放</span>
+                    </dt>
+                    <dd><?= $value['section']['name'] ?></dd>
+                </dl>
+
+        <?php endif ?>
         <?php if ($key % 2 == 1): ?>
             </div>
         <?php endif ?>

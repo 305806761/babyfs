@@ -21,7 +21,7 @@ AppAsset::register($this);
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-touch-fullscreen" content="yes">
     <meta content="telephone=no" name="format-detection" />
-    <link rel="stylesheet" href="/default/css/style.css"/>
+    <link rel="stylesheet" href="/wap/css/index.css"/>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
@@ -47,8 +47,8 @@ AppAsset::register($this);
         </ul>
     </div>
 </footer>
-<script src="/default/js/public/jquery-1.9.1.min.js"></script>
-<script src="/default/js/public/effect.js"></script>
+<script src="/wap/js/jquery-1.9.1.min.js"></script>
+<script src="/wap/js/index.js"></script>
 <?php $this->endBody() ?>
 </body>
 </html>

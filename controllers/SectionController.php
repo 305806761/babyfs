@@ -31,10 +31,10 @@ class SectionController extends Controller
                 //echo $section_id;die;
                 $cs = new CourseSection();
                 //判断是否有权限查看该课件checkPermitSection
-                if(!User::checkPermitSection($user->user_id,$section_id,$term_id)){
-                    Tool::Redirect('/user/user-course','没有权限查看','notice');
+                if (!User::checkPermitSection($user->user_id, $section_id, $term_id)) {
+                    Tool::Redirect('/user/user-course', '没有权限查看', 'notice');
                 };
-                $wares = $cs->getSectionWare($section_id, $user->user_id,$term_id);
+                $wares = $cs->getSectionWare($section_id, $user->user_id, $term_id);
 
             } else {
                 //只能看游客的课
@@ -50,10 +50,10 @@ class SectionController extends Controller
                 //echo $section_id;die;
                 $cs = new CourseSection();
                 //判断是否有权限查看该课件checkPermitSection
-                if(!User::checkPermitSection($user->user_id,$section_id,$term_id)){
-                    Tool::Redirect('/user/user-course','没有权限查看','notice');
+                if (!User::checkPermitSection($user->user_id, $section_id, $term_id)) {
+                    Tool::Redirect('/user/user-course', '没有权限查看', 'notice');
                 };
-                $wares = $cs->getSectionWare($section_id, $user->user_id,$term_id);
+                $wares = $cs->getSectionWare($section_id, $user->user_id, $term_id);
             } else {
                 Tool::Redirect("/user/login");
             }
@@ -61,6 +61,34 @@ class SectionController extends Controller
 
         //print_r($wares);die;
         return $this->render('list', ['wares' => $wares]);
+    }
+
+    /**
+     * @return string
+     */
+    public function actionFree()
+    {
+        //$key = 'FREE';
+        // $code = base64_encode(Yii::$app->security->encryptByKey($section_id, $key)); //加密
+        // $section_id = Yii::$app->security->decryptByKey(base64_decode($s_id), $key);//解密
+        //$term_id = Yii::$app->security->decryptByKey(base64_decode($t_id), $key);//解密
+
+        $this->layout='user';
+        $wares = [];
+        $section_id = (int)Yii::$app->request->get('section_id');
+        $term_id = (int)Yii::$app->request->get('term_id');
+        $d_time = base64_decode(Yii::$app->request->get('time'));
+        $freeArray = Yii::$app->params['free'];
+        if(in_array($section_id,$freeArray)){
+            if (!User::checkFreeSection($section_id, $term_id,$d_time)) {
+               Tool::notice('没有权限查看或者权限已经失效','notice');
+            };
+            $cs = new CourseSection();
+            $wares = $cs->getFreeWare($section_id, $term_id);
+        }
+
+
+        return $this->render('free_list', ['wares' => $wares]);
     }
 
 

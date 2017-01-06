@@ -54,8 +54,8 @@ class User extends ActiveRecord
             ['verifyCode','number', 'on' => ['mobilesignup']],
             ['verifyCode','string', 'max'=>'4','min'=>'4', 'on' =>['mobilesignup']],
 
-            ['is_email', 'default', 'value' => 1],
-            ['is_email', 'in', 'range' => [1, 2]],
+            ['is_email', 'default', 'value' => 0],
+            ['is_email', 'in', 'range' => [0, 2]],
 
 
 
@@ -106,17 +106,15 @@ class User extends ActiveRecord
      */
     public static function findByLogin($username)
     {
+        $result = [];
         if (preg_match('/^1[34578][\d]{9}$/',$username)){
-
-            return self::findOne(['phone' => $username]);
-
-        } elseif (preg_match('/^[\w\-\.]+@[\w\-]+(\.\w+)+$/',$username)){
-
-            return self::findOne(['email' => $username]);
+            $result = ['result' => self::findOne(['phone' => $username]), 'type' => 'phone'];
+        } else if (preg_match('/^[\w\-\.]+@[\w\-]+(\.\w+)+$/',$username)){
+            $result = ['result' => self::findOne(['email' => $username]), 'type' => 'email'];
+        } else {
+            $result = ['result' => self::findOne(['username' => $username]), 'type' => 'username'];
         }
-        else{
-            return self::findOne(['username' => $username]);
-        }
+        return $result;
     }
 
 
@@ -169,13 +167,34 @@ class User extends ActiveRecord
     {
         if ($username && $password) {
             $user = self::findByLogin($username);
-
-            if($user->password == self::GenPassword($password)){
-                self::Remember($user);
-                return true;
-            }else{
+            $result = $user['result'];
+            if ($result)
+            {
+                if ($user['type'] == 'email')
+                {
+                    if ($result->is_email == 2) {
+                        if($result->password == self::GenPassword($password)){
+                            self::Remember($result);
+                            return true;
+                        }else{
+                            return false;
+                        }
+                    } else {
+                        return false;
+                    }
+                } else {
+                    if($result->password == self::GenPassword($password)){
+                        self::Remember($result);
+                        return true;
+                    }else{
+                        return false;
+                    }
+                }
+            } else {
                 return false;
             }
+
+
         }else{
             return false;
         }
@@ -447,6 +466,63 @@ class User extends ActiveRecord
 
                 foreach ($usercat as $uKey => $uVal) {
                     if ($uVal['sectionCat']['section_id'] == 13) {
+                        return true;
+                    } else {
+                        continue;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    /** 验证免费列表是否有权限查看
+     * @param int $section_id
+     * @param int $term_id
+     * @return bool
+     */
+    static public function checkFreeSection($section_id = 0, $term_id = 0,$t_time)
+    {
+        if ($term_id && $section_id && $t_time) {
+            $term = TermModel::findOne(['section_id' => $section_id, 'id' => $term_id]);
+            if ($term) {
+                if (!$term->end_time) {
+                    return false;
+                }
+                $newtime = time();
+                if ($newtime < $term->end_time && $t_time== $term->end_time) {
+                    return true;
+                }else{
+                    return false;
+                }
+            } else {
+                return false;
+            }
+
+        }
+        return false;
+    }
+
+    /**
+     * 免费ware是否有权限
+     * @param string $user_id
+     * @param string $ware_id
+     * @return boolen
+     * @access public
+     */
+
+    static public function checkFreeWare($section_id=0, $ware_id = 0)
+    {
+        if ($ware_id && $section_id) {
+            $cat = CourseWare::find()->where(['ware_id' => $ware_id]);
+            $cat->joinWith(['sectionCat' => function ($cat) {
+                //$cat->select('section_id,term_id');
+            }]);
+            $usercat = $cat->asArray()->all();//6,1,3
+            if ($usercat) {
+
+                foreach ($usercat as $uKey => $uVal) {
+                    if ($uVal['sectionCat']['section_id'] == $section_id) {
                         return true;
                     } else {
                         continue;

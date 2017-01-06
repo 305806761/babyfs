@@ -54,30 +54,30 @@ class CourseSection extends ActiveRecord
      * @param array $course_id
      * @return boolean
      */
-    public function add($section_id,$course_id)
+    public function add($section_id, $course_id)
     {
 
-        if($section_id && $course_id){
-            if(is_array($course_id)){
-                foreach ($course_id as $value){
-                    $course_section = CourseSection::findOne(['section_id'=>$section_id,'course_id'=>$value]);
-                    if(!$course_section){
+        if ($section_id && $course_id) {
+            if (is_array($course_id)) {
+                foreach ($course_id as $value) {
+                    $course_section = CourseSection::findOne(['section_id' => $section_id, 'course_id' => $value]);
+                    if (!$course_section) {
                         $course_section = new CourseSection();
                     }
                     $course_section->section_id = $section_id;
                     $course_section->course_id = $value;
                     $course_section->save();
                 }
-            }else{
-                $course_section = CourseSection::findOne(['section_id'=>$section_id,'course_id'=>$course_id]);
-                if(!$course_section){
+            } else {
+                $course_section = CourseSection::findOne(['section_id' => $section_id, 'course_id' => $course_id]);
+                if (!$course_section) {
                     $course_section = new CourseSection();
                 }
                 $course_section->section_id = $section_id;
                 $course_section->course_id = $course_id;
                 $course_section->save();
             }
-        }else{
+        } else {
             return false;
         }
         return true;
@@ -97,17 +97,17 @@ class CourseSection extends ActiveRecord
      * @return array
      */
 
-    public static function getCourseSection($section_id='')
+    public static function getCourseSection($section_id = '')
     {
-        if($section_id){
-            $section = Section::findOne(['section_id'=>$section_id])->attributes;
-            $section['course_id'] = CourseSection::find()->select('course_id')->where(['section_id'=>$section_id])->asArray()->all();
-        }else{
+        if ($section_id) {
+            $section = Section::findOne(['section_id' => $section_id])->attributes;
+            $section['course_id'] = CourseSection::find()->select('course_id')->where(['section_id' => $section_id])->asArray()->all();
+        } else {
             $section = Section::find()->asArray()->all();
-            foreach ($section as $key=> $value){
-                foreach ($value as $val){
+            foreach ($section as $key => $value) {
+                foreach ($value as $val) {
                     $section[$key]['course_id'] = CourseSection::find()->select('course_id')
-                        ->where(['section_id'=>$value['section_id']])->asArray()->all();
+                        ->where(['section_id' => $value['section_id']])->asArray()->all();
                 }
 
             }
@@ -120,9 +120,10 @@ class CourseSection extends ActiveRecord
      * @param integer $section_id
      * @return array
      */
-    public static function getCourse(){
+    public static function getCourse()
+    {
         $course = Course::find()->asArray()->all();
-        foreach ($course as $key=>$value){
+        foreach ($course as $key => $value) {
             $sql = "SELECT s.* FROM course_section AS cs LEFT join section as s ON cs.section_id = s.section_id where cs.course_id ='{$value[course_id]}'";
             $section = Yii::$app->db->createCommand($sql)->queryAll();
             $course[$key]['section'] = $section;
@@ -131,17 +132,18 @@ class CourseSection extends ActiveRecord
     }
 
 
-    /**
-     *
-     * 获取所有课程$is_free=0 是免费，￥is_free=1是收费
+    /**获取课件列表
+     * @param $section_id
+     * @param $user_id
+     * @param $term_id
+     * @return array|\yii\db\ActiveRecord[]
      */
-
-    public function getSectionWare($section_id, $user_id,$term_id)
+    public function getSectionWare($section_id, $user_id, $term_id)
     {
-        if (!$uc = UserCourse::findOne(['section_id' => $section_id, 'user_id' => $user_id,'term_id'=>$term_id])) {
+        if (!$uc = UserCourse::findOne(['section_id' => $section_id, 'user_id' => $user_id, 'term_id' => $term_id])) {
             return [];
         }
-        if (!$term = TermModel::findOne(['section_id' => $section_id,'id'=>$term_id])) {
+        if (!$term = TermModel::findOne(['section_id' => $section_id, 'id' => $term_id])) {
             return [];
         }
         /*//从学期中获取开始时间
@@ -150,23 +152,23 @@ class CourseSection extends ActiveRecord
         }*/
 
         //从user_course中获取开始时间
-        if (!$usable = Ware::getUsable($section_id,$term_id, strtotime($uc->create_time))) {
+        if (!$usable = Ware::getUsable($section_id, $term_id, strtotime($uc->create_time))) {
             return [];
         }
 
-        $section_ware = SectionCat::find()->where(['section_id'=>$section_id,'term_id'=>$term_id])->asArray()->all();
-       // print_r($section_ware);die;
+        $section_ware = SectionCat::find()->where(['section_id' => $section_id, 'term_id' => $term_id])->asArray()->all();
+        // print_r($section_ware);die;
         foreach ($section_ware as $key => $value) {
-            $query = CourseWare::find()->from(['cw'=>CourseWare::tableName()])->where(['cw.section_cat_id'=>$value['id']]);
-            $query->joinWith(['ware'=>function($query){
-                $query->from(['w'=>Ware::tableName()])
+            $query = CourseWare::find()->from(['cw' => CourseWare::tableName()])->where(['cw.section_cat_id' => $value['id']]);
+            $query->joinWith(['ware' => function ($query) {
+                $query->from(['w' => Ware::tableName()])
                     ->select('w.title,w.ware_id,w.image,w.small_text');
             }]);
             $ware = $query->asArray()->all();
             $course = Course::findOne($uc->course_id);
-            if($course->type == 3){
+            if ($course->type == 3) {
                 $section_ware[$key]['ware'] = $ware;
-            }else{
+            } else {
                 $all = count($ware);
                 if ($all > $usable) {
                     $ware = array_slice($ware, 0, $usable);
@@ -180,7 +182,7 @@ class CourseSection extends ActiveRecord
             }
         }
 
-        $section = Section::findOne(['section_id'=>$section_id]);
+        $section = Section::findOne(['section_id' => $section_id]);
         $ware = array('section_name' => $section->name, 'section_ware' => $section_ware);
         //echo "<pre>";
         //print_r($ware);die;
@@ -189,37 +191,88 @@ class CourseSection extends ActiveRecord
     }
 
 
-    /**
-     *
-     * 获取所有课程$is_free=0 是免费，￥is_free=1是收费
+    /**游客入口
+     * @param $section_id
+     * @param $term_id
+     * @return array|\yii\db\ActiveRecord[]
      */
-
-    public function getGuestWare($section_id,$term_id)
+    public function getGuestWare($section_id, $term_id)
     {
         $ware = [];
         if ($section_id && $term_id) {
             $sectionInfo = CourseSection::find()->where(['section_id' => $section_id])->one();
             if ($sectionInfo) {
-                $section_ware = SectionCat::find()->where(['section_id'=>$section_id,'term_id'=>$term_id])->asArray()->all();
+                $section_ware = SectionCat::find()->where(['section_id' => $section_id, 'term_id' => $term_id])->asArray()->all();
                 //print_r($section_ware);die;
                 foreach ($section_ware as $key => $value) {
-                    $query = CourseWare::find()->from(['cw'=>CourseWare::tableName()])->where(['cw.section_cat_id'=>$value['id']]);
-                    $query->joinWith(['ware'=>function($query){
-                        $query->from(['w'=>Ware::tableName()])
+                    $query = CourseWare::find()->from(['cw' => CourseWare::tableName()])->where(['cw.section_cat_id' => $value['id']]);
+                    $query->joinWith(['ware' => function ($query) {
+                        $query->from(['w' => Ware::tableName()])
                             ->select('w.title,w.ware_id,w.image,w.small_text');
                     }]);
                     $ware = $query->asArray()->all();
                     $course = Course::findOne($sectionInfo->course_id);
-                    if($course->type == 3){
+                    if ($course->type == 3) {
                         $section_ware[$key]['ware'] = $ware;
                     }
                 }
 
-                $section = Section::findOne(['section_id'=>$section_id]);
+                $section = Section::findOne(['section_id' => $section_id]);
                 $ware = array('section_name' => $section->name, 'section_ware' => $section_ware);
             }
 
         }
+        //$section_ware['section_name'] = $section_ware[0]['section_name'];
+        return $ware;
+    }
+
+    /** 免费可入口
+     * @param $section_id
+     * @param $term_id
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    public function getFreeWare($section_id, $term_id)
+    {
+        $ware = [];
+        if ($section_id && $term_id) {
+            if (!$term = TermModel::findOne(['section_id' => $section_id, 'id' => $term_id])) {
+                return [];
+            }
+            //从学期中获取开始时间
+            if (!$usable = Ware::getUsable($section_id,$term_id,$term->start_time)) {
+                return [];
+            }
+
+            $sectionInfo = CourseSection::find()->where(['section_id' => $section_id])->one();
+            if ($sectionInfo) {
+                $section_ware = SectionCat::find()->where(['section_id' => $section_id, 'term_id' => $term_id])->asArray()->all();
+                // print_r($section_ware);die;
+                foreach ($section_ware as $key => $value) {
+                    $query = CourseWare::find()->from(['cw' => CourseWare::tableName()])->where(['cw.section_cat_id' => $value['id']]);
+                    $query->joinWith(['ware' => function ($query) {
+                        $query->from(['w' => Ware::tableName()])
+                            ->select('w.title,w.ware_id,w.image,w.small_text');
+                    }]);
+                    $ware = $query->asArray()->all();
+                    $all = count($ware);
+                    if ($all > $usable) {
+                        $ware = array_slice($ware, 0, $usable);
+                    }
+                    $section_ware[$key]['ware'] = $ware;
+
+                    if ($all >= $usable) {
+                        break;
+                    }
+                    $usable -= $all;
+
+                }
+
+                $section = Section::findOne(['section_id' => $section_id]);
+                $ware = array('section_name' => $section->name, 'section_ware' => $section_ware);
+            }
+        }
+        //echo "<pre>";
+        //print_r($ware);die;
         //$section_ware['section_name'] = $section_ware[0]['section_name'];
         return $ware;
     }

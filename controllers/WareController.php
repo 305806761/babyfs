@@ -19,10 +19,11 @@ use yii\web\Controller;
 
 class WareController extends Controller
 {
-    public function actionDetail($ware_id=''){
-        $this->layout = false;
+    public function actionDetail($ware_id = '')
+    {
+        $this->layout = 'ware';
         $ware_id = Yii::$app->request->get('ware_id') ? Yii::$app->request->get('ware_id') : $ware_id;
-        if(!$ware_id){
+        if (!$ware_id) {
             Tool::Redirect('/section/list');
         }
         //登陆session
@@ -37,8 +38,8 @@ class WareController extends Controller
             //如果用户是游客
             if ($user) {
                 //判断是否有权限查看该课件
-                if(!User::checkPermitWare($user->user_id,$ware_id)){
-                    Tool::Redirect('/section/list','没有权限查看','notice');
+                if (!User::checkPermitWare($user->user_id, $ware_id)) {
+                    Tool::Redirect('/section/list', '没有权限查看', 'notice');
                 };
                 $model = $this->findModel($ware_id);
                 $result = '';
@@ -48,7 +49,7 @@ class WareController extends Controller
                             // print_r($c);die;
                             if ($template_code = TemplateCode::findOne($wt->temp_code_id)) {
                                 $engine = new Handlebars();
-                                $engine->registerHelper('addOne', function ($index){
+                                $engine->registerHelper('addOne', function ($index) {
                                     return ++$index;
                                 });
                                 $result .= $engine->render(
@@ -73,7 +74,7 @@ class WareController extends Controller
                                 // print_r($c);die;
                                 if ($template_code = TemplateCode::findOne($wt->temp_code_id)) {
                                     $engine = new Handlebars();
-                                    $engine->registerHelper('addOne', function ($index){
+                                    $engine->registerHelper('addOne', function ($index) {
                                         return ++$index;
                                     });
                                     $result .= $engine->render(
@@ -93,8 +94,8 @@ class WareController extends Controller
             if ($user) {
                 //如果用户存在，那么用户不能看游客的课
                 //判断是否有权限查看该课件
-                if(!User::checkPermitWare($user->user_id,$ware_id)){
-                    Tool::Redirect('/section/list','没有权限查看','notice');
+                if (!User::checkPermitWare($user->user_id, $ware_id)) {
+                    Tool::Redirect('/section/list', '没有权限查看', 'notice');
                 };
                 $model = $this->findModel($ware_id);
                 $result = '';
@@ -104,7 +105,7 @@ class WareController extends Controller
                             // print_r($c);die;
                             if ($template_code = TemplateCode::findOne($wt->temp_code_id)) {
                                 $engine = new Handlebars();
-                                $engine->registerHelper('addOne', function ($index){
+                                $engine->registerHelper('addOne', function ($index) {
                                     return ++$index;
                                 });
                                 $result .= $engine->render(
@@ -121,7 +122,44 @@ class WareController extends Controller
             }
         }
         //print_r($model);die;
-        return $this->render('detail',['ware'=>$model]);
+        return $this->render('detail', ['ware' => $model]);
+    }
+
+    public function actionView($ware_id = '')
+    {
+        $this->layout = 'ware';
+        $ware_id = Yii::$app->request->get('ware_id') ? Yii::$app->request->get('ware_id') : $ware_id;
+        $section_id = Yii::$app->request->get('section_id') ? Yii::$app->request->get('section_id') : '';
+        if ($ware_id && $section_id) {
+            $freeArray = Yii::$app->params['free'];
+            if (in_array($section_id, $freeArray)) {
+                $models = User::checkFreeWare($section_id, $ware_id);
+                if ($models) {
+                    $model = $this->findModel($ware_id);
+                    $result = '';
+                    if ($c = json_decode($model->contents, true)) {
+                        foreach ($c as $type_id) {
+                            if ($wt = WareType::findOne($type_id)) {
+                                // print_r($c);die;
+                                if ($template_code = TemplateCode::findOne($wt->temp_code_id)) {
+                                    $engine = new Handlebars();
+                                    $engine->registerHelper('addOne', function ($index) {
+                                        return ++$index;
+                                    });
+                                    $result .= $engine->render(
+                                        $template_code->code,
+                                        json_decode($wt->content, true)
+                                    );
+                                }
+                            }
+                        }
+                    }
+                    $model->contents = $result;
+                }
+            }
+        }
+        //print_r($model);die;
+        return $this->render('view', ['ware' => $model]);
     }
 
     protected function findModel($id)
