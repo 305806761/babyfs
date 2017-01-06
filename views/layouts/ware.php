@@ -4,12 +4,6 @@
 /* @var $content string */
 
 use yii\helpers\Html;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
-use app\assets\AppAsset;
-
-AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!doctype html>
@@ -24,6 +18,7 @@ AppAsset::register($this);
     <meta content="telephone=no" name="format-detection"/>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+    <link rel="stylesheet" href="/wap/css/index.css"/>
     <script type="text/javascript" src="http://www.babyfs.cn/skin/jplayer/jquery.min.js"></script>
     <script type="text/javascript" src="http://www.babyfs.cn/skin/jplayer/jquery.jplayer.min.js"></script>
 
@@ -36,7 +31,7 @@ AppAsset::register($this);
 
 
 <!--script src="/default/js/public/jquery-1.9.1.min.js"></script-->
-<script src="/default/js/public/effect.js"></script>
+<script src="/wap/js/index.js"></script>
 <script>
     var Answer = (function () {
 
