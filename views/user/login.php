@@ -9,6 +9,16 @@ $this->params['breadcrumbs'][] = $this->title;
 $login = true;
 WapAsset::register($this);
 ?>
+
+<?php if($_COOKIE['notice']):?>
+    <div class="sysmsg sysmsg-notice"><p><?= $_COOKIE['notice'] ?></p><span class="J_Close close">关闭</span></div>
+<?php endif;?>
+<?php if($_COOKIE['error']):?>
+    <div class="sysmsg sysmsg-error"><p><?= $_COOKIE['error'] ?></p><span class="J_Close close">关闭</span></div>
+<?php endif;?>
+<?php if($_COOKIE['success']):?>
+    <div class="sysmsg sysmsg-success"><p><?= $_COOKIE['success'] ?></p><span class="J_Close close">关闭</span></div>
+<?php endif;?>
 <body class="login-body">
 <?php $this->beginBody() ?>
 <div class="l-logo-babyfs"><img src="/wap/images/logo_babyfs.png" alt="" /></div>

@@ -560,6 +560,10 @@ body{
     display: none;
 }
 /* introduce1 */
+.framework {
+    width: 88%;
+    margin:80px auto 0 auto;
+}
 .introduce1-top {
     width: 100%;
     height: 60px;
@@ -608,14 +612,14 @@ body{
     font-weight: bold;
     padding: 15px 0 5px 0;
 }
-.C-con-dialogue{
+/*.C-con-dialogue{
     width: 100%;
     height: auto;
     margin: 80px auto 0 auto;
     padding-bottom: 55px;
-}
+}*/
 .C-left-dialogue{
-    width: 90%;
+    width: 100%;
     height: auto;
     margin: 5px auto 5px auto;
 }
@@ -743,11 +747,11 @@ body{
     bottom:-10px;
     right: -20px;
 }
-.introduce2-center{
+/*.introduce2-center{
     width: 88%;
     height: auto;
     margin: 20px auto 75px auto;
-}
+}*/
 .introduce2-center-top{
     width: 100%;
     height: auto;
@@ -905,7 +909,7 @@ body{
     height: 335px;
     background: url("../images/introduce-task-card.png") no-repeat center center;
     background-size: 100% 100%;
-    margin: 30px auto;
+    margin: 30px auto 80px auto;
     text-align: center;
 }
 .introduce-task-card div{
@@ -944,7 +948,7 @@ body{
     text-align: center;
     background: url("../images/introduce-tip-bg2.png") no-repeat center center;
     background-size: 100% 100%;
-    margin: 40px auto 15px auto;
+    margin: 40px auto 50px auto;
 }
 .C-dialogue-title2 h5{
     padding: 15px 0 5px 0;
@@ -962,9 +966,9 @@ body{
 .imgChangeBig img { width: 100%; height: auto;}
 .tmBgOpacity60 { width: 100%; background-color: #000; opacity: 0.6; position: absolute; top: 0; left: 0;}
 /* introduce3 */
-.introduce3-content{
+/*.introduce3-content{
     margin: 80px auto 80px auto;
-}
+}*/
 /* userinfo */
 .userinfo-input-box1 {
     padding-top:10px;
@@ -1289,3 +1293,10 @@ body{
 @media only screen and (max-width: 319px) {
     /*.l-input-link { border: 1px solid blue;}*/
 }
+
+.sysmsg{clear:both;position:relative;width:90%;margin:8px auto;}
+.sysmsg p{font-size:16px;color:#f60;padding:8px 0 8px 40px;background:#f9feda url(/default/img//sysmsg.png) no-repeat 10px 10px;border:1px solid #fc0;}
+.sysmsg-success p{color:#690;background:#eefcd3 url(/default/img/sysmsg.png) no-repeat 10px -24px;border:1px solid #990;}
+.sysmsg-error p{color:#f00;background:#feeada url(/default/img/sysmsg.png) no-repeat 10px -58px;border:1px solid #f00;}
+.sysmsg.inbox p{width:690px;}.sysmsg .close{position:absolute;top:12px;right:8px;background:url(/default/img/sysmsg.png) no-repeat 100% 100%;text-indent:-99px;cursor:pointer;display:block;width:16px;height:16px;overflow:hidden;}
+.sysmsg.inbox .close{right:260px;}

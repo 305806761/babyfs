@@ -94,14 +94,17 @@ class UserController extends Controller
         }
         $model = new User();
         $model->setScenario('login');
-
         if($model->load(Yii::$app->request->post()) && $model->validate()){
 
             if($model->login($model->loginname,$model->password)){
                 Tool::Redirect(User::get_loginpage());
             }else{
-               return $this->redirect('login');
+                Tool::notice('账号或密码有误','error');
+                return $this->redirect('login');
             }
+        } else {
+            Tool::notice('账号或密码有误','error');
+            return $this->render('login',['model'=> $model]);
         }
         return $this->render('login',['model'=> $model]);
     }
@@ -246,7 +249,7 @@ class UserController extends Controller
             $email = Yii::$app->security->decryptByKey(base64_decode($code), self::EMAIL_KEY);
             if ($email)
             {
-                $userInfo = User::find()->where(['email' => $email, 'is_email' => '1'])->one();
+                $userInfo = User::find()->where(['email' => $email, 'is_email' => 0])->one();
                 if ($userInfo)
                 {
                     $userInfo->is_email = 2;
