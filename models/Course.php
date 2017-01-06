@@ -10,9 +10,6 @@ namespace app\models;
 
 use app\models\base\BaseModel;
 use Yii;
-use yii\base\Model;
-use yii\db\ActiveRecord;
-use yii\web\Session;
 
 class Course extends BaseModel
 {
@@ -135,13 +132,11 @@ class Course extends BaseModel
             $query->select('id,term,start_time,end_time');
         }]);
         $section = $query->asArray()->all();
+
         $newtime = time();
         $free = array('7', '8', '9');
         $section_ids = array();
-        //用户的所有权限
-        $freebuy = false;
         $a = false;
-        //print_r($section);die;
         foreach ($section as $key => $value) {
             //开放中
             $section[$key]['is_buy'] = '1';
@@ -155,22 +150,11 @@ class Course extends BaseModel
             if ($value['started'] == '1') {
                 $section[$key]['is_buy'] = '0';
             }
-            // 如果单独买的免费课，只显示买的第一个为学习中，其他未开放，如果买的精品和免费，买的为开放，没买的为为开放。
+
             if (in_array($value['section_id'], $free)) {
-                if ($value['term']['term'] == '1') {
 
-                } else {
-                    if ($freebuy) {
-                        $section[$key]['is_buy'] = '0';
-                        unset($section[$key]);
-                        continue;
-                    }
-                    $freebuy = true;
-                }
-
-            } else {
-                //买了精品
-                $a = true;
+            }else{
+                $a = 1;
             }
             //所有免费和精品课，免费只有一个
             $section_ids[] = $value['section_id'];
@@ -186,12 +170,12 @@ class Course extends BaseModel
             }
             return $section;
         }
-        //只卖了免费，反正就显示三个，只有一个开放
-        if (empty($a)) {
-            //$section_ids = array_udiff($section_ids,$free);
+
+        if(!$a){
+            //只买了免费课
             $section_ids = array_diff($free, $section_ids);
             $course_section = Section::find()->where(['in', 'section_id', $section_ids])->andWhere(['is_show' => 0])->asArray()->all();
-        } else {
+        }else{
             //显示精品和免费
             $course_section = Section::find()->where(['not in', 'section_id', $section_ids])->andWhere(['is_show' => 0])->asArray()->all();
         }
@@ -206,7 +190,8 @@ class Course extends BaseModel
         return $course;
     }
 
-    public static function getGuestCourse(){
+    public static function getGuestCourse()
+    {
         //如果什么都没买 ，只显示精品
         $section = Section::find()->where(['section_id' => 13, 'is_show' => 1])->asArray()->all();
         foreach ($section as $skey => $sval) {
@@ -215,7 +200,7 @@ class Course extends BaseModel
             $section[$skey]['is_buy'] = 1;
 
         }
-       // echo "<pre>";
+        // echo "<pre>";
         //print_r($section);
         //die;
         return $section;

@@ -43,7 +43,7 @@ class Section extends ActiveRecord
         $course_section->expire_time = $param['expire_time'] ? $param['expire_time'] : $course_section->expire_time;
         $course_section->create_time = $param['create_time'] ? $param['create_time'] : $course_section->create_time;
         $course_section->sort = $param['sort'] ? $param['sort'] : $course_section->sort;
-        $course_section->is_show = $param['is_show'] ? $param['is_show'] : $course_section->is_show;
+        $course_section->is_show = isset($param['is_show']) ? $param['is_show'] : $course_section->is_show;
         $course_section->section_id = $param['section_id'] ? $param['section_id'] : $course_section->section_id;
         $course_section->buyurl = $param['buyurl'] ? $param['buyurl'] : $course_section->buyurl;
 
@@ -60,7 +60,7 @@ class Section extends ActiveRecord
             $image = json_encode($file);
         }
         $course_section->image = $image ? $image : $course_section->image;
-        //var_dump($course_section);die;
+
         //用户信息插入数据库
         if ($course_section->save()) {
             $section_id = Yii::$app->db->lastInsertID ? Yii::$app->db->lastInsertID : $course_section->section_id;
