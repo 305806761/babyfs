@@ -54,7 +54,7 @@ class RcodeController extends Controller{
         if($section_id && $term_id && $time){
             $end_time = strtotime($time);
             $etime = base64_encode($end_time);//加密
-            echo "http://cs.babyfs.cn/section/free?section_id=".$section_id."&term_id=".$term_id."&time=".$etime;die;
+            echo "http://course.babyfs.cn/section/free?section_id=".$section_id."&term_id=".$term_id."&time=".$etime;die;
         }
         return $this->render('get_url');
     }
