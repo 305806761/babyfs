@@ -364,7 +364,7 @@ class UserController extends Controller
                             }
                         } else {
                             //应该退出
-                            Tool::Redirect("/user/default", '用户不存在！', 'passworderror');
+                            Tool::Redirect("/user/reset-password", '用户不存在！', 'passworderror');
                             //return $this->render('reset', [
                             //    'model' => $model,
                             //]);
