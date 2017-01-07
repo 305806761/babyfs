@@ -591,6 +591,8 @@ body{
     color: #f67402;
     font-size: 1.4rem;
     font-weight: bold;
+    height: 18px;
+    line-height: 18px;
     overflow: hidden;
 }
 .C-dialogue-title{
