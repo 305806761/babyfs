@@ -9,17 +9,18 @@ $this->params['breadcrumbs'][] = $this->title;
 WapAsset::register($this);
 
 ?>
+
+<body class="register-body">
+<?php $this->beginBody() ?>
 <?php if($_COOKIE['notice']):?>
     <div class="sysmsg sysmsg-notice"><p><?= $_COOKIE['notice'] ?></p><span class="J_Close close">关闭</span></div>
 <?php endif;?>
-<?php if($_COOKIE['error']):?>
-    <div class="sysmsg sysmsg-error"><p><?= $_COOKIE['error'] ?></p><span class="J_Close close">关闭</span></div>
+<?php if($_COOKIE['passworderror']):?>
+    <div class="sysmsg sysmsg-error"><p><?= $_COOKIE['passworderror'] ?></p><span class="J_Close close">关闭</span></div>
 <?php endif;?>
 <?php if($_COOKIE['success']):?>
     <div class="sysmsg sysmsg-success"><p><?= $_COOKIE['success'] ?></p><span class="J_Close close">关闭</span></div>
 <?php endif;?>
-<body class="register-body">
-<?php $this->beginBody() ?>
 <div class="l-logo-babyfs"><img src="/wap/images/logo_babyfs.png" alt="" /></div>
 <div class="register-con">
     <?php $form = ActiveForm::begin(); ?>
@@ -73,6 +74,24 @@ WapAsset::register($this);
     <?php ActiveForm::end(); ?>
 
 </div>
+<footer>
+    <div class="footer">
+        <ul>
+            <li class="footer-li-a<?php if(!isset($this->params['user_button'])) echo " active"?>">
+                <a href="/user/user-course">
+                    <span class="icon1<?php if(!isset($this->params['user_button'])) echo " active"?>"><span></span></span>
+                    <span<?php if(!isset($this->params['user_button'])) echo " class='active'"?>>我的课程</span>
+                </a>
+            </li>
+            <li class="footer-li-a<?php if(isset($this->params['user_button'])) echo " active"?>">
+                <a href="/user/default">
+                    <span class="icon2<?php if(isset($this->params['user_button'])) echo " active"?>"><span></span></span>
+                    <span<?php if(isset($this->params['user_button'])) echo " class='active'"?>>用户中心</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</footer>
 <?php $this->endBody() ?>
 </body>
 <?php

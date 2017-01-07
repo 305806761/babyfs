@@ -99,11 +99,11 @@ class UserController extends Controller
             if($model->login($model->loginname,$model->password)){
                 Tool::Redirect(User::get_loginpage());
             }else{
-                Tool::notice('账号或密码有误','error');
+                Tool::notice('账号或密码有误','loginerror');
                 return $this->redirect('login');
             }
         } else {
-            Tool::notice('账号或密码有误','error');
+            Tool::notice('账号或密码有误','loginerror');
             return $this->render('login',['model'=> $model]);
         }
         return $this->render('login',['model'=> $model]);
@@ -147,22 +147,22 @@ class UserController extends Controller
                     $signup_sms_time = Yii::$app->session->get('login_sms_time');
                     if (time() - $signup_sms_time < 600) {
                         if ($model->verifyCode != $signup_sms_code) {
-                            Tool::notice('验证码输入有误','error');
+                            Tool::notice('验证码输入有误','signuperror');
                             return $this->redirect('signup');
                         }
                     } else {
-                        Tool::notice('验证码已经失效','error');
+                        Tool::notice('验证码已经失效','signuperror');
                         return $this->redirect('signup');
                     }
                 } else {
-                    Tool::notice('请输入验证码','error');
+                    Tool::notice('请输入验证码','signuperror');
                     return $this->redirect('signup');
                 }
                 $userInfo = $model::findOne(['phone' => $model->phone]);
                 if($userInfo){
                     if ($userInfo->password)
                     {
-                        Tool::notice('用户已经存在','error');
+                        Tool::notice('用户已经存在','signuperror');
                         return $this->redirect('signup');
                     } else {
                         //$userInfo->password = $model::GenPassword($model->password);
@@ -176,11 +176,11 @@ class UserController extends Controller
                             }else{
         //                        print_r($model->errors);
         //                        die;
-                                Tool::notice('注册失败','error');
+                                Tool::notice('注册失败','signuperror');
                                 return $this->redirect('signup');
                             }
                         } else {
-                            Tool::notice('密码不一致','error');
+                            Tool::notice('密码不一致','signuperror');
                             return $this->redirect('signup');
                         }
 
@@ -196,7 +196,7 @@ class UserController extends Controller
                     }else{
 //                        print_r($model->errors);
 //                        die;
-                        Tool::notice('注册失败','error');
+                        Tool::notice('注册失败','signuperror');
                         return $this->redirect('signup');
                     }
                 }
@@ -327,7 +327,7 @@ class UserController extends Controller
      */
     public function actionResetPassword()
     {
-        $this->layout = 'main';
+        $this->layout = 'user';
         $rnd = $_COOKIE['user_rnd'];
         $model = new User();
         $model->setScenario('resetpassword');
@@ -352,30 +352,29 @@ class UserController extends Controller
 
                                 if ($result->save())
                                 {
-                                    Tool::Redirect('/user/default', '密码修改成功', 'success');
+                                    return $this->redirect('/user/default');
                                 } else {
-                                    Tool::Redirect("/user/reset-password", '修改密码失败！', 'error');
-
+                                    Tool::Redirect("/user/reset-password", '修改密码失败！', 'passworderror');
                                 }
                             } else {
-                                //Tool::Redirect("/user/reset-password", '两次密码不同！', 'error');
-                                return $this->render('reset', [
-                                    'model' => $model,
-                                ]);
+                                Tool::Redirect("/user/reset-password", '两次密码不同！', 'passworderror');
+                                //return $this->render('reset', [
+                                //    'model' => $model,
+                                //]);
                             }
                         } else {
                             //应该退出
-                            //Tool::Redirect("/user/default", '用户不存在！', 'error');
-                            return $this->render('reset', [
-                                'model' => $model,
-                            ]);
+                            Tool::Redirect("/user/default", '用户不存在！', 'passworderror');
+                            //return $this->render('reset', [
+                            //    'model' => $model,
+                            //]);
                         }
                     } else {
 
-                        //Tool::Redirect("/user/reset-password", '请输入旧密码！', 'error');
-                        return $this->render('reset', [
-                            'model' => $model,
-                        ]);
+                        Tool::Redirect("/user/reset-password", '请输入旧密码！', 'passworderror');
+                        //return $this->render('reset', [
+                        //    'model' => $model,
+                        //]);
                     }
                 } else {
                     return $this->render('reset', [
@@ -391,6 +390,10 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * @return string|\yii\web\Response
+     * @修改用户资料
+     */
     public function actionResetUser()
     {
         $this->layout = 'user';
@@ -430,6 +433,64 @@ class UserController extends Controller
             //如果用户没登录，跳转到登录
             return $this->redirect('/user/login');
         }
+    }
+
+    public function actionForget()
+    {
+        $this->layout = 'user';
+        $model = new User();
+        $model->setScenario('mobilesignup');
+        if($model->load(Yii::$app->request->post())){
+            if($model->validate()){
+                if ($model->verifyCode) {
+                    //检查session是否打开
+                    if (!Yii::$app->session->isActive) {
+                        Yii::$app->session->open();
+                    }
+                    //取得验证码和短信发送时间session
+                    $signup_sms_code = intval(Yii::$app->session->get('login_sms_code'));
+                    $signup_sms_time = Yii::$app->session->get('login_sms_time');
+                    if (time() - $signup_sms_time < 600) {
+                        if ($model->verifyCode != $signup_sms_code) {
+                            Tool::notice('验证码输入有误','forgeterror');
+                            return $this->redirect('forget-password');
+                        }
+                    } else {
+                        Tool::notice('验证码已经失效','forgeterror');
+                        return $this->redirect('forget-password');
+                    }
+                } else {
+                    Tool::notice('请输入验证码','forgeterror');
+                    return $this->redirect('forget-password');
+                }
+                $userInfo = $model::findOne(['phone' => $model->phone]);
+                if($userInfo){
+                    //$userInfo->password = $model::GenPassword($model->password);
+                    //$userInfo->repassword = $model::GenPassword($model->repassword);
+                    if ($model->password === $model->repassword) {
+                        $userInfo->password = $model::GenPassword($model->password);
+                        if($userInfo->save()){
+                            //User::Remember($model);
+                            //Tool::Redirect(User::get_loginpage());
+                            return $this->redirect('login');
+                        }else{
+                            //                        print_r($model->errors);
+                            //                        die;
+                            Tool::notice('注册失败','forgeterror');
+                            return $this->redirect('forget-password');
+                        }
+                    } else {
+                        Tool::notice('密码不一致','forgeterror');
+                        return $this->redirect('forget-password');
+                    }
+
+                } else {
+                    Tool::notice('手机号有误','forgeterror');
+                    return $this->redirect('forget-password');
+                }
+            }
+        }
+        return $this->render('forget_password',['model'=> $model]);
     }
 
     /**
