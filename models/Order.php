@@ -118,7 +118,7 @@ class Order extends ActiveRecord
                 Yii::warning(json_encode($term.'阶段学期存在'));
                 //$order['receiver_mobile'] = '18636342640';
                 //3.查看订单手机号是否在用户表存在  $user 是对象
-                $user = User::getUserByName($this->mobile);
+                $user = User::findOne(['phone'=>$this->mobile]);
                 $course_id = $course['course_id'];
                 if ($user->user_id) {
                     $user_id = $user->user_id;
@@ -213,9 +213,12 @@ class Order extends ActiveRecord
                     //return $id;
                 } else {
                     //用户不存在，创建用户，建立用户关系
-                    $user = array('phone' => $this->mobile, 'password' => '');
-                    $users = new User();
-                    $new_user_id = $users->Signup($user);
+                    $sql = "INSERT INTO user (`phone`, `password`) VALUES ('".$this->mobile."', '') ";//and s.sort=1
+                    $result = Yii::$app->db->createCommand($sql)->query();
+                    if($result){
+                        $new_user_id = Yii::$app->db->getLastInsertID();
+                    }
+                    Yii::warning(json_encode($new_user_id.'创建新用户成功！'));
                     if ($new_user_id) {
                         Order::updateAll(['user_id' => $new_user_id], "order_id = $order_id");
                         //会员添加成功
@@ -351,7 +354,8 @@ class Order extends ActiveRecord
                 Yii::warning(json_encode($term.'阶段学期存在'));
                 //$order['receiver_mobile'] = '18636342640';
                 //3.查看订单手机号是否在用户表存在  $user 是对象
-                $user = User::getUserByName($this->mobile);
+
+                $user = User::findOne(['phone'=>$this->mobile]);
                 $course_id = $course['course_id'];
                 if ($user->user_id) {
                     $user_id = $user->user_id;
@@ -447,9 +451,14 @@ class Order extends ActiveRecord
                     //return $id;
                 } else {
                     //用户不存在，创建用户，建立用户关系
-                    $user = array('phone' => $this->mobile, 'password' => '');
-                    $users = new User();
-                    $new_user_id = $users->Signup($user);
+
+                    $sql = "INSERT INTO user (`phone`, `password`) VALUES ('".$this->mobile."', '') ";//and s.sort=1
+                    $result = Yii::$app->db->createCommand($sql)->query();
+                    if($result){
+                        $new_user_id = Yii::$app->db->getLastInsertID();
+                    }
+                    Yii::warning(json_encode($new_user_id.'创建新用户成功！'));
+                    //$new_user_id = $users->Signup($user);
                     if ($new_user_id) {
                         Order::updateAll(['user_id' => $new_user_id], "order_id = $order_id");
                         //会员添加成功
