@@ -19,8 +19,8 @@ WapAsset::register($this);
 <?php if($_COOKIE['loginerror']):?>
     <div class="sysmsg sysmsg-error"><p><?= $_COOKIE['loginerror'] ?></p><span class="J_Close close">关闭</span></div>
 <?php endif;?>
-<?php if($_COOKIE['success']):?>
-    <div class="sysmsg sysmsg-success"><p><?= $_COOKIE['success'] ?></p><span class="J_Close close">关闭</span></div>
+<?php if($_COOKIE['loginsuccess']):?>
+    <div class="sysmsg sysmsg-success"><p><?= $_COOKIE['loginsuccess'] ?></p><span class="J_Close close">关闭</span></div>
 <?php endif;?>
 <div class="l-logo-babyfs"><img src="/wap/images/logo_babyfs.png" alt="" /></div>
 <div class="login-con">

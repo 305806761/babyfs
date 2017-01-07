@@ -19,14 +19,14 @@ $this->registerJs($js);
 
 <body class="register-body">
 <?php $this->beginBody() ?>
-<?php if($_COOKIE['notice']):?>
-    <div class="sysmsg sysmsg-notice"><p><?= $_COOKIE['notice'] ?></p><span class="J_Close close">关闭</span></div>
+<?php if($_COOKIE['forgetnotice']):?>
+    <div class="sysmsg sysmsg-notice"><p><?= $_COOKIE['forgetnotice'] ?></p><span class="J_Close close">关闭</span></div>
 <?php endif;?>
-<?php if($_COOKIE['signuperror']):?>
-    <div class="sysmsg sysmsg-error"><p><?= $_COOKIE['signuperror'] ?></p><span class="J_Close close">关闭</span></div>
+<?php if($_COOKIE['forgeterror']):?>
+    <div class="sysmsg sysmsg-error"><p><?= $_COOKIE['forgeterror'] ?></p><span class="J_Close close">关闭</span></div>
 <?php endif;?>
-<?php if($_COOKIE['success']):?>
-    <div class="sysmsg sysmsg-success"><p><?= $_COOKIE['success'] ?></p><span class="J_Close close">关闭</span></div>
+<?php if($_COOKIE['forgetsuccess']):?>
+    <div class="sysmsg sysmsg-success"><p><?= $_COOKIE['forgetsuccess'] ?></p><span class="J_Close close">关闭</span></div>
 <?php endif;?>
 <div class="l-logo-babyfs"><img src="/wap/images/logo_babyfs.png" alt="" /></div>
 <div class="register-con register-con1">

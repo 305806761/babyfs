@@ -12,14 +12,14 @@ WapAsset::register($this);
 
 <body class="register-body">
 <?php $this->beginBody() ?>
-<?php if($_COOKIE['notice']):?>
-    <div class="sysmsg sysmsg-notice"><p><?= $_COOKIE['notice'] ?></p><span class="J_Close close">关闭</span></div>
+<?php if($_COOKIE['passwordnotice']):?>
+    <div class="sysmsg sysmsg-notice"><p><?= $_COOKIE['passwordnotice'] ?></p><span class="J_Close close">关闭</span></div>
 <?php endif;?>
 <?php if($_COOKIE['passworderror']):?>
     <div class="sysmsg sysmsg-error"><p><?= $_COOKIE['passworderror'] ?></p><span class="J_Close close">关闭</span></div>
 <?php endif;?>
-<?php if($_COOKIE['success']):?>
-    <div class="sysmsg sysmsg-success"><p><?= $_COOKIE['success'] ?></p><span class="J_Close close">关闭</span></div>
+<?php if($_COOKIE['passwordsuccess']):?>
+    <div class="sysmsg sysmsg-success"><p><?= $_COOKIE['passwordsuccess'] ?></p><span class="J_Close close">关闭</span></div>
 <?php endif;?>
 <div class="l-logo-babyfs"><img src="/wap/images/logo_babyfs.png" alt="" /></div>
 <div class="register-con">
