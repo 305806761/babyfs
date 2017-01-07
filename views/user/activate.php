@@ -77,7 +77,7 @@ WapAsset::register($this);
     <?php ActiveForm::end(); ?>
 </div>
 <?php
-$this->registerJs("afterLoad();", \yii\web\View::POS_END);
+$this->registerJs("afterLoad();");
 ?>
 <?php $this->endBody() ?>
 </body>
