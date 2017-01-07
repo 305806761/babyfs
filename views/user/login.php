@@ -42,10 +42,10 @@ WapAsset::register($this);
     ?>
 
     <?= $form->field($model, 'password', [
-        'labelOptions' => ['label' => '密&nbsp;&nbsp;&nbsp;&nbsp;码'],
+        'labelOptions' => ['label' => '密&nbsp;&nbsp;&nbsp;码'],
         'template' => '
               <div class="l-input-box">
-                <p><lable>{label}</lable>{input}</p>
+                <p>{label}{input}</p>
                 {error}
               </div>
               ',

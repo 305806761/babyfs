@@ -28,7 +28,7 @@ class User extends ActiveRecord
     {
         return [
             ['username','required', 'on' =>['resetuser']],
-            //['username', 'unique', 'targetClass' => 'app\models\User', 'message' => '{attribute}已经存在', 'on' =>['resetuser']],
+            ['username', 'unique', 'targetClass' => 'app\models\User', 'message' => '{attribute}已经存在', 'on' =>['resetuser']],
             ['username', 'validateUserName', 'on' => ['resetuser']],
             ['username','default', 'value' => ''],
             [['username'], 'filter', 'filter' => 'trim'],
