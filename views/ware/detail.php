@@ -17,7 +17,7 @@ use yii\helpers\Html;
 <div class="framework">
         <?= $ware['contents'] ?>
 </div>
-<div style="height:50px"></div>
+
 <footer>
     <div class="footer">
         <ul>
