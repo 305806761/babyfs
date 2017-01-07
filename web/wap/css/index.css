@@ -564,6 +564,10 @@ body{
     width: 88%;
     margin:80px auto 100px auto;
 }
+.framework p {
+    word-wrap: break-word;
+    word-break: normal;
+}
 .introduce1-top {
     width: 100%;
     height: 60px;
