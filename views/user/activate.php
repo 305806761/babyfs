@@ -16,16 +16,9 @@ $this->params['breadcrumbs'][] = $this->title;
 WapAsset::register($this);
 
 ?>
-<style>
-    .sysmsg{clear:both;position:relative;width:90%;margin:8px auto;}
-    .sysmsg p{font-size:16px;color:#f60;padding:8px 0 8px 40px;background:#f9feda url(/default/img//sysmsg.png) no-repeat 10px 10px;border:1px solid #fc0;}
-    .sysmsg-success p{color:#690;background:#eefcd3 url(/default/img/sysmsg.png) no-repeat 10px -24px;border:1px solid #990;}
-    .sysmsg-error p{color:#f00;background:#feeada url(/default/img/sysmsg.png) no-repeat 10px -58px;border:1px solid #f00;}
-    .sysmsg.inbox p{width:690px;}.sysmsg .close{position:absolute;top:12px;right:8px;background:url(/default/img/sysmsg.png) no-repeat 100% 100%;text-indent:-99px;cursor:pointer;display:block;width:16px;height:16px;overflow:hidden;}
-    .sysmsg.inbox .close{right:260px;}
-</style>
-<body class="login-body">
 
+<body class="login-body">
+<?php $this->beginBody() ?>
 <?php if ($_COOKIE['notice']): ?>
     <div class="sysmsg sysmsg-notice"><p><?= $_COOKIE['notice'] ?></p><span class="J_Close close">关闭</span></div>
 <?php endif; ?>
@@ -83,7 +76,9 @@ WapAsset::register($this);
 <?php
 $this->registerJs("afterLoad();", \yii\web\View::POS_END);
 ?>
+<?php $this->endBody() ?>
 </body>
+
 <script>
     function afterLoad() {
         $(".J_Close").click(
