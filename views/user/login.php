@@ -60,7 +60,7 @@ WapAsset::register($this);
         <?= Html::buttonInput('登录',['onclick'=>'javascript:this.form.submit()']) ?>
         <span><a href="<?= \yii\helpers\Url::to(['signup'])?>" target="_self">忘记密码</a></span></p>
     </div>
-    <div class="l-input-link"><a href="<?= \yii\helpers\Url::to(['user/user-course','type'=>1])?>">游客登录</a><a href="<?= \yii\helpers\Url::to('mobile-signup')?>">注册账号</a></div>
+    <div class="l-input-link"><a href="<?= \yii\helpers\Url::to(['user/user-course','type'=>1])?>">游客登录</a><a href="<?= \yii\helpers\Url::to('signup')?>">注册账号</a></div>
 
     <?php ActiveForm::end(); ?>
 </div>
