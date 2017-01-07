@@ -19,6 +19,7 @@ class User extends ActiveRecord
     public $verifyCode;
     public $repassword;
     public $loginname;
+    public $oldpassword;
 
     /**
      * @inheritdoc
@@ -34,7 +35,7 @@ class User extends ActiveRecord
             ['phone','required','on'=>['mobilesignup']],
             ['phone', 'string', 'min' => 11, 'max' => 11,'on'=>['mobilesignup']],
             ['phone','match','pattern'=>'/^1[34578][\d]{9}$/','message'=>'{attribute}必须为1开头的11位纯数字'],
-            ['phone', 'unique', 'targetClass' => 'app\models\User', 'message' => '{attribute}已经存在'],
+            //['phone', 'unique', 'targetClass' => 'app\models\User', 'message' => '{attribute}已经存在'],
             ['phone','default', 'value' => ''],
 
             ['email','required','on'=>['emailsignup']],
@@ -43,9 +44,13 @@ class User extends ActiveRecord
             ['email', 'unique', 'targetClass' => 'app\models\User', 'message' => '{attribute}已经存在', 'on' =>['emailsignup']],
             ['email','default', 'value' => ''],
 
-            [['password'], 'required','on'=>['mobilesignup', 'emailsignup']],
+            [['password'], 'required','on'=>['mobilesignup', 'emailsignup', 'resetpassword']],
             [['password','repassword'], 'string', 'min' => 6],
             ['repassword', 'compare', 'compareAttribute' => 'password','message'=>'两次输入的密码不一致！','on'=>['emailsignup', 'mobilesignup']],
+
+            ['oldpassword', 'required','on'=>['resetpassword']],
+            ['oldpassword', 'string', 'min' => 6],
+            ['oldpassword', 'default', 'value' => ''],
 
             ['loginname','required', 'on' =>['login']],
             ['loginname','string', 'max'=>'255', 'on' =>['login']],
@@ -210,7 +215,7 @@ class User extends ActiveRecord
 
         $user = User::findOne($user->user_id);
         $user->rnd = $user_rnd;
-        $user->repassword = '123456';
+        //$user->repassword = '123456';
         if ($user->save()) {
             //self::NoRemember('user_rnd');
             Tool::cookieset('user_rnd', $user_rnd, $rememberMe);

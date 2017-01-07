@@ -16,20 +16,21 @@ JS;
 } else {
     $js ='';
 }
-
+echo $_COOKIE['error'];
 $this->registerJs($js);
 ?>
-<?php if($_COOKIE['notice']):?>
-    <div class="sysmsg sysmsg-notice"><p><?= $_COOKIE['notice'] ?></p><span class="J_Close close">关闭</span></div>
-<?php endif;?>
-<?php if($_COOKIE['error']):?>
-    <div class="sysmsg sysmsg-error"><p><?= $_COOKIE['error'] ?></p><span class="J_Close close">关闭</span></div>
-<?php endif;?>
-<?php if($_COOKIE['success']):?>
-    <div class="sysmsg sysmsg-success"><p><?= $_COOKIE['success'] ?></p><span class="J_Close close">关闭</span></div>
-<?php endif;?>
+
 <body class="register-body">
     <?php $this->beginBody() ?>
+    <?php if($_COOKIE['notice']):?>
+        <div class="sysmsg sysmsg-notice"><p><?= $_COOKIE['notice'] ?></p><span class="J_Close close">关闭</span></div>
+    <?php endif;?>
+    <?php if($_COOKIE['error']):?>
+        <div class="sysmsg sysmsg-error"><p><?= $_COOKIE['error'] ?></p><span class="J_Close close">关闭</span></div>
+    <?php endif;?>
+    <?php if($_COOKIE['success']):?>
+        <div class="sysmsg sysmsg-success"><p><?= $_COOKIE['success'] ?></p><span class="J_Close close">关闭</span></div>
+    <?php endif;?>
     <div class="l-logo-babyfs"><img src="/wap/images/logo_babyfs.png" alt="" /></div>
     <div class="register-tab-btn"><p class="active">手机注册</p><p id="babyemail">邮箱注册</p></div>
     <div class="register-con register-con1">

@@ -158,10 +158,34 @@ class UserController extends Controller
                     Tool::notice('请输入验证码','error');
                     return $this->redirect('mobile-signup');
                 }
-                $userInfo = $model::findByLogin($model->phone);
-                if($userInfo->password){
-                    Tool::notice('用户已经存在','error');
-                    return $this->redirect('mobile-signup');
+                $userInfo = $model::findOne(['phone' => $model->phone]);
+                if($userInfo){
+                    if ($userInfo->password)
+                    {
+                        Tool::notice('用户已经存在','error');
+                        return $this->redirect('mobile-signup');
+                    } else {
+                        //$userInfo->password = $model::GenPassword($model->password);
+                        //$userInfo->repassword = $model::GenPassword($model->repassword);
+                        if ($model->password === $model->repassword) {
+                            $userInfo->password = $model::GenPassword($model->password);
+                            if($userInfo->save()){
+                                //User::Remember($model);
+                                //Tool::Redirect(User::get_loginpage());
+                                return $this->redirect('login');
+                            }else{
+        //                        print_r($model->errors);
+        //                        die;
+                                Tool::notice('注册失败','error');
+                                return $this->redirect('mobile-signup');
+                            }
+                        } else {
+                            Tool::notice('密码不一致','error');
+                            return $this->redirect('mobile-signup');
+                        }
+
+                    }
+
                 } else {
                     $model->password = $model::GenPassword($model->password);
                     $model->repassword = $model::GenPassword($model->repassword);
@@ -287,6 +311,7 @@ class UserController extends Controller
         //Yii::$app->session->remove('user_id');
         User::NoRemember('user_rnd');
         User::NoRemember('isGuest');
+
         $user = User::isLogin();
         if(!$user){
             Tool::Redirect("/user/login");
@@ -301,32 +326,68 @@ class UserController extends Controller
      */
     public function actionResetPassword()
     {
-        $this->layout = false;
-        $user_id = isset($_GET['user_id']) ? $_GET['user_id'] : '';
-        $user = User::GetUserById($user_id);
-        if (Yii::$app->request->post()) {
-            $user_id = $_POST['user_id'];
-            if ($_POST['password'] == $_POST['password2']) {
-                $password = User::GenPassword($_POST['password']);
-                $passwordold = User::getUsercheck(array('user_id' => $_POST['user_id'], 'password' => User::GenPassword($_POST['passwordold'])));
-                if (!$passwordold) {
-                    Tool::Redirect("/user/reset-password?user_id={$user_id}", '旧密码有误！', 'error');
-                }
-                $sql = "update user set password='{$password}' WHERE user_id = '{$user_id}'";
+        $this->layout = 'main';
+        $rnd = $_COOKIE['user_rnd'];
+        $model = new User();
+        $model->setScenario('resetpassword');
+        if ($rnd) {
+            $userInfo = User::findOne(['rnd' => $rnd]);
+            if ($userInfo)
+            {
 
-                $res = Yii::$app->db->createCommand($sql)->query();
-                if ($res) {
-                    Tool::Redirect('/user/reset-password?user_id={$user_id}', '密码修改成功', 'success');
+                if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+                    $oldPassword = $model->oldpassword;
+                    $password = $model->password;
+                    $repassword = $model->repassword;
+                    if ($oldPassword) {
+                        $olderPassword = User::GenPassword($oldPassword);
+                        $result = User::findOne(['rnd' => $rnd, 'password' => $olderPassword]);
+                        if ($result)
+                        {
+                            if ($password === $repassword)
+                            {
+                                $newPassword = User::GenPassword($password);
+                                $result->password = $newPassword;
+
+                                if ($result->save())
+                                {
+                                    Tool::Redirect('/user/default', '密码修改成功', 'success');
+                                } else {
+                                    Tool::Redirect("/user/reset-password", '修改密码失败！', 'error');
+
+                                }
+                            } else {
+                                //Tool::Redirect("/user/reset-password", '两次密码不同！', 'error');
+                                return $this->render('reset', [
+                                    'model' => $model,
+                                ]);
+                            }
+                        } else {
+                            //应该退出
+                            //Tool::Redirect("/user/default", '用户不存在！', 'error');
+                            return $this->render('reset', [
+                                'model' => $model,
+                            ]);
+                        }
+                    } else {
+
+                        //Tool::Redirect("/user/reset-password", '请输入旧密码！', 'error');
+                        return $this->render('reset', [
+                            'model' => $model,
+                        ]);
+                    }
                 } else {
-                    Tool::Redirect("/user/reset-password?user_id={$user_id}", '修改密码失败！', 'error');
+                    return $this->render('reset', [
+                        'model' => $model,
+                    ]);
                 }
+            } else {
+                return $this->redirect('login');
             }
-            Tool::Redirect("/user/reset-password?user_id={$user_id}", '两次输入的密码不匹配，请重新设置', 'error');
+
+        } else {
+            return $this->redirect('login');
         }
-        $this->view->params['password'] = 1;
-        return $this->render('reset', [
-            'user' => $user,
-        ]);
     }
 
     public function actionResetUser()
