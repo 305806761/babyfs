@@ -36,22 +36,23 @@ WapAsset::register($this);
         'class' => 'loginUser',
         'maxlength' => '255',
         'minlength' => '2',
-        'placeholder' => "用户名/手机号/邮箱"
+        'placeholder' => "用户名/手机号"
     ]) ->error(['class'=> 'prompt-error loginphoneNumberError'])
     ?>
 
     <?= $form->field($model, 'password', [
+        'labelOptions' => ['label' => '密&nbsp;&nbsp;&nbsp;&nbsp;码'],
         'template' => '
-          <div class="l-input-box">
-            <p><lable>{label}</lable>{input}</p>
-            {error}
-          </div>
-          ',
-    ])->passwordInput([
+              <div class="l-input-box">
+                <p><lable>{label}</lable>{input}</p>
+                {error}
+              </div>
+              ',
+        ])->passwordInput([
         'class' => 'loginpassWord',
         'maxlength' => '32',
         'minlength' => '2',
-        'placeholder' => "密码"
+        'placeholder' => '密码'
     ]) ->error(['class'=> 'prompt-error loginpassWordError'])
     ?>
 

@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use app\assets\WapAsset;
 
-$this->title = '手机号注册';
+$this->title = '修改密码';
 $this->params['breadcrumbs'][] = $this->title;
 WapAsset::register($this);
 

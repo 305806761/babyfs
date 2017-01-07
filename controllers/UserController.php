@@ -130,7 +130,7 @@ class UserController extends Controller
      * @return string|\yii\web\Response
      * @手机号注册
      */
-    public function actionMobileSignup()
+    public function actionSignup()
     {
         $this->layout = 'user';
         $model = new User();
@@ -148,22 +148,22 @@ class UserController extends Controller
                     if (time() - $signup_sms_time < 600) {
                         if ($model->verifyCode != $signup_sms_code) {
                             Tool::notice('验证码输入有误','error');
-                            return $this->redirect('mobile-signup');
+                            return $this->redirect('signup');
                         }
                     } else {
                         Tool::notice('验证码已经失效','error');
-                        return $this->redirect('mobile-signup');
+                        return $this->redirect('signup');
                     }
                 } else {
                     Tool::notice('请输入验证码','error');
-                    return $this->redirect('mobile-signup');
+                    return $this->redirect('signup');
                 }
                 $userInfo = $model::findOne(['phone' => $model->phone]);
                 if($userInfo){
                     if ($userInfo->password)
                     {
                         Tool::notice('用户已经存在','error');
-                        return $this->redirect('mobile-signup');
+                        return $this->redirect('signup');
                     } else {
                         //$userInfo->password = $model::GenPassword($model->password);
                         //$userInfo->repassword = $model::GenPassword($model->repassword);
@@ -177,11 +177,11 @@ class UserController extends Controller
         //                        print_r($model->errors);
         //                        die;
                                 Tool::notice('注册失败','error');
-                                return $this->redirect('mobile-signup');
+                                return $this->redirect('signup');
                             }
                         } else {
                             Tool::notice('密码不一致','error');
-                            return $this->redirect('mobile-signup');
+                            return $this->redirect('signup');
                         }
 
                     }
@@ -197,7 +197,7 @@ class UserController extends Controller
 //                        print_r($model->errors);
 //                        die;
                         Tool::notice('注册失败','error');
-                        return $this->redirect('mobile-signup');
+                        return $this->redirect('signup');
                     }
                 }
             }
@@ -211,6 +211,7 @@ class UserController extends Controller
      */
     public function actionEmailSignup()
     {
+        return false;
         $this->layout = 'user';
         $model = new User();
         $model->setScenario('emailsignup');
@@ -259,13 +260,13 @@ class UserController extends Controller
         return $this->render('signup', ['model' => $model, 'dada' => 1]);
     }
 
-
     /**
      * @return string
      * @邮箱激活验证
      */
     public function actionEmailActivate()
     {
+        return false;
         $this->layout = 'user';
         if (Yii::$app->request->get('code'))
         {
@@ -392,31 +393,43 @@ class UserController extends Controller
 
     public function actionResetUser()
     {
-        $this->layout = false;
-        $user_id = isset($_GET['user_id']) ? $_GET['user_id'] : '';
-        $user = User::GetUserById($user_id);
-        if (Yii::$app->request->post()) {
-            $user_id = Yii::$app->request->post('user_id');
-            $phone = Yii::$app->request->post('phone');
-            if ($phone) {
-                $user_phone = User::GetUserByName($phone);
-                if ($user_phone->phone) {
-                    Tool::Redirect("/user/reset-user?user_id={$user_id}", '手机号已经存在！', 'error');
-                }
-                $sql = "update user set phone='{$phone}' WHERE user_id = '{$user_id}'";
-
-                $res = Yii::$app->db->createCommand($sql)->query();
-                if ($res) {
-                    Tool::Redirect("/user/default?user_id={$user_id}", '手机号修改成功', 'success');
+        $this->layout = 'user';
+        $rnd = $_COOKIE['user_rnd'];
+        if ($rnd)
+        {
+            $model = new User();
+            $model->setScenario('resetuser');
+            $userInfo = User::findOne(['rnd' => $rnd]);
+            if ($userInfo)
+            {
+                if ($model->load(Yii::$app->request->post()) && $model->validate())
+                {
+                    $userInfo->username = $model->username;
+                    if ($userInfo->save())
+                    {
+                        //修改成功
+                        return $this->redirect('/user/default');
+                    } else {
+                        //修改失败
+                        return $this->render('change_info', [
+                            'model' => $model,
+                        ]);
+                    }
                 } else {
-                    Tool::Redirect("/user/reset-user?user_id={$user_id}", '手机号密码失败！', 'error');
+                    //默认或者提交信息验证失败
+                    $userInfo->phone = substr_replace($userInfo->phone, '****', 3, 4);
+                    return $this->render('change_info', [
+                        'model' => $userInfo,
+                    ]);
                 }
+            } else {
+                //如果用户没登录，跳转到登录
+                return $this->redirect('/user/login');
             }
+        } else {
+            //如果用户没登录，跳转到登录
+            return $this->redirect('/user/login');
         }
-        $this->view->params['user'] = 1;
-        return $this->render('reset', [
-            'user' => $user,
-        ]);
     }
 
     /**

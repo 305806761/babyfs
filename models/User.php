@@ -27,22 +27,23 @@ class User extends ActiveRecord
     public function rules()
     {
         return [
-            //['username','required', 'on' =>['signup']],
-            //['username', 'unique', 'targetClass' => 'app\models\User', 'message' => '{attribute}已经存在', 'on' =>['signup']],
-            ['username', 'validateUserName'],
+            ['username','required', 'on' =>['resetuser']],
+            //['username', 'unique', 'targetClass' => 'app\models\User', 'message' => '{attribute}已经存在', 'on' =>['resetuser']],
+            ['username', 'validateUserName', 'on' => ['resetuser']],
             ['username','default', 'value' => ''],
+            [['username'], 'filter', 'filter' => 'trim'],
 
             ['phone','required','on'=>['mobilesignup']],
             ['phone', 'string', 'min' => 11, 'max' => 11,'on'=>['mobilesignup']],
             ['phone','match','pattern'=>'/^1[34578][\d]{9}$/','message'=>'{attribute}必须为1开头的11位纯数字'],
-            //['phone', 'unique', 'targetClass' => 'app\models\User', 'message' => '{attribute}已经存在'],
+            //['phone', 'unique', 'targetClass' => 'app\models\User', 'message' => '{attribute}已经存在', 'on'=>['mobilesignup']],
             ['phone','default', 'value' => ''],
 
-            ['email','required','on'=>['emailsignup']],
+            //['email','required','on'=>['emailsignup']],
             //['email','match','pattern'=>'\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*','message' => '{attribute}格式不正确'], 'operator'=>'=='
-            ['email', 'email'],
-            ['email', 'unique', 'targetClass' => 'app\models\User', 'message' => '{attribute}已经存在', 'on' =>['emailsignup']],
-            ['email','default', 'value' => ''],
+            //['email', 'email'],
+            //['email', 'unique', 'targetClass' => 'app\models\User', 'message' => '{attribute}已经存在', 'on' =>['emailsignup']],
+            //['email','default', 'value' => ''],
 
             [['password'], 'required','on'=>['mobilesignup', 'emailsignup', 'resetpassword']],
             [['password','repassword'], 'string', 'min' => 6],
@@ -62,6 +63,7 @@ class User extends ActiveRecord
             ['is_email', 'default', 'value' => 0],
             ['is_email', 'in', 'range' => [0, 2]],
 
+            [['username, phone'], 'safe'],
 
 
         ];
@@ -69,7 +71,7 @@ class User extends ActiveRecord
 
     public function validateUserName($attribute, $params)
     {
-        Yii::info($params, 'test');
+        //Yii::info($params, 'test');
         if (preg_match('/^\d{6,20}$/', $this->$attribute, $matches)) {
             //Yii::info('aaaa', 'test');
             $this->addError($attribute,'不能是纯数字');
@@ -220,7 +222,7 @@ class User extends ActiveRecord
             //self::NoRemember('user_rnd');
             Tool::cookieset('user_rnd', $user_rnd, $rememberMe);
         }else{
-            print_r($user->errors);die;
+            //print_r($user->errors);die;
             return false;
         }
     }

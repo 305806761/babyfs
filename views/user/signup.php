@@ -8,15 +8,6 @@ $this->title = '手机号注册';
 $this->params['breadcrumbs'][] = $this->title;
 WapAsset::register($this);
 
-
-if ($dada == 1) {
-    $js = <<<JS
-    $("#babyemail").click()
-JS;
-} else {
-    $js ='';
-}
-echo $_COOKIE['error'];
 $this->registerJs($js);
 ?>
 
@@ -32,13 +23,8 @@ $this->registerJs($js);
         <div class="sysmsg sysmsg-success"><p><?= $_COOKIE['success'] ?></p><span class="J_Close close">关闭</span></div>
     <?php endif;?>
     <div class="l-logo-babyfs"><img src="/wap/images/logo_babyfs.png" alt="" /></div>
-    <div class="register-tab-btn"><p class="active">手机注册</p><p id="babyemail">邮箱注册</p></div>
     <div class="register-con register-con1">
-            <?php $form = ActiveForm::begin(
-                [ 'action' => ['user/mobile-signup'],
-                    'method'=>'post',
-                ]
-            ); ?>
+            <?php $form = ActiveForm::begin(); ?>
             <?= $form->field($model, 'phone', [
                 'template' => '
                       <div class="r-input-box" style="padding-top:30px;">
@@ -102,75 +88,7 @@ $this->registerJs($js);
             <div class="RegiserBtn">
                 <?= Html::buttonInput('注册', ['onclick'=>'javascript:this.form.submit()']) ?>
             </div>
-
             <?php ActiveForm::end(); ?>
-
-    </div>
-    <div class="register-con register-con2 hide">
-        <?php $form = ActiveForm::begin(
-            [ 'action' => ['user/email-signup'],
-                'method'=>'post',
-            ]
-        ); ?>
-        <?= $form->field($model, 'email', [
-            'template' => '
-                  <div class="r-input-box" style="padding-top:30px;">
-                    <p>{input}</p>
-                    {error}
-                  </div>
-                  ',
-        ])->textInput([
-            'class' => 'regiserEmail',
-            'placeholder' => "邮箱"
-        ])->error(['class'=> 'prompt-error regiserEmailError']) ?>
-
-        <?= $form->field($model, 'phone', [
-            'template' => '
-                  <div class="r-input-box">
-                    <p>{input}</p>
-                    {error}
-                  </div>
-                  ',
-        ])->textInput([
-            'class' => 'regiserNumber2',
-            'id' => 'phonetwo',
-            'placeholder' => "手机号"
-        ])->error(['class'=> 'prompt-error regiserNumberError2']) ?>
-
-
-        <?= $form->field($model, 'password', [
-            'template' => '
-                  <div class="r-input-box">
-                    <p>{input}</p>
-                    {error}
-                  </div>
-                  ',
-        ])->passwordInput([
-            'class' => 'RegiserPasswordCon2',
-            'maxlength' => '32',
-            'minlength' => '6',
-            'placeholder' => "密码"
-        ])->error(['class'=>'prompt-error RegiserPasswordErrorCon2"']) ?>
-
-        <?= $form->field($model, 'repassword', [
-            'template' => '
-                  <div class="r-input-box r-input-box-six">
-                    <p>{input}</p>
-                    {error}
-                  </div>
-                  ',
-        ])->passwordInput([
-            'class' => 'RegiserPassword2Con2',
-            'maxlength' => '32',
-            'minlength' => '6',
-            'placeholder' => "确认密码"
-        ])->error(['class'=>'prompt-error RegiserPasswordError2Con2']) ?>
-
-        <div class="RegiserBtn">
-            <?= Html::buttonInput('注册', ['onclick'=>'javascript:this.form.submit()']) ?>
-        </div>
-
-        <?php ActiveForm::end(); ?>
     </div>
     <?php $this->endBody() ?>
 </body>
