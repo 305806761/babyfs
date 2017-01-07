@@ -1166,6 +1166,16 @@ body{
     height: 40px;
     padding-top:3px;
 }
+/* activation */
+.activation-back {
+    float: right;
+    text-align: right;
+    padding:35px 30px 0 0;
+}
+.activation-back a {
+    font-size: 1.8rem;
+    color: #000;
+}
 /* media screen */
 @media screen and (min-width:961px){
     /*.l-input-link { border: 1px solid red;}*/
@@ -1293,7 +1303,6 @@ body{
 @media only screen and (max-width: 319px) {
     /*.l-input-link { border: 1px solid blue;}*/
 }
-
 .sysmsg{clear:both;position:relative;width:90%;margin:8px auto;}
 .sysmsg p{font-size:16px;color:#f60;padding:8px 0 8px 40px;background:#f9feda url(/default/img//sysmsg.png) no-repeat 10px 10px;border:1px solid #fc0;}
 .sysmsg-success p{color:#690;background:#eefcd3 url(/default/img/sysmsg.png) no-repeat 10px -24px;border:1px solid #990;}
