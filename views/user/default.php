@@ -21,8 +21,8 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 <div class="user-center-con1">
     <ul>
-        <li><a href="<?= \yii\helpers\Url::to(['reset-user','user_id'=>$user->user_id])?>">修改资料</a><img src="/wap/images/user_icon1.png" /></li>
-        <li><a href="<?= \yii\helpers\Url::to(['reset-password','user_id'=>$user->user_id])?>">更改密码</a><img src="/wap/images/user_icon2.png" /></li>
+        <li><a href="<?= \yii\helpers\Url::to(['reset-user'])?>">修改资料</a><img src="/wap/images/user_icon1.png" /></li>
+        <li><a href="<?= \yii\helpers\Url::to(['reset-password'])?>">更改密码</a><img src="/wap/images/user_icon2.png" /></li>
         <li><a href="<?= \yii\helpers\Url::to(['activate'])?>">课程卡绑定</a><img src="/wap/images/user_icon6.png" /></li>
     </ul>
 </div>
