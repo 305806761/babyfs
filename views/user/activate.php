@@ -29,7 +29,10 @@ WapAsset::register($this);
     <div class="sysmsg sysmsg-success"><p><?= $_COOKIE['success'] ?></p><span class="J_Close close">关闭</span></div>
 <?php endif; ?>
 
-<div class="l-logo-babyfs"><img src="/wap/images/logo_babyfs.png" alt=""/></div>
+<div class="l-logo-babyfs">
+    <img src="/wap/images/logo_babyfs.png" alt=""/>
+    <p class="activation-back"><a href="<?= \yii\helpers\Url::to('default')?>" target="_self">返回</a></p>
+</div>
 
 <div class="login-con">
     <h2><?= Html::encode($this->title) ?> </h2>
