@@ -43,7 +43,7 @@ class User extends ActiveRecord
             //['email','match','pattern'=>'\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*','message' => '{attribute}格式不正确'], 'operator'=>'=='
             //['email', 'email'],
             //['email', 'unique', 'targetClass' => 'app\models\User', 'message' => '{attribute}已经存在', 'on' =>['emailsignup']],
-            //['email','default', 'value' => ''],
+            ['email','default', 'value' => ''],
 
             [['password'], 'required','on'=>['mobilesignup', 'emailsignup', 'resetpassword']],
             [['password','repassword'], 'string', 'min' => 6],
