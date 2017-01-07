@@ -573,7 +573,7 @@ class UserController extends Controller
     }
 
     public function actionActivate(){
-        $this->layout = 'webmain';
+        $this->layout = 'user';
         $model = new CardModel();
         $userInfo = User::isLogin();
 
