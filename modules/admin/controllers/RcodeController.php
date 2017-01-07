@@ -46,6 +46,18 @@ class RcodeController extends Controller{
 
         return $this->render('sql');
     }
+
+    public function actionGetFreeUrl(){
+        $section_id = Yii::$app->request->post('section_id');
+        $term_id = Yii::$app->request->post('term_id');
+        $time = Yii::$app->request->post('time');
+        if($section_id && $term_id && $time){
+            $end_time = strtotime($time);
+            $etime = base64_encode($end_time);//加密
+            echo "http://cs.babyfs.cn/section/free?section_id=".$section_id."&term_id=".$term_id."&time=".$etime;die;
+        }
+        return $this->render('get_url');
+    }
 }
 
 
