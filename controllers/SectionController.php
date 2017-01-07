@@ -85,6 +85,8 @@ class SectionController extends Controller
             };
             $cs = new CourseSection();
             $wares = $cs->getFreeWare($section_id, $term_id);
+        }else{
+            Tool::notice('对不起，您没有权限查看！','notice');
         }
 
 
