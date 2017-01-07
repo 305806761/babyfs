@@ -88,7 +88,7 @@ class SectionController extends Controller
         }else{
             Tool::notice('对不起，您没有权限查看！','notice');
         }
-        Yii::warning(json_encode($wares.'用户和课程的关系建立'));
+        Yii::warning(json_encode($wares.'免费课件列表'));
 
 
         return $this->render('free_list', ['wares' => $wares]);
