@@ -344,7 +344,7 @@ class UserController extends Controller
                 }
                 //print_r($sections);die;
                 foreach ($sections as $value){
-                    if(empty($value['phone']) || empty($value['id']) || empty($value['expire_time'])) continue;
+                    if(empty($value['phone']) || empty($value['id']) || !isset($value['expire_time'])) continue;
                     $user = User::findOne(['phone'=>$value['phone']]);
                     $term = TermModel::findOne($value['id']);
                     if(!$user || !$term){
