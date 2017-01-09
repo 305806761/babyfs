@@ -1,8 +1,4 @@
 @import "reset.css";
-@font-face {
-    font-family: "迷你简卡通";
-    src: url("迷你简卡通.ttf");
-}
 html{
     font-size: 62.5%;
 }
@@ -78,7 +74,7 @@ body{
 .l-input-btn span a {
     color: #f00;
     font-size: 1.5rem;
-    font-family: "迷你简卡通";
+    font-family: "Microsoft Yahei";
 }
 .l-input-btn{
     width: 60%;
@@ -112,7 +108,7 @@ body{
     text-align: center;
     color: #003f00;
     font-size: 1.6rem;
-    font-family: "迷你简卡通";
+    font-family: "Microsoft Yahei";
 }
 .l-input-link a:nth-child(1) {
     padding-right:10%;
@@ -581,12 +577,12 @@ body{
 .introduce1-top h1{
     font-size: 2rem;
     font-weight: bold;
-    /*font-family: "Microsoft yahei";*/
+    /*font-family: "Microsoft Yahei";*/
     color: #f67402;
     padding: 7px 0 5px 0;
 }
 .introduce1-top h2{
-    /*font-family: "Microsoft yahei";*/
+    /*font-family: "Microsoft Yahei";*/
     color: #f67402;
     font-size: 1.4rem;
     font-weight: bold;
@@ -923,7 +919,7 @@ body{
     padding-top: 150px;
 }
 .introduce2-center-bot-dl dl dd{
-    width: 83%;
+    width: 82%;
     height:auto;
 }
 .introduce2-center-bot-dl dl dd div{
@@ -1168,7 +1164,7 @@ body{
     float: left;
     width: 80%;
     height: 45px;
-    font-family: "迷你简卡通";
+    font-family: "Microsoft Yahei";
     color: #552101;
     font-size: 1.6rem;
 }
