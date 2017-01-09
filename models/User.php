@@ -35,7 +35,7 @@ class User extends ActiveRecord
 
             ['phone','required','on'=>['mobilesignup']],
             ['phone', 'string', 'min' => 11, 'max' => 11,'on'=>['mobilesignup']],
-            ['phone','match','pattern'=>'/^1[34578][\d]{9}$/','message'=>'{attribute}必须为1开头的11位纯数字'],
+            ['phone','match','pattern'=>'/^1[34578][\d]{9}$/','message'=>'{attribute}必须为1开头的11位纯数字', 'on'=>['mobilesignup']],
             //['phone', 'unique', 'targetClass' => 'app\models\User', 'message' => '{attribute}已经存在', 'on'=>['mobilesignup']],
             ['phone','default', 'value' => ''],
 
