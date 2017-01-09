@@ -205,7 +205,7 @@ body{
     line-height: 20px;
     padding-left: 10px;
     color: #ff5a5f;
-   /* visibility: hidden;*/
+    /* visibility: hidden;*/
 }
 .r-input-box p span:nth-child(1){
     width: 42%;
@@ -292,18 +292,18 @@ body{
     padding:10px 0 75px 0;
 }
 .lessons-con{
-   width: 92%;
-   height: auto;
-   margin: 10px auto;
+    width: 92%;
+    height: auto;
+    margin: 10px auto;
 }
 .lessons-con dl{
-   width: 47%;
-   height: auto;
-   overflow: hidden;
-   border-radius: 8px;
-   background:url("../images/my_lessons_dl_bg.png") top center no-repeat;
-   background-size: cover;
-   text-align: center;
+    width: 47%;
+    height: auto;
+    overflow: hidden;
+    border-radius: 8px;
+    background:url("../images/my_lessons_dl_bg.png") top center no-repeat;
+    background-size: cover;
+    text-align: center;
 }
 .lessons-con dl:nth-child(1){
     margin-right: 4%;
@@ -378,13 +378,12 @@ body{
 .course-list-box{
     width: 100%;
     height: auto;
-    margin: 60px auto 50px auto;
-    padding-bottom: 20px;
+    margin: 60px auto 100px auto;
 }
 .course-list-con{
     width: 100%;
     height: auto;
-    
+
 }
 .course-list-con-top{
     width: 100%;
@@ -1012,7 +1011,7 @@ body{
     line-height: 20px;
     padding-left: 10px;
     color: #ff5a5f;
-  /*  visibility: hidden;*/
+    /*  visibility: hidden;*/
 }
 .u-div-phone {
     width:82%;
@@ -1102,6 +1101,11 @@ body{
     background-size: 100% 100%;
 }
 /* user-center */
+.user-center-k {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+}
 .user-center-top{
     width: 100%;
     height: 180px;
@@ -1189,10 +1193,10 @@ body{
     /*.l-input-link { border: 1px solid red;}*/
 }
 @media screen and (min-width: 768px) and (max-width: 960px) {
-    
+
 }
 @media only screen and (min-width: 480px) and (max-width: 767px){
-    
+
 }
 @media only screen and (min-width: 400px) and (max-width: 479px) {
     /*.l-input-link { border: 1px solid red;}*/
@@ -1219,7 +1223,7 @@ body{
     .input-box p:nth-child(2) {
         height: 16px;
         line-height: 16px;
-      }
+    }
     .l-input-box p:nth-child(1) label, .l-input-box p:nth-child(1) input {
         line-height: 2rem;
     }
@@ -1272,7 +1276,7 @@ body{
     .input-box p:nth-child(2) {
         height: 16px;
         line-height: 16px;
-      }
+    }
     .l-input-box p:nth-child(1) label, .l-input-box p:nth-child(1) input {
         line-height: 2rem;
     }
