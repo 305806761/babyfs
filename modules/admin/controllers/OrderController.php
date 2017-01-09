@@ -94,7 +94,7 @@ class OrderController extends Controller
                 if ($new) {
                     $username = trim($new['phone']);
                     //if ($new->update())
-                    $sql = "UPDATE `user_20170109` SET `username` = '{$username}' WHERE 1 AND `user_id` = '{$new->user_id}' ";
+                    $sql = "UPDATE `user` SET `username` = '{$username}' WHERE 1 AND `user_id` = '{$new->user_id}' ";
 
                     $courses = Yii::$app->db->createCommand($sql)->query();
                     if ($courses)
