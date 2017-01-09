@@ -12,6 +12,7 @@ use app\models\OrderGoods;
 use app\models\Section;
 use app\models\SectionCat;
 use app\models\TermModel;
+use app\models\User;
 use app\models\UserCourse;
 use Yii;
 use yii\web\Controller;
@@ -74,6 +75,44 @@ class OrderController extends Controller
         echo '失败';
     }
 
+    public function actionNomobile()
+    {
+        $userInfo = User::find()
+            ->where(['NOT REGEXP', 'phone', '^[1][345678][0-9]{9}$'])
+            ->asArray()
+            ->all();
+        if ($userInfo) {
+            $error = 0;
+            $success = 0;
+
+            foreach ($userInfo as $key => $val)
+            {
+                $username = '';
+
+                $new = User::find()->where(['user_id' => $val['user_id']])->one();
+
+                if ($new) {
+                    $username = trim($new['phone']);
+                    //if ($new->update())
+                    $sql = "UPDATE `user_20170109` SET `username` = '{$username}' WHERE 1 AND `user_id` = '{$new->user_id}' ";
+
+                    $courses = Yii::$app->db->createCommand($sql)->query();
+                    if ($courses)
+                    {
+                        $success++;
+                    } else {
+
+                        $error++;
+                    }
+                }
+
+            }
+        }
+
+
+    echo '成功'.$success.'失败'.$error;
+        die;
+    }
 
 
 }
