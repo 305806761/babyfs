@@ -340,19 +340,23 @@ class UserController extends Controller
                 }
                 //print_r($sections);die;
                 foreach ($sections as $value){
+                    if(empty($value['phone']) || empty($value['id']) || empty($value['expire_time'])) continue;
                     $user = User::findOne(['phone'=>$value['phone']]);
                     $term = TermModel::findOne($value['id']);
                     if(!$user || !$term){
                         continue;
                     }
                     $user_course = UserCourse::findOne(['user_id'=>$user->user_id,'term_id'=>$term->id]);
-                    $end = date('Y-m-d H:i:s',$term->end_time);
-                    $expire_time = date('Y-m-d H:i:s',strtotime( "$end +6 month" ));
-                    $user_course->expire_time = isset($value['expire_time']) ? $value['expire_time'] :$expire_time;
-                    if($user_course->save()){
-                        $success++;
-                    }else{
-                        $error++;
+                    if(!empty($user_course)) {
+                        $end = date('Y-m-d H:i:s', $term->end_time);
+
+                        $expire_time = date('Y-m-d H:i:s', strtotime("$end +6 month"));
+                        $user_course->expire_time = isset($value['expire_time']) ? $value['expire_time'] : $expire_time;
+                        if ($user_course->save()) {
+                            $success++;
+                        } else {
+                            $error++;
+                        }
                     }
                 }
                 Tool::notice("成功$success | $error",'success');
