@@ -1,55 +1,107 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: malil
- * Date: 2016/10/13
- * Time: 12:01
+ * User: pengboyu
+ * Date: 16/12/14
+ * Time: 下午1:42
  */
-$this->title = '修改会员';
-$this->params['breadcrumbs'][] = $this->title;
-use yii\widgets\LinkPager;
+use yii\widgets\ActiveForm;
+use yii\helpers\Html;
 
 ?>
-<style>
-    .tdvleft {
-        font-size: 12px;
-        padding: 5px 1em;
-        text-align: left;
-        vertical-align: top;
-        width: auto;
+<!-- page start-->
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading">
+                <?=$this->title?>
+            </header>
+            <div class="panel-body">
+                <?php $form = ActiveForm::begin([
+                    'options'=>[
+                        'class' => 'form-horizontal',
+                        //'enctype' => 'multipart/form-data',
+                    ]
+                ]); ?>
 
-    }
+                <?= $form->field($user, 'username', [
+                    'labelOptions' => ['class'=>'col-lg-2 control-label'],
+                    'template' => '
+                                {label}
+                                <div class="col-lg-2">
+                                {input}
+                                {hint}
+                                {error}
+                                </div>
+                                ',
+                ])->textInput([
+                    //'id' => 'card_sn',
+                    'class' => 'form-control',
+                    //'type' => 'number',
+                ]) ?>
 
-    .epages {
-        font: 11px/12px Tahoma;
-        margin: 3px 0;
-    }
+                <?= $form->field($user, 'phone', [
+                    'labelOptions' => ['class'=>'col-lg-2 control-label'],
+                    'template' => '
+                                {label}
+                                <div class="col-lg-2">
+                                {input}
+                                {hint}
+                                {error}
+                                </div>
+                                ',
+                ])->textInput([
+                   // 'id' => 'number',
+                    'class' => 'form-control',
+                   // 'type' => 'number',
+                ])->hint('必须输入数字') ?>
 
-    .tdleft {
-        font-size: 20px;
-        font-weight: bold;
-        text-align: left;
+                <?= $form->field($user, 'email', [
+                    'labelOptions' => ['class'=>'col-lg-2 control-label'],
+                    'template' => '
+                                {label}
+                                <div class="col-lg-2">
+                                {input}
+                                {hint}
+                                {error}
+                                </div>
+                                ',
+                ])->textInput([
+                   // 'id' => 'card_sn',
+                    'class' => 'form-control',
+                    //'type' => 'number',
+                ]) ?>
 
-    }
-</style>
-<table align="center">
-    <form action="" method="post" name="theForm">
-        <tr>
-            <td>手机号：</td>
-            <td><input type="text" name="phone" value="<?= $user->phone ?>"/></td>
-        </tr>
-        <tr>
-            <td>密码：</td>
-            <td><input type="password" name="password" value=""/></td>
-        </tr>
-        <tr>
+                <?= $form->field($user, 'password', [
+                    'labelOptions' => ['class'=>'col-lg-2 control-label'],
+                    'template' => '
+                                {label}
+                                <div class="col-lg-2">
+                                {input}
+                                {hint}
+                                {error}
+                                </div>
+                                ',
+                ])->textInput([
+                    //'id' => 'card_sn',
+                    'class' => 'form-control',
+                    //'type' => 'number',
+                ]) ?>
 
-            <td></td>
-            <td><input type="submit" value="提交"/></td>
-        </tr>
-    </form>
-</table>
+                <div class="form-group">
+                    <div class="col-lg-offset-2 col-lg-10">
+                        <?php
+                        echo Html::submitButton('更新', [
+                            'class' => 'btn btn-danger'])
+                        ?>
+                    </div>
+                </div>
+                <?php ActiveForm::end(); ?>
+            </div>
 
+        </section>
+    </div>
+</div>
 
 
 

@@ -10,6 +10,7 @@ namespace app\modules\admin\controllers;
 
 use app\models\Course;
 use app\models\search\UserCourseSearch;
+use app\models\search\UserSearch;
 use app\models\Section;
 use app\models\TemplateCode;
 use app\models\TermModel;
@@ -30,21 +31,24 @@ class UserController extends Controller
 
     public function actionList()
     {
-        $query = User::find();
-        $pagination = new Pagination([
-            'defaultPageSize' => 20,
-            'totalCount' => $query->count(),
-        ]);
-        $users = $query->orderBy('user_id')
-            ->offset($pagination->offset)
-            ->limit($pagination->limit)
-            ->all();
-        // print_r( $courses);die;
+        $searchModel = new UserSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('list', [
-            'users' => $users,
-            'pagination' => $pagination,
-        ]);
+        return $this->render('list',
+            [
+                'searchModel' => $searchModel,
+                'userdate' => $dataProvider,
+            ]);
+    }
+
+    public function actionDelete()
+    {
+        $id = Yii::$app->request->get('user_id');
+        if ($id) {
+            if (User::deleteAll(['user_id' => $id])) {
+                return $this->redirect('list');
+            }
+        }
     }
 
     /**
@@ -57,15 +61,15 @@ class UserController extends Controller
     {
 
         $user_id = Yii::$app->request->get('user_id');
-        if (!$user = User::findOne($user_id)) {
-            return $this->redirect(['list']);
-        }
-
-        if (Yii::$app->request->post()) {
-            if (User::modify($user, Yii::$app->request->post('phone'), Yii::$app->request->post('password'))) {
-                return $this->redirect(['list']);
+        $user = User::findOne($user_id);
+        if ($user->load(Yii::$app->request->post())) {
+            $user->password = User::GenPassword($user->password);
+            if ($user->save()) {
+                Tool::notice('修改成功','notice');
+                return $this->redirect('list');
             }
         }
+
         return $this->render('edit', [
             'user' => $user,
         ]);
