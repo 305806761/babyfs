@@ -75,30 +75,6 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * 用户列表搜索
-     * @param
-     * @return array
-     * @access public
-     */
-    public function actionUserSearch()
-    {
-        $phone = Yii::$app->request->post('phone');
-        if ($phone) {
-            $user = User::findOne(['phone' => $phone])->attributes;
-            $users = array($user);
-        }
-        $pagination = new Pagination([
-            'defaultPageSize' => 20,
-            'totalCount' => 1,
-        ]);
-
-        return $this->render('list', [
-            'users' => $users,
-            'pagination' => $pagination,
-        ]);
-    }
-
     public function actionCourseList(){
 
         $searchModel = new UserCourseSearch();
@@ -113,64 +89,10 @@ class UserController extends Controller
     }
 
 
-    /**
-     * 查看用户课程列表
-     * @param string 密码
-     * @return str 返回加密的用户密码
-     * @access public
-     */
-    public function actionCourseList_old()
-    {
-        $course = Course::getCourse();
-        $user_course = User::getUserCourse();
-        //print_r( $user_course);die;
-        return $this->render('course_list',
-            ['user_course' => $user_course,
-                'course' => $course]);
 
-    }
-
-    /**
-     * 会员课程列表search
-     * @param
-     * @return array
-     * @access public
-     */
-    public function actionSearch()
-    {
-        $course = Course::getCourse();
-        $course_id = Yii::$app->request->post('course_id');
-        $section_id = Yii::$app->request->post('section_id');
-        $phone = Yii::$app->request->post('phone');
-        $started = Yii::$app->request->post('started');
-        if (!empty($course_id) && !empty($section_id)) {
-            $where = " where uc.course_id = '{$course_id}' and uc.section_id = '{$section_id}'";
-        }
-        if (!empty($phone)) {
-            $where = $where ? ' and ' : ' where ';
-            $where .= " u.phone = '{$phone}'";
-        }
-        if (!empty($started)) {
-            $where = $where ? ' and ' : ' where ';
-            $where .= " uc.started = '{$started}'";
-        }
-        $user_course = User::getUserCourse($where);
-        //print_r($user_course);die;
-        return $this->render('course_list',
-            ['user_course' => $user_course,
-                'course' => $course,
-                'course_id' => $course_id,
-                'section_id' => $section_id,
-                'phone' => $phone,
-                'started' => $started,
-            ]);
-    }
-
-    /**
-     * 后台审核用户课程关联表（审核通过，开始上课）
-     * @param string id user_course(id)
-     * @return boolean
-     * @access public
+    /**批量删除
+     * @param $id
+     * @return \yii\web\Response
      */
     public function actionDelAll($id)
     {
@@ -186,11 +108,9 @@ class UserController extends Controller
         }
     }
 
-    /**
-     * 删除会员课程关联关系
-     * @param string id user_course(id)
-     * @return boolean
-     * @access public
+    /**删除
+     * @param $id
+     * @return \yii\web\Response
      */
     public function actionCourseDel()
     {
@@ -240,18 +160,6 @@ class UserController extends Controller
         ]);
 
     }
-
-    /**
-     * 会员课程关联修改
-     * @param string id user_course(id)
-     * @return boolean
-     * @access public
-
-    public function actionCourseEdit()
-    {
-
-        return $this->render('course_edit');
-    }*/
 
 
     /**
