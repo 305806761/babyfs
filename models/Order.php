@@ -78,7 +78,7 @@ class Order extends ActiveRecord
             $sql = "SELECT cs.course_id,cs.section_id,c.type
                     FROM `course_section` as cs
                     LEFT JOIN `course` as c ON cs.course_id = c.course_id
-                    WHERE c.code = '{$code}' AND c.type in (1,3)";//and s.sort=1
+                    WHERE c.code = '{$code}' AND c.type in (1)";//and s.sort=1
             $courses = Yii::$app->db->createCommand($sql)->queryAll();
             if (!$courses) {
                 Yii::warning(json_encode($this->errors));
@@ -111,10 +111,10 @@ class Order extends ActiveRecord
                     continue;
                     //break;
                 }
-                if($course['type'] == 3){
-                    $term['start_time'] = time();
-                    $term['end_time'] = Yii::$app->params['course_expire'];
-                }
+//                if($course['type'] == 3){
+//                    $term['start_time'] = time();
+//                    $term['end_time'] = Yii::$app->params['course_expire'];
+//                }
                 Yii::warning(json_encode($term.'阶段学期存在'));
                 //$order['receiver_mobile'] = '18636342640';
                 //3.查看订单手机号是否在用户表存在  $user 是对象
@@ -313,7 +313,7 @@ class Order extends ActiveRecord
             $sql = "SELECT cs.course_id,cs.section_id,c.type
                     FROM `course_section` as cs
                     LEFT JOIN `course` as c ON cs.course_id = c.course_id
-                    WHERE c.code = '{$code}' AND c.type in (1,3)";//and s.sort=1
+                    WHERE c.code = '{$code}' AND c.type in (1)";//and s.sort=1
 
             $courses = Yii::$app->db->createCommand($sql)->queryAll();
             if (!$courses) {
@@ -347,10 +347,10 @@ class Order extends ActiveRecord
                     continue;
                     //break;
                 }
-                if($course['type'] == 3){
-                    $term['start_time'] = time();
-                    $term['end_time'] = Yii::$app->params['course_expire'];
-                }
+//                if($course['type'] == 3){
+//                    $term['start_time'] = time();
+//                    $term['end_time'] = Yii::$app->params['course_expire'];
+//                }
                 Yii::warning(json_encode($term.'阶段学期存在'));
                 //$order['receiver_mobile'] = '18636342640';
                 //3.查看订单手机号是否在用户表存在  $user 是对象
