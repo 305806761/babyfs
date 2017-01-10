@@ -597,6 +597,7 @@ body{
     background: url("../images/introduce-tip-bg.png") no-repeat center center;
     background-size: 100% 100%;
     margin: 0 auto 14px auto;
+    overflow: hidden;
 }
 .C-dialogue-title h2{
     color: #81511c;
