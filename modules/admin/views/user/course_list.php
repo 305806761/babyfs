@@ -39,6 +39,7 @@ $this->registerJs('
             ['label' => '手机号', 'attribute' => 'phone', 'value' => 'user.phone'],
             'create_time',
             'expire_time',
+            ['label' => '1无效2正常', 'attribute' => 'started'],
             // ['class' => 'yii\grid\ActionColumn'],
             ['class' => 'yii\grid\ActionColumn',
                 'template' => '{update} {delete}',

@@ -27,7 +27,7 @@ class UserCourseSearch extends UserCourse
     public function rules()
     {
         return [
-            [['section_name', 'term', 'phone','create_time','expire_time'], 'safe'],
+            [['section_name', 'term', 'phone','create_time','expire_time','started'], 'safe'],
         ];
     }
 
