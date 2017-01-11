@@ -130,31 +130,36 @@ class WareController extends Controller
         $this->layout = 'ware';
         $ware_id = Yii::$app->request->get('ware_id') ? Yii::$app->request->get('ware_id') : $ware_id;
         $section_id = Yii::$app->request->get('section_id') ? Yii::$app->request->get('section_id') : '';
+        $time = base64_decode(Yii::$app->request->get('time')) ? base64_decode(Yii::$app->request->get('time')) : '';
         if ($ware_id && $section_id) {
             $freeArray = Yii::$app->params['free'];
             if (in_array($section_id, $freeArray)) {
-                $models = User::checkFreeWare($section_id, $ware_id);
-                if ($models) {
-                    $model = $this->findModel($ware_id);
-                    $result = '';
-                    if ($c = json_decode($model->contents, true)) {
-                        foreach ($c as $type_id) {
-                            if ($wt = WareType::findOne($type_id)) {
-                                // print_r($c);die;
-                                if ($template_code = TemplateCode::findOne($wt->temp_code_id)) {
-                                    $engine = new Handlebars();
-                                    $engine->registerHelper('addOne', function ($index) {
-                                        return ++$index;
-                                    });
-                                    $result .= $engine->render(
-                                        $template_code->code,
-                                        json_decode($wt->content, true)
-                                    );
+                //彭达添加term默认只有第一学期。
+                $isTime = User::checkFreeSection($section_id, 1, $time);
+                if ($isTime) {
+                    $models = User::checkFreeWare($section_id, $ware_id);
+                    if ($models) {
+                        $model = $this->findModel($ware_id);
+                        $result = '';
+                        if ($c = json_decode($model->contents, true)) {
+                            foreach ($c as $type_id) {
+                                if ($wt = WareType::findOne($type_id)) {
+                                    // print_r($c);die;
+                                    if ($template_code = TemplateCode::findOne($wt->temp_code_id)) {
+                                        $engine = new Handlebars();
+                                        $engine->registerHelper('addOne', function ($index) {
+                                            return ++$index;
+                                        });
+                                        $result .= $engine->render(
+                                            $template_code->code,
+                                            json_decode($wt->content, true)
+                                        );
+                                    }
                                 }
                             }
                         }
+                        $model->contents = $result;
                     }
-                    $model->contents = $result;
                 }
             }
         }
