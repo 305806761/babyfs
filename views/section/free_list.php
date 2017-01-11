@@ -51,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 ?>
                                 <dt><img src="<?= $img?>" /></dt>
                                 <dd>
-                                    <a href="<?= \yii\helpers\Url::to(['ware/view','ware_id'=>$value['ware']['ware_id'],'section_id'=>$valueware['section_id']])?>">
+                                    <a href="<?= \yii\helpers\Url::to(['ware/view','ware_id'=>$value['ware']['ware_id'],'section_id'=>$valueware['section_id'], 'time'=> $time])?>">
                                         <h2><?= $value['ware']['title'] ?></h2>
                                     </a>
                                     <p>
