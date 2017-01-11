@@ -6,6 +6,9 @@ body{
     -webkit-text-size-adjust: none;
     overflow-x: hidden;
 }
+body p,body h1,body h2,body h3,body h4,body h5,body h6,body span,body a,body b {
+    font-family: "Microsoft Yahei";
+}
 /* login */
 .login-body{
     width: 100%;
@@ -74,7 +77,7 @@ body{
 .l-input-btn span a {
     color: #f00;
     font-size: 1.5rem;
-    font-family: "Microsoft Yahei";
+    /*font-family: "Microsoft Yahei";*/
 }
 .l-input-btn{
     width: 60%;
@@ -108,7 +111,7 @@ body{
     text-align: center;
     color: #003f00;
     font-size: 1.6rem;
-    font-family: "Microsoft Yahei";
+    /*font-family: "Microsoft Yahei";*/
 }
 .l-input-link a:nth-child(1) {
     padding-right:10%;
@@ -1171,7 +1174,7 @@ body{
     float: left;
     width: 80%;
     height: 45px;
-    font-family: "Microsoft Yahei";
+    /*font-family: "Microsoft Yahei";*/
     color: #552101;
     font-size: 1.6rem;
 }
