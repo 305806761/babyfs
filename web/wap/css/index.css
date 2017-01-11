@@ -374,17 +374,18 @@ body{
 .course-list-box{
     width: 100%;
     height: auto;
-    margin: 60px auto 100px auto;
+    margin: 60px auto 150px auto;
 }
 .course-list-con{
     width: 100%;
     height: auto;
-
+    /*overflow: hidden;*/
 }
 .course-list-con-top{
     width: 100%;
-    height: 40px;
-    line-height: 36px;
+    /*height: 40px;*/
+    margin:2% auto;
+    line-height: 2.2rem;
 }
 .course-list-con-top h2{
     width: 90%;
@@ -395,12 +396,16 @@ body{
 .course-list-con-top h2 span img,.course-list-con-top h2 span{
     float: left;
 }
+.course-list-con-top h2 span {
+    /*display: block;*/
+}
 .course-list-con-top h2 span:nth-child(1) img{
     width: 25px;
     height: 21px;
-    margin: 6px 5px 0 0;
+    margin: 2px 5px 4px 0;
 }
 .course-list-con-top h2 span:nth-child(2){
+    width: 90%;
     font-size: 1.6rem;
     color: #f67402;
 }
@@ -597,6 +602,7 @@ body{
     background: url("../images/introduce-tip-bg.png") no-repeat center center;
     background-size: 100% 100%;
     margin: 0 auto 14px auto;
+    overflow: hidden;
 }
 .C-dialogue-title h2{
     color: #81511c;
@@ -732,6 +738,7 @@ body{
     border: 3px solid #ffddae;
     border-radius: 10px;
     position: relative;
+    margin-bottom: 20px;
 }
 .vjs-tech{
     width: 100%;
@@ -1257,6 +1264,17 @@ body{
 }
 /* 5s*/
 @media only screen and (min-width: 320px) and (max-width: 359px) {
+    .course-list-con-top h2 span:nth-child(2) {
+        width: 86%;
+        font-size: 1.4rem;
+        /*line-height: 1.8rem;*/
+    }
+    .course-list-con-top h2 span:nth-child(1) img {
+        margin: 0 5px 4px 0;
+    }
+    .course-list-con-bottom dl dd h2 {
+        font-size: 1.4rem;
+    }
     /*.user-center-con2 { border: 1px solid yellow;}*/
     .login-con{
         margin:20% auto 0 auto;
