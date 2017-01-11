@@ -91,7 +91,7 @@ class SectionController extends Controller
         Yii::warning(json_encode($wares.'免费课件列表'));
 
 
-        return $this->render('free_list', ['wares' => $wares, 'time' => Yii::$app->request->get('time')]);
+        return $this->render('free_list', ['wares' => $wares, 'time' => Yii::$app->request->get('time'), 'term_id' => $term_id]);
     }
 
 

@@ -128,14 +128,15 @@ class WareController extends Controller
     public function actionView($ware_id = '')
     {
         $this->layout = 'ware';
-        $ware_id = Yii::$app->request->get('ware_id') ? Yii::$app->request->get('ware_id') : $ware_id;
-        $section_id = Yii::$app->request->get('section_id') ? Yii::$app->request->get('section_id') : '';
+        $ware_id = (int)Yii::$app->request->get('ware_id') ? (int)Yii::$app->request->get('ware_id') : $ware_id;
+        $section_id = (int)Yii::$app->request->get('section_id') ? (int)Yii::$app->request->get('section_id') : '';
+        $termId = (int)Yii::$app->request->get('term_id') ? (int)Yii::$app->request->get('term_id') : '';
         $time = base64_decode(Yii::$app->request->get('time')) ? base64_decode(Yii::$app->request->get('time')) : '';
         if ($ware_id && $section_id) {
             $freeArray = Yii::$app->params['free'];
             if (in_array($section_id, $freeArray)) {
                 //彭达添加term默认只有第一学期。
-                $isTime = User::checkFreeSection($section_id, 1, $time);
+                $isTime = User::checkFreeSection($section_id, $termId, $time);
                 if ($isTime) {
                     $models = User::checkFreeWare($section_id, $ware_id);
                     if ($models) {
