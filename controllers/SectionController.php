@@ -82,6 +82,7 @@ class SectionController extends Controller
         if(in_array($section_id,$freeArray)){
             if (!User::checkFreeSection($section_id, $term_id,$d_time)) {
                Tool::notice('没有权限查看或者权限已经失效','notice');
+                return $this->redirect('free');
             };
             $cs = new CourseSection();
             $wares = $cs->getFreeWare($section_id, $term_id);
