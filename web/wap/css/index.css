@@ -698,15 +698,15 @@ body p,body h1,body h2,body h3,body h4,body h5,body h6,body span,body a,body b {
     display: box;
 }
 .C-left-dialogue-content dl dt{
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
     background: #f9c79b;
     border: solid 2px #f9c79b;
     border-radius: 50%;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: bold;
     text-align: center;
-    line-height: 15px;
+    line-height: 20px;
     color: #54361a;
     margin-top: 2px;
 }
