@@ -287,3 +287,11 @@ $(".punchTheClockBorder b").click(function(){
     $(".punchTheClockBorder").hide();
     $(".tmBgOpacity80").hide();
 })
+//百度统计
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?28f32521a99f54fd2b2dd923e4fd3e6e";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
